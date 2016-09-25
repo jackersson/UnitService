@@ -1,7 +1,7 @@
 #ifndef Rs232ControllerTypes_Included
 #define Rs232ControllerTypes_Included
 
-namespace access_device
+namespace rs323_controller
 {
 	enum port_b_commands
 	{

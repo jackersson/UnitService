@@ -29,7 +29,7 @@ namespace access_device
 			}
 		}
 
-		void execute(const IExecutableCommand& command)
+		void execute(IExecutableCommandPtr command)
 		{
 			std::lock_guard<std::mutex> lock(mutex_);
 			commands_.push(command);
@@ -69,7 +69,7 @@ namespace access_device
 				//Not Implemented
 			}
 	  }
-
+		/*
 		const IExecutableCommand& dequeue()
 		{
 			std::lock_guard<std::mutex> lock(mutex_);
@@ -91,7 +91,7 @@ namespace access_device
 				execute<DallasCommandImpl>();
 			_flag = !_flag;
 		}
-
+		*/
 		AccessDeviceListener(const AccessDeviceListener& other) = delete;
 		AccessDeviceListener& operator=(const AccessDeviceListener&) = delete;
 
@@ -99,7 +99,7 @@ namespace access_device
 		std::mutex mutex_;
 
 		std::string device_name_;
-		std::queue<IExecutableCommand> commands_;
+		std::queue<IExecutableCommandPtr> commands_;
 
 		boost::asio::io_service  io_service_;
 		boost::asio::serial_port serial_port_;

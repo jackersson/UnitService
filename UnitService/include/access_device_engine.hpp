@@ -149,14 +149,12 @@ namespace access_device
 
 		bool contains_key(std::string key)
 		{
-			AccessDeviceListener result;
 			try
 			{
 				devices_.find(key);
 				return true;
 			}
-			catch (std::exception&)
-			{
+			catch (std::exception&)	{
 				return false;
 			}
 		}

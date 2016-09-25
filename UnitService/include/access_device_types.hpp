@@ -7,20 +7,20 @@ namespace access_device
 	//only this can be managed by users
 	enum lights
 	{
-		  None = 0
-		, Pb1RedMain     = 1 << 1
-		, Pb6Green       = 1 << 5
-		, Pb7Light       = 1 << 6
-		, Pb8GreenAccess = 1 << 7
+		  lNone = 0
+		, lRedMain     = 1 << 1
+		, lGreen       = 1 << 5
+		, lLight       = 1 << 6
+		, lGreenAccess = 1 << 7
 	};
 	
 	enum buttons
 	{
-		  OpenedGate    = 0
-		, Pc1Access     = 1 << 1
-		, Pc2Reserve    = 1 << 2
-		, Pc3Operator   = 1 << 3
-		, Pc4ClosedGate = 1 << 4
+		  bOpenedGate    = 0
+		, bAccess     = 1 << 1
+		, bPc2Reserve    = 1 << 2
+		, bPc3Operator   = 1 << 3
+		, bPc4ClosedGate = 1 << 4
 	};
 	
 	enum access_device_module
