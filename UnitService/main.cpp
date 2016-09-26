@@ -13,18 +13,19 @@ boost::asio::serial_port sp(io);
 
 int main()
 {
-	//serial_port::SerialPortEnumerator enumerator;
-	//enumerator.start();
+	serial_port::serial_port_enumerator enumerator;
+	enumerator.start();
 
-	access_device::AccessDeviceEngine engine;
+
+	//access_device::AccessDeviceEngine engine;
 
 
 	this_thread::sleep_for(chrono::seconds(3));	
-	cout << engine.is_active("COM3") << endl;
-	cout << engine.device_enumerator().connected("COM3") << endl;
-	engine.stop_all();
+	//cout << engine.is_active("COM3") << endl;
+	//cout << engine.device_enumerator().connected("COM3") << endl;
+	//engine.stop_all();
 
-	//enumerator.stop();
+	enumerator.stop();
 	/*
 	vector<serial::PortInfo> ports = serial::list_ports();
 	serial_port.open("COM3");

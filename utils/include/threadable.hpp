@@ -6,18 +6,17 @@
 
 namespace utils
 {
-	class Threadable
+	class threadable
 	{
 	public:
-		Threadable() : active_(false)
+		threadable() : active_(false)
 		{
 			threads.create_thread(boost::bind(&boost::asio::io_service::run, &io_service));
 		}
 
-		virtual ~Threadable() {}
-	
-
-	  void start()
+		virtual ~threadable() {}
+		
+		void start()
 		{
 			if (active_)
 				return;
@@ -40,21 +39,21 @@ namespace utils
 		void virtual run() = 0;
 
 	private:
-	  static void thread_procedure(void* thread_context)
+		static void thread_procedure(void* thread_context)
 		{
-			auto threadable = static_cast<Threadable*>(thread_context);
+			auto instance = static_cast<threadable*>(thread_context);
 
-			if (threadable == nullptr)
+			if (instance == nullptr)
 				return;
-			threadable->active_ = true;
-			threadable->run();
-			threadable->active_ = false;
+			instance->active_ = true;
+			instance->run();
+			instance->active_ = false;
 		}
 
-	  boost::asio::io_service io_service;
-	  boost::thread_group threads;
+		boost::asio::io_service io_service;
+		boost::thread_group threads;
 
-	  bool active_;
+		bool active_;
 	};
 }
 

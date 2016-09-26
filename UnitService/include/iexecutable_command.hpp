@@ -3,11 +3,7 @@
 #include <asio/serial_port.hpp>
 #include "rs232_controller_types.hpp"
 #include "access_device_types.hpp"
-
-
-namespace utils{
-	class ICommandResult;
-}
+#include "icommand_result.hpp"
 
 namespace access_device
 {
@@ -16,8 +12,7 @@ namespace access_device
 	{
 	public:
 		virtual ~IExecutableCommand()	{}
-
-		virtual const utils::ICommandResult& execute(boost::asio::serial_port& sp) = 0;
+		virtual const ICommandResult& execute(boost::asio::serial_port& sp) = 0;
 
 		virtual bool reset(boost::asio::serial_port& sp) = 0;
 

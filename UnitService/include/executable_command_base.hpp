@@ -5,6 +5,7 @@
 #include "command.hpp"
 
 #include "rs232_controller_types.hpp"
+#include "serial_port_io.hpp"
 
 namespace utils
 {
@@ -13,7 +14,8 @@ namespace utils
 	public:
 		ExecutableCommandBase( rs323_controller::port_command id
 			                   , uint32_t response_bytes_count) 
-			: id_(id)
+			                   : id_(id)
+			                   , count_(response_bytes_count)
 		{
 			
 		}
@@ -30,40 +32,48 @@ namespace utils
 			if (!input_command.valid())
 				return Result.From(ExecutionResult.NotValid);
 
-			auto exception = TryExecute(ref serialPort, bytes, header);
+			try
+			{
+				do_execute(sp, input_bytes, header);
+			}
+			catch (std::exception& ex)	{
+				Result.Error(exception);
+			}
 
-			if (exception != null)
-				return Result.Error(exception);
+			auto command = create_command(response_);
 
-			var command = CreateCommand(_response);
-
-			if (IsEmpty(command))
+			if (empty(command))
 				return Result.Data(command.Data);
 
-			return !IsValid(command)
+			return !valid(command)
 				? Result.From(ExecutionResult.NotValid)
 				: Result.Data(command.Data);
 		}
 
-		std::exception try_execute( boost::asio::serial_port& sp
+		void do_execute( boost::asio::serial_port& sp
 			                        , const std::vector<unsigned char>& bytes
 			                        , unsigned char header )
-		{
-			try
-			{
-				var result = _operator.Execute(ref serialPort
-					, bytes
-					, ref _response
-					, header);
+		{			
+			auto result = serial_port_io_.execute(sp, bytes, response_, count_, header);
 
-				if (!result)
-					throw new InvalidOperationException("Execution wasn't successfull");
-				return null;
-			}
-			catch (Exception exception)
-			{
-				return exception;
-			}
+			if (!result)
+				throw std::exception("Execution wasn't successfull");				
+		}
+
+	protected:
+	  virtual Command create_command(const std::vector<unsigned char>& bytes)
+		{
+			return Command(bytes);
+		}
+
+		virtual bool valid(const Command& command)
+		{
+			return command.valid();
+		}
+
+		virtual bool empty(const Command& command)
+		{
+			return command.empty();
 		}
 
 		virtual const Command& input() const = 0;
@@ -72,6 +82,9 @@ namespace utils
 
 	private:
 		rs323_controller::port_command id_;
+		uint32_t count_;
+		access_device::SerialPortIO serial_port_io_;
+		std::vector<unsigned char> response_;
 	};
 }
 

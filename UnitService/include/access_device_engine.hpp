@@ -107,7 +107,7 @@ namespace access_device
 			return devices_.find(device_name, listener) && listener.has_observer(observer);
 		}
 		*/
-		const devices::IDeviceEnumerator& device_enumerator() const
+		const contracts::devices::idevice_enumerator& device_enumerator() const
 		{
 			return device_enumerator_;
 		}
@@ -161,7 +161,7 @@ namespace access_device
 
 		private:
 
-		serial_port::SerialPortEnumerator device_enumerator_;
+		serial_port::serial_port_enumerator device_enumerator_;
 		utils::ConcurrentMap<std::string, AccessDeviceListenerPtr> devices_;
 
 	};

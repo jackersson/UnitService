@@ -19,14 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{2C133593-8F56-4607-AA0D-189A879EEB3E}</ProjectGuid>
+    <ProjectGuid>{EBA98D07-9466-481C-BD08-E435A624E03D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>UnitService</RootNamespace>
+    <RootNamespace>utils</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -58,11 +58,7 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="boost_serial_32d.props" />
-    <Import Project="serial_port.props" />
-    <Import Project="spdlog.props" />
-    <Import Project="..\realsense_device\utils_x32d.props" />
-    <Import Project="..\realsense_device\contracts.props" />
+    <Import Project="..\UnitService\boost_serial_32d.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -76,6 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)$(ProjectName)\lib\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -93,6 +90,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -106,6 +104,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -121,6 +120,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,6 +138,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -147,28 +148,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\access_device_engine.cpp" />
-    <ClCompile Include="src\access_device_listener.cpp" />
-    <ClCompile Include="src\serial_port_enumerator.cpp" />
+    <ClInclude Include="include\threadable.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\access_device_engine.hpp" />
-    <ClInclude Include="include\access_device_listener.hpp" />
-    <ClInclude Include="include\access_device_types.hpp" />
-    <ClInclude Include="include\command.hpp" />
-    <ClInclude Include="include\command_execution_result.hpp" />
-    <ClInclude Include="include\command_result.hpp" />
-    <ClInclude Include="include\concurrent_map.hpp" />
-    <ClInclude Include="include\executable_command_base.hpp" />
-    <ClInclude Include="include\icommand_result.hpp" />
-    <ClInclude Include="include\iequatable.hpp" />
-    <ClInclude Include="include\iexecutable_command.hpp" />
-    <ClInclude Include="include\logger.hpp" />
-    <ClInclude Include="include\rs232_controller_types.hpp" />
-    <ClInclude Include="include\rs232_controller_utils.hpp" />
-    <ClInclude Include="include\serial_port_enumerator.hpp" />
-    <ClInclude Include="include\serial_port_io.hpp" />
+    <ClCompile Include="include\main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

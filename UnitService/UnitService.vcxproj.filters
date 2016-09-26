@@ -32,9 +32,6 @@
     <ClInclude Include="include\serial_port_enumerator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\threadable.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\access_device_engine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -45,9 +42,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\access_device_types.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\idevice_enumerator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\logger.hpp">

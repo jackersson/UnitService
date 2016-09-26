@@ -11,38 +11,39 @@ namespace access_device
 	public:
 		virtual ~CommandResult() {}
 
-		access_device_module module()
+		access_device_module module() const override
 		{
-			
+			return module_;
 		}
 
-		std::vector<unsigned char>& data()
+		const std::vector<unsigned char>& data()  const override
 		{
-			
+			return;
 		}
 
-		std::string to_string() override
+		std::string to_string() const override
 		{
-			
+			return "";
 		}
 
-		std::exception exception()
+		const std::exception& exception() const override
 		{
-			
+			return exception_;
 		}
 
-		bool ok()
+		bool ok() const override
 		{
-			
+			return ok_;
 		}
 
-		bool empty()
+		bool empty() const override
 		{
-			
+			return empty_;
 		}
 	private:
 		std::exception       exception_;
 		access_device_module module_   ;
+
 		bool ok_  ;
 		bool empty_;
 	};

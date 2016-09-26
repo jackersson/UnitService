@@ -3,13 +3,13 @@
 
 #include <queue>
 
-#include "threadable.hpp"
+#include <threadable.hpp>
 #include "iexecutable_command.hpp"
 #include <mutex>
 
 namespace access_device
 {
-	class AccessDeviceListener final : public utils::Threadable
+	class AccessDeviceListener final : public utils::threadable
 	{
 	public:
 		explicit AccessDeviceListener(std::string device_name)
