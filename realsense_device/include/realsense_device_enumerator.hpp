@@ -12,8 +12,8 @@
 
 namespace realsense_device
 {
-	class realsense_device_enumerator : public utils::threadable
-		                                , public contracts::devices::idevice_enumerator
+	class realsense_device_enumerator : public utils::Threadable
+		                                , public contracts::devices::IDeviceEnumerator
 	{
 	public:
 		bool connected(const std::string& device_name) const override {

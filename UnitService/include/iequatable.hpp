@@ -1,6 +1,7 @@
 #ifndef IEquatable_Included
 #define IEquatable_Included
 
+//TODO delete
 
 namespace utils
 {

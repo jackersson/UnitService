@@ -1,17 +1,81 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="include\access_device">
+      <UniqueIdentifier>{e0c6d72b-9173-49dd-8717-df6632b0605c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\access_device\core">
+      <UniqueIdentifier>{014241e9-8605-4139-bf6c-6bde46b8c89b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\access_device\rs232">
+      <UniqueIdentifier>{901f7947-9009-4267-aa19-41667cb11137}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\access_device\commands">
+      <UniqueIdentifier>{603a1a16-2fc6-42af-8af6-6412d6efa7a1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\access_device\access_device_engine.hpp">
+      <Filter>include\access_device</Filter>
+    </ClInclude>
+    <ClInclude Include="include\access_device\access_device_listener.hpp">
+      <Filter>include\access_device</Filter>
+    </ClInclude>
+    <ClInclude Include="include\access_device\serial_port_enumerator.hpp">
+      <Filter>include\access_device</Filter>
+    </ClInclude>
+    <ClInclude Include="include\access_device\rs232\rs232_controller_types.hpp">
+      <Filter>include\access_device\rs232</Filter>
+    </ClInclude>
+    <ClInclude Include="include\access_device\rs232\rs232_controller_utils.hpp">
+      <Filter>include\access_device\rs232</Filter>
+    </ClInclude>
+    <ClInclude Include="include\access_device\commands\command.hpp">
+      <Filter>include\access_device\commands</Filter>
+    </ClInclude>
+    <ClInclude Include="include\access_device\commands\command_execution_result.hpp">
+      <Filter>include\access_device\commands</Filter>
+    </ClInclude>
+    <ClInclude Include="include\access_device\commands\command_result.hpp">
+      <Filter>include\access_device\commands</Filter>
+    </ClInclude>
+    <ClInclude Include="include\access_device\commands\executable_command_base.hpp">
+      <Filter>include\access_device\commands</Filter>
+    </ClInclude>
+    <ClInclude Include="include\access_device\core\serial_port_io.hpp">
+      <Filter>include\access_device\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\access_device\core\iexecutable_command.hpp">
+      <Filter>include\access_device\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\access_device\commands\port_command_result.hpp">
+      <Filter>include\access_device\commands</Filter>
+    </ClInclude>
+    <ClInclude Include="include\access_device\commands\command_impl.hpp">
+      <Filter>include\access_device\commands</Filter>
+    </ClInclude>
+    <ClInclude Include="include\access_device\commands\rs232_command.hpp">
+      <Filter>include\access_device\commands</Filter>
+    </ClInclude>
+    <ClInclude Include="include\access_device\commands\command_factory.hpp">
+      <Filter>include\access_device\commands</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

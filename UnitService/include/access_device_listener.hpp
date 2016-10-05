@@ -9,7 +9,7 @@
 
 namespace access_device
 {
-	class AccessDeviceListener final : public utils::threadable
+	class AccessDeviceListener final : public utils::Threadable
 	{
 	public:
 		explicit AccessDeviceListener(std::string device_name)

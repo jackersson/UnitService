@@ -58,6 +58,9 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\grpc_module\protobuf_x32d.props" />
+    <Import Project="..\grpc_module\grpc_x32d.props" />
+    <Import Project="..\realsense_device\utils_x32d.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -90,6 +93,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>D:\development\UnitService\UnitService\contracts\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -147,10 +151,55 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\idevice_enumerator.hpp" />
+    <ClInclude Include="include\contracts\common\iequatable.hpp" />
+    <ClInclude Include="include\contracts\common\ilifecycle.hpp" />
+    <ClInclude Include="include\contracts\devices\access_device\access_device_types.hpp" />
+    <ClInclude Include="include\contracts\devices\access_device\icommand_result.hpp" />
+    <ClInclude Include="include\contracts\devices\device_exception.hpp" />
+    <ClInclude Include="include\contracts\devices\device_observer.hpp" />
+    <ClInclude Include="include\contracts\devices\idevice_engine.hpp" />
+    <ClInclude Include="include\contracts\devices\idevice_enumerator.hpp" />
+    <ClInclude Include="include\contracts\locations\ilocation.hpp" />
+    <ClInclude Include="include\contracts\locations\itrack_location_coordinator.hpp" />
+    <ClInclude Include="include\contracts\observers\iobservable.hpp" />
+    <ClInclude Include="include\contracts\observers\observable..hpp" />
+    <ClInclude Include="include\contracts\services\iserver_manager.hpp" />
+    <ClInclude Include="include\contracts\services\iservice.hpp" />
+    <ClInclude Include="include\contracts\services\service_address.hpp" />
+    <ClInclude Include="include\contracts\video\iplayer.hpp" />
+    <ClInclude Include="include\datatypes\biometrics.pb.h" />
+    <ClInclude Include="include\datatypes\card.pb.h" />
+    <ClInclude Include="include\datatypes\data.pb.h" />
+    <ClInclude Include="include\datatypes\devices.pb.h" />
+    <ClInclude Include="include\datatypes\geometry.pb.h" />
+    <ClInclude Include="include\datatypes\location.pb.h" />
+    <ClInclude Include="include\datatypes\person.pb.h" />
+    <ClInclude Include="include\datatypes\photo.pb.h" />
+    <ClInclude Include="include\datatypes\queries.pb.h" />
+    <ClInclude Include="include\datatypes\unit.pb.h" />
+    <ClInclude Include="include\datatypes\visit_record.pb.h" />
+    <ClInclude Include="include\services\coordinator_service.grpc.pb.h" />
+    <ClInclude Include="include\services\coordinator_service.pb.h" />
+    <ClInclude Include="include\services\unit_service.grpc.pb.h" />
+    <ClInclude Include="include\services\unit_service.pb.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\main.cpp" />
+    <ClCompile Include="src\datatypes\biometrics.pb.cc" />
+    <ClCompile Include="src\datatypes\card.pb.cc" />
+    <ClCompile Include="src\datatypes\data.pb.cc" />
+    <ClCompile Include="src\datatypes\devices.pb.cc" />
+    <ClCompile Include="src\datatypes\geometry.pb.cc" />
+    <ClCompile Include="src\datatypes\location.pb.cc" />
+    <ClCompile Include="src\datatypes\person.pb.cc" />
+    <ClCompile Include="src\datatypes\photo.pb.cc" />
+    <ClCompile Include="src\datatypes\queries.pb.cc" />
+    <ClCompile Include="src\datatypes\unit.pb.cc" />
+    <ClCompile Include="src\datatypes\visit_record.pb.cc" />
+    <ClCompile Include="src\services\coordinator_service.grpc.pb.cc" />
+    <ClCompile Include="src\services\coordinator_service.pb.cc" />
+    <ClCompile Include="src\services\unit_service.grpc.pb.cc" />
+    <ClCompile Include="src\services\unit_service.pb.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

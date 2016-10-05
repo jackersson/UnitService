@@ -107,7 +107,7 @@ namespace access_device
 			return devices_.find(device_name, listener) && listener.has_observer(observer);
 		}
 		*/
-		const contracts::devices::idevice_enumerator& device_enumerator() const
+		const contracts::devices::IDeviceEnumerator& device_enumerator() const
 		{
 			return device_enumerator_;
 		}

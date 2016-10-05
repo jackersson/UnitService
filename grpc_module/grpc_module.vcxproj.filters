@@ -5,18 +5,47 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="includes">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="includes\unit_service">
+      <UniqueIdentifier>{df05f8b3-9028-4b03-98c2-a173596779b6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\unit_service\get_devices_request_handler.hpp">
+      <Filter>includes\unit_service</Filter>
+    </ClInclude>
+    <ClInclude Include="include\request_handler.hpp">
+      <Filter>includes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\server_manager.hpp">
+      <Filter>includes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\service_context.hpp">
+      <Filter>includes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\unit_service_impl.hpp">
+      <Filter>includes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\unit_service\open_door_request_handler.hpp">
+      <Filter>includes\unit_service</Filter>
+    </ClInclude>
+    <ClInclude Include="include\unit_service\get_video_stream_request_handler.hpp">
+      <Filter>includes\unit_service</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

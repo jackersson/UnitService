@@ -23,6 +23,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "grpc_module", "grpc_module\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "access_device", "access_device\access_device.vcxproj", "{AC260F3F-8DB1-4A4F-843F-BD5FEB86C9DF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tracking_core", "tracking_core\tracking_core.vcxproj", "{92055307-94C0-4D8C-9431-D15EB2A7779A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -103,6 +105,14 @@ Global
 		{AC260F3F-8DB1-4A4F-843F-BD5FEB86C9DF}.Release|x64.Build.0 = Release|x64
 		{AC260F3F-8DB1-4A4F-843F-BD5FEB86C9DF}.Release|x86.ActiveCfg = Release|Win32
 		{AC260F3F-8DB1-4A4F-843F-BD5FEB86C9DF}.Release|x86.Build.0 = Release|Win32
+		{92055307-94C0-4D8C-9431-D15EB2A7779A}.Debug|x64.ActiveCfg = Debug|x64
+		{92055307-94C0-4D8C-9431-D15EB2A7779A}.Debug|x64.Build.0 = Debug|x64
+		{92055307-94C0-4D8C-9431-D15EB2A7779A}.Debug|x86.ActiveCfg = Debug|Win32
+		{92055307-94C0-4D8C-9431-D15EB2A7779A}.Debug|x86.Build.0 = Debug|Win32
+		{92055307-94C0-4D8C-9431-D15EB2A7779A}.Release|x64.ActiveCfg = Release|x64
+		{92055307-94C0-4D8C-9431-D15EB2A7779A}.Release|x64.Build.0 = Release|x64
+		{92055307-94C0-4D8C-9431-D15EB2A7779A}.Release|x86.ActiveCfg = Release|Win32
+		{92055307-94C0-4D8C-9431-D15EB2A7779A}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,34 +1,36 @@
 #ifndef Threadable_Included
 #define Threadable_Included
+#include <thread>
 
-#include <boost/asio.hpp>
-#include <boost/thread.hpp>
+//#include <boost/asio.hpp>
+//#include <boost/thread.hpp>
 
 namespace utils
 {
-	class threadable
+	class Threadable
 	{
 	public:
-		threadable() : active_(false)
+		Threadable() : active_(false)
 		{
-			threads.create_thread(boost::bind(&boost::asio::io_service::run, &io_service));
+			//threads.create_thread(boost::bind(&boost::asio::io_service::run, &io_service));
 		}
 
-		virtual ~threadable() {}
+		virtual ~Threadable() {}
 		
 		void start()
 		{
 			if (active_)
 				return;
 
-			io_service.post(boost::bind(thread_procedure, this));
+			thread_ = std::thread(&Threadable::thread_procedure, this);
+			//o_service.post(boost::bind(thread_procedure, this));
 		}
 
 		virtual void stop()
 		{
 			active_ = false;
-			io_service.stop();
-			threads.join_all();
+		//	io_service.stop();
+			thread_.join();
 		}
 
 		bool active() const {
@@ -41,7 +43,7 @@ namespace utils
 	private:
 		static void thread_procedure(void* thread_context)
 		{
-			auto instance = static_cast<threadable*>(thread_context);
+			auto instance = static_cast<Threadable*>(thread_context);
 
 			if (instance == nullptr)
 				return;
@@ -50,8 +52,10 @@ namespace utils
 			instance->active_ = false;
 		}
 
-		boost::asio::io_service io_service;
-		boost::thread_group threads;
+		std::thread thread_;
+
+		//boost::asio::io_service io_service;
+		//boost::thread_group threads;
 
 		bool active_;
 	};

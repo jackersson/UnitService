@@ -1,5 +1,6 @@
 #ifndef IDeviceEnumerator_Included
 #define IDeviceEnumerator_Included
+
 #include <string>
 #include <vector>
 
@@ -7,10 +8,10 @@
 namespace contracts {
 	namespace devices
 	{
-		class idevice_enumerator
+		class IDeviceEnumerator
 		{
 		public:
-			virtual ~idevice_enumerator() {}
+			virtual ~IDeviceEnumerator() {}
 
 			virtual	bool connected(const std::string& device_name) const = 0;
 

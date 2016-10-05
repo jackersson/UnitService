@@ -13,15 +13,186 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="include\idevice_enumerator.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <Filter Include="Header Files\contracts">
+      <UniqueIdentifier>{1e254ac3-5fbd-402f-a24b-c36ef39f8612}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\datatypes">
+      <UniqueIdentifier>{7e2b21a5-84ab-4254-a95f-46ca66d4dd3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\services">
+      <UniqueIdentifier>{4cd6c963-6773-4c75-8879-7de031f0d3e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\contracts\services">
+      <UniqueIdentifier>{d2f0b85f-f808-4f99-aa1c-f1af26568e31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\contracts\common">
+      <UniqueIdentifier>{b286b315-8649-4df4-a8c6-2804050c6107}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\datatypes">
+      <UniqueIdentifier>{4762c719-a9f2-4652-a251-29c3f160eebc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\services">
+      <UniqueIdentifier>{13e1be0d-d692-458d-b72d-c66da022bd7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\contracts\video">
+      <UniqueIdentifier>{336cbaa6-58c9-49b6-895c-f5117add5827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\contracts\locations">
+      <UniqueIdentifier>{7f80eb31-fd6b-4aae-9a47-b0a8f1df2dd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\contracts\observers">
+      <UniqueIdentifier>{2410497f-7fe8-4125-bee2-eb0734b6c68b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\contracts\devices">
+      <UniqueIdentifier>{db9ab388-f90f-4974-ac34-c5cbe07e51ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\contracts\devices\access_device">
+      <UniqueIdentifier>{4f1a76a6-2cbd-4a51-aa6b-8c17a0f3498d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\datatypes\biometrics.pb.cc">
+      <Filter>Source Files\datatypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\datatypes\card.pb.cc">
+      <Filter>Source Files\datatypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\datatypes\data.pb.cc">
+      <Filter>Source Files\datatypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\datatypes\devices.pb.cc">
+      <Filter>Source Files\datatypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\datatypes\geometry.pb.cc">
+      <Filter>Source Files\datatypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\datatypes\location.pb.cc">
+      <Filter>Source Files\datatypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\datatypes\person.pb.cc">
+      <Filter>Source Files\datatypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\datatypes\photo.pb.cc">
+      <Filter>Source Files\datatypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\datatypes\queries.pb.cc">
+      <Filter>Source Files\datatypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\datatypes\unit.pb.cc">
+      <Filter>Source Files\datatypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\datatypes\visit_record.pb.cc">
+      <Filter>Source Files\datatypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\services\coordinator_service.grpc.pb.cc">
+      <Filter>Source Files\services</Filter>
+    </ClCompile>
+    <ClCompile Include="src\services\coordinator_service.pb.cc">
+      <Filter>Source Files\services</Filter>
+    </ClCompile>
+    <ClCompile Include="src\services\unit_service.grpc.pb.cc">
+      <Filter>Source Files\services</Filter>
+    </ClCompile>
+    <ClCompile Include="src\services\unit_service.pb.cc">
+      <Filter>Source Files\services</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\datatypes\biometrics.pb.h">
+      <Filter>Header Files\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\datatypes\card.pb.h">
+      <Filter>Header Files\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\datatypes\data.pb.h">
+      <Filter>Header Files\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\datatypes\devices.pb.h">
+      <Filter>Header Files\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\datatypes\geometry.pb.h">
+      <Filter>Header Files\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\datatypes\location.pb.h">
+      <Filter>Header Files\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\datatypes\person.pb.h">
+      <Filter>Header Files\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\datatypes\photo.pb.h">
+      <Filter>Header Files\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\datatypes\queries.pb.h">
+      <Filter>Header Files\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\datatypes\unit.pb.h">
+      <Filter>Header Files\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\datatypes\visit_record.pb.h">
+      <Filter>Header Files\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\services\coordinator_service.grpc.pb.h">
+      <Filter>Header Files\services</Filter>
+    </ClInclude>
+    <ClInclude Include="include\services\coordinator_service.pb.h">
+      <Filter>Header Files\services</Filter>
+    </ClInclude>
+    <ClInclude Include="include\services\unit_service.grpc.pb.h">
+      <Filter>Header Files\services</Filter>
+    </ClInclude>
+    <ClInclude Include="include\services\unit_service.pb.h">
+      <Filter>Header Files\services</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\services\iserver_manager.hpp">
+      <Filter>Header Files\contracts\services</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\common\ilifecycle.hpp">
+      <Filter>Header Files\contracts\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\services\iservice.hpp">
+      <Filter>Header Files\contracts\services</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\services\service_address.hpp">
+      <Filter>Header Files\contracts\services</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\video\iplayer.hpp">
+      <Filter>Header Files\contracts\video</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\common\iequatable.hpp">
+      <Filter>Header Files\contracts\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\observers\iobservable.hpp">
+      <Filter>Header Files\contracts\observers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\observers\observable..hpp">
+      <Filter>Header Files\contracts\observers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\devices\device_observer.hpp">
+      <Filter>Header Files\contracts\devices</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\devices\device_exception.hpp">
+      <Filter>Header Files\contracts\devices</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\locations\ilocation.hpp">
+      <Filter>Header Files\contracts\locations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\locations\itrack_location_coordinator.hpp">
+      <Filter>Header Files\contracts\locations</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\devices\access_device\access_device_types.hpp">
+      <Filter>Header Files\contracts\devices\access_device</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\devices\access_device\icommand_result.hpp">
+      <Filter>Header Files\contracts\devices\access_device</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\devices\idevice_engine.hpp">
+      <Filter>Header Files\contracts\devices</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\devices\idevice_enumerator.hpp">
+      <Filter>Header Files\contracts\devices</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

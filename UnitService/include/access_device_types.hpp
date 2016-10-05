@@ -4,6 +4,7 @@
 
 namespace access_device
 {	
+	//TODO delete
 	//only this can be managed by users
 	enum lights
 	{

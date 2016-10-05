@@ -6,6 +6,7 @@
 
 namespace utils
 {
+	//TODO remove
 	template <typename Key, typename Value>
 	class ConcurrentMap
 	{

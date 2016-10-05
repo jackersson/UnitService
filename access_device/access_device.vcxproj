@@ -58,6 +58,11 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\UnitService\boost_serial_32d.props" />
+    <Import Project="..\UnitService\serial_port.props" />
+    <Import Project="..\realsense_device\contracts.props" />
+    <Import Project="..\realsense_device\utils_x32d.props" />
+    <Import Project="access_device_x32d.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -142,6 +147,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\access_device\access_device_engine.hpp" />
+    <ClInclude Include="include\access_device\access_device_listener.hpp" />
+    <ClInclude Include="include\access_device\commands\command.hpp" />
+    <ClInclude Include="include\access_device\commands\command_execution_result.hpp" />
+    <ClInclude Include="include\access_device\commands\command_factory.hpp" />
+    <ClInclude Include="include\access_device\commands\command_impl.hpp" />
+    <ClInclude Include="include\access_device\commands\command_result.hpp" />
+    <ClInclude Include="include\access_device\commands\port_command_result.hpp" />
+    <ClInclude Include="include\access_device\commands\executable_command_base.hpp" />
+    <ClInclude Include="include\access_device\commands\rs232_command.hpp" />
+    <ClInclude Include="include\access_device\core\iexecutable_command.hpp" />
+    <ClInclude Include="include\access_device\core\serial_port_io.hpp" />
+    <ClInclude Include="include\access_device\rs232\rs232_controller_types.hpp" />
+    <ClInclude Include="include\access_device\rs232\rs232_controller_utils.hpp" />
+    <ClInclude Include="include\access_device\serial_port_enumerator.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

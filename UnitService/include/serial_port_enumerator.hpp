@@ -8,8 +8,8 @@
 
 namespace serial_port
 {
-	class serial_port_enumerator : public utils::threadable
-		                           , public contracts::devices::idevice_enumerator
+	class serial_port_enumerator : public utils::Threadable
+		                           , public contracts::devices::IDeviceEnumerator
 	{
 	public:
 		bool connected(const std::string& device_name) const override {

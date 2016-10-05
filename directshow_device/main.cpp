@@ -1,11 +1,12 @@
 #include <iostream>
 #include "include/directshow_device_enumerator.hpp"
+#include <thread>
 
 using namespace std;
 
 int main()
 {
-	directshow_device::directshow_device_enumerator enumerator;
+	directshow_device::DirectshowDeviceEnumerator enumerator;
 	enumerator.start();
 
 	this_thread::sleep_for(chrono::seconds(10));
