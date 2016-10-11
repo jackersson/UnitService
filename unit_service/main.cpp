@@ -91,15 +91,17 @@ typedef std::shared_ptr<IUnitContext> IUnitContextPtr;
 
 */
 
+#include <services_ccoordinator.hpp>
+#include "../data_core/include/repository_container.hpp"
+
 
 class UnitService : public contracts::common::IModule
+	                , public contracts::IUnitContext
+	                , public std::enable_shared_from_this<contracts::IUnitContext>
 {
 public:
 	UnitService()
 	{
-		tracking_coordinator_ 
-			= std::make_shared<tracking::locations::TrackLocationCoordinator>();
-
 		//repository_->locations_->local_.subscribe(tracking_coordinator_->);
 
 		//repository_ initialize
@@ -107,6 +109,14 @@ public:
 
 	void init() override
 	{
+		auto this_ptr = shared_from_this();
+		tracking_coordinator_
+			= std::make_shared<tracking::locations::TrackLocationCoordinator>(this_ptr);
+
+		services_ = std::make_shared<grpc_services::ServicesCoordinator>(this_ptr);
+
+		repository_ = std::make_shared<data_core::RepositoryContainer>(this_ptr);
+
 		services_->init();
 		devices_->init();
 		repository_->init();
@@ -120,9 +130,9 @@ public:
 	}
 
 	contracts::locations::ITrackLocationsCoordinatorPtr tracking_coordinator_;
-	std::shared_ptr<IServices>            services_  ;
-	std::shared_ptr<IDevicesContainer>    devices_   ;
-	std::shared_ptr<IRepositoryContainer> repository_; //database service
+	std::shared_ptr<contracts::services::IServices>        services_  ;
+	std::shared_ptr<contracts::devices::IDevicesContainer> devices_   ;
+	std::shared_ptr<contracts::data::IRepositoryContainer> repository_; //database service
 };
 
 int main()

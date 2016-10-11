@@ -27,10 +27,10 @@ namespace contracts
 		};
 
 		template <typename TEntity>
-		class IRepository
+		class IDataContext 
 		{
 		public:
-			virtual ~IRepository() {}
+			virtual ~IDataContext() {}
 
 			virtual const std::vector<TEntity>& get(void* request) = 0;
 
@@ -38,36 +38,42 @@ namespace contracts
 
 			virtual const TEntity& find(Services::Entity entity) = 0;
 
-			virtual bool add(const TEntity& entity) = 0;
+			virtual bool add   (TEntity* entity) = 0;
 
-			virtual bool remove(const TEntity& entity) = 0;
+			virtual bool remove(TEntity* entity) = 0;
 
-			virtual bool update(const TEntity& entity) = 0;
+			virtual bool update(TEntity* entity) = 0;
+		};
 
+
+		typedef
+			std::shared_ptr<IDataContext<DataTypes::Location>>	ILocationDataContextPtr;
+
+		template <typename TEntity>
+		class IRepository : public IDataContext<TEntity>
+		{
+		public:
+			virtual ~IRepository() {}
+			
 			virtual std::shared_ptr<ILocalStorage<TEntity>> local() = 0;
 		};
 
-		template <typename TEntity>
-		class IDataContext : public IRepository<TEntity>
-		{
-		public:
-			~IDataContext() {}
-		};
+		typedef std::shared_ptr<IRepository<DataTypes::VisitRecord>>
+			VisitRecordRepositoryPtr;
+
+		typedef std::shared_ptr<IRepository<DataTypes::Location>>	LocationRepositoryPtr;
+		typedef std::shared_ptr<IRepository<DataTypes::Card>>	CardRepositoryPtr;
+
+		
 
 		class IRepositoryContainer : public common::IModule
 		{
 		public:
 			virtual ~IRepositoryContainer() {}
 
-			virtual 
-				std::shared_ptr<IRepository<DataTypes::VisitRecord>> visit_records() = 0;
-
-			virtual 
-				std::shared_ptr<IRepository<DataTypes::Location>> locations() = 0;
-
-			virtual
-				std::shared_ptr<IRepository<DataTypes::Card>> cards() = 0;
-
+			virtual VisitRecordRepositoryPtr visit_records() = 0;
+			virtual LocationRepositoryPtr    locations()     = 0;
+			virtual	CardRepositoryPtr        cards()         = 0;
 		};
 	}
 }
