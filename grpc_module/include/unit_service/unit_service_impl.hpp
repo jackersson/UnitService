@@ -7,9 +7,7 @@
 #include <list>
 #include "service_context.hpp"
 #include <contracts/services/service_address.hpp>
-#include "unit_service/get_devices_request_handler.hpp"
 #include "unit_service/open_door_request_handler.hpp"
-#include "unit_service/get_video_stream_request_handler.hpp"
 
 using grpc::ServerBuilder;
 
@@ -21,39 +19,35 @@ namespace grpc_services
 
 		typedef std::function<void()> RpcCallbackFunction;
 		typedef std::pair<std::shared_ptr<grpc::ServerCompletionQueue>
-			               , RpcCallbackFunction> RequestHandler;
+			, RpcCallbackFunction> RequestHandler;
 		typedef std::list<RequestHandler> RequestHandlers;
 
 		explicit UnitServiceImpl(ServiceContext& context) : context_(context)
 		{
 			thread_pool_ = std::make_shared<grpc::DynamicThreadPool>(MAX_THREAD_POOL_CAPACITY);
-			UnitServiceImpl::Init();
-		
+			UnitServiceImpl::init();
 		}
 
 		virtual ~UnitServiceImpl()
-		{			
-			UnitServiceImpl::Stop();
+		{
+			UnitServiceImpl::stop();
 		}
 
-		void Init() override
-		{			
+		void init() override
+		{
 			auto builder = context_.ServerBuilder();
-		  builder->AddListeningPort( context_.Address().FormattedAddress()
-			                        	, grpc::InsecureServerCredentials());
+			builder->AddListeningPort(context_.Address().FormattedAddress()
+				, grpc::InsecureServerCredentials());
 
 			service_ = std::make_shared<Services::UnitService::AsyncService>();
 			builder->RegisterService(service_.get());
 
-			AddRpcHandler<unit_service::GetDevicesRequestHandler>(*thread_pool_, builder);
-			//AddRpcHandler<unit_service::OpenDoorRequestHandler>(*thread_pool_, builder);
-
-		//	AddRpcHandler<unit_service::CreatePopulationHandler>(*thread_pool_, builder);
-
-			//Start();
+			//AddRpcHandler<unit_service::GetDevicesRequestHandler>(*thread_pool_, builder);
+			AddRpcHandler<unit_service::OpenDoorRequestHandler>(builder);
+			//AddRpcHandler<unit_service::CreatePopulationHandler>(builder);
 		}
 
-		void Start() override
+		void start() override
 		{
 			for (auto it = handlers_.begin(); it != handlers_.end(); ++it)
 				thread_pool_->Add(it->second);
@@ -61,7 +55,7 @@ namespace grpc_services
 			std::cout << "Server listening on " << context_.Address().FormattedAddress() << std::endl;
 		}
 
-		void Stop() override
+		void stop() override
 		{
 			for (auto it : handlers_)
 				it.first->Shutdown();
@@ -89,12 +83,10 @@ namespace grpc_services
 					std::cout << ex.what() << std::endl;
 				}
 			}
-
 		}
 
 		template<typename T>
-		void AddRpcHandler( grpc::ThreadPoolInterface& threadPool
-			                , std::shared_ptr<grpc::ServerBuilder> builder)
+		void AddRpcHandler(std::shared_ptr<grpc::ServerBuilder> builder)
 		{
 			std::shared_ptr<grpc::ServerCompletionQueue> cq_(builder->AddCompletionQueue());
 
@@ -106,7 +98,7 @@ namespace grpc_services
 		UnitServiceImpl& operator=(const UnitServiceImpl&) = delete;
 
 
-		std::shared_ptr<Services::UnitService::AsyncService>  service_    ;
+		std::shared_ptr<Services::UnitService::AsyncService>  service_;
 		std::shared_ptr<grpc::ThreadPoolInterface>            thread_pool_;
 
 		const int MAX_THREAD_POOL_CAPACITY = 10;

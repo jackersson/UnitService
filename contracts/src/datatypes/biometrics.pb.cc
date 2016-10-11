@@ -33,6 +33,7 @@ const ::google::protobuf::internal::GeneratedMessageReflection*
 const ::google::protobuf::Descriptor* Matches_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   Matches_reflection_ = NULL;
+const ::google::protobuf::EnumDescriptor* BioActionType_descriptor_ = NULL;
 const ::google::protobuf::EnumDescriptor* BiometricType_descriptor_ = NULL;
 const ::google::protobuf::EnumDescriptor* EyeType_descriptor_ = NULL;
 const ::google::protobuf::EnumDescriptor* Finger_descriptor_ = NULL;
@@ -113,10 +114,11 @@ void protobuf_AssignDesc_datatypes_2fbiometrics_2eproto() {
       sizeof(Matches),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Matches, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Matches, _is_default_instance_));
-  BiometricType_descriptor_ = file->enum_type(0);
-  EyeType_descriptor_ = file->enum_type(1);
-  Finger_descriptor_ = file->enum_type(2);
-  FacialIsoComplianceTemplate_descriptor_ = file->enum_type(3);
+  BioActionType_descriptor_ = file->enum_type(0);
+  BiometricType_descriptor_ = file->enum_type(1);
+  EyeType_descriptor_ = file->enum_type(2);
+  Finger_descriptor_ = file->enum_type(3);
+  FacialIsoComplianceTemplate_descriptor_ = file->enum_type(4);
 }
 
 namespace {
@@ -164,41 +166,44 @@ void protobuf_AddDesc_datatypes_2fbiometrics_2eproto() {
     "\n\032datatypes/biometrics.proto\022\tDataTypes\032"
     "\030datatypes/geometry.proto\032\024datatypes/dat"
     "a.proto\"5\n\005Faces\022,\n\005Faces\030\001 \003(\0132\035.DataTy"
-    "pes.FaceCharacteristic\"\206\001\n\022FaceCharacter"
+    "pes.FaceCharacteristic\"\246\001\n\022FaceCharacter"
     "istic\022\032\n\002id\030\001 \001(\0132\016.DataTypes.Key\022\033\n\003box"
     "\030\002 \001(\0132\016.DataTypes.Box\022\022\n\nconfidence\030\003 \001"
-    "(\002\022\021\n\tperson_id\030\004 \001(\003\022\020\n\010photo_id\030\005 \001(\003\""
-    "7\n\005Match\022\037\n\007face_id\030\002 \001(\0132\016.DataTypes.Ke"
-    "y\022\r\n\005match\030\003 \001(\002\"M\n\007Matches\022\037\n\007face_id\030\001"
-    " \001(\0132\016.DataTypes.Key\022!\n\007matches\030\002 \003(\0132\020."
-    "DataTypes.Match*S\n\rBiometricType\022\022\n\016Unsp"
-    "ecifiedBio\020\000\022\n\n\006Facial\020\001\022\017\n\013Fingerprint\020"
-    "\002\022\010\n\004Iris\020\003\022\007\n\003All\020\004*=\n\007EyeType\022\023\n\017Unspe"
-    "cified_Eye\020\000\022\010\n\004Left\020\001\022\t\n\005Right\020\002\022\010\n\004Bot"
-    "h\020\003*\275\001\n\006Finger\022\026\n\022Unspecified_Finger\020\000\022\016"
-    "\n\nRightThumb\020\001\022\r\n\tLeftThumb\020\002\022\016\n\nRightIn"
-    "dex\020\003\022\r\n\tLeftIndex\020\004\022\017\n\013RightMiddle\020\005\022\016\n"
-    "\nLeftMiddle\020\006\022\r\n\tRightRing\020\007\022\014\n\010LeftRing"
-    "\020\010\022\017\n\013RightLittle\020\t\022\016\n\nLeftLittle\020\n*\216\005\n\033"
-    "FacialIsoComplianceTemplate\022\033\n\027Unspecifi"
-    "ed_IsoTemplate\020\000\022\026\n\022OnlyOneFaceVisible\020\001"
-    "\022\034\n\030goodVerticalFacePosition\020\002\022\034\n\030horizo"
-    "ntallyCenteredFace\020\003\022\017\n\013widthOfHead\020\004\022\020\n"
-    "\014lengthOfHead\020\005\022\033\n\027widthOfHeadBestPracti"
-    "ce\020\006\022\034\n\030lengthOfHeadBestPractice\020\007\022\016\n\nre"
-    "solution\020\010\022\032\n\026resolutionBestPractice\020\t\022\""
-    "\n\036imageWidthToHeightBestPractice\020\n\022\020\n\014go"
-    "odExposure\020\013\022\030\n\024goodGrayScaleProfile\020\014\022\030"
-    "\n\024hasNaturalSkinColour\020\r\022\016\n\nnoHotSpots\020\016"
-    "\022#\n\037isBackgroundUniformBestPractice\020\017\022\r\n"
-    "\tisFrontal\020\020\022\031\n\025isFrontalBestPractice\020\021\022"
-    "\025\n\021isLightingUniform\020\022\022\030\n\024eyesOpenBestPr"
-    "actice\020\023\022\037\n\033eyesGazeFrontalBestPractice\020"
-    "\024\022\032\n\026eyesNotRedBestPractice\020\025\022\023\n\017noTinte"
-    "dGlasses\020\026\022\013\n\007isSharp\020\027\022\033\n\027mouthClosedBe"
-    "stPractice\020\030BO\n\007ex.grpcZ>github.com/Eneb"
-    "ra/ServiceCoordinator/grpc/datatypes/bio"
-    "metrics\242\002\003RTGb\006proto3", 1501);
+    "(\002\022!\n\tperson_id\030\004 \001(\0132\016.DataTypes.Key\022 \n"
+    "\010photo_id\030\005 \001(\0132\016.DataTypes.Key\"7\n\005Match"
+    "\022\037\n\007face_id\030\002 \001(\0132\016.DataTypes.Key\022\r\n\005mat"
+    "ch\030\003 \001(\002\"M\n\007Matches\022\037\n\007face_id\030\001 \001(\0132\016.D"
+    "ataTypes.Key\022!\n\007matches\030\002 \003(\0132\020.DataType"
+    "s.Match*I\n\rBioActionType\022\022\n\016NoneActionTy"
+    "pe\020\000\022\n\n\006Enroll\020\001\022\014\n\010Identify\020\002\022\n\n\006Verify"
+    "\020\003*S\n\rBiometricType\022\022\n\016UnspecifiedBio\020\000\022"
+    "\n\n\006Facial\020\001\022\017\n\013Fingerprint\020\002\022\010\n\004Iris\020\003\022\007"
+    "\n\003All\020\004*=\n\007EyeType\022\023\n\017Unspecified_Eye\020\000\022"
+    "\010\n\004Left\020\001\022\t\n\005Right\020\002\022\010\n\004Both\020\003*\275\001\n\006Finge"
+    "r\022\026\n\022Unspecified_Finger\020\000\022\016\n\nRightThumb\020"
+    "\001\022\r\n\tLeftThumb\020\002\022\016\n\nRightIndex\020\003\022\r\n\tLeft"
+    "Index\020\004\022\017\n\013RightMiddle\020\005\022\016\n\nLeftMiddle\020\006"
+    "\022\r\n\tRightRing\020\007\022\014\n\010LeftRing\020\010\022\017\n\013RightLi"
+    "ttle\020\t\022\016\n\nLeftLittle\020\n*\216\005\n\033FacialIsoComp"
+    "lianceTemplate\022\033\n\027Unspecified_IsoTemplat"
+    "e\020\000\022\026\n\022OnlyOneFaceVisible\020\001\022\034\n\030goodVerti"
+    "calFacePosition\020\002\022\034\n\030horizontallyCentere"
+    "dFace\020\003\022\017\n\013widthOfHead\020\004\022\020\n\014lengthOfHead"
+    "\020\005\022\033\n\027widthOfHeadBestPractice\020\006\022\034\n\030lengt"
+    "hOfHeadBestPractice\020\007\022\016\n\nresolution\020\010\022\032\n"
+    "\026resolutionBestPractice\020\t\022\"\n\036imageWidthT"
+    "oHeightBestPractice\020\n\022\020\n\014goodExposure\020\013\022"
+    "\030\n\024goodGrayScaleProfile\020\014\022\030\n\024hasNaturalS"
+    "kinColour\020\r\022\016\n\nnoHotSpots\020\016\022#\n\037isBackgro"
+    "undUniformBestPractice\020\017\022\r\n\tisFrontal\020\020\022"
+    "\031\n\025isFrontalBestPractice\020\021\022\025\n\021isLighting"
+    "Uniform\020\022\022\030\n\024eyesOpenBestPractice\020\023\022\037\n\033e"
+    "yesGazeFrontalBestPractice\020\024\022\032\n\026eyesNotR"
+    "edBestPractice\020\025\022\023\n\017noTintedGlasses\020\026\022\013\n"
+    "\007isSharp\020\027\022\033\n\027mouthClosedBestPractice\020\030B"
+    "O\n\007ex.grpcZ>github.com/Enebra/ServiceCoo"
+    "rdinator/grpc/datatypes/biometrics\242\002\003RTG"
+    "b\006proto3", 1608);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "datatypes/biometrics.proto", &protobuf_RegisterTypes);
   Faces::default_instance_ = new Faces();
@@ -218,6 +223,22 @@ struct StaticDescriptorInitializer_datatypes_2fbiometrics_2eproto {
     protobuf_AddDesc_datatypes_2fbiometrics_2eproto();
   }
 } static_descriptor_initializer_datatypes_2fbiometrics_2eproto_;
+const ::google::protobuf::EnumDescriptor* BioActionType_descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return BioActionType_descriptor_;
+}
+bool BioActionType_IsValid(int value) {
+  switch(value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      return true;
+    default:
+      return false;
+  }
+}
+
 const ::google::protobuf::EnumDescriptor* BiometricType_descriptor() {
   protobuf_AssignDescriptorsOnce();
   return BiometricType_descriptor_;
@@ -595,6 +616,8 @@ void FaceCharacteristic::InitAsDefaultInstance() {
   _is_default_instance_ = true;
   id_ = const_cast< ::DataTypes::Key*>(&::DataTypes::Key::default_instance());
   box_ = const_cast< ::DataTypes::Box*>(&::DataTypes::Box::default_instance());
+  person_id_ = const_cast< ::DataTypes::Key*>(&::DataTypes::Key::default_instance());
+  photo_id_ = const_cast< ::DataTypes::Key*>(&::DataTypes::Key::default_instance());
 }
 
 FaceCharacteristic::FaceCharacteristic(const FaceCharacteristic& from)
@@ -611,8 +634,8 @@ void FaceCharacteristic::SharedCtor() {
   id_ = NULL;
   box_ = NULL;
   confidence_ = 0;
-  person_id_ = GOOGLE_LONGLONG(0);
-  photo_id_ = GOOGLE_LONGLONG(0);
+  person_id_ = NULL;
+  photo_id_ = NULL;
 }
 
 FaceCharacteristic::~FaceCharacteristic() {
@@ -624,6 +647,8 @@ void FaceCharacteristic::SharedDtor() {
   if (this != default_instance_) {
     delete id_;
     delete box_;
+    delete person_id_;
+    delete photo_id_;
   }
 }
 
@@ -654,31 +679,15 @@ FaceCharacteristic* FaceCharacteristic::New(::google::protobuf::Arena* arena) co
 
 void FaceCharacteristic::Clear() {
 // @@protoc_insertion_point(message_clear_start:DataTypes.FaceCharacteristic)
-#if defined(__clang__)
-#define ZR_HELPER_(f) \
-  _Pragma("clang diagnostic push") \
-  _Pragma("clang diagnostic ignored \"-Winvalid-offsetof\"") \
-  __builtin_offsetof(FaceCharacteristic, f) \
-  _Pragma("clang diagnostic pop")
-#else
-#define ZR_HELPER_(f) reinterpret_cast<char*>(\
-  &reinterpret_cast<FaceCharacteristic*>(16)->f)
-#endif
-
-#define ZR_(first, last) do {\
-  ::memset(&first, 0,\
-           ZR_HELPER_(last) - ZR_HELPER_(first) + sizeof(last));\
-} while (0)
-
-  ZR_(person_id_, confidence_);
   if (GetArenaNoVirtual() == NULL && id_ != NULL) delete id_;
   id_ = NULL;
   if (GetArenaNoVirtual() == NULL && box_ != NULL) delete box_;
   box_ = NULL;
-
-#undef ZR_HELPER_
-#undef ZR_
-
+  confidence_ = 0;
+  if (GetArenaNoVirtual() == NULL && person_id_ != NULL) delete person_id_;
+  person_id_ = NULL;
+  if (GetArenaNoVirtual() == NULL && photo_id_ != NULL) delete photo_id_;
+  photo_id_ = NULL;
 }
 
 bool FaceCharacteristic::MergePartialFromCodedStream(
@@ -727,33 +736,29 @@ bool FaceCharacteristic::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(32)) goto parse_person_id;
+        if (input->ExpectTag(34)) goto parse_person_id;
         break;
       }
 
-      // optional int64 person_id = 4;
+      // optional .DataTypes.Key person_id = 4;
       case 4: {
-        if (tag == 32) {
+        if (tag == 34) {
          parse_person_id:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
-                 input, &person_id_)));
-
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_person_id()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(40)) goto parse_photo_id;
+        if (input->ExpectTag(42)) goto parse_photo_id;
         break;
       }
 
-      // optional int64 photo_id = 5;
+      // optional .DataTypes.Key photo_id = 5;
       case 5: {
-        if (tag == 40) {
+        if (tag == 42) {
          parse_photo_id:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
-                 input, &photo_id_)));
-
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_photo_id()));
         } else {
           goto handle_unusual;
         }
@@ -802,14 +807,16 @@ void FaceCharacteristic::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteFloat(3, this->confidence(), output);
   }
 
-  // optional int64 person_id = 4;
-  if (this->person_id() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt64(4, this->person_id(), output);
+  // optional .DataTypes.Key person_id = 4;
+  if (this->has_person_id()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      4, *this->person_id_, output);
   }
 
-  // optional int64 photo_id = 5;
-  if (this->photo_id() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt64(5, this->photo_id(), output);
+  // optional .DataTypes.Key photo_id = 5;
+  if (this->has_photo_id()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      5, *this->photo_id_, output);
   }
 
   // @@protoc_insertion_point(serialize_end:DataTypes.FaceCharacteristic)
@@ -837,14 +844,18 @@ void FaceCharacteristic::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(3, this->confidence(), target);
   }
 
-  // optional int64 person_id = 4;
-  if (this->person_id() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(4, this->person_id(), target);
+  // optional .DataTypes.Key person_id = 4;
+  if (this->has_person_id()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteMessageNoVirtualToArray(
+        4, *this->person_id_, target);
   }
 
-  // optional int64 photo_id = 5;
-  if (this->photo_id() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(5, this->photo_id(), target);
+  // optional .DataTypes.Key photo_id = 5;
+  if (this->has_photo_id()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteMessageNoVirtualToArray(
+        5, *this->photo_id_, target);
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:DataTypes.FaceCharacteristic)
@@ -874,18 +885,18 @@ int FaceCharacteristic::ByteSize() const {
     total_size += 1 + 4;
   }
 
-  // optional int64 person_id = 4;
-  if (this->person_id() != 0) {
+  // optional .DataTypes.Key person_id = 4;
+  if (this->has_person_id()) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int64Size(
-        this->person_id());
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->person_id_);
   }
 
-  // optional int64 photo_id = 5;
-  if (this->photo_id() != 0) {
+  // optional .DataTypes.Key photo_id = 5;
+  if (this->has_photo_id()) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int64Size(
-        this->photo_id());
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->photo_id_);
   }
 
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
@@ -921,11 +932,11 @@ void FaceCharacteristic::MergeFrom(const FaceCharacteristic& from) {
   if (from.confidence() != 0) {
     set_confidence(from.confidence());
   }
-  if (from.person_id() != 0) {
-    set_person_id(from.person_id());
+  if (from.has_person_id()) {
+    mutable_person_id()->::DataTypes::Key::MergeFrom(from.person_id());
   }
-  if (from.photo_id() != 0) {
-    set_photo_id(from.photo_id());
+  if (from.has_photo_id()) {
+    mutable_photo_id()->::DataTypes::Key::MergeFrom(from.photo_id());
   }
 }
 
@@ -1063,32 +1074,80 @@ void FaceCharacteristic::clear_confidence() {
   // @@protoc_insertion_point(field_set:DataTypes.FaceCharacteristic.confidence)
 }
 
-// optional int64 person_id = 4;
-void FaceCharacteristic::clear_person_id() {
-  person_id_ = GOOGLE_LONGLONG(0);
+// optional .DataTypes.Key person_id = 4;
+bool FaceCharacteristic::has_person_id() const {
+  return !_is_default_instance_ && person_id_ != NULL;
 }
- ::google::protobuf::int64 FaceCharacteristic::person_id() const {
+void FaceCharacteristic::clear_person_id() {
+  if (GetArenaNoVirtual() == NULL && person_id_ != NULL) delete person_id_;
+  person_id_ = NULL;
+}
+const ::DataTypes::Key& FaceCharacteristic::person_id() const {
   // @@protoc_insertion_point(field_get:DataTypes.FaceCharacteristic.person_id)
+  return person_id_ != NULL ? *person_id_ : *default_instance_->person_id_;
+}
+::DataTypes::Key* FaceCharacteristic::mutable_person_id() {
+  
+  if (person_id_ == NULL) {
+    person_id_ = new ::DataTypes::Key;
+  }
+  // @@protoc_insertion_point(field_mutable:DataTypes.FaceCharacteristic.person_id)
   return person_id_;
 }
- void FaceCharacteristic::set_person_id(::google::protobuf::int64 value) {
+::DataTypes::Key* FaceCharacteristic::release_person_id() {
+  // @@protoc_insertion_point(field_release:DataTypes.FaceCharacteristic.person_id)
   
-  person_id_ = value;
-  // @@protoc_insertion_point(field_set:DataTypes.FaceCharacteristic.person_id)
+  ::DataTypes::Key* temp = person_id_;
+  person_id_ = NULL;
+  return temp;
+}
+void FaceCharacteristic::set_allocated_person_id(::DataTypes::Key* person_id) {
+  delete person_id_;
+  person_id_ = person_id;
+  if (person_id) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.FaceCharacteristic.person_id)
 }
 
-// optional int64 photo_id = 5;
-void FaceCharacteristic::clear_photo_id() {
-  photo_id_ = GOOGLE_LONGLONG(0);
+// optional .DataTypes.Key photo_id = 5;
+bool FaceCharacteristic::has_photo_id() const {
+  return !_is_default_instance_ && photo_id_ != NULL;
 }
- ::google::protobuf::int64 FaceCharacteristic::photo_id() const {
+void FaceCharacteristic::clear_photo_id() {
+  if (GetArenaNoVirtual() == NULL && photo_id_ != NULL) delete photo_id_;
+  photo_id_ = NULL;
+}
+const ::DataTypes::Key& FaceCharacteristic::photo_id() const {
   // @@protoc_insertion_point(field_get:DataTypes.FaceCharacteristic.photo_id)
+  return photo_id_ != NULL ? *photo_id_ : *default_instance_->photo_id_;
+}
+::DataTypes::Key* FaceCharacteristic::mutable_photo_id() {
+  
+  if (photo_id_ == NULL) {
+    photo_id_ = new ::DataTypes::Key;
+  }
+  // @@protoc_insertion_point(field_mutable:DataTypes.FaceCharacteristic.photo_id)
   return photo_id_;
 }
- void FaceCharacteristic::set_photo_id(::google::protobuf::int64 value) {
+::DataTypes::Key* FaceCharacteristic::release_photo_id() {
+  // @@protoc_insertion_point(field_release:DataTypes.FaceCharacteristic.photo_id)
   
-  photo_id_ = value;
-  // @@protoc_insertion_point(field_set:DataTypes.FaceCharacteristic.photo_id)
+  ::DataTypes::Key* temp = photo_id_;
+  photo_id_ = NULL;
+  return temp;
+}
+void FaceCharacteristic::set_allocated_photo_id(::DataTypes::Key* photo_id) {
+  delete photo_id_;
+  photo_id_ = photo_id;
+  if (photo_id) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.FaceCharacteristic.photo_id)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

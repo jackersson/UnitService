@@ -19,7 +19,6 @@ static const char* UnitService_method_names[] = {
   "/Services.UnitService/OpenDoor",
   "/Services.UnitService/GetVideoStream",
   "/Services.UnitService/UpdateLocation",
-  "/Services.UnitService/GetDevices",
 };
 
 std::unique_ptr< UnitService::Stub> UnitService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -31,7 +30,6 @@ UnitService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channe
   : channel_(channel), rpcmethod_OpenDoor_(UnitService_method_names[0], ::grpc::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_GetVideoStream_(UnitService_method_names[1], ::grpc::RpcMethod::SERVER_STREAMING, channel)
   , rpcmethod_UpdateLocation_(UnitService_method_names[2], ::grpc::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetDevices_(UnitService_method_names[3], ::grpc::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status UnitService::Stub::OpenDoor(::grpc::ClientContext* context, const ::DataTypes::Location& request, ::google::protobuf::Empty* response) {
@@ -58,14 +56,6 @@ UnitService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channe
   return new ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>(channel_.get(), cq, rpcmethod_UpdateLocation_, context, request);
 }
 
-::grpc::Status UnitService::Stub::GetDevices(::grpc::ClientContext* context, const ::DataTypes::GetDevicesRequest& request, ::DataTypes::DevicesResponse* response) {
-  return ::grpc::BlockingUnaryCall(channel_.get(), rpcmethod_GetDevices_, context, request, response);
-}
-
-::grpc::ClientAsyncResponseReader< ::DataTypes::DevicesResponse>* UnitService::Stub::AsyncGetDevicesRaw(::grpc::ClientContext* context, const ::DataTypes::GetDevicesRequest& request, ::grpc::CompletionQueue* cq) {
-  return new ::grpc::ClientAsyncResponseReader< ::DataTypes::DevicesResponse>(channel_.get(), cq, rpcmethod_GetDevices_, context, request);
-}
-
 UnitService::Service::Service() {
   (void)UnitService_method_names;
   AddMethod(new ::grpc::RpcServiceMethod(
@@ -83,11 +73,6 @@ UnitService::Service::Service() {
       ::grpc::RpcMethod::NORMAL_RPC,
       new ::grpc::RpcMethodHandler< UnitService::Service, ::DataTypes::Location, ::google::protobuf::Empty>(
           std::mem_fn(&UnitService::Service::UpdateLocation), this)));
-  AddMethod(new ::grpc::RpcServiceMethod(
-      UnitService_method_names[3],
-      ::grpc::RpcMethod::NORMAL_RPC,
-      new ::grpc::RpcMethodHandler< UnitService::Service, ::DataTypes::GetDevicesRequest, ::DataTypes::DevicesResponse>(
-          std::mem_fn(&UnitService::Service::GetDevices), this)));
 }
 
 UnitService::Service::~Service() {
@@ -108,13 +93,6 @@ UnitService::Service::~Service() {
 }
 
 ::grpc::Status UnitService::Service::UpdateLocation(::grpc::ServerContext* context, const ::DataTypes::Location* request, ::google::protobuf::Empty* response) {
-  (void) context;
-  (void) request;
-  (void) response;
-  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-}
-
-::grpc::Status UnitService::Service::GetDevices(::grpc::ServerContext* context, const ::DataTypes::GetDevicesRequest* request, ::DataTypes::DevicesResponse* response) {
   (void) context;
   (void) request;
   (void) response;

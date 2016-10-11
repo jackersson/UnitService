@@ -1,7 +1,6 @@
 #ifndef IDeviceEngine_Included
 #define IDeviceEngine_Included
 #include "device_observer.hpp"
-#include <contracts/devices/access_device/icommand_result.hpp>
 #include <contracts/devices/idevice_enumerator.hpp>
 #include <contracts/common/ilifecycle.hpp>
 
@@ -9,8 +8,6 @@ namespace contracts
 {
 	namespace locations
 	{
-		typedef devices::access_device::ICommandResult ICommandResult;
-
 		class IDeviceContainer
 		{
 		public:
@@ -27,7 +24,7 @@ namespace contracts
 		};
 
 		
-
+		template <typename T>
 		class IDeviceEngine : public IDeviceContainer
 			                  , common::IModule
 		{
@@ -35,22 +32,23 @@ namespace contracts
 			virtual ~IDeviceEngine() {}		
 
 			virtual void 
-				subscribe( const devices::IDeviceObserver<ICommandResult>& observer
+				subscribe( std::shared_ptr<devices::IDeviceObserver<T>> observer
 				         , const std::string& device_name) = 0;
 
 
 			virtual void 
-				unsubscribe(const devices::IDeviceObserver<ICommandResult>& observer) = 0;
+				unsubscribe(std::shared_ptr<devices::IDeviceObserver<T>> observer) = 0;
 		
 
 			virtual bool 
-				has_observer( const devices::IDeviceObserver<ICommandResult>& observer
+				has_observer(std::shared_ptr<devices::IDeviceObserver<T>> observer
 				            , const std::string& device_name) = 0;
 
 			virtual void unsubscribe_all() = 0;
 			
 		};
 
+		
 	
 	}
 }

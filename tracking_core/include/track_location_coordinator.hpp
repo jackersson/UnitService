@@ -3,8 +3,10 @@
 #include <vector>
 #include <datatypes/location.pb.h>
 #include <concurrent_containers.hpp>
+#include <contracts/iunit_context.hpp>
 
 #include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
 #include <boost/lexical_cast.hpp>
 
 #include "track_location.hpp"
@@ -14,16 +16,27 @@ namespace tracking
 {
 	namespace locations
 	{
+		
 		class TrackLocationCoordinator
 		{
 		public:
+			explicit TrackLocationCoordinator(contracts::IUnitContextPtr context)
+				: context_(context)
+			{
+				auto locations = context_->repository()->locations()->local();
+				locations->subscribe(
+					std::bind(&TrackLocationCoordinator::on_data_changed, this));
+			}
+
 			virtual ~TrackLocationCoordinator() {}
 
 		private:
 			void on_data_changed()
 			{
-				std::vector<DataTypes::Location> data; //TODO implement
+			//	auto locations = context_->repository()->locations();
+			//	auto data = locations->local()->entities(); //TODO implement
 				//TODO check with current mac address
+				std::vector<DataTypes::Location> data;
 
 				for (auto location : data)
 				{
@@ -31,11 +44,11 @@ namespace tracking
 					
 					try {
 						auto existing = track_locations_.find(guid);
-						existing.update(location);
+						existing->update(location);
 					}
 					catch (std::exception& exception)
 					{
-						TrackLocation track_location(location);
+						auto track_location = std::make_shared<TrackLocation>(location, context_);
 						track_locations_.insert(guid, track_location);
 					}					
 				}
@@ -45,10 +58,10 @@ namespace tracking
 				for (auto item : track_locations_)
 				{
 					auto track_location = item.second;
-					auto location = track_location.location();
-					if (!utils::containers::contains(data, location))
+					auto location = track_location->location();
+					if (contains(data, location))
 					{
-						track_location.stop();
+						track_location->stop();
 						track_locations_.remove(item.first);
 					}
 					//TODO fix errors
@@ -57,16 +70,34 @@ namespace tracking
 				}
 			}
 
+			static bool contains( const std::vector<DataTypes::Location>& container
+				                  , DataTypes::Location value)
+			{				
+				for (auto it : container)
+				{
+					if (it.id().guid() == value.id().guid())
+						return true;
+				}
+				return false;
+			}
+		
+
 			//TODO to utils 
 			boost::uuids::uuid to_uuid(const DataTypes::Key& key)
 			{
-				return boost::lexical_cast<boost::uuids::uuid>(key.guid());
+				return boost::uuids::random_generator()();
+				//TODO check why its not working
+				//return boost::lexical_cast<boost::uuids::uuid>(key.guid());
 			}
-						
-			std::vector<contracts::locations::ILocation&> locations_;
 
-			concurrency::containers::ConcurrentMap<boost::uuids::uuid, TrackLocation> track_locations_;
+			contracts::IUnitContextPtr context_;
+
+			std::vector<contracts::locations::ILocationPtr> locations_;
+
+
+			concurrency::containers::ConcurrentMap<boost::uuids::uuid, TrackLocationPtr> track_locations_;
 		};
+		
 	}
 }
 

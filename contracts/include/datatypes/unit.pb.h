@@ -26,6 +26,8 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>
 #include <google/protobuf/extension_set.h>
+#include <google/protobuf/map.h>
+#include <google/protobuf/map_field_inl.h>
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "datatypes/location.pb.h"
@@ -38,7 +40,8 @@ void protobuf_AddDesc_datatypes_2funit_2eproto();
 void protobuf_AssignDesc_datatypes_2funit_2eproto();
 void protobuf_ShutdownFile_datatypes_2funit_2eproto();
 
-class ConnectedUnit;
+class ConnectMsg;
+class HeartbeatMessage;
 class SubscriptionMsg;
 class Unit;
 class UnitConfiguration;
@@ -69,6 +72,29 @@ inline bool UnitState_Parse(
     const ::std::string& name, UnitState* value) {
   return ::google::protobuf::internal::ParseNamedEnum<UnitState>(
     UnitState_descriptor(), name, value);
+}
+enum ServiceType {
+  None_Service = 0,
+  Facial_Service = 1,
+  Client_Service = 2,
+  Unit_Service = 3,
+  ServiceType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  ServiceType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool ServiceType_IsValid(int value);
+const ServiceType ServiceType_MIN = None_Service;
+const ServiceType ServiceType_MAX = Unit_Service;
+const int ServiceType_ARRAYSIZE = ServiceType_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* ServiceType_descriptor();
+inline const ::std::string& ServiceType_Name(ServiceType value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    ServiceType_descriptor(), value);
+}
+inline bool ServiceType_Parse(
+    const ::std::string& name, ServiceType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<ServiceType>(
+    ServiceType_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -128,25 +154,38 @@ class Unit : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // optional .DataTypes.ConnectedUnit connected_unit = 1;
-  bool has_connected_unit() const;
-  void clear_connected_unit();
-  static const int kConnectedUnitFieldNumber = 1;
-  const ::DataTypes::ConnectedUnit& connected_unit() const;
-  ::DataTypes::ConnectedUnit* mutable_connected_unit();
-  ::DataTypes::ConnectedUnit* release_connected_unit();
-  void set_allocated_connected_unit(::DataTypes::ConnectedUnit* connected_unit);
+  // optional string ip_address = 1;
+  void clear_ip_address();
+  static const int kIpAddressFieldNumber = 1;
+  const ::std::string& ip_address() const;
+  void set_ip_address(const ::std::string& value);
+  void set_ip_address(const char* value);
+  void set_ip_address(const char* value, size_t size);
+  ::std::string* mutable_ip_address();
+  ::std::string* release_ip_address();
+  void set_allocated_ip_address(::std::string* ip_address);
 
-  // optional int64 heartbeat_time = 2;
+  // optional string mac_address = 2;
+  void clear_mac_address();
+  static const int kMacAddressFieldNumber = 2;
+  const ::std::string& mac_address() const;
+  void set_mac_address(const ::std::string& value);
+  void set_mac_address(const char* value);
+  void set_mac_address(const char* value, size_t size);
+  ::std::string* mutable_mac_address();
+  ::std::string* release_mac_address();
+  void set_allocated_mac_address(::std::string* mac_address);
+
+  // optional int64 heartbeat_time = 4;
   void clear_heartbeat_time();
-  static const int kHeartbeatTimeFieldNumber = 2;
+  static const int kHeartbeatTimeFieldNumber = 4;
   ::google::protobuf::int64 heartbeat_time() const;
   void set_heartbeat_time(::google::protobuf::int64 value);
 
-  // optional .DataTypes.Locations locations = 3;
+  // optional .DataTypes.Locations locations = 5;
   bool has_locations() const;
   void clear_locations();
-  static const int kLocationsFieldNumber = 3;
+  static const int kLocationsFieldNumber = 5;
   const ::DataTypes::Locations& locations() const;
   ::DataTypes::Locations* mutable_locations();
   ::DataTypes::Locations* release_locations();
@@ -157,7 +196,8 @@ class Unit : public ::google::protobuf::Message {
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   bool _is_default_instance_;
-  ::DataTypes::ConnectedUnit* connected_unit_;
+  ::google::protobuf::internal::ArenaStringPtr ip_address_;
+  ::google::protobuf::internal::ArenaStringPtr mac_address_;
   ::google::protobuf::int64 heartbeat_time_;
   ::DataTypes::Locations* locations_;
   mutable int _cached_size_;
@@ -170,32 +210,32 @@ class Unit : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class ConnectedUnit : public ::google::protobuf::Message {
+class ConnectMsg : public ::google::protobuf::Message {
  public:
-  ConnectedUnit();
-  virtual ~ConnectedUnit();
+  ConnectMsg();
+  virtual ~ConnectMsg();
 
-  ConnectedUnit(const ConnectedUnit& from);
+  ConnectMsg(const ConnectMsg& from);
 
-  inline ConnectedUnit& operator=(const ConnectedUnit& from) {
+  inline ConnectMsg& operator=(const ConnectMsg& from) {
     CopyFrom(from);
     return *this;
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const ConnectedUnit& default_instance();
+  static const ConnectMsg& default_instance();
 
-  void Swap(ConnectedUnit* other);
+  void Swap(ConnectMsg* other);
 
   // implements Message ----------------------------------------------
 
-  inline ConnectedUnit* New() const { return New(NULL); }
+  inline ConnectMsg* New() const { return New(NULL); }
 
-  ConnectedUnit* New(::google::protobuf::Arena* arena) const;
+  ConnectMsg* New(::google::protobuf::Arena* arena) const;
   void CopyFrom(const ::google::protobuf::Message& from);
   void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const ConnectedUnit& from);
-  void MergeFrom(const ConnectedUnit& from);
+  void CopyFrom(const ConnectMsg& from);
+  void MergeFrom(const ConnectMsg& from);
   void Clear();
   bool IsInitialized() const;
 
@@ -210,7 +250,7 @@ class ConnectedUnit : public ::google::protobuf::Message {
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const;
-  void InternalSwap(ConnectedUnit* other);
+  void InternalSwap(ConnectMsg* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return _internal_metadata_.arena();
@@ -248,20 +288,117 @@ class ConnectedUnit : public ::google::protobuf::Message {
   ::std::string* release_mac_address();
   void set_allocated_mac_address(::std::string* mac_address);
 
-  // @@protoc_insertion_point(class_scope:DataTypes.ConnectedUnit)
+  // optional .DataTypes.ServiceType service_type = 3;
+  void clear_service_type();
+  static const int kServiceTypeFieldNumber = 3;
+  ::DataTypes::ServiceType service_type() const;
+  void set_service_type(::DataTypes::ServiceType value);
+
+  // @@protoc_insertion_point(class_scope:DataTypes.ConnectMsg)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   bool _is_default_instance_;
   ::google::protobuf::internal::ArenaStringPtr ip_address_;
   ::google::protobuf::internal::ArenaStringPtr mac_address_;
+  int service_type_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_datatypes_2funit_2eproto();
   friend void protobuf_AssignDesc_datatypes_2funit_2eproto();
   friend void protobuf_ShutdownFile_datatypes_2funit_2eproto();
 
   void InitAsDefaultInstance();
-  static ConnectedUnit* default_instance_;
+  static ConnectMsg* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class HeartbeatMessage : public ::google::protobuf::Message {
+ public:
+  HeartbeatMessage();
+  virtual ~HeartbeatMessage();
+
+  HeartbeatMessage(const HeartbeatMessage& from);
+
+  inline HeartbeatMessage& operator=(const HeartbeatMessage& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const HeartbeatMessage& default_instance();
+
+  void Swap(HeartbeatMessage* other);
+
+  // implements Message ----------------------------------------------
+
+  inline HeartbeatMessage* New() const { return New(NULL); }
+
+  HeartbeatMessage* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const HeartbeatMessage& from);
+  void MergeFrom(const HeartbeatMessage& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(HeartbeatMessage* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional string service_id = 1;
+  void clear_service_id();
+  static const int kServiceIdFieldNumber = 1;
+  const ::std::string& service_id() const;
+  void set_service_id(const ::std::string& value);
+  void set_service_id(const char* value);
+  void set_service_id(const char* value, size_t size);
+  ::std::string* mutable_service_id();
+  ::std::string* release_service_id();
+  void set_allocated_service_id(::std::string* service_id);
+
+  // optional .DataTypes.ServiceType service_type = 2;
+  void clear_service_type();
+  static const int kServiceTypeFieldNumber = 2;
+  ::DataTypes::ServiceType service_type() const;
+  void set_service_type(::DataTypes::ServiceType value);
+
+  // @@protoc_insertion_point(class_scope:DataTypes.HeartbeatMessage)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  bool _is_default_instance_;
+  ::google::protobuf::internal::ArenaStringPtr service_id_;
+  int service_type_;
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_datatypes_2funit_2eproto();
+  friend void protobuf_AssignDesc_datatypes_2funit_2eproto();
+  friend void protobuf_ShutdownFile_datatypes_2funit_2eproto();
+
+  void InitAsDefaultInstance();
+  static HeartbeatMessage* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -586,26 +723,34 @@ class Units : public ::google::protobuf::Message {
 
   // nested types ----------------------------------------------------
 
+
   // accessors -------------------------------------------------------
 
-  // repeated .DataTypes.Unit items = 1;
+  // map<string, .DataTypes.Unit> items = 1;
   int items_size() const;
   void clear_items();
   static const int kItemsFieldNumber = 1;
-  const ::DataTypes::Unit& items(int index) const;
-  ::DataTypes::Unit* mutable_items(int index);
-  ::DataTypes::Unit* add_items();
-  ::google::protobuf::RepeatedPtrField< ::DataTypes::Unit >*
-      mutable_items();
-  const ::google::protobuf::RepeatedPtrField< ::DataTypes::Unit >&
+  const ::google::protobuf::Map< ::std::string, ::DataTypes::Unit >&
       items() const;
+  ::google::protobuf::Map< ::std::string, ::DataTypes::Unit >*
+      mutable_items();
 
   // @@protoc_insertion_point(class_scope:DataTypes.Units)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   bool _is_default_instance_;
-  ::google::protobuf::RepeatedPtrField< ::DataTypes::Unit > items_;
+  typedef ::google::protobuf::internal::MapEntryLite<
+      ::std::string, ::DataTypes::Unit,
+      ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+      ::google::protobuf::internal::WireFormatLite::TYPE_MESSAGE,
+      0 >
+      Units_ItemsEntry;
+  ::google::protobuf::internal::MapField<
+      ::std::string, ::DataTypes::Unit,
+      ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+      ::google::protobuf::internal::WireFormatLite::TYPE_MESSAGE,
+      0 > items_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_datatypes_2funit_2eproto();
   friend void protobuf_AssignDesc_datatypes_2funit_2eproto();
@@ -795,45 +940,95 @@ class UnitLocationState : public ::google::protobuf::Message {
 #if !PROTOBUF_INLINE_NOT_IN_HEADERS
 // Unit
 
-// optional .DataTypes.ConnectedUnit connected_unit = 1;
-inline bool Unit::has_connected_unit() const {
-  return !_is_default_instance_ && connected_unit_ != NULL;
+// optional string ip_address = 1;
+inline void Unit::clear_ip_address() {
+  ip_address_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void Unit::clear_connected_unit() {
-  if (GetArenaNoVirtual() == NULL && connected_unit_ != NULL) delete connected_unit_;
-  connected_unit_ = NULL;
+inline const ::std::string& Unit::ip_address() const {
+  // @@protoc_insertion_point(field_get:DataTypes.Unit.ip_address)
+  return ip_address_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::DataTypes::ConnectedUnit& Unit::connected_unit() const {
-  // @@protoc_insertion_point(field_get:DataTypes.Unit.connected_unit)
-  return connected_unit_ != NULL ? *connected_unit_ : *default_instance_->connected_unit_;
-}
-inline ::DataTypes::ConnectedUnit* Unit::mutable_connected_unit() {
+inline void Unit::set_ip_address(const ::std::string& value) {
   
-  if (connected_unit_ == NULL) {
-    connected_unit_ = new ::DataTypes::ConnectedUnit;
-  }
-  // @@protoc_insertion_point(field_mutable:DataTypes.Unit.connected_unit)
-  return connected_unit_;
+  ip_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:DataTypes.Unit.ip_address)
 }
-inline ::DataTypes::ConnectedUnit* Unit::release_connected_unit() {
-  // @@protoc_insertion_point(field_release:DataTypes.Unit.connected_unit)
+inline void Unit::set_ip_address(const char* value) {
   
-  ::DataTypes::ConnectedUnit* temp = connected_unit_;
-  connected_unit_ = NULL;
-  return temp;
+  ip_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:DataTypes.Unit.ip_address)
 }
-inline void Unit::set_allocated_connected_unit(::DataTypes::ConnectedUnit* connected_unit) {
-  delete connected_unit_;
-  connected_unit_ = connected_unit;
-  if (connected_unit) {
+inline void Unit::set_ip_address(const char* value, size_t size) {
+  
+  ip_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:DataTypes.Unit.ip_address)
+}
+inline ::std::string* Unit::mutable_ip_address() {
+  
+  // @@protoc_insertion_point(field_mutable:DataTypes.Unit.ip_address)
+  return ip_address_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* Unit::release_ip_address() {
+  // @@protoc_insertion_point(field_release:DataTypes.Unit.ip_address)
+  
+  return ip_address_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void Unit::set_allocated_ip_address(::std::string* ip_address) {
+  if (ip_address != NULL) {
     
   } else {
     
   }
-  // @@protoc_insertion_point(field_set_allocated:DataTypes.Unit.connected_unit)
+  ip_address_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ip_address);
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.Unit.ip_address)
 }
 
-// optional int64 heartbeat_time = 2;
+// optional string mac_address = 2;
+inline void Unit::clear_mac_address() {
+  mac_address_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& Unit::mac_address() const {
+  // @@protoc_insertion_point(field_get:DataTypes.Unit.mac_address)
+  return mac_address_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void Unit::set_mac_address(const ::std::string& value) {
+  
+  mac_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:DataTypes.Unit.mac_address)
+}
+inline void Unit::set_mac_address(const char* value) {
+  
+  mac_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:DataTypes.Unit.mac_address)
+}
+inline void Unit::set_mac_address(const char* value, size_t size) {
+  
+  mac_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:DataTypes.Unit.mac_address)
+}
+inline ::std::string* Unit::mutable_mac_address() {
+  
+  // @@protoc_insertion_point(field_mutable:DataTypes.Unit.mac_address)
+  return mac_address_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* Unit::release_mac_address() {
+  // @@protoc_insertion_point(field_release:DataTypes.Unit.mac_address)
+  
+  return mac_address_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void Unit::set_allocated_mac_address(::std::string* mac_address) {
+  if (mac_address != NULL) {
+    
+  } else {
+    
+  }
+  mac_address_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), mac_address);
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.Unit.mac_address)
+}
+
+// optional int64 heartbeat_time = 4;
 inline void Unit::clear_heartbeat_time() {
   heartbeat_time_ = GOOGLE_LONGLONG(0);
 }
@@ -847,7 +1042,7 @@ inline void Unit::set_heartbeat_time(::google::protobuf::int64 value) {
   // @@protoc_insertion_point(field_set:DataTypes.Unit.heartbeat_time)
 }
 
-// optional .DataTypes.Locations locations = 3;
+// optional .DataTypes.Locations locations = 5;
 inline bool Unit::has_locations() const {
   return !_is_default_instance_ && locations_ != NULL;
 }
@@ -887,94 +1082,170 @@ inline void Unit::set_allocated_locations(::DataTypes::Locations* locations) {
 
 // -------------------------------------------------------------------
 
-// ConnectedUnit
+// ConnectMsg
 
 // optional string ip_address = 1;
-inline void ConnectedUnit::clear_ip_address() {
+inline void ConnectMsg::clear_ip_address() {
   ip_address_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::std::string& ConnectedUnit::ip_address() const {
-  // @@protoc_insertion_point(field_get:DataTypes.ConnectedUnit.ip_address)
+inline const ::std::string& ConnectMsg::ip_address() const {
+  // @@protoc_insertion_point(field_get:DataTypes.ConnectMsg.ip_address)
   return ip_address_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void ConnectedUnit::set_ip_address(const ::std::string& value) {
+inline void ConnectMsg::set_ip_address(const ::std::string& value) {
   
   ip_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:DataTypes.ConnectedUnit.ip_address)
+  // @@protoc_insertion_point(field_set:DataTypes.ConnectMsg.ip_address)
 }
-inline void ConnectedUnit::set_ip_address(const char* value) {
+inline void ConnectMsg::set_ip_address(const char* value) {
   
   ip_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:DataTypes.ConnectedUnit.ip_address)
+  // @@protoc_insertion_point(field_set_char:DataTypes.ConnectMsg.ip_address)
 }
-inline void ConnectedUnit::set_ip_address(const char* value, size_t size) {
+inline void ConnectMsg::set_ip_address(const char* value, size_t size) {
   
   ip_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:DataTypes.ConnectedUnit.ip_address)
+  // @@protoc_insertion_point(field_set_pointer:DataTypes.ConnectMsg.ip_address)
 }
-inline ::std::string* ConnectedUnit::mutable_ip_address() {
+inline ::std::string* ConnectMsg::mutable_ip_address() {
   
-  // @@protoc_insertion_point(field_mutable:DataTypes.ConnectedUnit.ip_address)
+  // @@protoc_insertion_point(field_mutable:DataTypes.ConnectMsg.ip_address)
   return ip_address_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* ConnectedUnit::release_ip_address() {
-  // @@protoc_insertion_point(field_release:DataTypes.ConnectedUnit.ip_address)
+inline ::std::string* ConnectMsg::release_ip_address() {
+  // @@protoc_insertion_point(field_release:DataTypes.ConnectMsg.ip_address)
   
   return ip_address_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void ConnectedUnit::set_allocated_ip_address(::std::string* ip_address) {
+inline void ConnectMsg::set_allocated_ip_address(::std::string* ip_address) {
   if (ip_address != NULL) {
     
   } else {
     
   }
   ip_address_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ip_address);
-  // @@protoc_insertion_point(field_set_allocated:DataTypes.ConnectedUnit.ip_address)
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.ConnectMsg.ip_address)
 }
 
 // optional string mac_address = 2;
-inline void ConnectedUnit::clear_mac_address() {
+inline void ConnectMsg::clear_mac_address() {
   mac_address_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::std::string& ConnectedUnit::mac_address() const {
-  // @@protoc_insertion_point(field_get:DataTypes.ConnectedUnit.mac_address)
+inline const ::std::string& ConnectMsg::mac_address() const {
+  // @@protoc_insertion_point(field_get:DataTypes.ConnectMsg.mac_address)
   return mac_address_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void ConnectedUnit::set_mac_address(const ::std::string& value) {
+inline void ConnectMsg::set_mac_address(const ::std::string& value) {
   
   mac_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:DataTypes.ConnectedUnit.mac_address)
+  // @@protoc_insertion_point(field_set:DataTypes.ConnectMsg.mac_address)
 }
-inline void ConnectedUnit::set_mac_address(const char* value) {
+inline void ConnectMsg::set_mac_address(const char* value) {
   
   mac_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:DataTypes.ConnectedUnit.mac_address)
+  // @@protoc_insertion_point(field_set_char:DataTypes.ConnectMsg.mac_address)
 }
-inline void ConnectedUnit::set_mac_address(const char* value, size_t size) {
+inline void ConnectMsg::set_mac_address(const char* value, size_t size) {
   
   mac_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:DataTypes.ConnectedUnit.mac_address)
+  // @@protoc_insertion_point(field_set_pointer:DataTypes.ConnectMsg.mac_address)
 }
-inline ::std::string* ConnectedUnit::mutable_mac_address() {
+inline ::std::string* ConnectMsg::mutable_mac_address() {
   
-  // @@protoc_insertion_point(field_mutable:DataTypes.ConnectedUnit.mac_address)
+  // @@protoc_insertion_point(field_mutable:DataTypes.ConnectMsg.mac_address)
   return mac_address_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* ConnectedUnit::release_mac_address() {
-  // @@protoc_insertion_point(field_release:DataTypes.ConnectedUnit.mac_address)
+inline ::std::string* ConnectMsg::release_mac_address() {
+  // @@protoc_insertion_point(field_release:DataTypes.ConnectMsg.mac_address)
   
   return mac_address_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void ConnectedUnit::set_allocated_mac_address(::std::string* mac_address) {
+inline void ConnectMsg::set_allocated_mac_address(::std::string* mac_address) {
   if (mac_address != NULL) {
     
   } else {
     
   }
   mac_address_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), mac_address);
-  // @@protoc_insertion_point(field_set_allocated:DataTypes.ConnectedUnit.mac_address)
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.ConnectMsg.mac_address)
+}
+
+// optional .DataTypes.ServiceType service_type = 3;
+inline void ConnectMsg::clear_service_type() {
+  service_type_ = 0;
+}
+inline ::DataTypes::ServiceType ConnectMsg::service_type() const {
+  // @@protoc_insertion_point(field_get:DataTypes.ConnectMsg.service_type)
+  return static_cast< ::DataTypes::ServiceType >(service_type_);
+}
+inline void ConnectMsg::set_service_type(::DataTypes::ServiceType value) {
+  
+  service_type_ = value;
+  // @@protoc_insertion_point(field_set:DataTypes.ConnectMsg.service_type)
+}
+
+// -------------------------------------------------------------------
+
+// HeartbeatMessage
+
+// optional string service_id = 1;
+inline void HeartbeatMessage::clear_service_id() {
+  service_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& HeartbeatMessage::service_id() const {
+  // @@protoc_insertion_point(field_get:DataTypes.HeartbeatMessage.service_id)
+  return service_id_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void HeartbeatMessage::set_service_id(const ::std::string& value) {
+  
+  service_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:DataTypes.HeartbeatMessage.service_id)
+}
+inline void HeartbeatMessage::set_service_id(const char* value) {
+  
+  service_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:DataTypes.HeartbeatMessage.service_id)
+}
+inline void HeartbeatMessage::set_service_id(const char* value, size_t size) {
+  
+  service_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:DataTypes.HeartbeatMessage.service_id)
+}
+inline ::std::string* HeartbeatMessage::mutable_service_id() {
+  
+  // @@protoc_insertion_point(field_mutable:DataTypes.HeartbeatMessage.service_id)
+  return service_id_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* HeartbeatMessage::release_service_id() {
+  // @@protoc_insertion_point(field_release:DataTypes.HeartbeatMessage.service_id)
+  
+  return service_id_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void HeartbeatMessage::set_allocated_service_id(::std::string* service_id) {
+  if (service_id != NULL) {
+    
+  } else {
+    
+  }
+  service_id_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), service_id);
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.HeartbeatMessage.service_id)
+}
+
+// optional .DataTypes.ServiceType service_type = 2;
+inline void HeartbeatMessage::clear_service_type() {
+  service_type_ = 0;
+}
+inline ::DataTypes::ServiceType HeartbeatMessage::service_type() const {
+  // @@protoc_insertion_point(field_get:DataTypes.HeartbeatMessage.service_type)
+  return static_cast< ::DataTypes::ServiceType >(service_type_);
+}
+inline void HeartbeatMessage::set_service_type(::DataTypes::ServiceType value) {
+  
+  service_type_ = value;
+  // @@protoc_insertion_point(field_set:DataTypes.HeartbeatMessage.service_type)
 }
 
 // -------------------------------------------------------------------
@@ -1163,34 +1434,22 @@ UpdatedUnits::items() const {
 
 // Units
 
-// repeated .DataTypes.Unit items = 1;
+// map<string, .DataTypes.Unit> items = 1;
 inline int Units::items_size() const {
   return items_.size();
 }
 inline void Units::clear_items() {
   items_.Clear();
 }
-inline const ::DataTypes::Unit& Units::items(int index) const {
-  // @@protoc_insertion_point(field_get:DataTypes.Units.items)
-  return items_.Get(index);
-}
-inline ::DataTypes::Unit* Units::mutable_items(int index) {
-  // @@protoc_insertion_point(field_mutable:DataTypes.Units.items)
-  return items_.Mutable(index);
-}
-inline ::DataTypes::Unit* Units::add_items() {
-  // @@protoc_insertion_point(field_add:DataTypes.Units.items)
-  return items_.Add();
-}
-inline ::google::protobuf::RepeatedPtrField< ::DataTypes::Unit >*
-Units::mutable_items() {
-  // @@protoc_insertion_point(field_mutable_list:DataTypes.Units.items)
-  return &items_;
-}
-inline const ::google::protobuf::RepeatedPtrField< ::DataTypes::Unit >&
+inline const ::google::protobuf::Map< ::std::string, ::DataTypes::Unit >&
 Units::items() const {
-  // @@protoc_insertion_point(field_list:DataTypes.Units.items)
-  return items_;
+  // @@protoc_insertion_point(field_map:DataTypes.Units.items)
+  return items_.GetMap();
+}
+inline ::google::protobuf::Map< ::std::string, ::DataTypes::Unit >*
+Units::mutable_items() {
+  // @@protoc_insertion_point(field_mutable_map:DataTypes.Units.items)
+  return items_.MutableMap();
 }
 
 // -------------------------------------------------------------------
@@ -1318,6 +1577,8 @@ inline void UnitLocationState::set_state(::DataTypes::LocationState value) {
 
 // -------------------------------------------------------------------
 
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 
@@ -1331,6 +1592,11 @@ template <> struct is_proto_enum< ::DataTypes::UnitState> : ::google::protobuf::
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::DataTypes::UnitState>() {
   return ::DataTypes::UnitState_descriptor();
+}
+template <> struct is_proto_enum< ::DataTypes::ServiceType> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::DataTypes::ServiceType>() {
+  return ::DataTypes::ServiceType_descriptor();
 }
 
 }  // namespace protobuf

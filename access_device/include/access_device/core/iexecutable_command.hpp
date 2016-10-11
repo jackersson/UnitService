@@ -6,6 +6,10 @@
 #include <contracts/devices/access_device/icommand_result.hpp>
 #include <access_device/rs232/rs232_controller_types.hpp>
 
+namespace access_device{
+	class TimeoutSerial;
+}
+
 namespace access_device
 {
 	namespace core {
@@ -15,9 +19,10 @@ namespace access_device
 		public:
 
 			virtual ~IExecutableCommand() {}
-			virtual const ICommandResult& execute(boost::asio::serial_port& sp) = 0;
+			virtual contracts::devices::access_device::ICommandResultPtr 
+				execute(TimeoutSerial& sp) = 0;
 
-			virtual bool reset(boost::asio::serial_port& sp) = 0;
+			virtual bool reset(TimeoutSerial& sp) = 0;
 
 			virtual rs232::port_command id() const = 0;
 		};
@@ -41,6 +46,8 @@ namespace access_device
 		public:
 			virtual ~ICommandContext() {}
 		};
+
+		typedef std::shared_ptr<ICommandContext> ICommandContextPtr;
 	}
 }
 

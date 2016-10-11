@@ -38,7 +38,6 @@ void protobuf_AssignDesc_datatypes_2fcard_2eproto();
 void protobuf_ShutdownFile_datatypes_2fcard_2eproto();
 
 class Card;
-class Cards;
 
 // ===================================================================
 
@@ -131,97 +130,6 @@ class Card : public ::google::protobuf::Message {
   void InitAsDefaultInstance();
   static Card* default_instance_;
 };
-// -------------------------------------------------------------------
-
-class Cards : public ::google::protobuf::Message {
- public:
-  Cards();
-  virtual ~Cards();
-
-  Cards(const Cards& from);
-
-  inline Cards& operator=(const Cards& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const Cards& default_instance();
-
-  void Swap(Cards* other);
-
-  // implements Message ----------------------------------------------
-
-  inline Cards* New() const { return New(NULL); }
-
-  Cards* New(::google::protobuf::Arena* arena) const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const Cards& from);
-  void MergeFrom(const Cards& from);
-  void Clear();
-  bool IsInitialized() const;
-
-  int ByteSize() const;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input);
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
-  int GetCachedSize() const { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  void InternalSwap(Cards* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return _internal_metadata_.arena();
-  }
-  inline void* MaybeArenaPtr() const {
-    return _internal_metadata_.raw_arena_ptr();
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // repeated .DataTypes.Card items = 1;
-  int items_size() const;
-  void clear_items();
-  static const int kItemsFieldNumber = 1;
-  const ::DataTypes::Card& items(int index) const;
-  ::DataTypes::Card* mutable_items(int index);
-  ::DataTypes::Card* add_items();
-  ::google::protobuf::RepeatedPtrField< ::DataTypes::Card >*
-      mutable_items();
-  const ::google::protobuf::RepeatedPtrField< ::DataTypes::Card >&
-      items() const;
-
-  // optional int64 count = 2;
-  void clear_count();
-  static const int kCountFieldNumber = 2;
-  ::google::protobuf::int64 count() const;
-  void set_count(::google::protobuf::int64 value);
-
-  // @@protoc_insertion_point(class_scope:DataTypes.Cards)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  bool _is_default_instance_;
-  ::google::protobuf::RepeatedPtrField< ::DataTypes::Card > items_;
-  ::google::protobuf::int64 count_;
-  mutable int _cached_size_;
-  friend void  protobuf_AddDesc_datatypes_2fcard_2eproto();
-  friend void protobuf_AssignDesc_datatypes_2fcard_2eproto();
-  friend void protobuf_ShutdownFile_datatypes_2fcard_2eproto();
-
-  void InitAsDefaultInstance();
-  static Cards* default_instance_;
-};
 // ===================================================================
 
 
@@ -306,57 +214,7 @@ inline void Card::set_allocated_owner_id(::DataTypes::Key* owner_id) {
   // @@protoc_insertion_point(field_set_allocated:DataTypes.Card.owner_id)
 }
 
-// -------------------------------------------------------------------
-
-// Cards
-
-// repeated .DataTypes.Card items = 1;
-inline int Cards::items_size() const {
-  return items_.size();
-}
-inline void Cards::clear_items() {
-  items_.Clear();
-}
-inline const ::DataTypes::Card& Cards::items(int index) const {
-  // @@protoc_insertion_point(field_get:DataTypes.Cards.items)
-  return items_.Get(index);
-}
-inline ::DataTypes::Card* Cards::mutable_items(int index) {
-  // @@protoc_insertion_point(field_mutable:DataTypes.Cards.items)
-  return items_.Mutable(index);
-}
-inline ::DataTypes::Card* Cards::add_items() {
-  // @@protoc_insertion_point(field_add:DataTypes.Cards.items)
-  return items_.Add();
-}
-inline ::google::protobuf::RepeatedPtrField< ::DataTypes::Card >*
-Cards::mutable_items() {
-  // @@protoc_insertion_point(field_mutable_list:DataTypes.Cards.items)
-  return &items_;
-}
-inline const ::google::protobuf::RepeatedPtrField< ::DataTypes::Card >&
-Cards::items() const {
-  // @@protoc_insertion_point(field_list:DataTypes.Cards.items)
-  return items_;
-}
-
-// optional int64 count = 2;
-inline void Cards::clear_count() {
-  count_ = GOOGLE_LONGLONG(0);
-}
-inline ::google::protobuf::int64 Cards::count() const {
-  // @@protoc_insertion_point(field_get:DataTypes.Cards.count)
-  return count_;
-}
-inline void Cards::set_count(::google::protobuf::int64 value) {
-  
-  count_ = value;
-  // @@protoc_insertion_point(field_set:DataTypes.Cards.count)
-}
-
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
-// -------------------------------------------------------------------
-
 
 // @@protoc_insertion_point(namespace_scope)
 

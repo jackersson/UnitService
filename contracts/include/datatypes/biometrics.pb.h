@@ -44,6 +44,29 @@ class Faces;
 class Match;
 class Matches;
 
+enum BioActionType {
+  NoneActionType = 0,
+  Enroll = 1,
+  Identify = 2,
+  Verify = 3,
+  BioActionType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  BioActionType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool BioActionType_IsValid(int value);
+const BioActionType BioActionType_MIN = NoneActionType;
+const BioActionType BioActionType_MAX = Verify;
+const int BioActionType_ARRAYSIZE = BioActionType_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* BioActionType_descriptor();
+inline const ::std::string& BioActionType_Name(BioActionType value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    BioActionType_descriptor(), value);
+}
+inline bool BioActionType_Parse(
+    const ::std::string& name, BioActionType* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<BioActionType>(
+    BioActionType_descriptor(), name, value);
+}
 enum BiometricType {
   UnspecifiedBio = 0,
   Facial = 1,
@@ -331,17 +354,23 @@ class FaceCharacteristic : public ::google::protobuf::Message {
   float confidence() const;
   void set_confidence(float value);
 
-  // optional int64 person_id = 4;
+  // optional .DataTypes.Key person_id = 4;
+  bool has_person_id() const;
   void clear_person_id();
   static const int kPersonIdFieldNumber = 4;
-  ::google::protobuf::int64 person_id() const;
-  void set_person_id(::google::protobuf::int64 value);
+  const ::DataTypes::Key& person_id() const;
+  ::DataTypes::Key* mutable_person_id();
+  ::DataTypes::Key* release_person_id();
+  void set_allocated_person_id(::DataTypes::Key* person_id);
 
-  // optional int64 photo_id = 5;
+  // optional .DataTypes.Key photo_id = 5;
+  bool has_photo_id() const;
   void clear_photo_id();
   static const int kPhotoIdFieldNumber = 5;
-  ::google::protobuf::int64 photo_id() const;
-  void set_photo_id(::google::protobuf::int64 value);
+  const ::DataTypes::Key& photo_id() const;
+  ::DataTypes::Key* mutable_photo_id();
+  ::DataTypes::Key* release_photo_id();
+  void set_allocated_photo_id(::DataTypes::Key* photo_id);
 
   // @@protoc_insertion_point(class_scope:DataTypes.FaceCharacteristic)
  private:
@@ -350,8 +379,8 @@ class FaceCharacteristic : public ::google::protobuf::Message {
   bool _is_default_instance_;
   ::DataTypes::Key* id_;
   ::DataTypes::Box* box_;
-  ::google::protobuf::int64 person_id_;
-  ::google::protobuf::int64 photo_id_;
+  ::DataTypes::Key* person_id_;
+  ::DataTypes::Key* photo_id_;
   float confidence_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_datatypes_2fbiometrics_2eproto();
@@ -675,32 +704,80 @@ inline void FaceCharacteristic::set_confidence(float value) {
   // @@protoc_insertion_point(field_set:DataTypes.FaceCharacteristic.confidence)
 }
 
-// optional int64 person_id = 4;
-inline void FaceCharacteristic::clear_person_id() {
-  person_id_ = GOOGLE_LONGLONG(0);
+// optional .DataTypes.Key person_id = 4;
+inline bool FaceCharacteristic::has_person_id() const {
+  return !_is_default_instance_ && person_id_ != NULL;
 }
-inline ::google::protobuf::int64 FaceCharacteristic::person_id() const {
+inline void FaceCharacteristic::clear_person_id() {
+  if (GetArenaNoVirtual() == NULL && person_id_ != NULL) delete person_id_;
+  person_id_ = NULL;
+}
+inline const ::DataTypes::Key& FaceCharacteristic::person_id() const {
   // @@protoc_insertion_point(field_get:DataTypes.FaceCharacteristic.person_id)
+  return person_id_ != NULL ? *person_id_ : *default_instance_->person_id_;
+}
+inline ::DataTypes::Key* FaceCharacteristic::mutable_person_id() {
+  
+  if (person_id_ == NULL) {
+    person_id_ = new ::DataTypes::Key;
+  }
+  // @@protoc_insertion_point(field_mutable:DataTypes.FaceCharacteristic.person_id)
   return person_id_;
 }
-inline void FaceCharacteristic::set_person_id(::google::protobuf::int64 value) {
+inline ::DataTypes::Key* FaceCharacteristic::release_person_id() {
+  // @@protoc_insertion_point(field_release:DataTypes.FaceCharacteristic.person_id)
   
-  person_id_ = value;
-  // @@protoc_insertion_point(field_set:DataTypes.FaceCharacteristic.person_id)
+  ::DataTypes::Key* temp = person_id_;
+  person_id_ = NULL;
+  return temp;
+}
+inline void FaceCharacteristic::set_allocated_person_id(::DataTypes::Key* person_id) {
+  delete person_id_;
+  person_id_ = person_id;
+  if (person_id) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.FaceCharacteristic.person_id)
 }
 
-// optional int64 photo_id = 5;
-inline void FaceCharacteristic::clear_photo_id() {
-  photo_id_ = GOOGLE_LONGLONG(0);
+// optional .DataTypes.Key photo_id = 5;
+inline bool FaceCharacteristic::has_photo_id() const {
+  return !_is_default_instance_ && photo_id_ != NULL;
 }
-inline ::google::protobuf::int64 FaceCharacteristic::photo_id() const {
+inline void FaceCharacteristic::clear_photo_id() {
+  if (GetArenaNoVirtual() == NULL && photo_id_ != NULL) delete photo_id_;
+  photo_id_ = NULL;
+}
+inline const ::DataTypes::Key& FaceCharacteristic::photo_id() const {
   // @@protoc_insertion_point(field_get:DataTypes.FaceCharacteristic.photo_id)
+  return photo_id_ != NULL ? *photo_id_ : *default_instance_->photo_id_;
+}
+inline ::DataTypes::Key* FaceCharacteristic::mutable_photo_id() {
+  
+  if (photo_id_ == NULL) {
+    photo_id_ = new ::DataTypes::Key;
+  }
+  // @@protoc_insertion_point(field_mutable:DataTypes.FaceCharacteristic.photo_id)
   return photo_id_;
 }
-inline void FaceCharacteristic::set_photo_id(::google::protobuf::int64 value) {
+inline ::DataTypes::Key* FaceCharacteristic::release_photo_id() {
+  // @@protoc_insertion_point(field_release:DataTypes.FaceCharacteristic.photo_id)
   
-  photo_id_ = value;
-  // @@protoc_insertion_point(field_set:DataTypes.FaceCharacteristic.photo_id)
+  ::DataTypes::Key* temp = photo_id_;
+  photo_id_ = NULL;
+  return temp;
+}
+inline void FaceCharacteristic::set_allocated_photo_id(::DataTypes::Key* photo_id) {
+  delete photo_id_;
+  photo_id_ = photo_id;
+  if (photo_id) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.FaceCharacteristic.photo_id)
 }
 
 // -------------------------------------------------------------------
@@ -847,6 +924,11 @@ Matches::matches() const {
 namespace google {
 namespace protobuf {
 
+template <> struct is_proto_enum< ::DataTypes::BioActionType> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::DataTypes::BioActionType>() {
+  return ::DataTypes::BioActionType_descriptor();
+}
 template <> struct is_proto_enum< ::DataTypes::BiometricType> : ::google::protobuf::internal::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::DataTypes::BiometricType>() {

@@ -44,16 +44,11 @@ class UnitService GRPC_FINAL {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>> AsyncUpdateLocation(::grpc::ClientContext* context, const ::DataTypes::Location& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>>(AsyncUpdateLocationRaw(context, request, cq));
     }
-    virtual ::grpc::Status GetDevices(::grpc::ClientContext* context, const ::DataTypes::GetDevicesRequest& request, ::DataTypes::DevicesResponse* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::DataTypes::DevicesResponse>> AsyncGetDevices(::grpc::ClientContext* context, const ::DataTypes::GetDevicesRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::DataTypes::DevicesResponse>>(AsyncGetDevicesRaw(context, request, cq));
-    }
   private:
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>* AsyncOpenDoorRaw(::grpc::ClientContext* context, const ::DataTypes::Location& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientReaderInterface< ::Services::FrameBytes>* GetVideoStreamRaw(::grpc::ClientContext* context, const ::DataTypes::Location& request) = 0;
     virtual ::grpc::ClientAsyncReaderInterface< ::Services::FrameBytes>* AsyncGetVideoStreamRaw(::grpc::ClientContext* context, const ::DataTypes::Location& request, ::grpc::CompletionQueue* cq, void* tag) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>* AsyncUpdateLocationRaw(::grpc::ClientContext* context, const ::DataTypes::Location& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::DataTypes::DevicesResponse>* AsyncGetDevicesRaw(::grpc::ClientContext* context, const ::DataTypes::GetDevicesRequest& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub GRPC_FINAL : public StubInterface {
    public:
@@ -72,10 +67,6 @@ class UnitService GRPC_FINAL {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>> AsyncUpdateLocation(::grpc::ClientContext* context, const ::DataTypes::Location& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>>(AsyncUpdateLocationRaw(context, request, cq));
     }
-    ::grpc::Status GetDevices(::grpc::ClientContext* context, const ::DataTypes::GetDevicesRequest& request, ::DataTypes::DevicesResponse* response) GRPC_OVERRIDE;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::DataTypes::DevicesResponse>> AsyncGetDevices(::grpc::ClientContext* context, const ::DataTypes::GetDevicesRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::DataTypes::DevicesResponse>>(AsyncGetDevicesRaw(context, request, cq));
-    }
 
    private:
     std::shared_ptr< ::grpc::ChannelInterface> channel_;
@@ -83,11 +74,9 @@ class UnitService GRPC_FINAL {
     ::grpc::ClientReader< ::Services::FrameBytes>* GetVideoStreamRaw(::grpc::ClientContext* context, const ::DataTypes::Location& request) GRPC_OVERRIDE;
     ::grpc::ClientAsyncReader< ::Services::FrameBytes>* AsyncGetVideoStreamRaw(::grpc::ClientContext* context, const ::DataTypes::Location& request, ::grpc::CompletionQueue* cq, void* tag) GRPC_OVERRIDE;
     ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* AsyncUpdateLocationRaw(::grpc::ClientContext* context, const ::DataTypes::Location& request, ::grpc::CompletionQueue* cq) GRPC_OVERRIDE;
-    ::grpc::ClientAsyncResponseReader< ::DataTypes::DevicesResponse>* AsyncGetDevicesRaw(::grpc::ClientContext* context, const ::DataTypes::GetDevicesRequest& request, ::grpc::CompletionQueue* cq) GRPC_OVERRIDE;
     const ::grpc::RpcMethod rpcmethod_OpenDoor_;
     const ::grpc::RpcMethod rpcmethod_GetVideoStream_;
     const ::grpc::RpcMethod rpcmethod_UpdateLocation_;
-    const ::grpc::RpcMethod rpcmethod_GetDevices_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -98,7 +87,6 @@ class UnitService GRPC_FINAL {
     virtual ::grpc::Status OpenDoor(::grpc::ServerContext* context, const ::DataTypes::Location* request, ::google::protobuf::Empty* response);
     virtual ::grpc::Status GetVideoStream(::grpc::ServerContext* context, const ::DataTypes::Location* request, ::grpc::ServerWriter< ::Services::FrameBytes>* writer);
     virtual ::grpc::Status UpdateLocation(::grpc::ServerContext* context, const ::DataTypes::Location* request, ::google::protobuf::Empty* response);
-    virtual ::grpc::Status GetDevices(::grpc::ServerContext* context, const ::DataTypes::GetDevicesRequest* request, ::DataTypes::DevicesResponse* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_OpenDoor : public BaseClass {
@@ -160,27 +148,7 @@ class UnitService GRPC_FINAL {
       ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  template <class BaseClass>
-  class WithAsyncMethod_GetDevices : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
-   public:
-    WithAsyncMethod_GetDevices() {
-      ::grpc::Service::MarkMethodAsync(3);
-    }
-    ~WithAsyncMethod_GetDevices() GRPC_OVERRIDE {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status GetDevices(::grpc::ServerContext* context, const ::DataTypes::GetDevicesRequest* request, ::DataTypes::DevicesResponse* response) GRPC_FINAL GRPC_OVERRIDE {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-    void RequestGetDevices(::grpc::ServerContext* context, ::DataTypes::GetDevicesRequest* request, ::grpc::ServerAsyncResponseWriter< ::DataTypes::DevicesResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
-    }
-  };
-  typedef WithAsyncMethod_OpenDoor<WithAsyncMethod_GetVideoStream<WithAsyncMethod_UpdateLocation<WithAsyncMethod_GetDevices<Service > > > > AsyncService;
+  typedef WithAsyncMethod_OpenDoor<WithAsyncMethod_GetVideoStream<WithAsyncMethod_UpdateLocation<Service > > > AsyncService;
   template <class BaseClass>
   class WithGenericMethod_OpenDoor : public BaseClass {
    private:
@@ -228,23 +196,6 @@ class UnitService GRPC_FINAL {
     }
     // disable synchronous version of this method
     ::grpc::Status UpdateLocation(::grpc::ServerContext* context, const ::DataTypes::Location* request, ::google::protobuf::Empty* response) GRPC_FINAL GRPC_OVERRIDE {
-      abort();
-      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
-    }
-  };
-  template <class BaseClass>
-  class WithGenericMethod_GetDevices : public BaseClass {
-   private:
-    void BaseClassMustBeDerivedFromService(const Service *service) {}
-   public:
-    WithGenericMethod_GetDevices() {
-      ::grpc::Service::MarkMethodGeneric(3);
-    }
-    ~WithGenericMethod_GetDevices() GRPC_OVERRIDE {
-      BaseClassMustBeDerivedFromService(this);
-    }
-    // disable synchronous version of this method
-    ::grpc::Status GetDevices(::grpc::ServerContext* context, const ::DataTypes::GetDevicesRequest* request, ::DataTypes::DevicesResponse* response) GRPC_FINAL GRPC_OVERRIDE {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }

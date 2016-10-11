@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="include\concurrent_containers.hpp" />
     <ClInclude Include="include\containers_utils.hpp" />
+    <ClInclude Include="include\flags.hpp" />
     <ClInclude Include="include\threadable.hpp" />
   </ItemGroup>
   <ItemGroup>

@@ -3,8 +3,6 @@
 
 #include <vector>
 #include <contracts/devices/access_device/access_device_types.hpp>
-#include <contracts/devices/access_device/icommand_result.hpp>
-#include "command.hpp"
 #include "command_result.hpp"
 
 namespace access_device
@@ -15,14 +13,14 @@ namespace access_device
 			typedef contracts::devices::access_device::access_device_module dev_module;
 
 		public:
-			PortCommandResult(rs232::port_command command	)
-				: module_(to_device_module(command))
+			explicit PortCommandResult(rs232::port_command command	)
+				: result_(std::make_shared<CommandResult>())
 			{
-				result_.set_module(module_);
+				result_->set_module(to_device_module(command));
 			}
 
-			//to utils
-			dev_module to_device_module(rs232::port_command command)
+			//TODO to utils
+			static dev_module to_device_module(rs232::port_command command)
 			{
 				switch (command)
 				{
@@ -39,58 +37,46 @@ namespace access_device
 
 			virtual ~PortCommandResult() {}
 
-			CommandResult not_valid()
+			std::shared_ptr<CommandResult> not_valid() const
 			{
 				clear();
 				std::exception ex("Command check sum not valid");
-				result_.set_exception(ex);
+				result_->set_exception(ex);
 				return result_;
 			}
 
-			CommandResult exception(const std::exception& excetpion)
+			std::shared_ptr<CommandResult> exception(const std::exception& excetpion) const
 			{
 				clear();
-				result_.set_exception(excetpion);
+				result_->set_exception(excetpion);
 				return result_;
 			}
 
-			CommandResult data(const std::vector<unsigned char>& data)
+			std::shared_ptr<CommandResult> data(const std::vector<unsigned char>& data) const
 			{
 				clear();
-				result_.set_data(data);
+				result_->set_data(data);
 				return result_;
 			}			
 
-			CommandResult empty() 
+			std::shared_ptr<CommandResult> empty() const
 			{
 				clear();
 				return result_;
 			}
-
-			static CommandResult not_valid(dev_module dev)
+						
+			static std::shared_ptr<CommandResult> not_valid(dev_module dev)
 			{
 				std::exception ex("Command check sum not valid");
-				return CommandResult(ex, dev, false, false);
+				return std::make_shared<CommandResult>(dev, ex, false, false);
 			}
 
-			static CommandResult not_valid(dev_module dev)
-			{
-				std::exception ex("Command check sum not valid");
-				return CommandResult(ex, dev, false, false);
-			}
-
-			void clear(){
-				result_.clear();
+			void clear() const {
+				result_->clear();
 			}
 
 		private:
-			std::exception       exception_;
-			dev_module module_;
-
-			bool ok_;
-			bool empty_;
-
-			CommandResult result_;
+			std::shared_ptr<CommandResult> result_;
 		};
 	}
 }

@@ -12,7 +12,7 @@ namespace contracts
 		public:
 			virtual ~IService() {}
 
-			virtual void Init() = 0;
+			virtual void init() = 0;
 		};
 	}
 }

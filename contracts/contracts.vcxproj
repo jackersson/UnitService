@@ -153,18 +153,30 @@
   <ItemGroup>
     <ClInclude Include="include\contracts\common\iequatable.hpp" />
     <ClInclude Include="include\contracts\common\ilifecycle.hpp" />
+    <ClInclude Include="include\contracts\common\raw_image.hpp" />
+    <ClInclude Include="include\contracts\data\ientity_finder.hpp" />
+    <ClInclude Include="include\contracts\data\irepository.hpp" />
     <ClInclude Include="include\contracts\devices\access_device\access_device_types.hpp" />
+    <ClInclude Include="include\contracts\devices\access_device\iaccess_coordinator.hpp" />
+    <ClInclude Include="include\contracts\devices\access_device\iaccess_device_engine.hpp" />
     <ClInclude Include="include\contracts\devices\access_device\icommand_result.hpp" />
     <ClInclude Include="include\contracts\devices\device_exception.hpp" />
     <ClInclude Include="include\contracts\devices\device_observer.hpp" />
+    <ClInclude Include="include\contracts\devices\idevices_container.hpp" />
     <ClInclude Include="include\contracts\devices\idevice_engine.hpp" />
     <ClInclude Include="include\contracts\devices\idevice_enumerator.hpp" />
+    <ClInclude Include="include\contracts\devices\idevice_info.hpp" />
+    <ClInclude Include="include\contracts\devices\video_device\istream_data.hpp" />
+    <ClInclude Include="include\contracts\devices\video_device\ivideo_engine.hpp" />
+    <ClInclude Include="include\contracts\iunit_context.hpp" />
     <ClInclude Include="include\contracts\locations\ilocation.hpp" />
     <ClInclude Include="include\contracts\locations\itrack_location_coordinator.hpp" />
     <ClInclude Include="include\contracts\observers\iobservable.hpp" />
     <ClInclude Include="include\contracts\observers\observable..hpp" />
+    <ClInclude Include="include\contracts\services\idatabase_api.hpp" />
     <ClInclude Include="include\contracts\services\iserver_manager.hpp" />
     <ClInclude Include="include\contracts\services\iservice.hpp" />
+    <ClInclude Include="include\contracts\services\iservices.hpp" />
     <ClInclude Include="include\contracts\services\service_address.hpp" />
     <ClInclude Include="include\contracts\video\iplayer.hpp" />
     <ClInclude Include="include\datatypes\biometrics.pb.h" />
@@ -172,6 +184,7 @@
     <ClInclude Include="include\datatypes\data.pb.h" />
     <ClInclude Include="include\datatypes\devices.pb.h" />
     <ClInclude Include="include\datatypes\geometry.pb.h" />
+    <ClInclude Include="include\datatypes\group.pb.h" />
     <ClInclude Include="include\datatypes\location.pb.h" />
     <ClInclude Include="include\datatypes\person.pb.h" />
     <ClInclude Include="include\datatypes\photo.pb.h" />
@@ -180,6 +193,10 @@
     <ClInclude Include="include\datatypes\visit_record.pb.h" />
     <ClInclude Include="include\services\coordinator_service.grpc.pb.h" />
     <ClInclude Include="include\services\coordinator_service.pb.h" />
+    <ClInclude Include="include\services\database_service.grpc.pb.h" />
+    <ClInclude Include="include\services\database_service.pb.h" />
+    <ClInclude Include="include\services\facial_service.grpc.pb.h" />
+    <ClInclude Include="include\services\facial_service.pb.h" />
     <ClInclude Include="include\services\unit_service.grpc.pb.h" />
     <ClInclude Include="include\services\unit_service.pb.h" />
   </ItemGroup>
@@ -190,6 +207,7 @@
     <ClCompile Include="src\datatypes\data.pb.cc" />
     <ClCompile Include="src\datatypes\devices.pb.cc" />
     <ClCompile Include="src\datatypes\geometry.pb.cc" />
+    <ClCompile Include="src\datatypes\group.pb.cc" />
     <ClCompile Include="src\datatypes\location.pb.cc" />
     <ClCompile Include="src\datatypes\person.pb.cc" />
     <ClCompile Include="src\datatypes\photo.pb.cc" />
@@ -198,6 +216,10 @@
     <ClCompile Include="src\datatypes\visit_record.pb.cc" />
     <ClCompile Include="src\services\coordinator_service.grpc.pb.cc" />
     <ClCompile Include="src\services\coordinator_service.pb.cc" />
+    <ClCompile Include="src\services\database_service.grpc.pb.cc" />
+    <ClCompile Include="src\services\database_service.pb.cc" />
+    <ClCompile Include="src\services\facial_service.grpc.pb.cc" />
+    <ClCompile Include="src\services\facial_service.pb.cc" />
     <ClCompile Include="src\services\unit_service.grpc.pb.cc" />
     <ClCompile Include="src\services\unit_service.pb.cc" />
   </ItemGroup>

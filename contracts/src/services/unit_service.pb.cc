@@ -35,10 +35,8 @@ void protobuf_AssignDesc_services_2funit_5fservice_2eproto() {
       "services/unit_service.proto");
   GOOGLE_CHECK(file != NULL);
   FrameBytes_descriptor_ = file->message_type(0);
-  static const int FrameBytes_offsets_[3] = {
+  static const int FrameBytes_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(FrameBytes, framedata_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(FrameBytes, faces_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(FrameBytes, matches_),
   };
   FrameBytes_reflection_ =
     ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
@@ -82,25 +80,18 @@ void protobuf_AddDesc_services_2funit_5fservice_2eproto() {
 
   ::google::protobuf::protobuf_AddDesc_google_2fprotobuf_2fempty_2eproto();
   ::DataTypes::protobuf_AddDesc_datatypes_2flocation_2eproto();
-  ::DataTypes::protobuf_AddDesc_datatypes_2fbiometrics_2eproto();
-  ::DataTypes::protobuf_AddDesc_datatypes_2fdevices_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\033services/unit_service.proto\022\010Services\032"
     "\033google/protobuf/empty.proto\032\030datatypes/"
-    "location.proto\032\032datatypes/biometrics.pro"
-    "to\032\027datatypes/devices.proto\"e\n\nFrameByte"
-    "s\022\021\n\tframeData\030\001 \001(\014\022\037\n\005faces\030\002 \001(\0132\020.Da"
-    "taTypes.Faces\022#\n\007matches\030\003 \001(\0132\022.DataTyp"
-    "es.Matches2\224\002\n\013UnitService\0229\n\010OpenDoor\022\023"
-    ".DataTypes.Location\032\026.google.protobuf.Em"
-    "pty\"\000\022\?\n\016GetVideoStream\022\023.DataTypes.Loca"
-    "tion\032\024.Services.FrameBytes\"\0000\001\022\?\n\016Update"
-    "Location\022\023.DataTypes.Location\032\026.google.p"
-    "rotobuf.Empty\"\000\022H\n\nGetDevices\022\034.DataType"
-    "s.GetDevicesRequest\032\032.DataTypes.DevicesR"
-    "esponse\"\000BO\n\007ex.grpcZ>github.com/Enebra/"
-    "ServiceCoordinator/grpc/services/unitser"
-    "vice\242\002\003RTGb\006proto3", 618);
+    "location.proto\"\037\n\nFrameBytes\022\021\n\tframeDat"
+    "a\030\001 \001(\0142\312\001\n\013UnitService\0229\n\010OpenDoor\022\023.Da"
+    "taTypes.Location\032\026.google.protobuf.Empty"
+    "\"\000\022\?\n\016GetVideoStream\022\023.DataTypes.Locatio"
+    "n\032\024.Services.FrameBytes\"\0000\001\022\?\n\016UpdateLoc"
+    "ation\022\023.DataTypes.Location\032\026.google.prot"
+    "obuf.Empty\"\000BO\n\007ex.grpcZ>github.com/Eneb"
+    "ra/ServiceCoordinator/grpc/services/unit"
+    "service\242\002\003RTGb\006proto3", 421);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "services/unit_service.proto", &protobuf_RegisterTypes);
   FrameBytes::default_instance_ = new FrameBytes();
@@ -129,8 +120,6 @@ static void MergeFromFail(int line) {
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int FrameBytes::kFrameDataFieldNumber;
-const int FrameBytes::kFacesFieldNumber;
-const int FrameBytes::kMatchesFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 FrameBytes::FrameBytes()
@@ -141,8 +130,6 @@ FrameBytes::FrameBytes()
 
 void FrameBytes::InitAsDefaultInstance() {
   _is_default_instance_ = true;
-  faces_ = const_cast< ::DataTypes::Faces*>(&::DataTypes::Faces::default_instance());
-  matches_ = const_cast< ::DataTypes::Matches*>(&::DataTypes::Matches::default_instance());
 }
 
 FrameBytes::FrameBytes(const FrameBytes& from)
@@ -158,8 +145,6 @@ void FrameBytes::SharedCtor() {
   ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
   framedata_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  faces_ = NULL;
-  matches_ = NULL;
 }
 
 FrameBytes::~FrameBytes() {
@@ -170,8 +155,6 @@ FrameBytes::~FrameBytes() {
 void FrameBytes::SharedDtor() {
   framedata_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (this != default_instance_) {
-    delete faces_;
-    delete matches_;
   }
 }
 
@@ -203,10 +186,6 @@ FrameBytes* FrameBytes::New(::google::protobuf::Arena* arena) const {
 void FrameBytes::Clear() {
 // @@protoc_insertion_point(message_clear_start:Services.FrameBytes)
   framedata_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (GetArenaNoVirtual() == NULL && faces_ != NULL) delete faces_;
-  faces_ = NULL;
-  if (GetArenaNoVirtual() == NULL && matches_ != NULL) delete matches_;
-  matches_ = NULL;
 }
 
 bool FrameBytes::MergePartialFromCodedStream(
@@ -224,32 +203,6 @@ bool FrameBytes::MergePartialFromCodedStream(
         if (tag == 10) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
                 input, this->mutable_framedata()));
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(18)) goto parse_faces;
-        break;
-      }
-
-      // optional .DataTypes.Faces faces = 2;
-      case 2: {
-        if (tag == 18) {
-         parse_faces:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_faces()));
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(26)) goto parse_matches;
-        break;
-      }
-
-      // optional .DataTypes.Matches matches = 3;
-      case 3: {
-        if (tag == 26) {
-         parse_matches:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_matches()));
         } else {
           goto handle_unusual;
         }
@@ -287,18 +240,6 @@ void FrameBytes::SerializeWithCachedSizes(
       1, this->framedata(), output);
   }
 
-  // optional .DataTypes.Faces faces = 2;
-  if (this->has_faces()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2, *this->faces_, output);
-  }
-
-  // optional .DataTypes.Matches matches = 3;
-  if (this->has_matches()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      3, *this->matches_, output);
-  }
-
   // @@protoc_insertion_point(serialize_end:Services.FrameBytes)
 }
 
@@ -310,20 +251,6 @@ void FrameBytes::SerializeWithCachedSizes(
     target =
       ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
         1, this->framedata(), target);
-  }
-
-  // optional .DataTypes.Faces faces = 2;
-  if (this->has_faces()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        2, *this->faces_, target);
-  }
-
-  // optional .DataTypes.Matches matches = 3;
-  if (this->has_matches()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        3, *this->matches_, target);
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:Services.FrameBytes)
@@ -339,20 +266,6 @@ int FrameBytes::ByteSize() const {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::BytesSize(
         this->framedata());
-  }
-
-  // optional .DataTypes.Faces faces = 2;
-  if (this->has_faces()) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-        *this->faces_);
-  }
-
-  // optional .DataTypes.Matches matches = 3;
-  if (this->has_matches()) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-        *this->matches_);
   }
 
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
@@ -383,12 +296,6 @@ void FrameBytes::MergeFrom(const FrameBytes& from) {
 
     framedata_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.framedata_);
   }
-  if (from.has_faces()) {
-    mutable_faces()->::DataTypes::Faces::MergeFrom(from.faces());
-  }
-  if (from.has_matches()) {
-    mutable_matches()->::DataTypes::Matches::MergeFrom(from.matches());
-  }
 }
 
 void FrameBytes::CopyFrom(const ::google::protobuf::Message& from) {
@@ -416,8 +323,6 @@ void FrameBytes::Swap(FrameBytes* other) {
 }
 void FrameBytes::InternalSwap(FrameBytes* other) {
   framedata_.Swap(&other->framedata_);
-  std::swap(faces_, other->faces_);
-  std::swap(matches_, other->matches_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
 }
@@ -475,82 +380,6 @@ void FrameBytes::clear_framedata() {
   }
   framedata_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), framedata);
   // @@protoc_insertion_point(field_set_allocated:Services.FrameBytes.frameData)
-}
-
-// optional .DataTypes.Faces faces = 2;
-bool FrameBytes::has_faces() const {
-  return !_is_default_instance_ && faces_ != NULL;
-}
-void FrameBytes::clear_faces() {
-  if (GetArenaNoVirtual() == NULL && faces_ != NULL) delete faces_;
-  faces_ = NULL;
-}
-const ::DataTypes::Faces& FrameBytes::faces() const {
-  // @@protoc_insertion_point(field_get:Services.FrameBytes.faces)
-  return faces_ != NULL ? *faces_ : *default_instance_->faces_;
-}
-::DataTypes::Faces* FrameBytes::mutable_faces() {
-  
-  if (faces_ == NULL) {
-    faces_ = new ::DataTypes::Faces;
-  }
-  // @@protoc_insertion_point(field_mutable:Services.FrameBytes.faces)
-  return faces_;
-}
-::DataTypes::Faces* FrameBytes::release_faces() {
-  // @@protoc_insertion_point(field_release:Services.FrameBytes.faces)
-  
-  ::DataTypes::Faces* temp = faces_;
-  faces_ = NULL;
-  return temp;
-}
-void FrameBytes::set_allocated_faces(::DataTypes::Faces* faces) {
-  delete faces_;
-  faces_ = faces;
-  if (faces) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_set_allocated:Services.FrameBytes.faces)
-}
-
-// optional .DataTypes.Matches matches = 3;
-bool FrameBytes::has_matches() const {
-  return !_is_default_instance_ && matches_ != NULL;
-}
-void FrameBytes::clear_matches() {
-  if (GetArenaNoVirtual() == NULL && matches_ != NULL) delete matches_;
-  matches_ = NULL;
-}
-const ::DataTypes::Matches& FrameBytes::matches() const {
-  // @@protoc_insertion_point(field_get:Services.FrameBytes.matches)
-  return matches_ != NULL ? *matches_ : *default_instance_->matches_;
-}
-::DataTypes::Matches* FrameBytes::mutable_matches() {
-  
-  if (matches_ == NULL) {
-    matches_ = new ::DataTypes::Matches;
-  }
-  // @@protoc_insertion_point(field_mutable:Services.FrameBytes.matches)
-  return matches_;
-}
-::DataTypes::Matches* FrameBytes::release_matches() {
-  // @@protoc_insertion_point(field_release:Services.FrameBytes.matches)
-  
-  ::DataTypes::Matches* temp = matches_;
-  matches_ = NULL;
-  return temp;
-}
-void FrameBytes::set_allocated_matches(::DataTypes::Matches* matches) {
-  delete matches_;
-  matches_ = matches;
-  if (matches) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_set_allocated:Services.FrameBytes.matches)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

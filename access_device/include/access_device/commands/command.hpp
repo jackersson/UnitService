@@ -58,6 +58,7 @@ namespace access_device
 		//if 0 then 255 in data
 		class InvertedCommand : public Command
 		{
+			public:
 			explicit InvertedCommand(const std::vector<unsigned char>& bytes)
 				: Command(bytes)
 			{

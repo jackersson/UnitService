@@ -49,6 +49,12 @@
     <Filter Include="Header Files\contracts\devices\access_device">
       <UniqueIdentifier>{4f1a76a6-2cbd-4a51-aa6b-8c17a0f3498d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\contracts\data">
+      <UniqueIdentifier>{92143980-8965-4925-a1a8-6e23cc86870a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\contracts\devices\video_device">
+      <UniqueIdentifier>{70abd700-cc39-4aa7-a001-8aaba562e203}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\main.cpp">
@@ -98,6 +104,21 @@
     </ClCompile>
     <ClCompile Include="src\services\unit_service.pb.cc">
       <Filter>Source Files\services</Filter>
+    </ClCompile>
+    <ClCompile Include="src\services\database_service.grpc.pb.cc">
+      <Filter>Source Files\services</Filter>
+    </ClCompile>
+    <ClCompile Include="src\services\database_service.pb.cc">
+      <Filter>Source Files\services</Filter>
+    </ClCompile>
+    <ClCompile Include="src\services\facial_service.grpc.pb.cc">
+      <Filter>Source Files\services</Filter>
+    </ClCompile>
+    <ClCompile Include="src\services\facial_service.pb.cc">
+      <Filter>Source Files\services</Filter>
+    </ClCompile>
+    <ClCompile Include="src\datatypes\group.pb.cc">
+      <Filter>Source Files\datatypes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +214,57 @@
     </ClInclude>
     <ClInclude Include="include\contracts\devices\idevice_enumerator.hpp">
       <Filter>Header Files\contracts\devices</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\devices\access_device\iaccess_coordinator.hpp">
+      <Filter>Header Files\contracts\devices\access_device</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\devices\access_device\iaccess_device_engine.hpp">
+      <Filter>Header Files\contracts\devices\access_device</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\data\ientity_finder.hpp">
+      <Filter>Header Files\contracts\data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\data\irepository.hpp">
+      <Filter>Header Files\contracts\data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\services\database_service.grpc.pb.h">
+      <Filter>Header Files\services</Filter>
+    </ClInclude>
+    <ClInclude Include="include\services\database_service.pb.h">
+      <Filter>Header Files\services</Filter>
+    </ClInclude>
+    <ClInclude Include="include\services\facial_service.grpc.pb.h">
+      <Filter>Header Files\services</Filter>
+    </ClInclude>
+    <ClInclude Include="include\services\facial_service.pb.h">
+      <Filter>Header Files\services</Filter>
+    </ClInclude>
+    <ClInclude Include="include\datatypes\group.pb.h">
+      <Filter>Header Files\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\devices\video_device\istream_data.hpp">
+      <Filter>Header Files\contracts\devices\video_device</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\common\raw_image.hpp">
+      <Filter>Header Files\contracts\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\devices\video_device\ivideo_engine.hpp">
+      <Filter>Header Files\contracts\devices\video_device</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\devices\idevice_info.hpp">
+      <Filter>Header Files\contracts\devices</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\services\idatabase_api.hpp">
+      <Filter>Header Files\contracts\services</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\devices\idevices_container.hpp">
+      <Filter>Header Files\contracts\devices</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\services\iservices.hpp">
+      <Filter>Header Files\contracts\services</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\iunit_context.hpp">
+      <Filter>Header Files\contracts</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

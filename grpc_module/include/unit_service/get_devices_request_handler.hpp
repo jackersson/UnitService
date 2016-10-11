@@ -9,7 +9,7 @@
 namespace grpc_services
 {
 	namespace unit_service
-	{
+	{/*
 		typedef Services::UnitService::AsyncService UnitServicePtr;
 
 		class GetDevicesRequestHandler : public RequestHandler<UnitServicePtr>
@@ -47,7 +47,7 @@ namespace grpc_services
 			grpc::ServerAsyncResponseWriter<DataTypes::DevicesResponse>    responder_;
 			
 		};
-
+		*/
 	}
 	
 }

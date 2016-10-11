@@ -44,9 +44,7 @@ class ConnectedDevices;
 class Device;
 class DeviceStateMessage;
 class DeviceUpdate;
-class DevicesResponse;
 class GenericDeviceStateMsg;
-class GetDevicesRequest;
 
 enum DeviceType {
   None_Type = 0,
@@ -293,172 +291,6 @@ class DeviceUpdate : public ::google::protobuf::Message {
 
   void InitAsDefaultInstance();
   static DeviceUpdate* default_instance_;
-};
-// -------------------------------------------------------------------
-
-class GetDevicesRequest : public ::google::protobuf::Message {
- public:
-  GetDevicesRequest();
-  virtual ~GetDevicesRequest();
-
-  GetDevicesRequest(const GetDevicesRequest& from);
-
-  inline GetDevicesRequest& operator=(const GetDevicesRequest& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const GetDevicesRequest& default_instance();
-
-  void Swap(GetDevicesRequest* other);
-
-  // implements Message ----------------------------------------------
-
-  inline GetDevicesRequest* New() const { return New(NULL); }
-
-  GetDevicesRequest* New(::google::protobuf::Arena* arena) const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const GetDevicesRequest& from);
-  void MergeFrom(const GetDevicesRequest& from);
-  void Clear();
-  bool IsInitialized() const;
-
-  int ByteSize() const;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input);
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
-  int GetCachedSize() const { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  void InternalSwap(GetDevicesRequest* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return _internal_metadata_.arena();
-  }
-  inline void* MaybeArenaPtr() const {
-    return _internal_metadata_.raw_arena_ptr();
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // optional .DataTypes.DeviceType device_type = 1;
-  void clear_device_type();
-  static const int kDeviceTypeFieldNumber = 1;
-  ::DataTypes::DeviceType device_type() const;
-  void set_device_type(::DataTypes::DeviceType value);
-
-  // @@protoc_insertion_point(class_scope:DataTypes.GetDevicesRequest)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  bool _is_default_instance_;
-  int device_type_;
-  mutable int _cached_size_;
-  friend void  protobuf_AddDesc_datatypes_2fdevices_2eproto();
-  friend void protobuf_AssignDesc_datatypes_2fdevices_2eproto();
-  friend void protobuf_ShutdownFile_datatypes_2fdevices_2eproto();
-
-  void InitAsDefaultInstance();
-  static GetDevicesRequest* default_instance_;
-};
-// -------------------------------------------------------------------
-
-class DevicesResponse : public ::google::protobuf::Message {
- public:
-  DevicesResponse();
-  virtual ~DevicesResponse();
-
-  DevicesResponse(const DevicesResponse& from);
-
-  inline DevicesResponse& operator=(const DevicesResponse& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const DevicesResponse& default_instance();
-
-  void Swap(DevicesResponse* other);
-
-  // implements Message ----------------------------------------------
-
-  inline DevicesResponse* New() const { return New(NULL); }
-
-  DevicesResponse* New(::google::protobuf::Arena* arena) const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const DevicesResponse& from);
-  void MergeFrom(const DevicesResponse& from);
-  void Clear();
-  bool IsInitialized() const;
-
-  int ByteSize() const;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input);
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
-  int GetCachedSize() const { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  void InternalSwap(DevicesResponse* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return _internal_metadata_.arena();
-  }
-  inline void* MaybeArenaPtr() const {
-    return _internal_metadata_.raw_arena_ptr();
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // repeated string devices = 1;
-  int devices_size() const;
-  void clear_devices();
-  static const int kDevicesFieldNumber = 1;
-  const ::std::string& devices(int index) const;
-  ::std::string* mutable_devices(int index);
-  void set_devices(int index, const ::std::string& value);
-  void set_devices(int index, const char* value);
-  void set_devices(int index, const char* value, size_t size);
-  ::std::string* add_devices();
-  void add_devices(const ::std::string& value);
-  void add_devices(const char* value);
-  void add_devices(const char* value, size_t size);
-  const ::google::protobuf::RepeatedPtrField< ::std::string>& devices() const;
-  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_devices();
-
-  // @@protoc_insertion_point(class_scope:DataTypes.DevicesResponse)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  bool _is_default_instance_;
-  ::google::protobuf::RepeatedPtrField< ::std::string> devices_;
-  mutable int _cached_size_;
-  friend void  protobuf_AddDesc_datatypes_2fdevices_2eproto();
-  friend void protobuf_AssignDesc_datatypes_2fdevices_2eproto();
-  friend void protobuf_ShutdownFile_datatypes_2fdevices_2eproto();
-
-  void InitAsDefaultInstance();
-  static DevicesResponse* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -1125,83 +957,6 @@ inline DeviceUpdate::UpdateCase DeviceUpdate::update_case() const {
 }
 // -------------------------------------------------------------------
 
-// GetDevicesRequest
-
-// optional .DataTypes.DeviceType device_type = 1;
-inline void GetDevicesRequest::clear_device_type() {
-  device_type_ = 0;
-}
-inline ::DataTypes::DeviceType GetDevicesRequest::device_type() const {
-  // @@protoc_insertion_point(field_get:DataTypes.GetDevicesRequest.device_type)
-  return static_cast< ::DataTypes::DeviceType >(device_type_);
-}
-inline void GetDevicesRequest::set_device_type(::DataTypes::DeviceType value) {
-  
-  device_type_ = value;
-  // @@protoc_insertion_point(field_set:DataTypes.GetDevicesRequest.device_type)
-}
-
-// -------------------------------------------------------------------
-
-// DevicesResponse
-
-// repeated string devices = 1;
-inline int DevicesResponse::devices_size() const {
-  return devices_.size();
-}
-inline void DevicesResponse::clear_devices() {
-  devices_.Clear();
-}
-inline const ::std::string& DevicesResponse::devices(int index) const {
-  // @@protoc_insertion_point(field_get:DataTypes.DevicesResponse.devices)
-  return devices_.Get(index);
-}
-inline ::std::string* DevicesResponse::mutable_devices(int index) {
-  // @@protoc_insertion_point(field_mutable:DataTypes.DevicesResponse.devices)
-  return devices_.Mutable(index);
-}
-inline void DevicesResponse::set_devices(int index, const ::std::string& value) {
-  // @@protoc_insertion_point(field_set:DataTypes.DevicesResponse.devices)
-  devices_.Mutable(index)->assign(value);
-}
-inline void DevicesResponse::set_devices(int index, const char* value) {
-  devices_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:DataTypes.DevicesResponse.devices)
-}
-inline void DevicesResponse::set_devices(int index, const char* value, size_t size) {
-  devices_.Mutable(index)->assign(
-    reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:DataTypes.DevicesResponse.devices)
-}
-inline ::std::string* DevicesResponse::add_devices() {
-  // @@protoc_insertion_point(field_add_mutable:DataTypes.DevicesResponse.devices)
-  return devices_.Add();
-}
-inline void DevicesResponse::add_devices(const ::std::string& value) {
-  devices_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:DataTypes.DevicesResponse.devices)
-}
-inline void DevicesResponse::add_devices(const char* value) {
-  devices_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:DataTypes.DevicesResponse.devices)
-}
-inline void DevicesResponse::add_devices(const char* value, size_t size) {
-  devices_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:DataTypes.DevicesResponse.devices)
-}
-inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
-DevicesResponse::devices() const {
-  // @@protoc_insertion_point(field_list:DataTypes.DevicesResponse.devices)
-  return devices_;
-}
-inline ::google::protobuf::RepeatedPtrField< ::std::string>*
-DevicesResponse::mutable_devices() {
-  // @@protoc_insertion_point(field_mutable_list:DataTypes.DevicesResponse.devices)
-  return &devices_;
-}
-
-// -------------------------------------------------------------------
-
 // ConnectedDevices
 
 // optional .DataTypes.Key location_id = 1;
@@ -1614,10 +1369,6 @@ inline void AccessDeviceStateMsg::set_opened(bool value) {
 }
 
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

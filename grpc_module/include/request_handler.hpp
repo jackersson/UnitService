@@ -3,7 +3,6 @@
 
 #include <memory>
 #include <include/grpc++/impl/codegen/completion_queue.h>
-#include <services/unit_service.grpc.pb.h>
 
 namespace grpc_services
 {
@@ -43,9 +42,7 @@ namespace grpc_services
 				//GPR_ASSERT(status_ == FINISH);
 				delete this;
 			}
-		}
-
-		
+		}		
 
 		void TryCreateRequest()
 		{

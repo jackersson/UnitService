@@ -59,10 +59,13 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="gtest_x32_d.props" />
-    <Import Project="libaccess_devices_x32_d.props" />
     <Import Project="..\UnitService\boost_serial_32d.props" />
     <Import Project="..\UnitService\serial_port.props" />
     <Import Project="..\UnitService\spdlog.props" />
+    <Import Project="..\access_device\access_device_x32d.props" />
+    <Import Project="..\realsense_device\contracts.props" />
+    <Import Project="..\realsense_device\utils_x32d.props" />
+    <Import Project="..\grpc_module\protobuf_x32d.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -151,9 +154,18 @@
     <ClCompile Include="rs232_controller_tests.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\UnitService\UnitService.vcxproj">
-      <Project>{2c133593-8f56-4607-aa0d-189a879eeb3e}</Project>
+    <ProjectReference Include="..\access_device\access_device.vcxproj">
+      <Project>{ac260f3f-8db1-4a4f-843f-bd5feb86c9df}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\contracts\contracts.vcxproj">
+      <Project>{81569cc0-e190-4111-8bed-2262c6a379a4}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\utils\utils.vcxproj">
+      <Project>{eba98d07-9466-481c-bd08-e435a624e03d}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="test_command_context.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

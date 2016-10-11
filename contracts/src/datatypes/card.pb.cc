@@ -24,9 +24,6 @@ namespace {
 const ::google::protobuf::Descriptor* Card_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   Card_reflection_ = NULL;
-const ::google::protobuf::Descriptor* Cards_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  Cards_reflection_ = NULL;
 
 }  // namespace
 
@@ -53,22 +50,6 @@ void protobuf_AssignDesc_datatypes_2fcard_2eproto() {
       sizeof(Card),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Card, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Card, _is_default_instance_));
-  Cards_descriptor_ = file->message_type(1);
-  static const int Cards_offsets_[2] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Cards, items_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Cards, count_),
-  };
-  Cards_reflection_ =
-    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
-      Cards_descriptor_,
-      Cards::default_instance_,
-      Cards_offsets_,
-      -1,
-      -1,
-      -1,
-      sizeof(Cards),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Cards, _internal_metadata_),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Cards, _is_default_instance_));
 }
 
 namespace {
@@ -83,8 +64,6 @@ void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
       Card_descriptor_, &Card::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-      Cards_descriptor_, &Cards::default_instance());
 }
 
 }  // namespace
@@ -92,8 +71,6 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void protobuf_ShutdownFile_datatypes_2fcard_2eproto() {
   delete Card::default_instance_;
   delete Card_reflection_;
-  delete Cards::default_instance_;
-  delete Cards_reflection_;
 }
 
 void protobuf_AddDesc_datatypes_2fcard_2eproto() {
@@ -107,16 +84,13 @@ void protobuf_AddDesc_datatypes_2fcard_2eproto() {
     "\n\024datatypes/card.proto\022\tDataTypes\032\024datat"
     "ypes/data.proto\"S\n\004Card\022)\n\021unique_identi"
     "fier\030\001 \001(\0132\016.DataTypes.Key\022 \n\010owner_id\030\002"
-    " \001(\0132\016.DataTypes.Key\"6\n\005Cards\022\036\n\005items\030\001"
-    " \003(\0132\017.DataTypes.Card\022\r\n\005count\030\002 \001(\003BI\n\007"
-    "ex.grpcZ8github.com/Enebra/ServiceCoordi"
-    "nator/grpc/datatypes/card\242\002\003RTGb\006proto3", 279);
+    " \001(\0132\016.DataTypes.KeyBI\n\007ex.grpcZ8github."
+    "com/Enebra/ServiceCoordinator/grpc/datat"
+    "ypes/card\242\002\003RTGb\006proto3", 223);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "datatypes/card.proto", &protobuf_RegisterTypes);
   Card::default_instance_ = new Card();
-  Cards::default_instance_ = new Cards();
   Card::default_instance_->InitAsDefaultInstance();
-  Cards::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_datatypes_2fcard_2eproto);
 }
 
@@ -476,312 +450,6 @@ void Card::set_allocated_owner_id(::DataTypes::Key* owner_id) {
     
   }
   // @@protoc_insertion_point(field_set_allocated:DataTypes.Card.owner_id)
-}
-
-#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
-
-// ===================================================================
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int Cards::kItemsFieldNumber;
-const int Cards::kCountFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-
-Cards::Cards()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:DataTypes.Cards)
-}
-
-void Cards::InitAsDefaultInstance() {
-  _is_default_instance_ = true;
-}
-
-Cards::Cards(const Cards& from)
-  : ::google::protobuf::Message(),
-    _internal_metadata_(NULL) {
-  SharedCtor();
-  MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:DataTypes.Cards)
-}
-
-void Cards::SharedCtor() {
-    _is_default_instance_ = false;
-  _cached_size_ = 0;
-  count_ = GOOGLE_LONGLONG(0);
-}
-
-Cards::~Cards() {
-  // @@protoc_insertion_point(destructor:DataTypes.Cards)
-  SharedDtor();
-}
-
-void Cards::SharedDtor() {
-  if (this != default_instance_) {
-  }
-}
-
-void Cards::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const ::google::protobuf::Descriptor* Cards::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return Cards_descriptor_;
-}
-
-const Cards& Cards::default_instance() {
-  if (default_instance_ == NULL) protobuf_AddDesc_datatypes_2fcard_2eproto();
-  return *default_instance_;
-}
-
-Cards* Cards::default_instance_ = NULL;
-
-Cards* Cards::New(::google::protobuf::Arena* arena) const {
-  Cards* n = new Cards;
-  if (arena != NULL) {
-    arena->Own(n);
-  }
-  return n;
-}
-
-void Cards::Clear() {
-// @@protoc_insertion_point(message_clear_start:DataTypes.Cards)
-  count_ = GOOGLE_LONGLONG(0);
-  items_.Clear();
-}
-
-bool Cards::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:DataTypes.Cards)
-  for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // repeated .DataTypes.Card items = 1;
-      case 1: {
-        if (tag == 10) {
-          DO_(input->IncrementRecursionDepth());
-         parse_loop_items:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtualNoRecursionDepth(
-                input, add_items()));
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(10)) goto parse_loop_items;
-        input->UnsafeDecrementRecursionDepth();
-        if (input->ExpectTag(16)) goto parse_count;
-        break;
-      }
-
-      // optional int64 count = 2;
-      case 2: {
-        if (tag == 16) {
-         parse_count:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
-                 input, &count_)));
-
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectAtEnd()) goto success;
-        break;
-      }
-
-      default: {
-      handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          goto success;
-        }
-        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
-        break;
-      }
-    }
-  }
-success:
-  // @@protoc_insertion_point(parse_success:DataTypes.Cards)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:DataTypes.Cards)
-  return false;
-#undef DO_
-}
-
-void Cards::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:DataTypes.Cards)
-  // repeated .DataTypes.Card items = 1;
-  for (unsigned int i = 0, n = this->items_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, this->items(i), output);
-  }
-
-  // optional int64 count = 2;
-  if (this->count() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt64(2, this->count(), output);
-  }
-
-  // @@protoc_insertion_point(serialize_end:DataTypes.Cards)
-}
-
-::google::protobuf::uint8* Cards::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:DataTypes.Cards)
-  // repeated .DataTypes.Card items = 1;
-  for (unsigned int i = 0, n = this->items_size(); i < n; i++) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->items(i), target);
-  }
-
-  // optional int64 count = 2;
-  if (this->count() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(2, this->count(), target);
-  }
-
-  // @@protoc_insertion_point(serialize_to_array_end:DataTypes.Cards)
-  return target;
-}
-
-int Cards::ByteSize() const {
-// @@protoc_insertion_point(message_byte_size_start:DataTypes.Cards)
-  int total_size = 0;
-
-  // optional int64 count = 2;
-  if (this->count() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int64Size(
-        this->count());
-  }
-
-  // repeated .DataTypes.Card items = 1;
-  total_size += 1 * this->items_size();
-  for (int i = 0; i < this->items_size(); i++) {
-    total_size +=
-      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-        this->items(i));
-  }
-
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
-}
-
-void Cards::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:DataTypes.Cards)
-  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
-  const Cards* source = 
-      ::google::protobuf::internal::DynamicCastToGenerated<const Cards>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:DataTypes.Cards)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:DataTypes.Cards)
-    MergeFrom(*source);
-  }
-}
-
-void Cards::MergeFrom(const Cards& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:DataTypes.Cards)
-  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
-  items_.MergeFrom(from.items_);
-  if (from.count() != 0) {
-    set_count(from.count());
-  }
-}
-
-void Cards::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:DataTypes.Cards)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void Cards::CopyFrom(const Cards& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:DataTypes.Cards)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool Cards::IsInitialized() const {
-
-  return true;
-}
-
-void Cards::Swap(Cards* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
-void Cards::InternalSwap(Cards* other) {
-  items_.UnsafeArenaSwap(&other->items_);
-  std::swap(count_, other->count_);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-  std::swap(_cached_size_, other->_cached_size_);
-}
-
-::google::protobuf::Metadata Cards::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Cards_descriptor_;
-  metadata.reflection = Cards_reflection_;
-  return metadata;
-}
-
-#if PROTOBUF_INLINE_NOT_IN_HEADERS
-// Cards
-
-// repeated .DataTypes.Card items = 1;
-int Cards::items_size() const {
-  return items_.size();
-}
-void Cards::clear_items() {
-  items_.Clear();
-}
-const ::DataTypes::Card& Cards::items(int index) const {
-  // @@protoc_insertion_point(field_get:DataTypes.Cards.items)
-  return items_.Get(index);
-}
-::DataTypes::Card* Cards::mutable_items(int index) {
-  // @@protoc_insertion_point(field_mutable:DataTypes.Cards.items)
-  return items_.Mutable(index);
-}
-::DataTypes::Card* Cards::add_items() {
-  // @@protoc_insertion_point(field_add:DataTypes.Cards.items)
-  return items_.Add();
-}
-::google::protobuf::RepeatedPtrField< ::DataTypes::Card >*
-Cards::mutable_items() {
-  // @@protoc_insertion_point(field_mutable_list:DataTypes.Cards.items)
-  return &items_;
-}
-const ::google::protobuf::RepeatedPtrField< ::DataTypes::Card >&
-Cards::items() const {
-  // @@protoc_insertion_point(field_list:DataTypes.Cards.items)
-  return items_;
-}
-
-// optional int64 count = 2;
-void Cards::clear_count() {
-  count_ = GOOGLE_LONGLONG(0);
-}
- ::google::protobuf::int64 Cards::count() const {
-  // @@protoc_insertion_point(field_get:DataTypes.Cards.count)
-  return count_;
-}
- void Cards::set_count(::google::protobuf::int64 value) {
-  
-  count_ = value;
-  // @@protoc_insertion_point(field_set:DataTypes.Cards.count)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

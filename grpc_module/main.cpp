@@ -1,63 +1,8 @@
 #include <iostream>
 #include <server_manager.hpp>
+#include "database_client_impl.hpp"
 
 using namespace std;
-
-class ServerImpl final {
-public:
-	~ServerImpl() {
-		server_->Shutdown();
-		// Always shutdown the completion queue after the server.
-		cq_->Shutdown();
-	}
-
-	// There is no shutdown handling in this code.
-	void Run() {
-		//std::string server_address("0.0.0.0:50051");
-		contracts::services::ServiceAddress sa("0.0.0.0", 50051);
-		//service_ = std::make_shared<Services::UnitService::AsyncService>();
-		auto builder = std::make_shared<grpc::ServerBuilder>();
-
-		//builder->AddListeningPort(sa.FormattedAddress(), grpc::InsecureServerCredentials());
-
-		auto unit_service = std::make_shared<grpc_services::UnitServiceImpl>(grpc_services::ServiceContext(sa, builder));
-	
-		
-		//builder->RegisterService(service_.get());
-
-		//cq_ = builder->AddCompletionQueue();
-		
-		server_ = builder->BuildAndStart();
-		std::cout << "Server listening on " << sa.FormattedAddress() << std::endl;
-		unit_service->Start();
-		//HandleRpcs();
-	}
-
-private:
-
-	std::shared_ptr<Services::UnitService::AsyncService> service_;
-
-	std::unique_ptr<grpc::ServerCompletionQueue> cq_;
-
-	grpc::ServerContext ctx_;
-
-
-	enum CallStatus { CREATE, PROCESS, FINISH };
-	CallStatus status_; 
-
-	void HandleRpcs() {
-		
-		new grpc_services::unit_service::CreatePopulationHandler(service_, cq_.get());
-		void* tag;  // uniquely identifies a request.
-		bool ok;
-		while (true) {		
-			cq_->Next(&tag, &ok);
-			if (ok)		
-			  static_cast<grpc_services::unit_service::CreatePopulationHandler*>(tag)->Proceed();
-		}
-	}
-	std::unique_ptr<grpc::Server> server_;
-};
 
 class TestBase
 {
@@ -94,17 +39,42 @@ public:
 	}
 };
 
+void callback(shared_ptr<Services::GetResponse> response)
+{
+	cout << "on response " << endl;
+}
+
 int main()
-{	
+{
+	/*
+	contracts::services::ServiceAddress address("localhost", 49065);
+	grpc_services::ClientContext context(address);
+	grpc_services::DatabaseClientImpl impl(context);
+
+	impl.start();
+	
+	auto gpr = new DataTypes::GetPersonRequest();
+	gpr->set_first_name("Test");
+	Services::GetRequest gr;
+	gr.set_allocated_person_request(gpr);
+	
+	try
+	{
+		auto val = impl.get(gr, callback);
+		std::cout << val->items().items().size() << std::endl;
+	}
+	catch ( std::exception& ex)
+	{
+		std::cout << ex.what() << std::endl;
+	}
+	*/
 	//TestImpl im;
+		
+	grpc_services::ServerManager sm;
+	sm.start();
 	
-	ServerImpl impl;
-	impl.Run();
-	//grpc_services::ServerManager sm;
-	//sm.Start();
-	
-	//cin.get();
-//	sm.Stop();
+	cin.get();
+	//sm.stop();
 
 	return 0;
 }

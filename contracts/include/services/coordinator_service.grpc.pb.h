@@ -30,12 +30,12 @@ class CoordinatorService GRPC_FINAL {
   class StubInterface {
    public:
     virtual ~StubInterface() {}
-    virtual ::grpc::Status Connect(::grpc::ClientContext* context, const ::DataTypes::ConnectedUnit& request, ::google::protobuf::Empty* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>> AsyncConnect(::grpc::ClientContext* context, const ::DataTypes::ConnectedUnit& request, ::grpc::CompletionQueue* cq) {
+    virtual ::grpc::Status Connect(::grpc::ClientContext* context, const ::DataTypes::ConnectMsg& request, ::google::protobuf::Empty* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>> AsyncConnect(::grpc::ClientContext* context, const ::DataTypes::ConnectMsg& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>>(AsyncConnectRaw(context, request, cq));
     }
-    virtual ::grpc::Status Heartbeat(::grpc::ClientContext* context, const ::Services::HeartbeatMessage& request, ::google::protobuf::Empty* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>> AsyncHeartbeat(::grpc::ClientContext* context, const ::Services::HeartbeatMessage& request, ::grpc::CompletionQueue* cq) {
+    virtual ::grpc::Status Heartbeat(::grpc::ClientContext* context, const ::DataTypes::HeartbeatMessage& request, ::google::protobuf::Empty* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>> AsyncHeartbeat(::grpc::ClientContext* context, const ::DataTypes::HeartbeatMessage& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>>(AsyncHeartbeatRaw(context, request, cq));
     }
     virtual ::grpc::Status GetUnits(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::DataTypes::Units* response) = 0;
@@ -63,8 +63,8 @@ class CoordinatorService GRPC_FINAL {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>>(AsyncPushUpdatesRaw(context, request, cq));
     }
   private:
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>* AsyncConnectRaw(::grpc::ClientContext* context, const ::DataTypes::ConnectedUnit& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>* AsyncHeartbeatRaw(::grpc::ClientContext* context, const ::Services::HeartbeatMessage& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>* AsyncConnectRaw(::grpc::ClientContext* context, const ::DataTypes::ConnectMsg& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>* AsyncHeartbeatRaw(::grpc::ClientContext* context, const ::DataTypes::HeartbeatMessage& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::DataTypes::Units>* AsyncGetUnitsRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>* AsyncSubscribeRaw(::grpc::ClientContext* context, const ::DataTypes::SubscriptionMsg& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>* AsyncUnsubscribeRaw(::grpc::ClientContext* context, const ::DataTypes::SubscriptionMsg& request, ::grpc::CompletionQueue* cq) = 0;
@@ -75,12 +75,12 @@ class CoordinatorService GRPC_FINAL {
   class Stub GRPC_FINAL : public StubInterface {
    public:
     Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel);
-    ::grpc::Status Connect(::grpc::ClientContext* context, const ::DataTypes::ConnectedUnit& request, ::google::protobuf::Empty* response) GRPC_OVERRIDE;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>> AsyncConnect(::grpc::ClientContext* context, const ::DataTypes::ConnectedUnit& request, ::grpc::CompletionQueue* cq) {
+    ::grpc::Status Connect(::grpc::ClientContext* context, const ::DataTypes::ConnectMsg& request, ::google::protobuf::Empty* response) GRPC_OVERRIDE;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>> AsyncConnect(::grpc::ClientContext* context, const ::DataTypes::ConnectMsg& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>>(AsyncConnectRaw(context, request, cq));
     }
-    ::grpc::Status Heartbeat(::grpc::ClientContext* context, const ::Services::HeartbeatMessage& request, ::google::protobuf::Empty* response) GRPC_OVERRIDE;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>> AsyncHeartbeat(::grpc::ClientContext* context, const ::Services::HeartbeatMessage& request, ::grpc::CompletionQueue* cq) {
+    ::grpc::Status Heartbeat(::grpc::ClientContext* context, const ::DataTypes::HeartbeatMessage& request, ::google::protobuf::Empty* response) GRPC_OVERRIDE;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>> AsyncHeartbeat(::grpc::ClientContext* context, const ::DataTypes::HeartbeatMessage& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>>(AsyncHeartbeatRaw(context, request, cq));
     }
     ::grpc::Status GetUnits(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::DataTypes::Units* response) GRPC_OVERRIDE;
@@ -110,8 +110,8 @@ class CoordinatorService GRPC_FINAL {
 
    private:
     std::shared_ptr< ::grpc::ChannelInterface> channel_;
-    ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* AsyncConnectRaw(::grpc::ClientContext* context, const ::DataTypes::ConnectedUnit& request, ::grpc::CompletionQueue* cq) GRPC_OVERRIDE;
-    ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* AsyncHeartbeatRaw(::grpc::ClientContext* context, const ::Services::HeartbeatMessage& request, ::grpc::CompletionQueue* cq) GRPC_OVERRIDE;
+    ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* AsyncConnectRaw(::grpc::ClientContext* context, const ::DataTypes::ConnectMsg& request, ::grpc::CompletionQueue* cq) GRPC_OVERRIDE;
+    ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* AsyncHeartbeatRaw(::grpc::ClientContext* context, const ::DataTypes::HeartbeatMessage& request, ::grpc::CompletionQueue* cq) GRPC_OVERRIDE;
     ::grpc::ClientAsyncResponseReader< ::DataTypes::Units>* AsyncGetUnitsRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) GRPC_OVERRIDE;
     ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* AsyncSubscribeRaw(::grpc::ClientContext* context, const ::DataTypes::SubscriptionMsg& request, ::grpc::CompletionQueue* cq) GRPC_OVERRIDE;
     ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* AsyncUnsubscribeRaw(::grpc::ClientContext* context, const ::DataTypes::SubscriptionMsg& request, ::grpc::CompletionQueue* cq) GRPC_OVERRIDE;
@@ -133,8 +133,8 @@ class CoordinatorService GRPC_FINAL {
    public:
     Service();
     virtual ~Service();
-    virtual ::grpc::Status Connect(::grpc::ServerContext* context, const ::DataTypes::ConnectedUnit* request, ::google::protobuf::Empty* response);
-    virtual ::grpc::Status Heartbeat(::grpc::ServerContext* context, const ::Services::HeartbeatMessage* request, ::google::protobuf::Empty* response);
+    virtual ::grpc::Status Connect(::grpc::ServerContext* context, const ::DataTypes::ConnectMsg* request, ::google::protobuf::Empty* response);
+    virtual ::grpc::Status Heartbeat(::grpc::ServerContext* context, const ::DataTypes::HeartbeatMessage* request, ::google::protobuf::Empty* response);
     virtual ::grpc::Status GetUnits(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::DataTypes::Units* response);
     virtual ::grpc::Status Subscribe(::grpc::ServerContext* context, const ::DataTypes::SubscriptionMsg* request, ::google::protobuf::Empty* response);
     virtual ::grpc::Status Unsubscribe(::grpc::ServerContext* context, const ::DataTypes::SubscriptionMsg* request, ::google::protobuf::Empty* response);
@@ -154,11 +154,11 @@ class CoordinatorService GRPC_FINAL {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Connect(::grpc::ServerContext* context, const ::DataTypes::ConnectedUnit* request, ::google::protobuf::Empty* response) GRPC_FINAL GRPC_OVERRIDE {
+    ::grpc::Status Connect(::grpc::ServerContext* context, const ::DataTypes::ConnectMsg* request, ::google::protobuf::Empty* response) GRPC_FINAL GRPC_OVERRIDE {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestConnect(::grpc::ServerContext* context, ::DataTypes::ConnectedUnit* request, ::grpc::ServerAsyncResponseWriter< ::google::protobuf::Empty>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void RequestConnect(::grpc::ServerContext* context, ::DataTypes::ConnectMsg* request, ::grpc::ServerAsyncResponseWriter< ::google::protobuf::Empty>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
@@ -174,11 +174,11 @@ class CoordinatorService GRPC_FINAL {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Heartbeat(::grpc::ServerContext* context, const ::Services::HeartbeatMessage* request, ::google::protobuf::Empty* response) GRPC_FINAL GRPC_OVERRIDE {
+    ::grpc::Status Heartbeat(::grpc::ServerContext* context, const ::DataTypes::HeartbeatMessage* request, ::google::protobuf::Empty* response) GRPC_FINAL GRPC_OVERRIDE {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestHeartbeat(::grpc::ServerContext* context, ::Services::HeartbeatMessage* request, ::grpc::ServerAsyncResponseWriter< ::google::protobuf::Empty>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void RequestHeartbeat(::grpc::ServerContext* context, ::DataTypes::HeartbeatMessage* request, ::grpc::ServerAsyncResponseWriter< ::google::protobuf::Empty>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
@@ -315,7 +315,7 @@ class CoordinatorService GRPC_FINAL {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Connect(::grpc::ServerContext* context, const ::DataTypes::ConnectedUnit* request, ::google::protobuf::Empty* response) GRPC_FINAL GRPC_OVERRIDE {
+    ::grpc::Status Connect(::grpc::ServerContext* context, const ::DataTypes::ConnectMsg* request, ::google::protobuf::Empty* response) GRPC_FINAL GRPC_OVERRIDE {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -332,7 +332,7 @@ class CoordinatorService GRPC_FINAL {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status Heartbeat(::grpc::ServerContext* context, const ::Services::HeartbeatMessage* request, ::google::protobuf::Empty* response) GRPC_FINAL GRPC_OVERRIDE {
+    ::grpc::Status Heartbeat(::grpc::ServerContext* context, const ::DataTypes::HeartbeatMessage* request, ::google::protobuf::Empty* response) GRPC_FINAL GRPC_OVERRIDE {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }

@@ -24,6 +24,9 @@
     <ClInclude Include="include\concurrent_containers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\flags.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\main.cpp">

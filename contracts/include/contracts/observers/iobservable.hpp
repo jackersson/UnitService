@@ -12,9 +12,9 @@ namespace contracts
 		public:
 			virtual ~IObservable() {}
 
-			virtual void subscribe   (const T& observer) = 0;
-			virtual void unsubscribe (const T& observer) = 0;
-			virtual bool has_observer(const T& observer) = 0;
+			virtual void subscribe   (std::shared_ptr<T> observer) = 0;
+			virtual void unsubscribe (std::shared_ptr<T> observer) = 0;
+			virtual bool has_observer(std::shared_ptr<T> observer) = 0;
 
 			virtual void unsubscribe_all() = 0;
 		};

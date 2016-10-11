@@ -18,7 +18,8 @@ namespace access_device
 
 		const int DATA_SIZE = 7;
 		const int EMPTY_SIZE = 5;
-		const int DALLAS_SIZE = 17;
+		const int DALLAS_SIZE = 17; //whole command size
+		const int DALLAS_KEY_SIZE = 6; //only data key size
 
 		const int DEVICE_NUMBER_OFFSET = 1;
 		const int DATA_OFFSET = 3;
@@ -132,7 +133,6 @@ namespace access_device
 				bytes[i] = invert_bits(bytes[i]);
 		}
 
-
 		inline
 			bool data_empty(const std::vector<unsigned char>& bytes)
 		{
@@ -194,6 +194,20 @@ namespace access_device
 			bytes[count - 1] = pair.second;
 		}
 
+		inline 
+			void set_data_key( std::vector<unsigned char>& command
+				               , const std::vector<unsigned char>& key
+				               , int start_position)
+		{
+			if (command.size() < key.size() * PAIR)
+				return;
+			for (auto num : key)
+			{
+				set_any_pair(command, num, start_position);
+				start_position += PAIR;
+			}
+		}
+
 
 		inline
 			void update_command(std::vector<unsigned char>& bytes
@@ -220,9 +234,41 @@ namespace access_device
 				                       , uint32_t data
 				                       , uint16_t device_number	)
 		{
+			if (command.size() < DATA_SIZE)
+				command.resize(DATA_SIZE);
+
 			set_header       (command, id);
 			set_device_number(command, device_number);
 			set_data         (command, data);
+			set_check_sum    (command);
+		}
+
+		inline
+			void create_empty_command(std::vector<unsigned char>& command
+				, port_command id		
+				, uint16_t device_number)
+		{
+			if (command.size() < READ_COMMAND_SIZE)
+				command.resize(READ_COMMAND_SIZE);
+
+			set_header       (command, id);
+			set_device_number(command, device_number);
+			set_check_sum    (command);
+		}
+
+		inline
+			void create_data_key_command(std::vector<unsigned char>& command
+				, const std::vector<unsigned char>& key
+				, port_command id
+				, uint16_t device_number)
+		{
+			auto total_size = DATA_SIZE + key.size() * PAIR;
+			if (command.size() < total_size)
+				command.resize(total_size);
+
+			set_header       (command, id);
+			set_device_number(command, device_number);
+			set_data_key     (command, key, DATA_OFFSET);
 			set_check_sum    (command);
 		}
 	}

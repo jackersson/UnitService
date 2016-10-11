@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <access_device/core/iexecutable_command.hpp>
+#include "rs232_command.hpp"
 
 namespace access_device
 {
@@ -15,7 +16,9 @@ namespace access_device
 		public:
 			explicit CommandFactory(uint16_t device_number)	: device_number_(device_number)
 			{
-				//TODO initialization
+				register_command<LightCommandImpl> (std::make_shared<LightCommandImpl>());
+				register_command<ButtonCommandImpl>(std::make_shared<ButtonCommandImpl>());
+				register_command<DallasCommandImpl>(std::make_shared<DallasCommandImpl>());
 			}
 
 			std::shared_ptr<core::ICommandContext>
@@ -31,7 +34,21 @@ namespace access_device
 				return nullptr;
 			}
 
-			bool reset(boost::asio::serial_port& sp)
+			template <typename T>
+			std::shared_ptr<core::ICommandContext>
+				get(unsigned char data = 0)
+			{
+				auto it = container_.find(typeid(T).name());
+				if (it != container_.end())
+				{
+					apply_settings(*(it->second.get()), data);
+					return it->second;
+				}
+
+				return nullptr;
+			}
+
+			bool reset(TimeoutSerial& sp)
 			{
 				auto success = 0;
 				for ( auto it : commands_)
@@ -40,7 +57,7 @@ namespace access_device
 					apply_settings(*cmd.get());
 					const auto& result = cmd->execute(sp);
 
-					if (result.ok())
+					if (result->ok())
 						success++;
 				}
 
@@ -55,9 +72,23 @@ namespace access_device
 			}
 
 		private:
+			template<typename T>
+			void register_command(std::shared_ptr<core::ICommandContext> command)
+			{
+				//TODO check if exists
+				container_.insert(std::pair<std::string
+					, std::shared_ptr<core::ICommandContext>>(typeid(T).name(), command));
+
+				commands_.insert(std::pair<rs232::port_command
+					, std::shared_ptr<core::ICommandContext>>(command->id(), command));
+			}
+
 			uint16_t device_number_;
 			std::map< rs232::port_command
 				      , std::shared_ptr<core::ICommandContext>> commands_;
+
+			std::map<std::string
+				, std::shared_ptr<core::ICommandContext>> container_;
 		};
 	}
 }

@@ -1,8 +1,9 @@
 #ifndef Rs232Command_Included
 #define Rs232Command_Included
+
 #include "executable_command_base.hpp"
 #include <access_device/core/iexecutable_command.hpp>
-
+#include "command_impl.hpp"
 
 namespace access_device
 {
@@ -15,7 +16,7 @@ namespace access_device
 				: command_(command), device_number_(0), data_(0)
 			{}
 
-			bool reset(boost::asio::serial_port& sp) override
+			bool reset(TimeoutSerial& sp) override
 			{
 				return command_->reset(sp, device_number_);
 			}
@@ -25,7 +26,8 @@ namespace access_device
 				return command_->id();
 			}
 
-			const core::ICommandResult& execute(boost::asio::serial_port& sp) override
+			contracts::devices::access_device::ICommandResultPtr 
+			execute(TimeoutSerial& sp) override
 			{
 				return command_->execute(sp, device_number_, data_);
 			}
@@ -50,6 +52,24 @@ namespace access_device
 			std::shared_ptr<ExecutableCommandBase> command_;
 			uint16_t device_number_;
 			uint32_t data_;
+		};
+
+		class LightCommandImpl : public AccessDeviceCommand
+		{
+		public:
+			 LightCommandImpl(): AccessDeviceCommand(std::make_shared<LightCommand>()){}			
+		};
+
+		class ButtonCommandImpl : public AccessDeviceCommand
+		{
+		public:
+			ButtonCommandImpl() : AccessDeviceCommand(std::make_shared<ButtonCommand>()) {}
+		};
+
+		class DallasCommandImpl : public AccessDeviceCommand
+		{
+		public:
+			DallasCommandImpl() : AccessDeviceCommand(std::make_shared<DallasCommand>()) {}
 		};
 
 	}

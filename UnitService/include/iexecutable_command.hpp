@@ -2,7 +2,6 @@
 #define IExecutableCommand_Included
 #include <asio/serial_port.hpp>
 #include "rs232_controller_types.hpp"
-#include "access_device_types.hpp"
 #include "icommand_result.hpp"
 
 namespace access_device

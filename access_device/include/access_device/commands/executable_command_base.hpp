@@ -2,12 +2,10 @@
 #define ExecutableCommandBase_Included
 
 #include <cstdint>
-#include <asio/serial_port.hpp>
 #include "command.hpp"
 
 #include <access_device/rs232/rs232_controller_types.hpp>
 #include <access_device/core/serial_port_io.hpp>
-#include "command_result.hpp"
 #include "port_command_result.hpp"
 
 namespace access_device
@@ -24,9 +22,8 @@ namespace access_device
 				, result_(id)
 			{}
 
-			CommandResult execute(boost::asio::serial_port& sp
-				, uint16_t device_number
-				, unsigned char data)
+			contracts::devices::access_device::ICommandResultPtr 
+			execute(TimeoutSerial& sp, uint16_t device_number, unsigned char data)
 			{
 				auto input_command = input();
 				auto input_bytes = input_command.bytes();
@@ -41,22 +38,22 @@ namespace access_device
 					do_execute(sp, input_bytes, header);
 				}
 				catch (std::exception& ex) {
-					result_.exception(ex);
+					return result_.exception(ex);
 				}
 
 				auto command = create_command(response_);
 
-				if (empty(command))
-					return result_.data(command.data());
+				if (empty(*command.get()))
+					return result_.data(command->data());
 
-				return !valid(command)
+				return !valid(*command.get())
 					? result_.not_valid()
-					: result_.data(command.data());
+					: result_.data(command->data());
 			}
 
-			void do_execute(boost::asio::serial_port& sp
+			void do_execute(TimeoutSerial& sp
 				, const std::vector<unsigned char>& bytes
-				, unsigned char header)
+				, char header)
 			{
 				auto result = serial_port_io_.execute(sp, bytes, response_, count_, header);
 
@@ -64,19 +61,20 @@ namespace access_device
 					throw std::exception("Execution wasn't successfull");
 			}
 
-			bool reset(boost::asio::serial_port& sp, uint16_t deviceNumber)
+			bool reset(TimeoutSerial& sp, uint16_t deviceNumber)
 			{
 				auto response = execute(sp, deviceNumber, 0);
-				return response.ok();
+				return response->ok();
 			}
 
 			rs232::port_command id() const {
 				return id_;
 			}
 		protected:
-			virtual Command create_command(const std::vector<unsigned char>& bytes)
+			virtual std::shared_ptr<Command>
+				create_command(const std::vector<unsigned char>& bytes) const
 			{
-				return Command(bytes);
+				return std::make_shared<Command>(bytes);
 			}
 
 			virtual bool valid(const Command& command)
@@ -98,7 +96,7 @@ namespace access_device
 		private:
 			rs232::port_command id_;
 			uint32_t count_;
-			access_device::SerialPortIO serial_port_io_;
+			SerialPortIO serial_port_io_;
 			std::vector<unsigned char> response_;
 			PortCommandResult result_;
 		};

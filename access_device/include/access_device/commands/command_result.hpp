@@ -14,6 +14,15 @@ namespace access_device
 			typedef contracts::devices::access_device::access_device_module dev_module;
 
 		public:		
+			CommandResult( dev_module module
+				           , std::exception exeption
+				           , bool ok
+				           , bool empty)
+				: exception_(exeption)
+				, module_(module)
+				, ok_(ok), empty_(empty)
+			{}
+
 			CommandResult()
 				: module_(dev_module::NoneModule)
 				, ok_(true), empty_(true)				
@@ -46,7 +55,7 @@ namespace access_device
 
 			bool ok() const override
 			{
-				return std::string(exception_.what()).size() <= 0;
+				return std::string(exception_.what()) == "Unknown exception";
 			}
 
 			bool empty() const override
@@ -73,7 +82,7 @@ namespace access_device
 
 			void set_data(const std::vector<unsigned char>& data)	{
 				data_ = data;
-				empty_ = data.size() > 0;
+				empty_ = data.size() <= 0;
 			}			
 
 			void set_exception(const std::exception& exception)	{

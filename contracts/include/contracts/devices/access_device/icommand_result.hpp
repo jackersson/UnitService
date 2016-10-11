@@ -25,6 +25,8 @@ namespace contracts
 				virtual bool empty() const = 0;
 			};
 
+			typedef std::shared_ptr<ICommandResult> ICommandResultPtr;
+
 		}
 	}
 }

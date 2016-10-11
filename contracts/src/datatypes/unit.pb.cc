@@ -24,9 +24,12 @@ namespace {
 const ::google::protobuf::Descriptor* Unit_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   Unit_reflection_ = NULL;
-const ::google::protobuf::Descriptor* ConnectedUnit_descriptor_ = NULL;
+const ::google::protobuf::Descriptor* ConnectMsg_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
-  ConnectedUnit_reflection_ = NULL;
+  ConnectMsg_reflection_ = NULL;
+const ::google::protobuf::Descriptor* HeartbeatMessage_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  HeartbeatMessage_reflection_ = NULL;
 const ::google::protobuf::Descriptor* SubscriptionMsg_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   SubscriptionMsg_reflection_ = NULL;
@@ -39,6 +42,7 @@ const ::google::protobuf::internal::GeneratedMessageReflection*
 const ::google::protobuf::Descriptor* Units_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   Units_reflection_ = NULL;
+const ::google::protobuf::Descriptor* Units_ItemsEntry_descriptor_ = NULL;
 const ::google::protobuf::Descriptor* UnitConfiguration_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   UnitConfiguration_reflection_ = NULL;
@@ -46,6 +50,7 @@ const ::google::protobuf::Descriptor* UnitLocationState_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   UnitLocationState_reflection_ = NULL;
 const ::google::protobuf::EnumDescriptor* UnitState_descriptor_ = NULL;
+const ::google::protobuf::EnumDescriptor* ServiceType_descriptor_ = NULL;
 
 }  // namespace
 
@@ -57,8 +62,9 @@ void protobuf_AssignDesc_datatypes_2funit_2eproto() {
       "datatypes/unit.proto");
   GOOGLE_CHECK(file != NULL);
   Unit_descriptor_ = file->message_type(0);
-  static const int Unit_offsets_[3] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Unit, connected_unit_),
+  static const int Unit_offsets_[4] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Unit, ip_address_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Unit, mac_address_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Unit, heartbeat_time_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Unit, locations_),
   };
@@ -73,23 +79,40 @@ void protobuf_AssignDesc_datatypes_2funit_2eproto() {
       sizeof(Unit),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Unit, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Unit, _is_default_instance_));
-  ConnectedUnit_descriptor_ = file->message_type(1);
-  static const int ConnectedUnit_offsets_[2] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ConnectedUnit, ip_address_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ConnectedUnit, mac_address_),
+  ConnectMsg_descriptor_ = file->message_type(1);
+  static const int ConnectMsg_offsets_[3] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ConnectMsg, ip_address_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ConnectMsg, mac_address_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ConnectMsg, service_type_),
   };
-  ConnectedUnit_reflection_ =
+  ConnectMsg_reflection_ =
     ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
-      ConnectedUnit_descriptor_,
-      ConnectedUnit::default_instance_,
-      ConnectedUnit_offsets_,
+      ConnectMsg_descriptor_,
+      ConnectMsg::default_instance_,
+      ConnectMsg_offsets_,
       -1,
       -1,
       -1,
-      sizeof(ConnectedUnit),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ConnectedUnit, _internal_metadata_),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ConnectedUnit, _is_default_instance_));
-  SubscriptionMsg_descriptor_ = file->message_type(2);
+      sizeof(ConnectMsg),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ConnectMsg, _internal_metadata_),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ConnectMsg, _is_default_instance_));
+  HeartbeatMessage_descriptor_ = file->message_type(2);
+  static const int HeartbeatMessage_offsets_[2] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HeartbeatMessage, service_id_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HeartbeatMessage, service_type_),
+  };
+  HeartbeatMessage_reflection_ =
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
+      HeartbeatMessage_descriptor_,
+      HeartbeatMessage::default_instance_,
+      HeartbeatMessage_offsets_,
+      -1,
+      -1,
+      -1,
+      sizeof(HeartbeatMessage),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HeartbeatMessage, _internal_metadata_),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(HeartbeatMessage, _is_default_instance_));
+  SubscriptionMsg_descriptor_ = file->message_type(3);
   static const int SubscriptionMsg_offsets_[2] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SubscriptionMsg, publisher_id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SubscriptionMsg, subscriber_id_),
@@ -105,7 +128,7 @@ void protobuf_AssignDesc_datatypes_2funit_2eproto() {
       sizeof(SubscriptionMsg),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SubscriptionMsg, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SubscriptionMsg, _is_default_instance_));
-  UpdatedUnit_descriptor_ = file->message_type(3);
+  UpdatedUnit_descriptor_ = file->message_type(4);
   static const int UpdatedUnit_offsets_[2] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(UpdatedUnit, current_unit_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(UpdatedUnit, state_),
@@ -121,7 +144,7 @@ void protobuf_AssignDesc_datatypes_2funit_2eproto() {
       sizeof(UpdatedUnit),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(UpdatedUnit, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(UpdatedUnit, _is_default_instance_));
-  UpdatedUnits_descriptor_ = file->message_type(4);
+  UpdatedUnits_descriptor_ = file->message_type(5);
   static const int UpdatedUnits_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(UpdatedUnits, items_),
   };
@@ -136,7 +159,7 @@ void protobuf_AssignDesc_datatypes_2funit_2eproto() {
       sizeof(UpdatedUnits),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(UpdatedUnits, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(UpdatedUnits, _is_default_instance_));
-  Units_descriptor_ = file->message_type(5);
+  Units_descriptor_ = file->message_type(6);
   static const int Units_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Units, items_),
   };
@@ -151,7 +174,8 @@ void protobuf_AssignDesc_datatypes_2funit_2eproto() {
       sizeof(Units),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Units, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Units, _is_default_instance_));
-  UnitConfiguration_descriptor_ = file->message_type(6);
+  Units_ItemsEntry_descriptor_ = Units_descriptor_->nested_type(0);
+  UnitConfiguration_descriptor_ = file->message_type(7);
   static const int UnitConfiguration_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(UnitConfiguration, master_ip_address_),
   };
@@ -166,7 +190,7 @@ void protobuf_AssignDesc_datatypes_2funit_2eproto() {
       sizeof(UnitConfiguration),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(UnitConfiguration, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(UnitConfiguration, _is_default_instance_));
-  UnitLocationState_descriptor_ = file->message_type(7);
+  UnitLocationState_descriptor_ = file->message_type(8);
   static const int UnitLocationState_offsets_[2] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(UnitLocationState, location_id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(UnitLocationState, state_),
@@ -183,6 +207,7 @@ void protobuf_AssignDesc_datatypes_2funit_2eproto() {
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(UnitLocationState, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(UnitLocationState, _is_default_instance_));
   UnitState_descriptor_ = file->enum_type(0);
+  ServiceType_descriptor_ = file->enum_type(1);
 }
 
 namespace {
@@ -198,7 +223,9 @@ void protobuf_RegisterTypes(const ::std::string&) {
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
       Unit_descriptor_, &Unit::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-      ConnectedUnit_descriptor_, &ConnectedUnit::default_instance());
+      ConnectMsg_descriptor_, &ConnectMsg::default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+      HeartbeatMessage_descriptor_, &HeartbeatMessage::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
       SubscriptionMsg_descriptor_, &SubscriptionMsg::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
@@ -207,6 +234,15 @@ void protobuf_RegisterTypes(const ::std::string&) {
       UpdatedUnits_descriptor_, &UpdatedUnits::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
       Units_descriptor_, &Units::default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+        Units_ItemsEntry_descriptor_,
+        ::google::protobuf::internal::MapEntry<
+            ::std::string,
+            ::DataTypes::Unit,
+            ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+            ::google::protobuf::internal::WireFormatLite::TYPE_MESSAGE,
+            0>::CreateDefaultInstance(
+                Units_ItemsEntry_descriptor_));
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
       UnitConfiguration_descriptor_, &UnitConfiguration::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
@@ -218,8 +254,10 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void protobuf_ShutdownFile_datatypes_2funit_2eproto() {
   delete Unit::default_instance_;
   delete Unit_reflection_;
-  delete ConnectedUnit::default_instance_;
-  delete ConnectedUnit_reflection_;
+  delete ConnectMsg::default_instance_;
+  delete ConnectMsg_reflection_;
+  delete HeartbeatMessage::default_instance_;
+  delete HeartbeatMessage_reflection_;
   delete SubscriptionMsg::default_instance_;
   delete SubscriptionMsg_reflection_;
   delete UpdatedUnit::default_instance_;
@@ -243,29 +281,37 @@ void protobuf_AddDesc_datatypes_2funit_2eproto() {
   ::DataTypes::protobuf_AddDesc_datatypes_2flocation_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\024datatypes/unit.proto\022\tDataTypes\032\030datat"
-    "ypes/location.proto\"y\n\004Unit\0220\n\016connected"
-    "_unit\030\001 \001(\0132\030.DataTypes.ConnectedUnit\022\026\n"
-    "\016heartbeat_time\030\002 \001(\003\022\'\n\tlocations\030\003 \001(\013"
-    "2\024.DataTypes.Locations\"8\n\rConnectedUnit\022"
-    "\022\n\nip_address\030\001 \001(\t\022\023\n\013mac_address\030\002 \001(\t"
+    "ypes/location.proto\"p\n\004Unit\022\022\n\nip_addres"
+    "s\030\001 \001(\t\022\023\n\013mac_address\030\002 \001(\t\022\026\n\016heartbea"
+    "t_time\030\004 \001(\003\022\'\n\tlocations\030\005 \001(\0132\024.DataTy"
+    "pes.Locations\"c\n\nConnectMsg\022\022\n\nip_addres"
+    "s\030\001 \001(\t\022\023\n\013mac_address\030\002 \001(\t\022,\n\014service_"
+    "type\030\003 \001(\0162\026.DataTypes.ServiceType\"T\n\020He"
+    "artbeatMessage\022\022\n\nservice_id\030\001 \001(\t\022,\n\014se"
+    "rvice_type\030\002 \001(\0162\026.DataTypes.ServiceType"
     "\">\n\017SubscriptionMsg\022\024\n\014publisher_id\030\001 \001("
     "\t\022\025\n\rsubscriber_id\030\002 \001(\t\"Y\n\013UpdatedUnit\022"
     "%\n\014current_unit\030\001 \001(\0132\017.DataTypes.Unit\022#"
     "\n\005state\030\002 \001(\0162\024.DataTypes.UnitState\"5\n\014U"
     "pdatedUnits\022%\n\005items\030\001 \003(\0132\026.DataTypes.U"
-    "pdatedUnit\"\'\n\005Units\022\036\n\005items\030\001 \003(\0132\017.Dat"
-    "aTypes.Unit\".\n\021UnitConfiguration\022\031\n\021mast"
-    "er_ip_address\030\001 \001(\t\"Q\n\021UnitLocationState"
-    "\022\023\n\013location_id\030\001 \001(\t\022\'\n\005state\030\002 \001(\0162\030.D"
-    "ataTypes.LocationState*>\n\tUnitState\022\t\n\005N"
-    "one_\020\000\022\014\n\010Inserted\020\001\022\013\n\007Deleted\020\002\022\013\n\007Upd"
-    "ated\020\003BI\n\007ex.grpcZ8github.com/Enebra/Ser"
-    "viceCoordinator/grpc/datatypes/unit\242\002\003RT"
-    "Gb\006proto3", 769);
+    "pdatedUnit\"r\n\005Units\022*\n\005items\030\001 \003(\0132\033.Dat"
+    "aTypes.Units.ItemsEntry\032=\n\nItemsEntry\022\013\n"
+    "\003key\030\001 \001(\t\022\036\n\005value\030\002 \001(\0132\017.DataTypes.Un"
+    "it:\0028\001\".\n\021UnitConfiguration\022\031\n\021master_ip"
+    "_address\030\001 \001(\t\"Q\n\021UnitLocationState\022\023\n\013l"
+    "ocation_id\030\001 \001(\t\022\'\n\005state\030\002 \001(\0162\030.DataTy"
+    "pes.LocationState*>\n\tUnitState\022\t\n\005None_\020"
+    "\000\022\014\n\010Inserted\020\001\022\013\n\007Deleted\020\002\022\013\n\007Updated\020"
+    "\003*Y\n\013ServiceType\022\020\n\014None_Service\020\000\022\022\n\016Fa"
+    "cial_Service\020\001\022\022\n\016Client_Service\020\002\022\020\n\014Un"
+    "it_Service\020\003BI\n\007ex.grpcZ8github.com/Eneb"
+    "ra/ServiceCoordinator/grpc/datatypes/uni"
+    "t\242\002\003RTGb\006proto3", 1055);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "datatypes/unit.proto", &protobuf_RegisterTypes);
   Unit::default_instance_ = new Unit();
-  ConnectedUnit::default_instance_ = new ConnectedUnit();
+  ConnectMsg::default_instance_ = new ConnectMsg();
+  HeartbeatMessage::default_instance_ = new HeartbeatMessage();
   SubscriptionMsg::default_instance_ = new SubscriptionMsg();
   UpdatedUnit::default_instance_ = new UpdatedUnit();
   UpdatedUnits::default_instance_ = new UpdatedUnits();
@@ -273,7 +319,8 @@ void protobuf_AddDesc_datatypes_2funit_2eproto() {
   UnitConfiguration::default_instance_ = new UnitConfiguration();
   UnitLocationState::default_instance_ = new UnitLocationState();
   Unit::default_instance_->InitAsDefaultInstance();
-  ConnectedUnit::default_instance_->InitAsDefaultInstance();
+  ConnectMsg::default_instance_->InitAsDefaultInstance();
+  HeartbeatMessage::default_instance_->InitAsDefaultInstance();
   SubscriptionMsg::default_instance_->InitAsDefaultInstance();
   UpdatedUnit::default_instance_->InitAsDefaultInstance();
   UpdatedUnits::default_instance_->InitAsDefaultInstance();
@@ -305,6 +352,22 @@ bool UnitState_IsValid(int value) {
   }
 }
 
+const ::google::protobuf::EnumDescriptor* ServiceType_descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return ServiceType_descriptor_;
+}
+bool ServiceType_IsValid(int value) {
+  switch(value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      return true;
+    default:
+      return false;
+  }
+}
+
 
 namespace {
 
@@ -319,7 +382,8 @@ static void MergeFromFail(int line) {
 // ===================================================================
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int Unit::kConnectedUnitFieldNumber;
+const int Unit::kIpAddressFieldNumber;
+const int Unit::kMacAddressFieldNumber;
 const int Unit::kHeartbeatTimeFieldNumber;
 const int Unit::kLocationsFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
@@ -332,7 +396,6 @@ Unit::Unit()
 
 void Unit::InitAsDefaultInstance() {
   _is_default_instance_ = true;
-  connected_unit_ = const_cast< ::DataTypes::ConnectedUnit*>(&::DataTypes::ConnectedUnit::default_instance());
   locations_ = const_cast< ::DataTypes::Locations*>(&::DataTypes::Locations::default_instance());
 }
 
@@ -346,8 +409,10 @@ Unit::Unit(const Unit& from)
 
 void Unit::SharedCtor() {
     _is_default_instance_ = false;
+  ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
-  connected_unit_ = NULL;
+  ip_address_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  mac_address_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   heartbeat_time_ = GOOGLE_LONGLONG(0);
   locations_ = NULL;
 }
@@ -358,8 +423,9 @@ Unit::~Unit() {
 }
 
 void Unit::SharedDtor() {
+  ip_address_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  mac_address_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (this != default_instance_) {
-    delete connected_unit_;
     delete locations_;
   }
 }
@@ -391,8 +457,8 @@ Unit* Unit::New(::google::protobuf::Arena* arena) const {
 
 void Unit::Clear() {
 // @@protoc_insertion_point(message_clear_start:DataTypes.Unit)
-  if (GetArenaNoVirtual() == NULL && connected_unit_ != NULL) delete connected_unit_;
-  connected_unit_ = NULL;
+  ip_address_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  mac_address_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   heartbeat_time_ = GOOGLE_LONGLONG(0);
   if (GetArenaNoVirtual() == NULL && locations_ != NULL) delete locations_;
   locations_ = NULL;
@@ -408,21 +474,42 @@ bool Unit::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // optional .DataTypes.ConnectedUnit connected_unit = 1;
+      // optional string ip_address = 1;
       case 1: {
         if (tag == 10) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_connected_unit()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_ip_address()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->ip_address().data(), this->ip_address().length(),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "DataTypes.Unit.ip_address"));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(16)) goto parse_heartbeat_time;
+        if (input->ExpectTag(18)) goto parse_mac_address;
         break;
       }
 
-      // optional int64 heartbeat_time = 2;
+      // optional string mac_address = 2;
       case 2: {
-        if (tag == 16) {
+        if (tag == 18) {
+         parse_mac_address:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_mac_address()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->mac_address().data(), this->mac_address().length(),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "DataTypes.Unit.mac_address"));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(32)) goto parse_heartbeat_time;
+        break;
+      }
+
+      // optional int64 heartbeat_time = 4;
+      case 4: {
+        if (tag == 32) {
          parse_heartbeat_time:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
@@ -431,13 +518,13 @@ bool Unit::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(26)) goto parse_locations;
+        if (input->ExpectTag(42)) goto parse_locations;
         break;
       }
 
-      // optional .DataTypes.Locations locations = 3;
-      case 3: {
-        if (tag == 26) {
+      // optional .DataTypes.Locations locations = 5;
+      case 5: {
+        if (tag == 42) {
          parse_locations:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_locations()));
@@ -472,21 +559,35 @@ failure:
 void Unit::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:DataTypes.Unit)
-  // optional .DataTypes.ConnectedUnit connected_unit = 1;
-  if (this->has_connected_unit()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, *this->connected_unit_, output);
+  // optional string ip_address = 1;
+  if (this->ip_address().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->ip_address().data(), this->ip_address().length(),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "DataTypes.Unit.ip_address");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->ip_address(), output);
   }
 
-  // optional int64 heartbeat_time = 2;
+  // optional string mac_address = 2;
+  if (this->mac_address().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->mac_address().data(), this->mac_address().length(),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "DataTypes.Unit.mac_address");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      2, this->mac_address(), output);
+  }
+
+  // optional int64 heartbeat_time = 4;
   if (this->heartbeat_time() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt64(2, this->heartbeat_time(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt64(4, this->heartbeat_time(), output);
   }
 
-  // optional .DataTypes.Locations locations = 3;
+  // optional .DataTypes.Locations locations = 5;
   if (this->has_locations()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      3, *this->locations_, output);
+      5, *this->locations_, output);
   }
 
   // @@protoc_insertion_point(serialize_end:DataTypes.Unit)
@@ -495,23 +596,38 @@ void Unit::SerializeWithCachedSizes(
 ::google::protobuf::uint8* Unit::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:DataTypes.Unit)
-  // optional .DataTypes.ConnectedUnit connected_unit = 1;
-  if (this->has_connected_unit()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, *this->connected_unit_, target);
+  // optional string ip_address = 1;
+  if (this->ip_address().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->ip_address().data(), this->ip_address().length(),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "DataTypes.Unit.ip_address");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->ip_address(), target);
   }
 
-  // optional int64 heartbeat_time = 2;
+  // optional string mac_address = 2;
+  if (this->mac_address().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->mac_address().data(), this->mac_address().length(),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "DataTypes.Unit.mac_address");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        2, this->mac_address(), target);
+  }
+
+  // optional int64 heartbeat_time = 4;
   if (this->heartbeat_time() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(2, this->heartbeat_time(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(4, this->heartbeat_time(), target);
   }
 
-  // optional .DataTypes.Locations locations = 3;
+  // optional .DataTypes.Locations locations = 5;
   if (this->has_locations()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
-        3, *this->locations_, target);
+        5, *this->locations_, target);
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:DataTypes.Unit)
@@ -522,21 +638,28 @@ int Unit::ByteSize() const {
 // @@protoc_insertion_point(message_byte_size_start:DataTypes.Unit)
   int total_size = 0;
 
-  // optional .DataTypes.ConnectedUnit connected_unit = 1;
-  if (this->has_connected_unit()) {
+  // optional string ip_address = 1;
+  if (this->ip_address().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-        *this->connected_unit_);
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->ip_address());
   }
 
-  // optional int64 heartbeat_time = 2;
+  // optional string mac_address = 2;
+  if (this->mac_address().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->mac_address());
+  }
+
+  // optional int64 heartbeat_time = 4;
   if (this->heartbeat_time() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int64Size(
         this->heartbeat_time());
   }
 
-  // optional .DataTypes.Locations locations = 3;
+  // optional .DataTypes.Locations locations = 5;
   if (this->has_locations()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
@@ -567,8 +690,13 @@ void Unit::MergeFrom(const ::google::protobuf::Message& from) {
 void Unit::MergeFrom(const Unit& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:DataTypes.Unit)
   if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
-  if (from.has_connected_unit()) {
-    mutable_connected_unit()->::DataTypes::ConnectedUnit::MergeFrom(from.connected_unit());
+  if (from.ip_address().size() > 0) {
+
+    ip_address_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.ip_address_);
+  }
+  if (from.mac_address().size() > 0) {
+
+    mac_address_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.mac_address_);
   }
   if (from.heartbeat_time() != 0) {
     set_heartbeat_time(from.heartbeat_time());
@@ -602,7 +730,8 @@ void Unit::Swap(Unit* other) {
   InternalSwap(other);
 }
 void Unit::InternalSwap(Unit* other) {
-  std::swap(connected_unit_, other->connected_unit_);
+  ip_address_.Swap(&other->ip_address_);
+  mac_address_.Swap(&other->mac_address_);
   std::swap(heartbeat_time_, other->heartbeat_time_);
   std::swap(locations_, other->locations_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
@@ -620,45 +749,95 @@ void Unit::InternalSwap(Unit* other) {
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
 // Unit
 
-// optional .DataTypes.ConnectedUnit connected_unit = 1;
-bool Unit::has_connected_unit() const {
-  return !_is_default_instance_ && connected_unit_ != NULL;
+// optional string ip_address = 1;
+void Unit::clear_ip_address() {
+  ip_address_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-void Unit::clear_connected_unit() {
-  if (GetArenaNoVirtual() == NULL && connected_unit_ != NULL) delete connected_unit_;
-  connected_unit_ = NULL;
+ const ::std::string& Unit::ip_address() const {
+  // @@protoc_insertion_point(field_get:DataTypes.Unit.ip_address)
+  return ip_address_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-const ::DataTypes::ConnectedUnit& Unit::connected_unit() const {
-  // @@protoc_insertion_point(field_get:DataTypes.Unit.connected_unit)
-  return connected_unit_ != NULL ? *connected_unit_ : *default_instance_->connected_unit_;
-}
-::DataTypes::ConnectedUnit* Unit::mutable_connected_unit() {
+ void Unit::set_ip_address(const ::std::string& value) {
   
-  if (connected_unit_ == NULL) {
-    connected_unit_ = new ::DataTypes::ConnectedUnit;
-  }
-  // @@protoc_insertion_point(field_mutable:DataTypes.Unit.connected_unit)
-  return connected_unit_;
+  ip_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:DataTypes.Unit.ip_address)
 }
-::DataTypes::ConnectedUnit* Unit::release_connected_unit() {
-  // @@protoc_insertion_point(field_release:DataTypes.Unit.connected_unit)
+ void Unit::set_ip_address(const char* value) {
   
-  ::DataTypes::ConnectedUnit* temp = connected_unit_;
-  connected_unit_ = NULL;
-  return temp;
+  ip_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:DataTypes.Unit.ip_address)
 }
-void Unit::set_allocated_connected_unit(::DataTypes::ConnectedUnit* connected_unit) {
-  delete connected_unit_;
-  connected_unit_ = connected_unit;
-  if (connected_unit) {
+ void Unit::set_ip_address(const char* value, size_t size) {
+  
+  ip_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:DataTypes.Unit.ip_address)
+}
+ ::std::string* Unit::mutable_ip_address() {
+  
+  // @@protoc_insertion_point(field_mutable:DataTypes.Unit.ip_address)
+  return ip_address_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* Unit::release_ip_address() {
+  // @@protoc_insertion_point(field_release:DataTypes.Unit.ip_address)
+  
+  return ip_address_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void Unit::set_allocated_ip_address(::std::string* ip_address) {
+  if (ip_address != NULL) {
     
   } else {
     
   }
-  // @@protoc_insertion_point(field_set_allocated:DataTypes.Unit.connected_unit)
+  ip_address_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ip_address);
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.Unit.ip_address)
 }
 
-// optional int64 heartbeat_time = 2;
+// optional string mac_address = 2;
+void Unit::clear_mac_address() {
+  mac_address_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ const ::std::string& Unit::mac_address() const {
+  // @@protoc_insertion_point(field_get:DataTypes.Unit.mac_address)
+  return mac_address_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void Unit::set_mac_address(const ::std::string& value) {
+  
+  mac_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:DataTypes.Unit.mac_address)
+}
+ void Unit::set_mac_address(const char* value) {
+  
+  mac_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:DataTypes.Unit.mac_address)
+}
+ void Unit::set_mac_address(const char* value, size_t size) {
+  
+  mac_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:DataTypes.Unit.mac_address)
+}
+ ::std::string* Unit::mutable_mac_address() {
+  
+  // @@protoc_insertion_point(field_mutable:DataTypes.Unit.mac_address)
+  return mac_address_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* Unit::release_mac_address() {
+  // @@protoc_insertion_point(field_release:DataTypes.Unit.mac_address)
+  
+  return mac_address_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void Unit::set_allocated_mac_address(::std::string* mac_address) {
+  if (mac_address != NULL) {
+    
+  } else {
+    
+  }
+  mac_address_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), mac_address);
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.Unit.mac_address)
+}
+
+// optional int64 heartbeat_time = 4;
 void Unit::clear_heartbeat_time() {
   heartbeat_time_ = GOOGLE_LONGLONG(0);
 }
@@ -672,7 +851,7 @@ void Unit::clear_heartbeat_time() {
   // @@protoc_insertion_point(field_set:DataTypes.Unit.heartbeat_time)
 }
 
-// optional .DataTypes.Locations locations = 3;
+// optional .DataTypes.Locations locations = 5;
 bool Unit::has_locations() const {
   return !_is_default_instance_ && locations_ != NULL;
 }
@@ -715,84 +894,87 @@ void Unit::set_allocated_locations(::DataTypes::Locations* locations) {
 // ===================================================================
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int ConnectedUnit::kIpAddressFieldNumber;
-const int ConnectedUnit::kMacAddressFieldNumber;
+const int ConnectMsg::kIpAddressFieldNumber;
+const int ConnectMsg::kMacAddressFieldNumber;
+const int ConnectMsg::kServiceTypeFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-ConnectedUnit::ConnectedUnit()
+ConnectMsg::ConnectMsg()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:DataTypes.ConnectedUnit)
+  // @@protoc_insertion_point(constructor:DataTypes.ConnectMsg)
 }
 
-void ConnectedUnit::InitAsDefaultInstance() {
+void ConnectMsg::InitAsDefaultInstance() {
   _is_default_instance_ = true;
 }
 
-ConnectedUnit::ConnectedUnit(const ConnectedUnit& from)
+ConnectMsg::ConnectMsg(const ConnectMsg& from)
   : ::google::protobuf::Message(),
     _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:DataTypes.ConnectedUnit)
+  // @@protoc_insertion_point(copy_constructor:DataTypes.ConnectMsg)
 }
 
-void ConnectedUnit::SharedCtor() {
+void ConnectMsg::SharedCtor() {
     _is_default_instance_ = false;
   ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
   ip_address_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   mac_address_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  service_type_ = 0;
 }
 
-ConnectedUnit::~ConnectedUnit() {
-  // @@protoc_insertion_point(destructor:DataTypes.ConnectedUnit)
+ConnectMsg::~ConnectMsg() {
+  // @@protoc_insertion_point(destructor:DataTypes.ConnectMsg)
   SharedDtor();
 }
 
-void ConnectedUnit::SharedDtor() {
+void ConnectMsg::SharedDtor() {
   ip_address_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   mac_address_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (this != default_instance_) {
   }
 }
 
-void ConnectedUnit::SetCachedSize(int size) const {
+void ConnectMsg::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* ConnectedUnit::descriptor() {
+const ::google::protobuf::Descriptor* ConnectMsg::descriptor() {
   protobuf_AssignDescriptorsOnce();
-  return ConnectedUnit_descriptor_;
+  return ConnectMsg_descriptor_;
 }
 
-const ConnectedUnit& ConnectedUnit::default_instance() {
+const ConnectMsg& ConnectMsg::default_instance() {
   if (default_instance_ == NULL) protobuf_AddDesc_datatypes_2funit_2eproto();
   return *default_instance_;
 }
 
-ConnectedUnit* ConnectedUnit::default_instance_ = NULL;
+ConnectMsg* ConnectMsg::default_instance_ = NULL;
 
-ConnectedUnit* ConnectedUnit::New(::google::protobuf::Arena* arena) const {
-  ConnectedUnit* n = new ConnectedUnit;
+ConnectMsg* ConnectMsg::New(::google::protobuf::Arena* arena) const {
+  ConnectMsg* n = new ConnectMsg;
   if (arena != NULL) {
     arena->Own(n);
   }
   return n;
 }
 
-void ConnectedUnit::Clear() {
-// @@protoc_insertion_point(message_clear_start:DataTypes.ConnectedUnit)
+void ConnectMsg::Clear() {
+// @@protoc_insertion_point(message_clear_start:DataTypes.ConnectMsg)
   ip_address_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   mac_address_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  service_type_ = 0;
 }
 
-bool ConnectedUnit::MergePartialFromCodedStream(
+bool ConnectMsg::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:DataTypes.ConnectedUnit)
+  // @@protoc_insertion_point(parse_start:DataTypes.ConnectMsg)
   for (;;) {
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
     tag = p.first;
@@ -806,7 +988,7 @@ bool ConnectedUnit::MergePartialFromCodedStream(
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
             this->ip_address().data(), this->ip_address().length(),
             ::google::protobuf::internal::WireFormatLite::PARSE,
-            "DataTypes.ConnectedUnit.ip_address"));
+            "DataTypes.ConnectMsg.ip_address"));
         } else {
           goto handle_unusual;
         }
@@ -823,7 +1005,23 @@ bool ConnectedUnit::MergePartialFromCodedStream(
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
             this->mac_address().data(), this->mac_address().length(),
             ::google::protobuf::internal::WireFormatLite::PARSE,
-            "DataTypes.ConnectedUnit.mac_address"));
+            "DataTypes.ConnectMsg.mac_address"));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(24)) goto parse_service_type;
+        break;
+      }
+
+      // optional .DataTypes.ServiceType service_type = 3;
+      case 3: {
+        if (tag == 24) {
+         parse_service_type:
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          set_service_type(static_cast< ::DataTypes::ServiceType >(value));
         } else {
           goto handle_unusual;
         }
@@ -844,23 +1042,23 @@ bool ConnectedUnit::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:DataTypes.ConnectedUnit)
+  // @@protoc_insertion_point(parse_success:DataTypes.ConnectMsg)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:DataTypes.ConnectedUnit)
+  // @@protoc_insertion_point(parse_failure:DataTypes.ConnectMsg)
   return false;
 #undef DO_
 }
 
-void ConnectedUnit::SerializeWithCachedSizes(
+void ConnectMsg::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:DataTypes.ConnectedUnit)
+  // @@protoc_insertion_point(serialize_start:DataTypes.ConnectMsg)
   // optional string ip_address = 1;
   if (this->ip_address().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->ip_address().data(), this->ip_address().length(),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "DataTypes.ConnectedUnit.ip_address");
+      "DataTypes.ConnectMsg.ip_address");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       1, this->ip_address(), output);
   }
@@ -870,23 +1068,29 @@ void ConnectedUnit::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->mac_address().data(), this->mac_address().length(),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "DataTypes.ConnectedUnit.mac_address");
+      "DataTypes.ConnectMsg.mac_address");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->mac_address(), output);
   }
 
-  // @@protoc_insertion_point(serialize_end:DataTypes.ConnectedUnit)
+  // optional .DataTypes.ServiceType service_type = 3;
+  if (this->service_type() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      3, this->service_type(), output);
+  }
+
+  // @@protoc_insertion_point(serialize_end:DataTypes.ConnectMsg)
 }
 
-::google::protobuf::uint8* ConnectedUnit::SerializeWithCachedSizesToArray(
+::google::protobuf::uint8* ConnectMsg::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:DataTypes.ConnectedUnit)
+  // @@protoc_insertion_point(serialize_to_array_start:DataTypes.ConnectMsg)
   // optional string ip_address = 1;
   if (this->ip_address().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->ip_address().data(), this->ip_address().length(),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "DataTypes.ConnectedUnit.ip_address");
+      "DataTypes.ConnectMsg.ip_address");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         1, this->ip_address(), target);
@@ -897,18 +1101,24 @@ void ConnectedUnit::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->mac_address().data(), this->mac_address().length(),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "DataTypes.ConnectedUnit.mac_address");
+      "DataTypes.ConnectMsg.mac_address");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->mac_address(), target);
   }
 
-  // @@protoc_insertion_point(serialize_to_array_end:DataTypes.ConnectedUnit)
+  // optional .DataTypes.ServiceType service_type = 3;
+  if (this->service_type() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      3, this->service_type(), target);
+  }
+
+  // @@protoc_insertion_point(serialize_to_array_end:DataTypes.ConnectMsg)
   return target;
 }
 
-int ConnectedUnit::ByteSize() const {
-// @@protoc_insertion_point(message_byte_size_start:DataTypes.ConnectedUnit)
+int ConnectMsg::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:DataTypes.ConnectMsg)
   int total_size = 0;
 
   // optional string ip_address = 1;
@@ -925,29 +1135,35 @@ int ConnectedUnit::ByteSize() const {
         this->mac_address());
   }
 
+  // optional .DataTypes.ServiceType service_type = 3;
+  if (this->service_type() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->service_type());
+  }
+
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = total_size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
   return total_size;
 }
 
-void ConnectedUnit::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:DataTypes.ConnectedUnit)
+void ConnectMsg::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:DataTypes.ConnectMsg)
   if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
-  const ConnectedUnit* source = 
-      ::google::protobuf::internal::DynamicCastToGenerated<const ConnectedUnit>(
+  const ConnectMsg* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const ConnectMsg>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:DataTypes.ConnectedUnit)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:DataTypes.ConnectMsg)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:DataTypes.ConnectedUnit)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:DataTypes.ConnectMsg)
     MergeFrom(*source);
   }
 }
 
-void ConnectedUnit::MergeFrom(const ConnectedUnit& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:DataTypes.ConnectedUnit)
+void ConnectMsg::MergeFrom(const ConnectMsg& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:DataTypes.ConnectMsg)
   if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
   if (from.ip_address().size() > 0) {
 
@@ -957,135 +1173,488 @@ void ConnectedUnit::MergeFrom(const ConnectedUnit& from) {
 
     mac_address_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.mac_address_);
   }
+  if (from.service_type() != 0) {
+    set_service_type(from.service_type());
+  }
 }
 
-void ConnectedUnit::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:DataTypes.ConnectedUnit)
+void ConnectMsg::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:DataTypes.ConnectMsg)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void ConnectedUnit::CopyFrom(const ConnectedUnit& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:DataTypes.ConnectedUnit)
+void ConnectMsg::CopyFrom(const ConnectMsg& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:DataTypes.ConnectMsg)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool ConnectedUnit::IsInitialized() const {
+bool ConnectMsg::IsInitialized() const {
 
   return true;
 }
 
-void ConnectedUnit::Swap(ConnectedUnit* other) {
+void ConnectMsg::Swap(ConnectMsg* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void ConnectedUnit::InternalSwap(ConnectedUnit* other) {
+void ConnectMsg::InternalSwap(ConnectMsg* other) {
   ip_address_.Swap(&other->ip_address_);
   mac_address_.Swap(&other->mac_address_);
+  std::swap(service_type_, other->service_type_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
 }
 
-::google::protobuf::Metadata ConnectedUnit::GetMetadata() const {
+::google::protobuf::Metadata ConnectMsg::GetMetadata() const {
   protobuf_AssignDescriptorsOnce();
   ::google::protobuf::Metadata metadata;
-  metadata.descriptor = ConnectedUnit_descriptor_;
-  metadata.reflection = ConnectedUnit_reflection_;
+  metadata.descriptor = ConnectMsg_descriptor_;
+  metadata.reflection = ConnectMsg_reflection_;
   return metadata;
 }
 
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
-// ConnectedUnit
+// ConnectMsg
 
 // optional string ip_address = 1;
-void ConnectedUnit::clear_ip_address() {
+void ConnectMsg::clear_ip_address() {
   ip_address_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- const ::std::string& ConnectedUnit::ip_address() const {
-  // @@protoc_insertion_point(field_get:DataTypes.ConnectedUnit.ip_address)
+ const ::std::string& ConnectMsg::ip_address() const {
+  // @@protoc_insertion_point(field_get:DataTypes.ConnectMsg.ip_address)
   return ip_address_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- void ConnectedUnit::set_ip_address(const ::std::string& value) {
+ void ConnectMsg::set_ip_address(const ::std::string& value) {
   
   ip_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:DataTypes.ConnectedUnit.ip_address)
+  // @@protoc_insertion_point(field_set:DataTypes.ConnectMsg.ip_address)
 }
- void ConnectedUnit::set_ip_address(const char* value) {
+ void ConnectMsg::set_ip_address(const char* value) {
   
   ip_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:DataTypes.ConnectedUnit.ip_address)
+  // @@protoc_insertion_point(field_set_char:DataTypes.ConnectMsg.ip_address)
 }
- void ConnectedUnit::set_ip_address(const char* value, size_t size) {
+ void ConnectMsg::set_ip_address(const char* value, size_t size) {
   
   ip_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:DataTypes.ConnectedUnit.ip_address)
+  // @@protoc_insertion_point(field_set_pointer:DataTypes.ConnectMsg.ip_address)
 }
- ::std::string* ConnectedUnit::mutable_ip_address() {
+ ::std::string* ConnectMsg::mutable_ip_address() {
   
-  // @@protoc_insertion_point(field_mutable:DataTypes.ConnectedUnit.ip_address)
+  // @@protoc_insertion_point(field_mutable:DataTypes.ConnectMsg.ip_address)
   return ip_address_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- ::std::string* ConnectedUnit::release_ip_address() {
-  // @@protoc_insertion_point(field_release:DataTypes.ConnectedUnit.ip_address)
+ ::std::string* ConnectMsg::release_ip_address() {
+  // @@protoc_insertion_point(field_release:DataTypes.ConnectMsg.ip_address)
   
   return ip_address_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- void ConnectedUnit::set_allocated_ip_address(::std::string* ip_address) {
+ void ConnectMsg::set_allocated_ip_address(::std::string* ip_address) {
   if (ip_address != NULL) {
     
   } else {
     
   }
   ip_address_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ip_address);
-  // @@protoc_insertion_point(field_set_allocated:DataTypes.ConnectedUnit.ip_address)
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.ConnectMsg.ip_address)
 }
 
 // optional string mac_address = 2;
-void ConnectedUnit::clear_mac_address() {
+void ConnectMsg::clear_mac_address() {
   mac_address_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- const ::std::string& ConnectedUnit::mac_address() const {
-  // @@protoc_insertion_point(field_get:DataTypes.ConnectedUnit.mac_address)
+ const ::std::string& ConnectMsg::mac_address() const {
+  // @@protoc_insertion_point(field_get:DataTypes.ConnectMsg.mac_address)
   return mac_address_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- void ConnectedUnit::set_mac_address(const ::std::string& value) {
+ void ConnectMsg::set_mac_address(const ::std::string& value) {
   
   mac_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:DataTypes.ConnectedUnit.mac_address)
+  // @@protoc_insertion_point(field_set:DataTypes.ConnectMsg.mac_address)
 }
- void ConnectedUnit::set_mac_address(const char* value) {
+ void ConnectMsg::set_mac_address(const char* value) {
   
   mac_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:DataTypes.ConnectedUnit.mac_address)
+  // @@protoc_insertion_point(field_set_char:DataTypes.ConnectMsg.mac_address)
 }
- void ConnectedUnit::set_mac_address(const char* value, size_t size) {
+ void ConnectMsg::set_mac_address(const char* value, size_t size) {
   
   mac_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:DataTypes.ConnectedUnit.mac_address)
+  // @@protoc_insertion_point(field_set_pointer:DataTypes.ConnectMsg.mac_address)
 }
- ::std::string* ConnectedUnit::mutable_mac_address() {
+ ::std::string* ConnectMsg::mutable_mac_address() {
   
-  // @@protoc_insertion_point(field_mutable:DataTypes.ConnectedUnit.mac_address)
+  // @@protoc_insertion_point(field_mutable:DataTypes.ConnectMsg.mac_address)
   return mac_address_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- ::std::string* ConnectedUnit::release_mac_address() {
-  // @@protoc_insertion_point(field_release:DataTypes.ConnectedUnit.mac_address)
+ ::std::string* ConnectMsg::release_mac_address() {
+  // @@protoc_insertion_point(field_release:DataTypes.ConnectMsg.mac_address)
   
   return mac_address_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- void ConnectedUnit::set_allocated_mac_address(::std::string* mac_address) {
+ void ConnectMsg::set_allocated_mac_address(::std::string* mac_address) {
   if (mac_address != NULL) {
     
   } else {
     
   }
   mac_address_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), mac_address);
-  // @@protoc_insertion_point(field_set_allocated:DataTypes.ConnectedUnit.mac_address)
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.ConnectMsg.mac_address)
+}
+
+// optional .DataTypes.ServiceType service_type = 3;
+void ConnectMsg::clear_service_type() {
+  service_type_ = 0;
+}
+ ::DataTypes::ServiceType ConnectMsg::service_type() const {
+  // @@protoc_insertion_point(field_get:DataTypes.ConnectMsg.service_type)
+  return static_cast< ::DataTypes::ServiceType >(service_type_);
+}
+ void ConnectMsg::set_service_type(::DataTypes::ServiceType value) {
+  
+  service_type_ = value;
+  // @@protoc_insertion_point(field_set:DataTypes.ConnectMsg.service_type)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
+
+// ===================================================================
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int HeartbeatMessage::kServiceIdFieldNumber;
+const int HeartbeatMessage::kServiceTypeFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+HeartbeatMessage::HeartbeatMessage()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:DataTypes.HeartbeatMessage)
+}
+
+void HeartbeatMessage::InitAsDefaultInstance() {
+  _is_default_instance_ = true;
+}
+
+HeartbeatMessage::HeartbeatMessage(const HeartbeatMessage& from)
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:DataTypes.HeartbeatMessage)
+}
+
+void HeartbeatMessage::SharedCtor() {
+    _is_default_instance_ = false;
+  ::google::protobuf::internal::GetEmptyString();
+  _cached_size_ = 0;
+  service_id_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  service_type_ = 0;
+}
+
+HeartbeatMessage::~HeartbeatMessage() {
+  // @@protoc_insertion_point(destructor:DataTypes.HeartbeatMessage)
+  SharedDtor();
+}
+
+void HeartbeatMessage::SharedDtor() {
+  service_id_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (this != default_instance_) {
+  }
+}
+
+void HeartbeatMessage::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* HeartbeatMessage::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return HeartbeatMessage_descriptor_;
+}
+
+const HeartbeatMessage& HeartbeatMessage::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_datatypes_2funit_2eproto();
+  return *default_instance_;
+}
+
+HeartbeatMessage* HeartbeatMessage::default_instance_ = NULL;
+
+HeartbeatMessage* HeartbeatMessage::New(::google::protobuf::Arena* arena) const {
+  HeartbeatMessage* n = new HeartbeatMessage;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void HeartbeatMessage::Clear() {
+// @@protoc_insertion_point(message_clear_start:DataTypes.HeartbeatMessage)
+  service_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  service_type_ = 0;
+}
+
+bool HeartbeatMessage::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:DataTypes.HeartbeatMessage)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // optional string service_id = 1;
+      case 1: {
+        if (tag == 10) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_service_id()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->service_id().data(), this->service_id().length(),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "DataTypes.HeartbeatMessage.service_id"));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(16)) goto parse_service_type;
+        break;
+      }
+
+      // optional .DataTypes.ServiceType service_type = 2;
+      case 2: {
+        if (tag == 16) {
+         parse_service_type:
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          set_service_type(static_cast< ::DataTypes::ServiceType >(value));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:DataTypes.HeartbeatMessage)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:DataTypes.HeartbeatMessage)
+  return false;
+#undef DO_
+}
+
+void HeartbeatMessage::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:DataTypes.HeartbeatMessage)
+  // optional string service_id = 1;
+  if (this->service_id().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->service_id().data(), this->service_id().length(),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "DataTypes.HeartbeatMessage.service_id");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->service_id(), output);
+  }
+
+  // optional .DataTypes.ServiceType service_type = 2;
+  if (this->service_type() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      2, this->service_type(), output);
+  }
+
+  // @@protoc_insertion_point(serialize_end:DataTypes.HeartbeatMessage)
+}
+
+::google::protobuf::uint8* HeartbeatMessage::SerializeWithCachedSizesToArray(
+    ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:DataTypes.HeartbeatMessage)
+  // optional string service_id = 1;
+  if (this->service_id().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->service_id().data(), this->service_id().length(),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "DataTypes.HeartbeatMessage.service_id");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->service_id(), target);
+  }
+
+  // optional .DataTypes.ServiceType service_type = 2;
+  if (this->service_type() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      2, this->service_type(), target);
+  }
+
+  // @@protoc_insertion_point(serialize_to_array_end:DataTypes.HeartbeatMessage)
+  return target;
+}
+
+int HeartbeatMessage::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:DataTypes.HeartbeatMessage)
+  int total_size = 0;
+
+  // optional string service_id = 1;
+  if (this->service_id().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->service_id());
+  }
+
+  // optional .DataTypes.ServiceType service_type = 2;
+  if (this->service_type() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->service_type());
+  }
+
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void HeartbeatMessage::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:DataTypes.HeartbeatMessage)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
+  const HeartbeatMessage* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const HeartbeatMessage>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:DataTypes.HeartbeatMessage)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:DataTypes.HeartbeatMessage)
+    MergeFrom(*source);
+  }
+}
+
+void HeartbeatMessage::MergeFrom(const HeartbeatMessage& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:DataTypes.HeartbeatMessage)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
+  if (from.service_id().size() > 0) {
+
+    service_id_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.service_id_);
+  }
+  if (from.service_type() != 0) {
+    set_service_type(from.service_type());
+  }
+}
+
+void HeartbeatMessage::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:DataTypes.HeartbeatMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void HeartbeatMessage::CopyFrom(const HeartbeatMessage& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:DataTypes.HeartbeatMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool HeartbeatMessage::IsInitialized() const {
+
+  return true;
+}
+
+void HeartbeatMessage::Swap(HeartbeatMessage* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void HeartbeatMessage::InternalSwap(HeartbeatMessage* other) {
+  service_id_.Swap(&other->service_id_);
+  std::swap(service_type_, other->service_type_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata HeartbeatMessage::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = HeartbeatMessage_descriptor_;
+  metadata.reflection = HeartbeatMessage_reflection_;
+  return metadata;
+}
+
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// HeartbeatMessage
+
+// optional string service_id = 1;
+void HeartbeatMessage::clear_service_id() {
+  service_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ const ::std::string& HeartbeatMessage::service_id() const {
+  // @@protoc_insertion_point(field_get:DataTypes.HeartbeatMessage.service_id)
+  return service_id_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void HeartbeatMessage::set_service_id(const ::std::string& value) {
+  
+  service_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:DataTypes.HeartbeatMessage.service_id)
+}
+ void HeartbeatMessage::set_service_id(const char* value) {
+  
+  service_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:DataTypes.HeartbeatMessage.service_id)
+}
+ void HeartbeatMessage::set_service_id(const char* value, size_t size) {
+  
+  service_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:DataTypes.HeartbeatMessage.service_id)
+}
+ ::std::string* HeartbeatMessage::mutable_service_id() {
+  
+  // @@protoc_insertion_point(field_mutable:DataTypes.HeartbeatMessage.service_id)
+  return service_id_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* HeartbeatMessage::release_service_id() {
+  // @@protoc_insertion_point(field_release:DataTypes.HeartbeatMessage.service_id)
+  
+  return service_id_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void HeartbeatMessage::set_allocated_service_id(::std::string* service_id) {
+  if (service_id != NULL) {
+    
+  } else {
+    
+  }
+  service_id_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), service_id);
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.HeartbeatMessage.service_id)
+}
+
+// optional .DataTypes.ServiceType service_type = 2;
+void HeartbeatMessage::clear_service_type() {
+  service_type_ = 0;
+}
+ ::DataTypes::ServiceType HeartbeatMessage::service_type() const {
+  // @@protoc_insertion_point(field_get:DataTypes.HeartbeatMessage.service_type)
+  return static_cast< ::DataTypes::ServiceType >(service_type_);
+}
+ void HeartbeatMessage::set_service_type(::DataTypes::ServiceType value) {
+  
+  service_type_ = value;
+  // @@protoc_insertion_point(field_set:DataTypes.HeartbeatMessage.service_type)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
@@ -2065,6 +2634,10 @@ Units::Units(const Units& from)
 void Units::SharedCtor() {
     _is_default_instance_ = false;
   _cached_size_ = 0;
+  items_.SetAssignDescriptorCallback(
+      protobuf_AssignDescriptorsOnce);
+  items_.SetEntryDescriptor(
+      &::DataTypes::Units_ItemsEntry_descriptor_);
 }
 
 Units::~Units() {
@@ -2117,13 +2690,19 @@ bool Units::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // repeated .DataTypes.Unit items = 1;
+      // map<string, .DataTypes.Unit> items = 1;
       case 1: {
         if (tag == 10) {
           DO_(input->IncrementRecursionDepth());
          parse_loop_items:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtualNoRecursionDepth(
-                input, add_items()));
+          ::google::protobuf::scoped_ptr<Units_ItemsEntry> entry(items_.NewEntry());
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+              input, entry.get()));
+          (*mutable_items())[entry->key()].Swap(entry->mutable_value());
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            entry->key().data(), entry->key().length(),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "DataTypes.Units.ItemsEntry.key"));
         } else {
           goto handle_unusual;
         }
@@ -2157,10 +2736,20 @@ failure:
 void Units::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:DataTypes.Units)
-  // repeated .DataTypes.Unit items = 1;
-  for (unsigned int i = 0, n = this->items_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, this->items(i), output);
+  // map<string, .DataTypes.Unit> items = 1;
+  {
+    ::google::protobuf::scoped_ptr<Units_ItemsEntry> entry;
+    for (::google::protobuf::Map< ::std::string, ::DataTypes::Unit >::const_iterator
+        it = this->items().begin();
+        it != this->items().end(); ++it) {
+      entry.reset(items_.NewEntryWrapper(it->first, it->second));
+      ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+          1, *entry, output);
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+        it->first.data(), it->first.length(),
+        ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+        "DataTypes.Units.ItemsEntry.key");
+    }
   }
 
   // @@protoc_insertion_point(serialize_end:DataTypes.Units)
@@ -2169,11 +2758,21 @@ void Units::SerializeWithCachedSizes(
 ::google::protobuf::uint8* Units::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:DataTypes.Units)
-  // repeated .DataTypes.Unit items = 1;
-  for (unsigned int i = 0, n = this->items_size(); i < n; i++) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->items(i), target);
+  // map<string, .DataTypes.Unit> items = 1;
+  {
+    ::google::protobuf::scoped_ptr<Units_ItemsEntry> entry;
+    for (::google::protobuf::Map< ::std::string, ::DataTypes::Unit >::const_iterator
+        it = this->items().begin();
+        it != this->items().end(); ++it) {
+      entry.reset(items_.NewEntryWrapper(it->first, it->second));
+      target = ::google::protobuf::internal::WireFormatLite::
+          WriteMessageNoVirtualToArray(
+              1, *entry, target);
+      ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+        it->first.data(), it->first.length(),
+        ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+        "DataTypes.Units.ItemsEntry.key");
+    }
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:DataTypes.Units)
@@ -2184,12 +2783,17 @@ int Units::ByteSize() const {
 // @@protoc_insertion_point(message_byte_size_start:DataTypes.Units)
   int total_size = 0;
 
-  // repeated .DataTypes.Unit items = 1;
+  // map<string, .DataTypes.Unit> items = 1;
   total_size += 1 * this->items_size();
-  for (int i = 0; i < this->items_size(); i++) {
-    total_size +=
-      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-        this->items(i));
+  {
+    ::google::protobuf::scoped_ptr<Units_ItemsEntry> entry;
+    for (::google::protobuf::Map< ::std::string, ::DataTypes::Unit >::const_iterator
+        it = this->items().begin();
+        it != this->items().end(); ++it) {
+      entry.reset(items_.NewEntryWrapper(it->first, it->second));
+      total_size += ::google::protobuf::internal::WireFormatLite::
+          MessageSizeNoVirtual(*entry);
+    }
   }
 
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
@@ -2243,7 +2847,7 @@ void Units::Swap(Units* other) {
   InternalSwap(other);
 }
 void Units::InternalSwap(Units* other) {
-  items_.UnsafeArenaSwap(&other->items_);
+  items_.Swap(&other->items_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
 }
@@ -2259,34 +2863,22 @@ void Units::InternalSwap(Units* other) {
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
 // Units
 
-// repeated .DataTypes.Unit items = 1;
+// map<string, .DataTypes.Unit> items = 1;
 int Units::items_size() const {
   return items_.size();
 }
 void Units::clear_items() {
   items_.Clear();
 }
-const ::DataTypes::Unit& Units::items(int index) const {
-  // @@protoc_insertion_point(field_get:DataTypes.Units.items)
-  return items_.Get(index);
-}
-::DataTypes::Unit* Units::mutable_items(int index) {
-  // @@protoc_insertion_point(field_mutable:DataTypes.Units.items)
-  return items_.Mutable(index);
-}
-::DataTypes::Unit* Units::add_items() {
-  // @@protoc_insertion_point(field_add:DataTypes.Units.items)
-  return items_.Add();
-}
-::google::protobuf::RepeatedPtrField< ::DataTypes::Unit >*
-Units::mutable_items() {
-  // @@protoc_insertion_point(field_mutable_list:DataTypes.Units.items)
-  return &items_;
-}
-const ::google::protobuf::RepeatedPtrField< ::DataTypes::Unit >&
+ const ::google::protobuf::Map< ::std::string, ::DataTypes::Unit >&
 Units::items() const {
-  // @@protoc_insertion_point(field_list:DataTypes.Units.items)
-  return items_;
+  // @@protoc_insertion_point(field_map:DataTypes.Units.items)
+  return items_.GetMap();
+}
+ ::google::protobuf::Map< ::std::string, ::DataTypes::Unit >*
+Units::mutable_items() {
+  // @@protoc_insertion_point(field_mutable_map:DataTypes.Units.items)
+  return items_.MutableMap();
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

@@ -6,18 +6,24 @@
 #include <threadable.hpp>
 #include <mutex>
 #include <contracts/video/iplayer.hpp>
+#include <contracts/devices/device_observer.hpp>
+#include <contracts/devices/video_device/istream_data.hpp>
+#include <contracts/observers/observable..hpp>
 
 namespace directshow_device
 {
+	typedef contracts::devices::IDeviceObserver<contracts::devices::video_device::IStreamData> IVideoDeviceObserver;
+
 	class DirectshowDeviceListener final : public utils::Threadable
-		                                   , public contracts::video::IMediaPlayer
+		     , public contracts::video::IMediaPlayer
+		     , public contracts::observers::Observable<IVideoDeviceObserver>
+		     , public IVideoDeviceObserver
 	{
 	public:
 		explicit DirectshowDeviceListener(std::string device_name)
 			: device_name_(device_name)
 		{}
-
-
+		
 		void try_kill  () override {
 			commands_.push(contracts::video::PlayerCommands::Kill);
 		}

@@ -2,9 +2,7 @@
 #define Observable_Included
 
 #include "iobservable.hpp"
-#include <contracts/common/iequatable.hpp>
 #include <concurrent_containers.hpp>
-
 
 namespace contracts
 {
@@ -16,33 +14,30 @@ namespace contracts
 		public:
 			virtual ~Observable() {}
 
-			void subscribe(const T& observer) override
+			void subscribe(std::shared_ptr<T> observer) override
 			{
-				common::IObject& obj = observer;
 				if (!has_observer(observer))
-					observers_.insert(obj.get_hash_code(), observer);
+					observers_.push_back(observer);
 			}
 
-			void unsubscribe(const T& observer) override
+			void unsubscribe(std::shared_ptr<T> observer) override
 			{
-				common::IObject& obj = observer;
 				if (has_observer(observer))
-					observers_.remove(obj.get_hash_code());
+					observers_.remove(observer);
 			}
 
-			bool has_observer(const T& observer) override
+			bool has_observer(std::shared_ptr<T> observer) override
 			{
-				common::IObject& obj = observer;
-				return observers_.contains(obj.get_hash_code());
+				return observers_.contains(observer);
 			}
 
 			void unsubscribe_all() override
 			{
 				observers_.clear();
-			}
+			}			
 
-		private:
-			concurrency::containers::ConcurrentMap<int, T> observers_;
+		protected:
+			concurrency::containers::ConcurrentVector<std::shared_ptr<T>> observers_;
 		};
 	}
 }

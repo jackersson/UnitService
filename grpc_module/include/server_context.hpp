@@ -1,15 +1,15 @@
-#ifndef ServiceContext_INCLUDED
-#define ServiceContext_INCLUDED
+#ifndef ServerContext_INCLUDED
+#define ServerContext_INCLUDED
 
 #include <grpc++/grpc++.h>
 #include <contracts/services/service_address.hpp>
 
 namespace grpc_services
 {
-	class ServiceContext
+	class ServerContext
 	{
 	public:
-		explicit ServiceContext( contracts::services::ServiceAddress address
+		explicit ServerContext( contracts::services::ServiceAddress address
 			                     , std::shared_ptr<grpc::ServerBuilder> builder)
 			: server_builder_(builder)
 			, address_(address)

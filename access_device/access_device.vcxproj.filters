@@ -25,10 +25,22 @@
     <Filter Include="include\access_device\commands">
       <UniqueIdentifier>{603a1a16-2fc6-42af-8af6-6412d6efa7a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\access_device\common">
+      <UniqueIdentifier>{c0c33812-7aa0-45ab-8d1e-ed41400dcfc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\access_device">
+      <UniqueIdentifier>{d419ddab-dd1b-4fff-907f-d50ec165c523}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\access_device\core">
+      <UniqueIdentifier>{c31ee3f6-6a3e-4689-9620-0fec06df7b89}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\access_device\core\timeout_serial.cpp">
+      <Filter>src\access_device\core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -48,9 +60,6 @@
       <Filter>include\access_device\rs232</Filter>
     </ClInclude>
     <ClInclude Include="include\access_device\commands\command.hpp">
-      <Filter>include\access_device\commands</Filter>
-    </ClInclude>
-    <ClInclude Include="include\access_device\commands\command_execution_result.hpp">
       <Filter>include\access_device\commands</Filter>
     </ClInclude>
     <ClInclude Include="include\access_device\commands\command_result.hpp">
@@ -76,6 +85,12 @@
     </ClInclude>
     <ClInclude Include="include\access_device\commands\command_factory.hpp">
       <Filter>include\access_device\commands</Filter>
+    </ClInclude>
+    <ClInclude Include="include\access_device\common\access_device_state.hpp">
+      <Filter>include\access_device\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\access_device\core\timeout_serial.hpp">
+      <Filter>include\access_device\core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

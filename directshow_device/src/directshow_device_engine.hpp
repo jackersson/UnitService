@@ -4,19 +4,22 @@
 #include <concurrent_containers.hpp>
 #include <directshow_device_enumerator.hpp>
 #include <directshow_device_listener.hpp>
+#include <contracts/devices/video_device/istream_data.hpp>
+#include <contracts/devices/video_device/ivideo_engine.hpp>
 
 namespace directshow_device
 {
-	class DirectShowDeviceEngine
+	typedef contracts::devices::IDeviceObserver<contracts::devices::video_device::IStreamData>  IStreamData;
+	class DirectShowDeviceEngine : public contracts::devices::video_device::IVideoEngine
 	{
 	public:
 		DirectShowDeviceEngine() {
-			init();
+			DirectShowDeviceEngine::init();
 		}
 
 		~DirectShowDeviceEngine() {}
 
-		void stop_all()
+		void stop_all() override
 		{
 			device_enumerator_.stop();
 			for (auto it = devices_.begin(); it != devices_.end(); ++it)
@@ -25,7 +28,7 @@ namespace directshow_device
 			devices_.clear();
 		}
 
-		void add(const std::string& device_name)
+		void add(const std::string& device_name) override
 		{
 			if (device_name == "")
 				return;
@@ -39,7 +42,7 @@ namespace directshow_device
 			devices_.insert(device_name, listener);
 		}
 
-		void remove(const std::string& device_name)
+		void remove(const std::string& device_name) override
 		{
 			if (device_name == "")
 				return;
@@ -55,7 +58,7 @@ namespace directshow_device
 			}
 		}
 
-		bool is_active(const std::string& device_name)
+		bool is_active(const std::string& device_name) override
 		{
 			if (device_name == "")
 				return false;
@@ -69,78 +72,66 @@ namespace directshow_device
 				return false;
 			}
 		}
-		/*
-		void Execute(const std::string& device_name, lights command)
-		{
-		if (device_name == "")
-		return;
+		
 
-		AccessDeviceListener listener;
-		if (devices_.find(device_name, listener))
-		listener.execute<LightCommandImpl>(command);
+	
+		void subscribe( const IStreamData& observer
+			            , const std::string& device_name) override
+		{
+			if (device_name == "")
+				return;
+
+			try
+			{
+				auto& listener = devices_.find(device_name);
+				return listener->subscribe(observer);
+			}
+			catch (std::exception&) {
+				//Not implemented
+			}
 		}
 
-		void subscribe(IDeviceObserver<ICommandResult> observer, std::string device_name)
+		void unsubscribe(const IStreamData& observer) override
 		{
-		if (device_name == "")
-		return;
-
-		AccessDeviceListener listener;
-		if (devices_.find(device_name, listener))
-		listener.subscribe(observer);
+			for (auto it : devices_) {
+				it.second->unsubscribe(observer);
+			}
 		}
 
-		void unsubscribe(IDeviceObserver<ICommandResult> observer)
+		bool has_observer(const IStreamData& observer
+			, const std::string& device_name) override
 		{
-		foreach(var listener in _devices.Select(par = > par.Value).Where(listener = > listener.HasObserver(observer)))
-		listener.Unsubscribe(observer);
+			if (device_name == "")
+				return false;
+			try
+			{
+				auto& listener = devices_.find(device_name);
+				return listener->has_observer(observer);
+			}
+			catch (std::exception&) {
+				return false;
+			}
 		}
 
-		bool has_observer(IDeviceObserver<ICommandResult> observer, std::string device_name)
+		void unsubscribe_all() override
 		{
-		if (device_name == "")
-		return false;
-
-		AccessDeviceListener listener;
-		return devices_.find(device_name, listener) && listener.has_observer(observer);
+			for (auto it : devices_) {
+				it.second->unsubscribe_all();
+			}
 		}
-		*/
-		const contracts::devices::IDeviceEnumerator& device_enumerator() const
+
+		const contracts::devices::IDeviceEnumerator& device_enumerator() const override
 		{
 			return device_enumerator_;
 		}
-		/*
-		void add_range(std::vector<std::string> devices)
-		{
-		if (devices.size() <= 0)
-		{
-		stop_all();
-		return;
-		}
-
-		//auto devices_to_add = devices.// devices.Where(x = > !ContainsKey(x));
-		for ( auto it: devices_)
-		{
-		if ()
-		}
-		auto devicesToRemove = _devices.Keys.Where(x = > !devices.Contains(x));
-
-		foreach(var deviceName in devicesToAdd.Where(deviceName = > !string.IsNullOrEmpty(deviceName)))
-		Add(deviceName);
-
-
-		foreach(var deviceName in devicesToRemove.Where(deviceName = > !string.IsNullOrEmpty(deviceName)))
-		Remove(deviceName);
-		}
-		*/
-
-		void de_init()
+		
+		void de_init() override
 		{
 			stop_all();
 			device_enumerator_.stop();
 		}
 
-		void init()
+		void init() override
 		{
 			device_enumerator_.start();
 		}

@@ -28,7 +28,8 @@ const ::google::protobuf::Descriptor* Key_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   Key_reflection_ = NULL;
 struct KeyOneofInstance {
-  ::google::protobuf::int64 id_;
+  ::google::protobuf::int64 number_;
+  ::google::protobuf::internal::ArenaStringPtr identifier_;
   ::google::protobuf::internal::ArenaStringPtr guid_;
 }* Key_default_oneof_instance_ = NULL;
 const ::google::protobuf::EnumDescriptor* DataType_descriptor_ = NULL;
@@ -59,8 +60,9 @@ void protobuf_AssignDesc_datatypes_2fdata_2eproto() {
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(MessageBytes, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(MessageBytes, _is_default_instance_));
   Key_descriptor_ = file->message_type(1);
-  static const int Key_offsets_[3] = {
-    PROTO2_GENERATED_DEFAULT_ONEOF_FIELD_OFFSET(Key_default_oneof_instance_, id_),
+  static const int Key_offsets_[4] = {
+    PROTO2_GENERATED_DEFAULT_ONEOF_FIELD_OFFSET(Key_default_oneof_instance_, number_),
+    PROTO2_GENERATED_DEFAULT_ONEOF_FIELD_OFFSET(Key_default_oneof_instance_, identifier_),
     PROTO2_GENERATED_DEFAULT_ONEOF_FIELD_OFFSET(Key_default_oneof_instance_, guid_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Key, id_type_),
   };
@@ -115,13 +117,14 @@ void protobuf_AddDesc_datatypes_2fdata_2eproto() {
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\024datatypes/data.proto\022\tDataTypes\"\?\n\014Mes"
     "sageBytes\022\014\n\004data\030\001 \001(\014\022!\n\004type\030\002 \001(\0162\023."
-    "DataTypes.DataType\".\n\003Key\022\014\n\002id\030\001 \001(\003H\000\022"
-    "\016\n\004guid\030\002 \001(\tH\000B\t\n\007id_type*p\n\010DataType\022\014"
-    "\n\010NoneType\020\000\022\022\n\016GetRequestType\020\001\022\023\n\017GetR"
-    "esponseType\020\002\022\025\n\021CommitRequestType\020\003\022\026\n\022"
-    "CommitResponseType\020\004BI\n\007ex.grpcZ8github."
-    "com/Enebra/ServiceCoordinator/grpc/datat"
-    "ypes/data\242\002\003RTGb\006proto3", 343);
+    "DataTypes.DataType\"H\n\003Key\022\020\n\006number\030\001 \001("
+    "\003H\000\022\024\n\nidentifier\030\002 \001(\tH\000\022\016\n\004guid\030\003 \001(\014H"
+    "\000B\t\n\007id_type*p\n\010DataType\022\014\n\010NoneType\020\000\022\022"
+    "\n\016GetRequestType\020\001\022\023\n\017GetResponseType\020\002\022"
+    "\025\n\021CommitRequestType\020\003\022\026\n\022CommitResponse"
+    "Type\020\004BI\n\007ex.grpcZ8github.com/Enebra/Ser"
+    "viceCoordinator/grpc/datatypes/data\242\002\003RT"
+    "Gb\006proto3", 369);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "datatypes/data.proto", &protobuf_RegisterTypes);
   MessageBytes::default_instance_ = new MessageBytes();
@@ -492,7 +495,8 @@ void MessageBytes::clear_type() {
 // ===================================================================
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int Key::kIdFieldNumber;
+const int Key::kNumberFieldNumber;
+const int Key::kIdentifierFieldNumber;
 const int Key::kGuidFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
@@ -504,7 +508,8 @@ Key::Key()
 
 void Key::InitAsDefaultInstance() {
   _is_default_instance_ = true;
-  Key_default_oneof_instance_->id_ = GOOGLE_LONGLONG(0);
+  Key_default_oneof_instance_->number_ = GOOGLE_LONGLONG(0);
+  Key_default_oneof_instance_->identifier_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   Key_default_oneof_instance_->guid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
@@ -564,8 +569,12 @@ Key* Key::New(::google::protobuf::Arena* arena) const {
 void Key::clear_id_type() {
 // @@protoc_insertion_point(one_of_clear_start:DataTypes.Key)
   switch(id_type_case()) {
-    case kId: {
+    case kNumber: {
       // No need to clear
+      break;
+    }
+    case kIdentifier: {
+      id_type_.identifier_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
       break;
     }
     case kGuid: {
@@ -595,31 +604,44 @@ bool Key::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // optional int64 id = 1;
+      // optional int64 number = 1;
       case 1: {
         if (tag == 8) {
           clear_id_type();
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
-                 input, &id_type_.id_)));
-          set_has_id();
+                 input, &id_type_.number_)));
+          set_has_number();
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(18)) goto parse_guid;
+        if (input->ExpectTag(18)) goto parse_identifier;
         break;
       }
 
-      // optional string guid = 2;
+      // optional string identifier = 2;
       case 2: {
         if (tag == 18) {
-         parse_guid:
+         parse_identifier:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_guid()));
+                input, this->mutable_identifier()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->guid().data(), this->guid().length(),
+            this->identifier().data(), this->identifier().length(),
             ::google::protobuf::internal::WireFormatLite::PARSE,
-            "DataTypes.Key.guid"));
+            "DataTypes.Key.identifier"));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(26)) goto parse_guid;
+        break;
+      }
+
+      // optional bytes guid = 3;
+      case 3: {
+        if (tag == 26) {
+         parse_guid:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+                input, this->mutable_guid()));
         } else {
           goto handle_unusual;
         }
@@ -651,19 +673,25 @@ failure:
 void Key::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:DataTypes.Key)
-  // optional int64 id = 1;
-  if (has_id()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt64(1, this->id(), output);
+  // optional int64 number = 1;
+  if (has_number()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt64(1, this->number(), output);
   }
 
-  // optional string guid = 2;
-  if (has_guid()) {
+  // optional string identifier = 2;
+  if (has_identifier()) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->guid().data(), this->guid().length(),
+      this->identifier().data(), this->identifier().length(),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "DataTypes.Key.guid");
+      "DataTypes.Key.identifier");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      2, this->guid(), output);
+      2, this->identifier(), output);
+  }
+
+  // optional bytes guid = 3;
+  if (has_guid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+      3, this->guid(), output);
   }
 
   // @@protoc_insertion_point(serialize_end:DataTypes.Key)
@@ -672,20 +700,27 @@ void Key::SerializeWithCachedSizes(
 ::google::protobuf::uint8* Key::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:DataTypes.Key)
-  // optional int64 id = 1;
-  if (has_id()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(1, this->id(), target);
+  // optional int64 number = 1;
+  if (has_number()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(1, this->number(), target);
   }
 
-  // optional string guid = 2;
-  if (has_guid()) {
+  // optional string identifier = 2;
+  if (has_identifier()) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->guid().data(), this->guid().length(),
+      this->identifier().data(), this->identifier().length(),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "DataTypes.Key.guid");
+      "DataTypes.Key.identifier");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        2, this->guid(), target);
+        2, this->identifier(), target);
+  }
+
+  // optional bytes guid = 3;
+  if (has_guid()) {
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+        3, this->guid(), target);
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:DataTypes.Key)
@@ -697,17 +732,24 @@ int Key::ByteSize() const {
   int total_size = 0;
 
   switch (id_type_case()) {
-    // optional int64 id = 1;
-    case kId: {
+    // optional int64 number = 1;
+    case kNumber: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int64Size(
-          this->id());
+          this->number());
       break;
     }
-    // optional string guid = 2;
-    case kGuid: {
+    // optional string identifier = 2;
+    case kIdentifier: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->identifier());
+      break;
+    }
+    // optional bytes guid = 3;
+    case kGuid: {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::BytesSize(
           this->guid());
       break;
     }
@@ -740,8 +782,12 @@ void Key::MergeFrom(const Key& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:DataTypes.Key)
   if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
   switch (from.id_type_case()) {
-    case kId: {
-      set_id(from.id());
+    case kNumber: {
+      set_number(from.number());
+      break;
+    }
+    case kIdentifier: {
+      set_identifier(from.identifier());
       break;
     }
     case kGuid: {
@@ -795,36 +841,117 @@ void Key::InternalSwap(Key* other) {
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
 // Key
 
-// optional int64 id = 1;
-bool Key::has_id() const {
-  return id_type_case() == kId;
+// optional int64 number = 1;
+bool Key::has_number() const {
+  return id_type_case() == kNumber;
 }
-void Key::set_has_id() {
-  _oneof_case_[0] = kId;
+void Key::set_has_number() {
+  _oneof_case_[0] = kNumber;
 }
-void Key::clear_id() {
-  if (has_id()) {
-    id_type_.id_ = GOOGLE_LONGLONG(0);
+void Key::clear_number() {
+  if (has_number()) {
+    id_type_.number_ = GOOGLE_LONGLONG(0);
     clear_has_id_type();
   }
 }
- ::google::protobuf::int64 Key::id() const {
-  // @@protoc_insertion_point(field_get:DataTypes.Key.id)
-  if (has_id()) {
-    return id_type_.id_;
+ ::google::protobuf::int64 Key::number() const {
+  // @@protoc_insertion_point(field_get:DataTypes.Key.number)
+  if (has_number()) {
+    return id_type_.number_;
   }
   return GOOGLE_LONGLONG(0);
 }
- void Key::set_id(::google::protobuf::int64 value) {
-  if (!has_id()) {
+ void Key::set_number(::google::protobuf::int64 value) {
+  if (!has_number()) {
     clear_id_type();
-    set_has_id();
+    set_has_number();
   }
-  id_type_.id_ = value;
-  // @@protoc_insertion_point(field_set:DataTypes.Key.id)
+  id_type_.number_ = value;
+  // @@protoc_insertion_point(field_set:DataTypes.Key.number)
 }
 
-// optional string guid = 2;
+// optional string identifier = 2;
+bool Key::has_identifier() const {
+  return id_type_case() == kIdentifier;
+}
+void Key::set_has_identifier() {
+  _oneof_case_[0] = kIdentifier;
+}
+void Key::clear_identifier() {
+  if (has_identifier()) {
+    id_type_.identifier_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    clear_has_id_type();
+  }
+}
+ const ::std::string& Key::identifier() const {
+  // @@protoc_insertion_point(field_get:DataTypes.Key.identifier)
+  if (has_identifier()) {
+    return id_type_.identifier_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  return *&::google::protobuf::internal::GetEmptyStringAlreadyInited();
+}
+ void Key::set_identifier(const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:DataTypes.Key.identifier)
+  if (!has_identifier()) {
+    clear_id_type();
+    set_has_identifier();
+    id_type_.identifier_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  id_type_.identifier_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:DataTypes.Key.identifier)
+}
+ void Key::set_identifier(const char* value) {
+  if (!has_identifier()) {
+    clear_id_type();
+    set_has_identifier();
+    id_type_.identifier_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  id_type_.identifier_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:DataTypes.Key.identifier)
+}
+ void Key::set_identifier(const char* value, size_t size) {
+  if (!has_identifier()) {
+    clear_id_type();
+    set_has_identifier();
+    id_type_.identifier_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  id_type_.identifier_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:DataTypes.Key.identifier)
+}
+ ::std::string* Key::mutable_identifier() {
+  if (!has_identifier()) {
+    clear_id_type();
+    set_has_identifier();
+    id_type_.identifier_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_mutable:DataTypes.Key.identifier)
+  return id_type_.identifier_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* Key::release_identifier() {
+  // @@protoc_insertion_point(field_release:DataTypes.Key.identifier)
+  if (has_identifier()) {
+    clear_has_id_type();
+    return id_type_.identifier_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  } else {
+    return NULL;
+  }
+}
+ void Key::set_allocated_identifier(::std::string* identifier) {
+  if (!has_identifier()) {
+    id_type_.identifier_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  clear_id_type();
+  if (identifier != NULL) {
+    set_has_identifier();
+    id_type_.identifier_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+        identifier);
+  }
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.Key.identifier)
+}
+
+// optional bytes guid = 3;
 bool Key::has_guid() const {
   return id_type_case() == kGuid;
 }
@@ -864,7 +991,7 @@ void Key::clear_guid() {
       ::std::string(value));
   // @@protoc_insertion_point(field_set_char:DataTypes.Key.guid)
 }
- void Key::set_guid(const char* value, size_t size) {
+ void Key::set_guid(const void* value, size_t size) {
   if (!has_guid()) {
     clear_id_type();
     set_has_guid();

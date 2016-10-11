@@ -35,5 +35,8 @@
     <ClInclude Include="include\directshow_device_listener.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\directshow_device_info.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

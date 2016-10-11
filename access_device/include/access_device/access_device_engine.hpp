@@ -5,13 +5,13 @@
 #include "serial_port_enumerator.hpp"
 #include "access_device_listener.hpp"
 #include <concurrent_containers.hpp>
-#include <contracts/devices/idevice_engine.hpp>
-#include <contracts/observers/observable..hpp>
+#include <contracts/devices/access_device/iaccess_device_engine.hpp>
 
 namespace access_device
 {
 	
-	class AccessDeviceEngine : public contracts::locations::IDeviceEngine
+	class AccessDeviceEngine 
+		: public contracts::devices::access_device::IAccessDeviceEngine
 	{
 	public:
 		AccessDeviceEngine()
@@ -74,10 +74,10 @@ namespace access_device
 				return false;
 			}	
 		}
-		
-		
-		void Execute(const std::string& device_name
-			         , contracts::devices::access_device::lights command)
+
+		void execute(const std::string& device_name
+			, contracts::devices::access_device::lights data
+			= contracts::devices::access_device::lNone) override
 		{
 			if (device_name == "")
 				return;
@@ -85,17 +85,18 @@ namespace access_device
 			try
 			{
 				auto& listener = devices_.find(device_name);
-				return listener->execute<>(command);
+				return listener->execute<commands::LightCommandImpl>(data);
 			}
 			catch (std::exception&) {
 				//Not implemented
 			}
 		}
-		
+			
 
-		void subscribe( const IAccessDeviceObserver& observer
+		void subscribe( IAccessDeviceObserverPtr observer
 				          , const std::string& device_name) override
 		{
+			
 			if (device_name == "")
 				return;
 
@@ -107,18 +108,20 @@ namespace access_device
 			catch (std::exception&)	{
 				//Not implemented
 			}
+			
 		}
 
-		void unsubscribe(const IAccessDeviceObserver& observer) override
+		void unsubscribe(IAccessDeviceObserverPtr observer) override
 		{
 			for ( auto it : devices_) {
 				it.second->unsubscribe(observer);
 			}		
 		}
 
-		bool has_observer( const IAccessDeviceObserver& observer
+		bool has_observer( IAccessDeviceObserverPtr observer
 			               , const std::string& device_name) override
 		{
+			
 			if (device_name == "")
 				return false;
 			try
@@ -129,6 +132,9 @@ namespace access_device
 			catch (std::exception&) {
 				return false;
 			}		
+			
+			return false;
+
 		}
 
 		void unsubscribe_all() override
@@ -141,31 +147,7 @@ namespace access_device
 		const contracts::devices::IDeviceEnumerator& device_enumerator() const override
 		{
 			return device_enumerator_;
-		}
-		/*
-		void add_range(std::vector<std::string> devices)
-		{
-			if (devices.size() <= 0)
-			{
-				stop_all();
-				return;
-			}
-
-			//auto devices_to_add = devices.// devices.Where(x = > !ContainsKey(x));
-			for ( auto it: devices_)
-			{
-				if ()
-			}
-			auto devicesToRemove = _devices.Keys.Where(x = > !devices.Contains(x));
-
-			foreach(var deviceName in devicesToAdd.Where(deviceName = > !string.IsNullOrEmpty(deviceName)))
-				Add(deviceName);
-
-
-			foreach(var deviceName in devicesToRemove.Where(deviceName = > !string.IsNullOrEmpty(deviceName)))
-				Remove(deviceName);
-		}
-		*/
+		}	
 
 		void de_init() override
 		{
@@ -191,11 +173,14 @@ namespace access_device
 		}
 
 		private:
+		AccessDeviceEngine(const AccessDeviceEngine& other) = delete;
+		AccessDeviceEngine& operator=(const AccessDeviceEngine&) = delete;
 
 		SerialPortEnumerator device_enumerator_;
 		concurrency::containers::ConcurrentMap<std::string, AccessDeviceListenerPtr> devices_;
 
 	};
+	
 }
 
 #endif

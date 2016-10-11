@@ -1,11 +1,9 @@
 #ifndef SerialPortIO_Included
 #define SerialPortIO_Included
 
-#include <asio/serial_port.hpp>
-#include <asio/write.hpp>
-#include <asio/read.hpp>
 #include <chrono>
 #include <thread>
+#include "timeout_serial.hpp"
 
 
 namespace access_device
@@ -15,7 +13,7 @@ namespace access_device
 	public:
 		virtual ~SerialPortIO() {}
 
-		bool execute( boost::asio::serial_port& sp
+		bool execute( TimeoutSerial& sp
 			          , const std::vector<unsigned char>& input
 			          , std::vector<unsigned char>& output
 			          , size_t total_count
@@ -24,21 +22,30 @@ namespace access_device
 			if (!sp.is_open())
 				return false;
 
-			write(sp, input);
-
+			if (!write(sp, input))
+				return false;
+			
 			std::this_thread::sleep_for(delay_);
 
 			read(sp, output, total_count, header);
 			return output.size() == total_count;
 		}
 
-		void write( boost::asio::serial_port& sp
+		bool write( TimeoutSerial& sp
 			        , const std::vector<unsigned char>& input) const
 		{
-			boost::asio::write(sp, boost::asio::buffer(input, input.size()));
+			try
+			{
+				sp.write((char*)input.data(), input.size());
+				return true;
+			}
+			catch (std::exception& ex) {
+				std::cout << ex.what() << std::endl;
+				return false;
+			}
 		}
 
-		void read( boost::asio::serial_port& sp
+		void read( TimeoutSerial& sp
 			       , std::vector<unsigned char>& output
 			       , size_t total_count
 			       , unsigned char header) const
@@ -47,29 +54,34 @@ namespace access_device
 			unsigned char value   = 0;
 
 			output.clear();
-
-			while (header != value || timeout < delay_.count())
+			output.push_back(header);
+			while (header != value || timeout < 10)
 			{
-				boost::asio::read(sp, boost::asio::buffer(&value, 1));
+				char readc = 0;
+				try
+				{
+					sp.read(&readc, 1);
+				}
+				catch (std::exception& ex) {
+					std::cout << ex.what() << std::endl;
+					break;
+				}
 
+				value = readc;
 				if (header == value)
 				{
-					output.push_back(value);
-					for (auto i = 1; i < total_count - 1; ++i)
-					{
-						value = 0;
-						boost::asio::read(sp, boost::asio::buffer(&value, 1));
-						output.push_back(value);
-					}
+					auto data = sp.read(total_count - 1);
+					for (auto ch : data)
+						output.push_back(ch);
 					break;
 				}
 				timeout++;
-			}
+			}		
 		}
 
 	private:
 		std::chrono::milliseconds delay_ = std::chrono::milliseconds(100);
-	};
+	};		
 }
 
 #endif

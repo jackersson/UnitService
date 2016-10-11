@@ -42,19 +42,19 @@ CoordinatorService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>&
   , rpcmethod_PushUpdates_(CoordinatorService_method_names[7], ::grpc::RpcMethod::NORMAL_RPC, channel)
   {}
 
-::grpc::Status CoordinatorService::Stub::Connect(::grpc::ClientContext* context, const ::DataTypes::ConnectedUnit& request, ::google::protobuf::Empty* response) {
+::grpc::Status CoordinatorService::Stub::Connect(::grpc::ClientContext* context, const ::DataTypes::ConnectMsg& request, ::google::protobuf::Empty* response) {
   return ::grpc::BlockingUnaryCall(channel_.get(), rpcmethod_Connect_, context, request, response);
 }
 
-::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* CoordinatorService::Stub::AsyncConnectRaw(::grpc::ClientContext* context, const ::DataTypes::ConnectedUnit& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* CoordinatorService::Stub::AsyncConnectRaw(::grpc::ClientContext* context, const ::DataTypes::ConnectMsg& request, ::grpc::CompletionQueue* cq) {
   return new ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>(channel_.get(), cq, rpcmethod_Connect_, context, request);
 }
 
-::grpc::Status CoordinatorService::Stub::Heartbeat(::grpc::ClientContext* context, const ::Services::HeartbeatMessage& request, ::google::protobuf::Empty* response) {
+::grpc::Status CoordinatorService::Stub::Heartbeat(::grpc::ClientContext* context, const ::DataTypes::HeartbeatMessage& request, ::google::protobuf::Empty* response) {
   return ::grpc::BlockingUnaryCall(channel_.get(), rpcmethod_Heartbeat_, context, request, response);
 }
 
-::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* CoordinatorService::Stub::AsyncHeartbeatRaw(::grpc::ClientContext* context, const ::Services::HeartbeatMessage& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* CoordinatorService::Stub::AsyncHeartbeatRaw(::grpc::ClientContext* context, const ::DataTypes::HeartbeatMessage& request, ::grpc::CompletionQueue* cq) {
   return new ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>(channel_.get(), cq, rpcmethod_Heartbeat_, context, request);
 }
 
@@ -111,12 +111,12 @@ CoordinatorService::Service::Service() {
   AddMethod(new ::grpc::RpcServiceMethod(
       CoordinatorService_method_names[0],
       ::grpc::RpcMethod::NORMAL_RPC,
-      new ::grpc::RpcMethodHandler< CoordinatorService::Service, ::DataTypes::ConnectedUnit, ::google::protobuf::Empty>(
+      new ::grpc::RpcMethodHandler< CoordinatorService::Service, ::DataTypes::ConnectMsg, ::google::protobuf::Empty>(
           std::mem_fn(&CoordinatorService::Service::Connect), this)));
   AddMethod(new ::grpc::RpcServiceMethod(
       CoordinatorService_method_names[1],
       ::grpc::RpcMethod::NORMAL_RPC,
-      new ::grpc::RpcMethodHandler< CoordinatorService::Service, ::Services::HeartbeatMessage, ::google::protobuf::Empty>(
+      new ::grpc::RpcMethodHandler< CoordinatorService::Service, ::DataTypes::HeartbeatMessage, ::google::protobuf::Empty>(
           std::mem_fn(&CoordinatorService::Service::Heartbeat), this)));
   AddMethod(new ::grpc::RpcServiceMethod(
       CoordinatorService_method_names[2],
@@ -153,14 +153,14 @@ CoordinatorService::Service::Service() {
 CoordinatorService::Service::~Service() {
 }
 
-::grpc::Status CoordinatorService::Service::Connect(::grpc::ServerContext* context, const ::DataTypes::ConnectedUnit* request, ::google::protobuf::Empty* response) {
+::grpc::Status CoordinatorService::Service::Connect(::grpc::ServerContext* context, const ::DataTypes::ConnectMsg* request, ::google::protobuf::Empty* response) {
   (void) context;
   (void) request;
   (void) response;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status CoordinatorService::Service::Heartbeat(::grpc::ServerContext* context, const ::Services::HeartbeatMessage* request, ::google::protobuf::Empty* response) {
+::grpc::Status CoordinatorService::Service::Heartbeat(::grpc::ServerContext* context, const ::DataTypes::HeartbeatMessage* request, ::google::protobuf::Empty* response) {
   (void) context;
   (void) request;
   (void) response;

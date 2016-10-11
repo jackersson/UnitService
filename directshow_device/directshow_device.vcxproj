@@ -153,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\directshow_device_enumerator.hpp" />
+    <ClInclude Include="include\directshow_device_info.hpp" />
     <ClInclude Include="include\directshow_device_listener.hpp" />
     <ClInclude Include="include\platform.hpp" />
     <ClInclude Include="src\directshow_device_engine.hpp" />

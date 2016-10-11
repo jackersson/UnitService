@@ -13,8 +13,10 @@ namespace contracts
 		public:
 			virtual ~ITrackLocationsCoordinator() {}
 
-			virtual const std::vector<ILocation> Locations() = 0;
+			virtual const std::vector<ILocationPtr>& locations() const = 0;
 		};
+
+		typedef std::shared_ptr<ITrackLocationsCoordinator> ITrackLocationsCoordinatorPtr;
 	}
 }
 

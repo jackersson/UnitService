@@ -23,11 +23,8 @@
 #include <google/protobuf/arenastring.h>
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/metadata.h>
-#include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>
 #include <google/protobuf/extension_set.h>
-#include <google/protobuf/generated_enum_reflection.h>
-#include <google/protobuf/unknown_field_set.h>
 #include <google/protobuf/empty.pb.h>
 #include "datatypes/unit.pb.h"
 #include "datatypes/data.pb.h"
@@ -41,185 +38,21 @@ void protobuf_AddDesc_services_2fcoordinator_5fservice_2eproto();
 void protobuf_AssignDesc_services_2fcoordinator_5fservice_2eproto();
 void protobuf_ShutdownFile_services_2fcoordinator_5fservice_2eproto();
 
-class HeartbeatMessage;
 
-enum ServiceType {
-  None_Type = 0,
-  Facial = 1,
-  AppUnit = 2,
-  Unit = 3,
-  ServiceType_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  ServiceType_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
-};
-bool ServiceType_IsValid(int value);
-const ServiceType ServiceType_MIN = None_Type;
-const ServiceType ServiceType_MAX = Unit;
-const int ServiceType_ARRAYSIZE = ServiceType_MAX + 1;
-
-const ::google::protobuf::EnumDescriptor* ServiceType_descriptor();
-inline const ::std::string& ServiceType_Name(ServiceType value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    ServiceType_descriptor(), value);
-}
-inline bool ServiceType_Parse(
-    const ::std::string& name, ServiceType* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<ServiceType>(
-    ServiceType_descriptor(), name, value);
-}
 // ===================================================================
 
-class HeartbeatMessage : public ::google::protobuf::Message {
- public:
-  HeartbeatMessage();
-  virtual ~HeartbeatMessage();
 
-  HeartbeatMessage(const HeartbeatMessage& from);
-
-  inline HeartbeatMessage& operator=(const HeartbeatMessage& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const HeartbeatMessage& default_instance();
-
-  void Swap(HeartbeatMessage* other);
-
-  // implements Message ----------------------------------------------
-
-  inline HeartbeatMessage* New() const { return New(NULL); }
-
-  HeartbeatMessage* New(::google::protobuf::Arena* arena) const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const HeartbeatMessage& from);
-  void MergeFrom(const HeartbeatMessage& from);
-  void Clear();
-  bool IsInitialized() const;
-
-  int ByteSize() const;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input);
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
-  int GetCachedSize() const { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  void InternalSwap(HeartbeatMessage* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return _internal_metadata_.arena();
-  }
-  inline void* MaybeArenaPtr() const {
-    return _internal_metadata_.raw_arena_ptr();
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // optional string service_id = 1;
-  void clear_service_id();
-  static const int kServiceIdFieldNumber = 1;
-  const ::std::string& service_id() const;
-  void set_service_id(const ::std::string& value);
-  void set_service_id(const char* value);
-  void set_service_id(const char* value, size_t size);
-  ::std::string* mutable_service_id();
-  ::std::string* release_service_id();
-  void set_allocated_service_id(::std::string* service_id);
-
-  // @@protoc_insertion_point(class_scope:Services.HeartbeatMessage)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  bool _is_default_instance_;
-  ::google::protobuf::internal::ArenaStringPtr service_id_;
-  mutable int _cached_size_;
-  friend void  protobuf_AddDesc_services_2fcoordinator_5fservice_2eproto();
-  friend void protobuf_AssignDesc_services_2fcoordinator_5fservice_2eproto();
-  friend void protobuf_ShutdownFile_services_2fcoordinator_5fservice_2eproto();
-
-  void InitAsDefaultInstance();
-  static HeartbeatMessage* default_instance_;
-};
 // ===================================================================
 
 
 // ===================================================================
 
 #if !PROTOBUF_INLINE_NOT_IN_HEADERS
-// HeartbeatMessage
-
-// optional string service_id = 1;
-inline void HeartbeatMessage::clear_service_id() {
-  service_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline const ::std::string& HeartbeatMessage::service_id() const {
-  // @@protoc_insertion_point(field_get:Services.HeartbeatMessage.service_id)
-  return service_id_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void HeartbeatMessage::set_service_id(const ::std::string& value) {
-  
-  service_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:Services.HeartbeatMessage.service_id)
-}
-inline void HeartbeatMessage::set_service_id(const char* value) {
-  
-  service_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:Services.HeartbeatMessage.service_id)
-}
-inline void HeartbeatMessage::set_service_id(const char* value, size_t size) {
-  
-  service_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:Services.HeartbeatMessage.service_id)
-}
-inline ::std::string* HeartbeatMessage::mutable_service_id() {
-  
-  // @@protoc_insertion_point(field_mutable:Services.HeartbeatMessage.service_id)
-  return service_id_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* HeartbeatMessage::release_service_id() {
-  // @@protoc_insertion_point(field_release:Services.HeartbeatMessage.service_id)
-  
-  return service_id_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void HeartbeatMessage::set_allocated_service_id(::std::string* service_id) {
-  if (service_id != NULL) {
-    
-  } else {
-    
-  }
-  service_id_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), service_id);
-  // @@protoc_insertion_point(field_set_allocated:Services.HeartbeatMessage.service_id)
-}
-
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace Services
-
-#ifndef SWIG
-namespace google {
-namespace protobuf {
-
-template <> struct is_proto_enum< ::Services::ServiceType> : ::google::protobuf::internal::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::Services::ServiceType>() {
-  return ::Services::ServiceType_descriptor();
-}
-
-}  // namespace protobuf
-}  // namespace google
-#endif  // SWIG
 
 // @@protoc_insertion_point(global_scope)
 

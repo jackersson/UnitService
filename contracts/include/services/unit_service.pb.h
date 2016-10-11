@@ -29,8 +29,6 @@
 #include <google/protobuf/unknown_field_set.h>
 #include <google/protobuf/empty.pb.h>
 #include "datatypes/location.pb.h"
-#include "datatypes/biometrics.pb.h"
-#include "datatypes/devices.pb.h"
 // @@protoc_insertion_point(includes)
 
 namespace Services {
@@ -111,32 +109,12 @@ class FrameBytes : public ::google::protobuf::Message {
   ::std::string* release_framedata();
   void set_allocated_framedata(::std::string* framedata);
 
-  // optional .DataTypes.Faces faces = 2;
-  bool has_faces() const;
-  void clear_faces();
-  static const int kFacesFieldNumber = 2;
-  const ::DataTypes::Faces& faces() const;
-  ::DataTypes::Faces* mutable_faces();
-  ::DataTypes::Faces* release_faces();
-  void set_allocated_faces(::DataTypes::Faces* faces);
-
-  // optional .DataTypes.Matches matches = 3;
-  bool has_matches() const;
-  void clear_matches();
-  static const int kMatchesFieldNumber = 3;
-  const ::DataTypes::Matches& matches() const;
-  ::DataTypes::Matches* mutable_matches();
-  ::DataTypes::Matches* release_matches();
-  void set_allocated_matches(::DataTypes::Matches* matches);
-
   // @@protoc_insertion_point(class_scope:Services.FrameBytes)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   bool _is_default_instance_;
   ::google::protobuf::internal::ArenaStringPtr framedata_;
-  ::DataTypes::Faces* faces_;
-  ::DataTypes::Matches* matches_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_services_2funit_5fservice_2eproto();
   friend void protobuf_AssignDesc_services_2funit_5fservice_2eproto();
@@ -195,82 +173,6 @@ inline void FrameBytes::set_allocated_framedata(::std::string* framedata) {
   }
   framedata_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), framedata);
   // @@protoc_insertion_point(field_set_allocated:Services.FrameBytes.frameData)
-}
-
-// optional .DataTypes.Faces faces = 2;
-inline bool FrameBytes::has_faces() const {
-  return !_is_default_instance_ && faces_ != NULL;
-}
-inline void FrameBytes::clear_faces() {
-  if (GetArenaNoVirtual() == NULL && faces_ != NULL) delete faces_;
-  faces_ = NULL;
-}
-inline const ::DataTypes::Faces& FrameBytes::faces() const {
-  // @@protoc_insertion_point(field_get:Services.FrameBytes.faces)
-  return faces_ != NULL ? *faces_ : *default_instance_->faces_;
-}
-inline ::DataTypes::Faces* FrameBytes::mutable_faces() {
-  
-  if (faces_ == NULL) {
-    faces_ = new ::DataTypes::Faces;
-  }
-  // @@protoc_insertion_point(field_mutable:Services.FrameBytes.faces)
-  return faces_;
-}
-inline ::DataTypes::Faces* FrameBytes::release_faces() {
-  // @@protoc_insertion_point(field_release:Services.FrameBytes.faces)
-  
-  ::DataTypes::Faces* temp = faces_;
-  faces_ = NULL;
-  return temp;
-}
-inline void FrameBytes::set_allocated_faces(::DataTypes::Faces* faces) {
-  delete faces_;
-  faces_ = faces;
-  if (faces) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_set_allocated:Services.FrameBytes.faces)
-}
-
-// optional .DataTypes.Matches matches = 3;
-inline bool FrameBytes::has_matches() const {
-  return !_is_default_instance_ && matches_ != NULL;
-}
-inline void FrameBytes::clear_matches() {
-  if (GetArenaNoVirtual() == NULL && matches_ != NULL) delete matches_;
-  matches_ = NULL;
-}
-inline const ::DataTypes::Matches& FrameBytes::matches() const {
-  // @@protoc_insertion_point(field_get:Services.FrameBytes.matches)
-  return matches_ != NULL ? *matches_ : *default_instance_->matches_;
-}
-inline ::DataTypes::Matches* FrameBytes::mutable_matches() {
-  
-  if (matches_ == NULL) {
-    matches_ = new ::DataTypes::Matches;
-  }
-  // @@protoc_insertion_point(field_mutable:Services.FrameBytes.matches)
-  return matches_;
-}
-inline ::DataTypes::Matches* FrameBytes::release_matches() {
-  // @@protoc_insertion_point(field_release:Services.FrameBytes.matches)
-  
-  ::DataTypes::Matches* temp = matches_;
-  matches_ = NULL;
-  return temp;
-}
-inline void FrameBytes::set_allocated_matches(::DataTypes::Matches* matches) {
-  delete matches_;
-  matches_ = matches;
-  if (matches) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_set_allocated:Services.FrameBytes.matches)
 }
 
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS

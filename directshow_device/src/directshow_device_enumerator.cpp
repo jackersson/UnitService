@@ -35,7 +35,9 @@ namespace directshow_device
 		actual_.clear();
 		auto devices = capture.getDevices();
 		for (auto dev : devices)
+		{
 			actual_.push_back(dev.name);
+		}
 	}
 
 	void DirectshowDeviceEnumerator::print()
