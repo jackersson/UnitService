@@ -3,9 +3,8 @@
 
 #include <map>
 #include <mutex>
-#include "containers_utils.hpp"
 
-namespace concurrency
+namespace concurrent
 {
 	namespace containers
 	{

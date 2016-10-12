@@ -10,14 +10,14 @@
 #include <boost/lexical_cast.hpp>
 
 #include "track_location.hpp"
-#include <containers_utils.hpp>
+#include <contracts/locations/itrack_location_coordinator.hpp>
 
 namespace tracking
 {
 	namespace locations
 	{
 		
-		class TrackLocationCoordinator
+		class TrackLocationCoordinator : public contracts::locations::ITrackLocationsCoordinator
 		{
 		public:
 			explicit TrackLocationCoordinator(contracts::IUnitContextPtr context)
@@ -29,6 +29,11 @@ namespace tracking
 			}
 
 			virtual ~TrackLocationCoordinator() {}
+
+			const std::vector<contracts::locations::ILocationPtr>& 
+				locations() const override {
+				return locations_;
+			}
 
 		private:
 			void on_data_changed()
@@ -48,6 +53,7 @@ namespace tracking
 					}
 					catch (std::exception& exception)
 					{
+						std::cout << exception.what() << std::endl;
 						auto track_location = std::make_shared<TrackLocation>(location, context_);
 						track_locations_.insert(guid, track_location);
 					}					
@@ -95,7 +101,7 @@ namespace tracking
 			std::vector<contracts::locations::ILocationPtr> locations_;
 
 
-			concurrency::containers::ConcurrentMap<boost::uuids::uuid, TrackLocationPtr> track_locations_;
+			concurrent::containers::ConcurrentMap<boost::uuids::uuid, TrackLocationPtr> track_locations_;
 		};
 		
 	}

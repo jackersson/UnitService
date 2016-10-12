@@ -155,6 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\datacontext\locations_data_context.hpp" />
+    <ClInclude Include="include\localstorage\locations_localstorage.hpp" />
     <ClInclude Include="include\repository\location_repository.hpp" />
     <ClInclude Include="include\repository_container.hpp" />
   </ItemGroup>

@@ -19,4 +19,12 @@
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\unit_service.hpp">
+      <Filter>includes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\devices_container.hpp">
+      <Filter>includes</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

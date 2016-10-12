@@ -164,7 +164,6 @@
     <ClInclude Include="include\icommand_result.hpp" />
     <ClInclude Include="include\iequatable.hpp" />
     <ClInclude Include="include\iexecutable_command.hpp" />
-    <ClInclude Include="include\logger.hpp" />
     <ClInclude Include="include\rs232_controller_types.hpp" />
     <ClInclude Include="include\rs232_controller_utils.hpp" />
     <ClInclude Include="include\serial_port_enumerator.hpp" />

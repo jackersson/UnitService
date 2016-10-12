@@ -61,6 +61,8 @@
     <Import Project="..\grpc_module\protobuf_x32d.props" />
     <Import Project="..\grpc_module\grpc_x32d.props" />
     <Import Project="..\realsense_device\utils_x32d.props" />
+    <Import Project="..\UnitService\spdlog.props" />
+    <Import Project="..\UnitService\boost_serial_32d.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -153,6 +155,7 @@
   <ItemGroup>
     <ClInclude Include="include\contracts\common\iequatable.hpp" />
     <ClInclude Include="include\contracts\common\ilifecycle.hpp" />
+    <ClInclude Include="include\contracts\common\logger.hpp" />
     <ClInclude Include="include\contracts\common\raw_image.hpp" />
     <ClInclude Include="include\contracts\data\ientity_finder.hpp" />
     <ClInclude Include="include\contracts\data\irepository.hpp" />
@@ -202,6 +205,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\main.cpp" />
+    <ClCompile Include="src\contracts\common\logger.cpp" />
     <ClCompile Include="src\datatypes\biometrics.pb.cc" />
     <ClCompile Include="src\datatypes\card.pb.cc" />
     <ClCompile Include="src\datatypes\data.pb.cc" />

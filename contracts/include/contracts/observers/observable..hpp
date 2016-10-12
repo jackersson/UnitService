@@ -37,7 +37,7 @@ namespace contracts
 			}			
 
 		protected:
-			concurrency::containers::ConcurrentVector<std::shared_ptr<T>> observers_;
+			concurrent::containers::ConcurrentVector<std::shared_ptr<T>> observers_;
 		};
 	}
 }

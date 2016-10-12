@@ -177,7 +177,7 @@ namespace access_device
 		AccessDeviceEngine& operator=(const AccessDeviceEngine&) = delete;
 
 		SerialPortEnumerator device_enumerator_;
-		concurrency::containers::ConcurrentMap<std::string, AccessDeviceListenerPtr> devices_;
+		concurrent::containers::ConcurrentMap<std::string, AccessDeviceListenerPtr> devices_;
 
 	};
 	

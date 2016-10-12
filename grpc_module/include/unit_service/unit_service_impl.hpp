@@ -5,7 +5,7 @@
 #include <contracts/services/iservice.hpp>
 #include <src/cpp/server/dynamic_thread_pool.h>
 #include <list>
-#include "service_context.hpp"
+#include "server_context.hpp"
 #include <contracts/services/service_address.hpp>
 #include "unit_service/open_door_request_handler.hpp"
 
@@ -22,7 +22,7 @@ namespace grpc_services
 			, RpcCallbackFunction> RequestHandler;
 		typedef std::list<RequestHandler> RequestHandlers;
 
-		explicit UnitServiceImpl(ServiceContext& context) : context_(context)
+		explicit UnitServiceImpl(ServerContext& context) : context_(context)
 		{
 			thread_pool_ = std::make_shared<grpc::DynamicThreadPool>(MAX_THREAD_POOL_CAPACITY);
 			UnitServiceImpl::init();
@@ -104,7 +104,7 @@ namespace grpc_services
 		const int MAX_THREAD_POOL_CAPACITY = 10;
 
 		RequestHandlers handlers_;
-		ServiceContext context_;
+		ServerContext context_;
 	};
 }
 

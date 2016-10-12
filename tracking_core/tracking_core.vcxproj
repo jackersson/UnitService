@@ -63,6 +63,12 @@
     <Import Project="..\UnitService\boost_serial_32d.props" />
     <Import Project="tracking_core_x32d.props" />
     <Import Project="..\grpc_module\protobuf_x32d.props" />
+    <Import Project="..\grpc_module\grpc_module_x32d.props" />
+    <Import Project="..\grpc_module\gflags_x32d.props" />
+    <Import Project="..\grpc_module\grpc_x32d.props" />
+    <Import Project="..\grpc_module\gtest_x32d.props" />
+    <Import Project="..\grpc_module\openssl_x32d.props" />
+    <Import Project="..\grpc_module\zlib_x32d.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />

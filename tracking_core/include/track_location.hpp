@@ -58,7 +58,7 @@ namespace tracking
 				object.set_state(state);
 
 				//TODO make in parallel
-				visit_records_->add(object);
+				//visit_records_->add(object);
 				//parallel
 				access_coordinator_->set_state(state);
 			}

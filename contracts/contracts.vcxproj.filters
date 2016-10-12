@@ -55,6 +55,12 @@
     <Filter Include="Header Files\contracts\devices\video_device">
       <UniqueIdentifier>{70abd700-cc39-4aa7-a001-8aaba562e203}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\contracts">
+      <UniqueIdentifier>{66a47727-62f0-46e9-bc19-c6a8437e8a6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\contracts\common">
+      <UniqueIdentifier>{f13133e3-bc9c-46ef-8253-3b27092d21b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\main.cpp">
@@ -119,6 +125,9 @@
     </ClCompile>
     <ClCompile Include="src\datatypes\group.pb.cc">
       <Filter>Source Files\datatypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\contracts\common\logger.cpp">
+      <Filter>Source Files\contracts\common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -265,6 +274,9 @@
     </ClInclude>
     <ClInclude Include="include\contracts\iunit_context.hpp">
       <Filter>Header Files\contracts</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\common\logger.hpp">
+      <Filter>Header Files\contracts\common</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

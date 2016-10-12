@@ -3,6 +3,7 @@
 
 #include <contracts/data/irepository.hpp>
 #include <contracts/services/idatabase_api.hpp>
+#include <localstorage/locations_localstorage.hpp>
 
 namespace data_core
 {
@@ -15,7 +16,7 @@ namespace data_core
 			explicit 
 				LocationsRepository(contracts::data::ILocationDataContextPtr datacontext)
 				: datacontext_(datacontext)
-				, local_(nullptr)
+				, local_(std::make_shared<localstorage::LocationsLocalStorage>())
 			{}
 
 			//TODO make not reference style

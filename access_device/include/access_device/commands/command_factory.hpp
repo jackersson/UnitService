@@ -61,7 +61,7 @@ namespace access_device
 						success++;
 				}
 
-				return success = commands_.size();
+				return success == commands_.size();
 			}
 
 			void apply_settings( core::ICommandSettings& command

@@ -44,9 +44,6 @@
     <ClInclude Include="include\access_device_types.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\logger.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\iexecutable_command.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -16,8 +16,7 @@ namespace data_core
 		public:
 			explicit LocationsDataContext(contracts::services::IDatabaseApiPtr api)
 				: api_(api)
-			{
-				
+			{				
 			}
 
 			//TODO make not reference style

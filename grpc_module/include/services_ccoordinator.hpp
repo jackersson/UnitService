@@ -14,7 +14,10 @@ namespace grpc_services
 	public:
 		explicit ServicesCoordinator(contracts::IUnitContextPtr context)			
 			: context_(context)
-		{	}
+		{
+			servers_ = std::make_shared<ServerManager>();
+			clients_ = std::make_shared<ClientManager>(context_);
+		}
 
 		~ServicesCoordinator(){
 			ServicesCoordinator::de_init();
