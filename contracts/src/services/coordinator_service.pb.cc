@@ -64,7 +64,7 @@ void protobuf_AddDesc_services_2fcoordinator_5fservice_2eproto() {
     "\n\"services/coordinator_service.proto\022\010Se"
     "rvices\032\033google/protobuf/empty.proto\032\024dat"
     "atypes/unit.proto\032\024datatypes/data.proto\032"
-    "\027datatypes/devices.proto2\217\004\n\022Coordinator"
+    "\027datatypes/devices.proto2\221\004\n\022Coordinator"
     "Service\022:\n\007Connect\022\025.DataTypes.ConnectMs"
     "g\032\026.google.protobuf.Empty\"\000\022B\n\tHeartbeat"
     "\022\033.DataTypes.HeartbeatMessage\032\026.google.p"
@@ -76,11 +76,11 @@ void protobuf_AddDesc_services_2fcoordinator_5fservice_2eproto() {
     "Empty\"\000\0229\n\003Get\022\027.DataTypes.MessageBytes\032"
     "\027.DataTypes.MessageBytes\"\000\022<\n\006Commit\022\027.D"
     "ataTypes.MessageBytes\032\027.DataTypes.Messag"
-    "eBytes\"\000\022@\n\013PushUpdates\022\027.DataTypes.Devi"
-    "ceUpdate\032\026.google.protobuf.Empty\"\000BV\n\007ex"
-    ".grpcZEgithub.com/Enebra/ServiceCoordina"
-    "tor/grpc/services/coordinatorservice\242\002\003R"
-    "TGb\006proto3", 770);
+    "eBytes\"\000\022B\n\rUpdateDevices\022\027.DataTypes.De"
+    "viceUpdate\032\026.google.protobuf.Empty\"\000BV\n\007"
+    "ex.grpcZEgithub.com/Enebra/ServiceCoordi"
+    "nator/grpc/services/coordinatorservice\242\002"
+    "\003RTGb\006proto3", 772);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "services/coordinator_service.proto", &protobuf_RegisterTypes);
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_services_2fcoordinator_5fservice_2eproto);

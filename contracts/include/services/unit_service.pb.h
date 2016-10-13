@@ -23,12 +23,12 @@
 #include <google/protobuf/arenastring.h>
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/metadata.h>
-#include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>
 #include <google/protobuf/extension_set.h>
-#include <google/protobuf/unknown_field_set.h>
 #include <google/protobuf/empty.pb.h>
 #include "datatypes/location.pb.h"
+#include "datatypes/devices.pb.h"
+#include "datatypes/biometrics.pb.h"
 // @@protoc_insertion_point(includes)
 
 namespace Services {
@@ -38,143 +38,16 @@ void protobuf_AddDesc_services_2funit_5fservice_2eproto();
 void protobuf_AssignDesc_services_2funit_5fservice_2eproto();
 void protobuf_ShutdownFile_services_2funit_5fservice_2eproto();
 
-class FrameBytes;
 
 // ===================================================================
 
-class FrameBytes : public ::google::protobuf::Message {
- public:
-  FrameBytes();
-  virtual ~FrameBytes();
 
-  FrameBytes(const FrameBytes& from);
-
-  inline FrameBytes& operator=(const FrameBytes& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const FrameBytes& default_instance();
-
-  void Swap(FrameBytes* other);
-
-  // implements Message ----------------------------------------------
-
-  inline FrameBytes* New() const { return New(NULL); }
-
-  FrameBytes* New(::google::protobuf::Arena* arena) const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const FrameBytes& from);
-  void MergeFrom(const FrameBytes& from);
-  void Clear();
-  bool IsInitialized() const;
-
-  int ByteSize() const;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input);
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
-  int GetCachedSize() const { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  void InternalSwap(FrameBytes* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return _internal_metadata_.arena();
-  }
-  inline void* MaybeArenaPtr() const {
-    return _internal_metadata_.raw_arena_ptr();
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // optional bytes frameData = 1;
-  void clear_framedata();
-  static const int kFrameDataFieldNumber = 1;
-  const ::std::string& framedata() const;
-  void set_framedata(const ::std::string& value);
-  void set_framedata(const char* value);
-  void set_framedata(const void* value, size_t size);
-  ::std::string* mutable_framedata();
-  ::std::string* release_framedata();
-  void set_allocated_framedata(::std::string* framedata);
-
-  // @@protoc_insertion_point(class_scope:Services.FrameBytes)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  bool _is_default_instance_;
-  ::google::protobuf::internal::ArenaStringPtr framedata_;
-  mutable int _cached_size_;
-  friend void  protobuf_AddDesc_services_2funit_5fservice_2eproto();
-  friend void protobuf_AssignDesc_services_2funit_5fservice_2eproto();
-  friend void protobuf_ShutdownFile_services_2funit_5fservice_2eproto();
-
-  void InitAsDefaultInstance();
-  static FrameBytes* default_instance_;
-};
 // ===================================================================
 
 
 // ===================================================================
 
 #if !PROTOBUF_INLINE_NOT_IN_HEADERS
-// FrameBytes
-
-// optional bytes frameData = 1;
-inline void FrameBytes::clear_framedata() {
-  framedata_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline const ::std::string& FrameBytes::framedata() const {
-  // @@protoc_insertion_point(field_get:Services.FrameBytes.frameData)
-  return framedata_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void FrameBytes::set_framedata(const ::std::string& value) {
-  
-  framedata_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:Services.FrameBytes.frameData)
-}
-inline void FrameBytes::set_framedata(const char* value) {
-  
-  framedata_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:Services.FrameBytes.frameData)
-}
-inline void FrameBytes::set_framedata(const void* value, size_t size) {
-  
-  framedata_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:Services.FrameBytes.frameData)
-}
-inline ::std::string* FrameBytes::mutable_framedata() {
-  
-  // @@protoc_insertion_point(field_mutable:Services.FrameBytes.frameData)
-  return framedata_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* FrameBytes::release_framedata() {
-  // @@protoc_insertion_point(field_release:Services.FrameBytes.frameData)
-  
-  return framedata_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void FrameBytes::set_allocated_framedata(::std::string* framedata) {
-  if (framedata != NULL) {
-    
-  } else {
-    
-  }
-  framedata_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), framedata);
-  // @@protoc_insertion_point(field_set_allocated:Services.FrameBytes.frameData)
-}
-
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // @@protoc_insertion_point(namespace_scope)

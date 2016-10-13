@@ -1,0 +1,58 @@
+#ifndef GetLocationStreamRequestHandler_Included
+#define GetLocationStreamRequestHandler_Included
+
+#include <memory>
+#include <include/grpc++/impl/codegen/completion_queue.h>
+#include <services/unit_service.grpc.pb.h>
+#include <request_handler.hpp>
+#include <contracts/iunit_context.hpp>
+
+namespace grpc_services
+{
+	namespace unit_service
+	{
+		typedef Services::UnitService::AsyncService AsyncService;
+
+		class GetLocationStreamRequestHandler : public RequestHandler<AsyncService>
+		{
+		public:
+			GetLocationStreamRequestHandler(std::shared_ptr<AsyncService> service
+				, grpc::ServerCompletionQueue* completion_queue
+				, contracts::IUnitContextPtr context)
+				: RequestHandler<AsyncService>(service, completion_queue)
+				, responder_(&server_context_)
+				, context_(context)
+			{
+				Proceed();
+			}
+
+			void CreateRequestHandler() override
+			{
+				new GetLocationStreamRequestHandler(service_, server_completion_queue_, context_);
+			}
+
+			void CreateRequest() override
+			{
+				service_->RequestGetLocationStream(&server_context_, &request_
+					, &responder_, server_completion_queue_
+					, server_completion_queue_, this);
+			}
+
+			void ProcessRequest() override
+			{
+				google::protobuf::Empty response;
+				//TODO handle frames
+				//context_->track_locations()->grant_access(request_);
+
+				std::cout << "Client wants capture location video stream" << std::endl;
+				//responder_.Finish(response, grpc::Status::OK, this);
+			}
+
+		private:
+			DataTypes::Location  request_;
+			grpc::ServerAsyncWriter<DataTypes::FrameBytes> responder_;
+			contracts::IUnitContextPtr context_;
+		};
+	}
+}
+#endif

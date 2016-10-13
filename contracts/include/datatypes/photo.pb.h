@@ -29,7 +29,7 @@
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "datatypes/biometrics.pb.h"
-#include "datatypes/data.pb.h"
+#include "datatypes/key.pb.h"
 // @@protoc_insertion_point(includes)
 
 namespace DataTypes {
@@ -40,7 +40,6 @@ void protobuf_AssignDesc_datatypes_2fphoto_2eproto();
 void protobuf_ShutdownFile_datatypes_2fphoto_2eproto();
 
 class Photo;
-class Photos;
 
 enum Purpose {
   NonePurpose = 0,
@@ -194,97 +193,6 @@ class Photo : public ::google::protobuf::Message {
 
   void InitAsDefaultInstance();
   static Photo* default_instance_;
-};
-// -------------------------------------------------------------------
-
-class Photos : public ::google::protobuf::Message {
- public:
-  Photos();
-  virtual ~Photos();
-
-  Photos(const Photos& from);
-
-  inline Photos& operator=(const Photos& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const Photos& default_instance();
-
-  void Swap(Photos* other);
-
-  // implements Message ----------------------------------------------
-
-  inline Photos* New() const { return New(NULL); }
-
-  Photos* New(::google::protobuf::Arena* arena) const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const Photos& from);
-  void MergeFrom(const Photos& from);
-  void Clear();
-  bool IsInitialized() const;
-
-  int ByteSize() const;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input);
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
-  int GetCachedSize() const { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  void InternalSwap(Photos* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return _internal_metadata_.arena();
-  }
-  inline void* MaybeArenaPtr() const {
-    return _internal_metadata_.raw_arena_ptr();
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // repeated .DataTypes.Photo photos = 1;
-  int photos_size() const;
-  void clear_photos();
-  static const int kPhotosFieldNumber = 1;
-  const ::DataTypes::Photo& photos(int index) const;
-  ::DataTypes::Photo* mutable_photos(int index);
-  ::DataTypes::Photo* add_photos();
-  ::google::protobuf::RepeatedPtrField< ::DataTypes::Photo >*
-      mutable_photos();
-  const ::google::protobuf::RepeatedPtrField< ::DataTypes::Photo >&
-      photos() const;
-
-  // optional int64 count = 2;
-  void clear_count();
-  static const int kCountFieldNumber = 2;
-  ::google::protobuf::int64 count() const;
-  void set_count(::google::protobuf::int64 value);
-
-  // @@protoc_insertion_point(class_scope:DataTypes.Photos)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  bool _is_default_instance_;
-  ::google::protobuf::RepeatedPtrField< ::DataTypes::Photo > photos_;
-  ::google::protobuf::int64 count_;
-  mutable int _cached_size_;
-  friend void  protobuf_AddDesc_datatypes_2fphoto_2eproto();
-  friend void protobuf_AssignDesc_datatypes_2fphoto_2eproto();
-  friend void protobuf_ShutdownFile_datatypes_2fphoto_2eproto();
-
-  void InitAsDefaultInstance();
-  static Photos* default_instance_;
 };
 // ===================================================================
 
@@ -470,57 +378,7 @@ inline void Photo::set_allocated_owner_id(::DataTypes::Key* owner_id) {
   // @@protoc_insertion_point(field_set_allocated:DataTypes.Photo.owner_id)
 }
 
-// -------------------------------------------------------------------
-
-// Photos
-
-// repeated .DataTypes.Photo photos = 1;
-inline int Photos::photos_size() const {
-  return photos_.size();
-}
-inline void Photos::clear_photos() {
-  photos_.Clear();
-}
-inline const ::DataTypes::Photo& Photos::photos(int index) const {
-  // @@protoc_insertion_point(field_get:DataTypes.Photos.photos)
-  return photos_.Get(index);
-}
-inline ::DataTypes::Photo* Photos::mutable_photos(int index) {
-  // @@protoc_insertion_point(field_mutable:DataTypes.Photos.photos)
-  return photos_.Mutable(index);
-}
-inline ::DataTypes::Photo* Photos::add_photos() {
-  // @@protoc_insertion_point(field_add:DataTypes.Photos.photos)
-  return photos_.Add();
-}
-inline ::google::protobuf::RepeatedPtrField< ::DataTypes::Photo >*
-Photos::mutable_photos() {
-  // @@protoc_insertion_point(field_mutable_list:DataTypes.Photos.photos)
-  return &photos_;
-}
-inline const ::google::protobuf::RepeatedPtrField< ::DataTypes::Photo >&
-Photos::photos() const {
-  // @@protoc_insertion_point(field_list:DataTypes.Photos.photos)
-  return photos_;
-}
-
-// optional int64 count = 2;
-inline void Photos::clear_count() {
-  count_ = GOOGLE_LONGLONG(0);
-}
-inline ::google::protobuf::int64 Photos::count() const {
-  // @@protoc_insertion_point(field_get:DataTypes.Photos.count)
-  return count_;
-}
-inline void Photos::set_count(::google::protobuf::int64 value) {
-  
-  count_ = value;
-  // @@protoc_insertion_point(field_set:DataTypes.Photos.count)
-}
-
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
-// -------------------------------------------------------------------
-
 
 // @@protoc_insertion_point(namespace_scope)
 

@@ -28,7 +28,7 @@
 #include <google/protobuf/extension_set.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "datatypes/visit_record.pb.h"
-#include "datatypes/data.pb.h"
+#include "datatypes/key.pb.h"
 // @@protoc_insertion_point(includes)
 
 namespace DataTypes {

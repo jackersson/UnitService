@@ -42,8 +42,11 @@ namespace grpc_services
 	private:
 		void init()
 		{
-			//database service
-			contracts::services::ServiceAddress address("localhost", 49065);
+			auto coordinator_address = context_->configuration()->coordinator_service_address();
+
+			//database service 
+			//For test, Database service is going to be used
+			contracts::services::ServiceAddress address(coordinator_address);
 			database_client_ = std::make_shared<DatabaseClientImpl>(
 			                                   	ClientContext(address, context_));
 

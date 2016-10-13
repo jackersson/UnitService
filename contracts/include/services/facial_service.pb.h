@@ -29,7 +29,7 @@
 #include <google/protobuf/unknown_field_set.h>
 #include "datatypes/person.pb.h"
 #include "datatypes/photo.pb.h"
-#include "datatypes/data.pb.h"
+#include "datatypes/key.pb.h"
 #include "datatypes/group.pb.h"
 #include "datatypes/biometrics.pb.h"
 #include <google/protobuf/empty.pb.h>

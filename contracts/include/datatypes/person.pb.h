@@ -30,7 +30,7 @@
 #include <google/protobuf/unknown_field_set.h>
 #include "datatypes/card.pb.h"
 #include "datatypes/photo.pb.h"
-#include "datatypes/data.pb.h"
+#include "datatypes/key.pb.h"
 // @@protoc_insertion_point(includes)
 
 namespace DataTypes {
@@ -41,7 +41,6 @@ void protobuf_AssignDesc_datatypes_2fperson_2eproto();
 void protobuf_ShutdownFile_datatypes_2fperson_2eproto();
 
 class Person;
-class Persons;
 
 enum Gender {
   Gender_Unspecified = 0,
@@ -219,97 +218,6 @@ class Person : public ::google::protobuf::Message {
 
   void InitAsDefaultInstance();
   static Person* default_instance_;
-};
-// -------------------------------------------------------------------
-
-class Persons : public ::google::protobuf::Message {
- public:
-  Persons();
-  virtual ~Persons();
-
-  Persons(const Persons& from);
-
-  inline Persons& operator=(const Persons& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const Persons& default_instance();
-
-  void Swap(Persons* other);
-
-  // implements Message ----------------------------------------------
-
-  inline Persons* New() const { return New(NULL); }
-
-  Persons* New(::google::protobuf::Arena* arena) const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const Persons& from);
-  void MergeFrom(const Persons& from);
-  void Clear();
-  bool IsInitialized() const;
-
-  int ByteSize() const;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input);
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
-  int GetCachedSize() const { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  void InternalSwap(Persons* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return _internal_metadata_.arena();
-  }
-  inline void* MaybeArenaPtr() const {
-    return _internal_metadata_.raw_arena_ptr();
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // repeated .DataTypes.Person items = 1;
-  int items_size() const;
-  void clear_items();
-  static const int kItemsFieldNumber = 1;
-  const ::DataTypes::Person& items(int index) const;
-  ::DataTypes::Person* mutable_items(int index);
-  ::DataTypes::Person* add_items();
-  ::google::protobuf::RepeatedPtrField< ::DataTypes::Person >*
-      mutable_items();
-  const ::google::protobuf::RepeatedPtrField< ::DataTypes::Person >&
-      items() const;
-
-  // optional int64 count = 2;
-  void clear_count();
-  static const int kCountFieldNumber = 2;
-  ::google::protobuf::int64 count() const;
-  void set_count(::google::protobuf::int64 value);
-
-  // @@protoc_insertion_point(class_scope:DataTypes.Persons)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  bool _is_default_instance_;
-  ::google::protobuf::RepeatedPtrField< ::DataTypes::Person > items_;
-  ::google::protobuf::int64 count_;
-  mutable int _cached_size_;
-  friend void  protobuf_AddDesc_datatypes_2fperson_2eproto();
-  friend void protobuf_AssignDesc_datatypes_2fperson_2eproto();
-  friend void protobuf_ShutdownFile_datatypes_2fperson_2eproto();
-
-  void InitAsDefaultInstance();
-  static Persons* default_instance_;
 };
 // ===================================================================
 
@@ -505,57 +413,7 @@ Person::cards() const {
   return cards_;
 }
 
-// -------------------------------------------------------------------
-
-// Persons
-
-// repeated .DataTypes.Person items = 1;
-inline int Persons::items_size() const {
-  return items_.size();
-}
-inline void Persons::clear_items() {
-  items_.Clear();
-}
-inline const ::DataTypes::Person& Persons::items(int index) const {
-  // @@protoc_insertion_point(field_get:DataTypes.Persons.items)
-  return items_.Get(index);
-}
-inline ::DataTypes::Person* Persons::mutable_items(int index) {
-  // @@protoc_insertion_point(field_mutable:DataTypes.Persons.items)
-  return items_.Mutable(index);
-}
-inline ::DataTypes::Person* Persons::add_items() {
-  // @@protoc_insertion_point(field_add:DataTypes.Persons.items)
-  return items_.Add();
-}
-inline ::google::protobuf::RepeatedPtrField< ::DataTypes::Person >*
-Persons::mutable_items() {
-  // @@protoc_insertion_point(field_mutable_list:DataTypes.Persons.items)
-  return &items_;
-}
-inline const ::google::protobuf::RepeatedPtrField< ::DataTypes::Person >&
-Persons::items() const {
-  // @@protoc_insertion_point(field_list:DataTypes.Persons.items)
-  return items_;
-}
-
-// optional int64 count = 2;
-inline void Persons::clear_count() {
-  count_ = GOOGLE_LONGLONG(0);
-}
-inline ::google::protobuf::int64 Persons::count() const {
-  // @@protoc_insertion_point(field_get:DataTypes.Persons.count)
-  return count_;
-}
-inline void Persons::set_count(::google::protobuf::int64 value) {
-  
-  count_ = value;
-  // @@protoc_insertion_point(field_set:DataTypes.Persons.count)
-}
-
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
-// -------------------------------------------------------------------
-
 
 // @@protoc_insertion_point(namespace_scope)
 

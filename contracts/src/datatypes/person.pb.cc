@@ -24,9 +24,6 @@ namespace {
 const ::google::protobuf::Descriptor* Person_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   Person_reflection_ = NULL;
-const ::google::protobuf::Descriptor* Persons_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  Persons_reflection_ = NULL;
 const ::google::protobuf::EnumDescriptor* Gender_descriptor_ = NULL;
 const ::google::protobuf::EnumDescriptor* Rights_descriptor_ = NULL;
 
@@ -58,22 +55,6 @@ void protobuf_AssignDesc_datatypes_2fperson_2eproto() {
       sizeof(Person),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Person, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Person, _is_default_instance_));
-  Persons_descriptor_ = file->message_type(1);
-  static const int Persons_offsets_[2] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Persons, items_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Persons, count_),
-  };
-  Persons_reflection_ =
-    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
-      Persons_descriptor_,
-      Persons::default_instance_,
-      Persons_offsets_,
-      -1,
-      -1,
-      -1,
-      sizeof(Persons),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Persons, _internal_metadata_),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Persons, _is_default_instance_));
   Gender_descriptor_ = file->enum_type(0);
   Rights_descriptor_ = file->enum_type(1);
 }
@@ -90,8 +71,6 @@ void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
       Person_descriptor_, &Person::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-      Persons_descriptor_, &Persons::default_instance());
 }
 
 }  // namespace
@@ -99,8 +78,6 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void protobuf_ShutdownFile_datatypes_2fperson_2eproto() {
   delete Person::default_instance_;
   delete Person_reflection_;
-  delete Persons::default_instance_;
-  delete Persons_reflection_;
 }
 
 void protobuf_AddDesc_datatypes_2fperson_2eproto() {
@@ -111,28 +88,24 @@ void protobuf_AddDesc_datatypes_2fperson_2eproto() {
 
   ::DataTypes::protobuf_AddDesc_datatypes_2fcard_2eproto();
   ::DataTypes::protobuf_AddDesc_datatypes_2fphoto_2eproto();
-  ::DataTypes::protobuf_AddDesc_datatypes_2fdata_2eproto();
+  ::DataTypes::protobuf_AddDesc_datatypes_2fkey_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\026datatypes/person.proto\022\tDataTypes\032\024dat"
     "atypes/card.proto\032\025datatypes/photo.proto"
-    "\032\024datatypes/data.proto\"\215\001\n\006Person\022\032\n\002id\030"
-    "\001 \001(\0132\016.DataTypes.Key\022\022\n\nfirst_name\030\002 \001("
-    "\t\022\021\n\tlast_name\030\003 \001(\t\022 \n\006photos\030\004 \003(\0132\020.D"
-    "ataTypes.Photo\022\036\n\005cards\030\005 \003(\0132\017.DataType"
-    "s.Card\":\n\007Persons\022 \n\005items\030\001 \003(\0132\021.DataT"
-    "ypes.Person\022\r\n\005count\030\002 \001(\003*6\n\006Gender\022\026\n\022"
-    "Gender_Unspecified\020\000\022\010\n\004Male\020\001\022\n\n\006Female"
-    "\020\002*W\n\006Rights\022\026\n\022Rights_Unspecified\020\000\022\n\n\006"
-    "Custom\020\001\022\014\n\010Operator\020\002\022\013\n\007Manager\020\003\022\016\n\nS"
-    "upervisor\020\004BK\n\007ex.grpcZ:github.com/Enebr"
-    "a/ServiceCoordinator/grpc/datatypes/pers"
-    "on\242\002\003RTGb\006proto3", 536);
+    "\032\023datatypes/key.proto\"\215\001\n\006Person\022\032\n\002id\030\001"
+    " \001(\0132\016.DataTypes.Key\022\022\n\nfirst_name\030\002 \001(\t"
+    "\022\021\n\tlast_name\030\003 \001(\t\022 \n\006photos\030\004 \003(\0132\020.Da"
+    "taTypes.Photo\022\036\n\005cards\030\005 \003(\0132\017.DataTypes"
+    ".Card*6\n\006Gender\022\026\n\022Gender_Unspecified\020\000\022"
+    "\010\n\004Male\020\001\022\n\n\006Female\020\002*W\n\006Rights\022\026\n\022Right"
+    "s_Unspecified\020\000\022\n\n\006Custom\020\001\022\014\n\010Operator\020"
+    "\002\022\013\n\007Manager\020\003\022\016\n\nSupervisor\020\004BK\n\007ex.grp"
+    "cZ:github.com/Enebra/ServiceCoordinator/"
+    "grpc/datatypes/person\242\002\003RTGb\006proto3", 475);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "datatypes/person.proto", &protobuf_RegisterTypes);
   Person::default_instance_ = new Person();
-  Persons::default_instance_ = new Persons();
   Person::default_instance_->InitAsDefaultInstance();
-  Persons::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_datatypes_2fperson_2eproto);
 }
 
@@ -783,312 +756,6 @@ const ::google::protobuf::RepeatedPtrField< ::DataTypes::Card >&
 Person::cards() const {
   // @@protoc_insertion_point(field_list:DataTypes.Person.cards)
   return cards_;
-}
-
-#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
-
-// ===================================================================
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int Persons::kItemsFieldNumber;
-const int Persons::kCountFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-
-Persons::Persons()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:DataTypes.Persons)
-}
-
-void Persons::InitAsDefaultInstance() {
-  _is_default_instance_ = true;
-}
-
-Persons::Persons(const Persons& from)
-  : ::google::protobuf::Message(),
-    _internal_metadata_(NULL) {
-  SharedCtor();
-  MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:DataTypes.Persons)
-}
-
-void Persons::SharedCtor() {
-    _is_default_instance_ = false;
-  _cached_size_ = 0;
-  count_ = GOOGLE_LONGLONG(0);
-}
-
-Persons::~Persons() {
-  // @@protoc_insertion_point(destructor:DataTypes.Persons)
-  SharedDtor();
-}
-
-void Persons::SharedDtor() {
-  if (this != default_instance_) {
-  }
-}
-
-void Persons::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const ::google::protobuf::Descriptor* Persons::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return Persons_descriptor_;
-}
-
-const Persons& Persons::default_instance() {
-  if (default_instance_ == NULL) protobuf_AddDesc_datatypes_2fperson_2eproto();
-  return *default_instance_;
-}
-
-Persons* Persons::default_instance_ = NULL;
-
-Persons* Persons::New(::google::protobuf::Arena* arena) const {
-  Persons* n = new Persons;
-  if (arena != NULL) {
-    arena->Own(n);
-  }
-  return n;
-}
-
-void Persons::Clear() {
-// @@protoc_insertion_point(message_clear_start:DataTypes.Persons)
-  count_ = GOOGLE_LONGLONG(0);
-  items_.Clear();
-}
-
-bool Persons::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:DataTypes.Persons)
-  for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // repeated .DataTypes.Person items = 1;
-      case 1: {
-        if (tag == 10) {
-          DO_(input->IncrementRecursionDepth());
-         parse_loop_items:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtualNoRecursionDepth(
-                input, add_items()));
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(10)) goto parse_loop_items;
-        input->UnsafeDecrementRecursionDepth();
-        if (input->ExpectTag(16)) goto parse_count;
-        break;
-      }
-
-      // optional int64 count = 2;
-      case 2: {
-        if (tag == 16) {
-         parse_count:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
-                 input, &count_)));
-
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectAtEnd()) goto success;
-        break;
-      }
-
-      default: {
-      handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          goto success;
-        }
-        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
-        break;
-      }
-    }
-  }
-success:
-  // @@protoc_insertion_point(parse_success:DataTypes.Persons)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:DataTypes.Persons)
-  return false;
-#undef DO_
-}
-
-void Persons::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:DataTypes.Persons)
-  // repeated .DataTypes.Person items = 1;
-  for (unsigned int i = 0, n = this->items_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, this->items(i), output);
-  }
-
-  // optional int64 count = 2;
-  if (this->count() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt64(2, this->count(), output);
-  }
-
-  // @@protoc_insertion_point(serialize_end:DataTypes.Persons)
-}
-
-::google::protobuf::uint8* Persons::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:DataTypes.Persons)
-  // repeated .DataTypes.Person items = 1;
-  for (unsigned int i = 0, n = this->items_size(); i < n; i++) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->items(i), target);
-  }
-
-  // optional int64 count = 2;
-  if (this->count() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(2, this->count(), target);
-  }
-
-  // @@protoc_insertion_point(serialize_to_array_end:DataTypes.Persons)
-  return target;
-}
-
-int Persons::ByteSize() const {
-// @@protoc_insertion_point(message_byte_size_start:DataTypes.Persons)
-  int total_size = 0;
-
-  // optional int64 count = 2;
-  if (this->count() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int64Size(
-        this->count());
-  }
-
-  // repeated .DataTypes.Person items = 1;
-  total_size += 1 * this->items_size();
-  for (int i = 0; i < this->items_size(); i++) {
-    total_size +=
-      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-        this->items(i));
-  }
-
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
-}
-
-void Persons::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:DataTypes.Persons)
-  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
-  const Persons* source = 
-      ::google::protobuf::internal::DynamicCastToGenerated<const Persons>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:DataTypes.Persons)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:DataTypes.Persons)
-    MergeFrom(*source);
-  }
-}
-
-void Persons::MergeFrom(const Persons& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:DataTypes.Persons)
-  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
-  items_.MergeFrom(from.items_);
-  if (from.count() != 0) {
-    set_count(from.count());
-  }
-}
-
-void Persons::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:DataTypes.Persons)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void Persons::CopyFrom(const Persons& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:DataTypes.Persons)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool Persons::IsInitialized() const {
-
-  return true;
-}
-
-void Persons::Swap(Persons* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
-void Persons::InternalSwap(Persons* other) {
-  items_.UnsafeArenaSwap(&other->items_);
-  std::swap(count_, other->count_);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-  std::swap(_cached_size_, other->_cached_size_);
-}
-
-::google::protobuf::Metadata Persons::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Persons_descriptor_;
-  metadata.reflection = Persons_reflection_;
-  return metadata;
-}
-
-#if PROTOBUF_INLINE_NOT_IN_HEADERS
-// Persons
-
-// repeated .DataTypes.Person items = 1;
-int Persons::items_size() const {
-  return items_.size();
-}
-void Persons::clear_items() {
-  items_.Clear();
-}
-const ::DataTypes::Person& Persons::items(int index) const {
-  // @@protoc_insertion_point(field_get:DataTypes.Persons.items)
-  return items_.Get(index);
-}
-::DataTypes::Person* Persons::mutable_items(int index) {
-  // @@protoc_insertion_point(field_mutable:DataTypes.Persons.items)
-  return items_.Mutable(index);
-}
-::DataTypes::Person* Persons::add_items() {
-  // @@protoc_insertion_point(field_add:DataTypes.Persons.items)
-  return items_.Add();
-}
-::google::protobuf::RepeatedPtrField< ::DataTypes::Person >*
-Persons::mutable_items() {
-  // @@protoc_insertion_point(field_mutable_list:DataTypes.Persons.items)
-  return &items_;
-}
-const ::google::protobuf::RepeatedPtrField< ::DataTypes::Person >&
-Persons::items() const {
-  // @@protoc_insertion_point(field_list:DataTypes.Persons.items)
-  return items_;
-}
-
-// optional int64 count = 2;
-void Persons::clear_count() {
-  count_ = GOOGLE_LONGLONG(0);
-}
- ::google::protobuf::int64 Persons::count() const {
-  // @@protoc_insertion_point(field_get:DataTypes.Persons.count)
-  return count_;
-}
- void Persons::set_count(::google::protobuf::int64 value) {
-  
-  count_ = value;
-  // @@protoc_insertion_point(field_set:DataTypes.Persons.count)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

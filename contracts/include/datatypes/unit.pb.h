@@ -26,11 +26,10 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>
 #include <google/protobuf/extension_set.h>
-#include <google/protobuf/map.h>
-#include <google/protobuf/map_field_inl.h>
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "datatypes/location.pb.h"
+#include "datatypes/key.pb.h"
 // @@protoc_insertion_point(includes)
 
 namespace DataTypes {
@@ -44,23 +43,20 @@ class ConnectMsg;
 class HeartbeatMessage;
 class SubscriptionMsg;
 class Unit;
-class UnitConfiguration;
-class UnitLocationState;
+class UnitUpdate;
+class UnitUpdates;
 class Units;
-class UpdatedUnit;
-class UpdatedUnits;
 
 enum UnitState {
   None_ = 0,
-  Inserted = 1,
-  Deleted = 2,
-  Updated = 3,
+  Connected = 1,
+  Disconnected = 2,
   UnitState_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   UnitState_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool UnitState_IsValid(int value);
 const UnitState UnitState_MIN = None_;
-const UnitState UnitState_MAX = Updated;
+const UnitState UnitState_MAX = Disconnected;
 const int UnitState_ARRAYSIZE = UnitState_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* UnitState_descriptor();
@@ -154,9 +150,18 @@ class Unit : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // optional string ip_address = 1;
+  // optional .DataTypes.Key id = 1;
+  bool has_id() const;
+  void clear_id();
+  static const int kIdFieldNumber = 1;
+  const ::DataTypes::Key& id() const;
+  ::DataTypes::Key* mutable_id();
+  ::DataTypes::Key* release_id();
+  void set_allocated_id(::DataTypes::Key* id);
+
+  // optional string ip_address = 2;
   void clear_ip_address();
-  static const int kIpAddressFieldNumber = 1;
+  static const int kIpAddressFieldNumber = 2;
   const ::std::string& ip_address() const;
   void set_ip_address(const ::std::string& value);
   void set_ip_address(const char* value);
@@ -165,41 +170,26 @@ class Unit : public ::google::protobuf::Message {
   ::std::string* release_ip_address();
   void set_allocated_ip_address(::std::string* ip_address);
 
-  // optional string mac_address = 2;
-  void clear_mac_address();
-  static const int kMacAddressFieldNumber = 2;
-  const ::std::string& mac_address() const;
-  void set_mac_address(const ::std::string& value);
-  void set_mac_address(const char* value);
-  void set_mac_address(const char* value, size_t size);
-  ::std::string* mutable_mac_address();
-  ::std::string* release_mac_address();
-  void set_allocated_mac_address(::std::string* mac_address);
-
-  // optional int64 heartbeat_time = 4;
-  void clear_heartbeat_time();
-  static const int kHeartbeatTimeFieldNumber = 4;
-  ::google::protobuf::int64 heartbeat_time() const;
-  void set_heartbeat_time(::google::protobuf::int64 value);
-
-  // optional .DataTypes.Locations locations = 5;
-  bool has_locations() const;
+  // repeated .DataTypes.Location locations = 3;
+  int locations_size() const;
   void clear_locations();
-  static const int kLocationsFieldNumber = 5;
-  const ::DataTypes::Locations& locations() const;
-  ::DataTypes::Locations* mutable_locations();
-  ::DataTypes::Locations* release_locations();
-  void set_allocated_locations(::DataTypes::Locations* locations);
+  static const int kLocationsFieldNumber = 3;
+  const ::DataTypes::Location& locations(int index) const;
+  ::DataTypes::Location* mutable_locations(int index);
+  ::DataTypes::Location* add_locations();
+  ::google::protobuf::RepeatedPtrField< ::DataTypes::Location >*
+      mutable_locations();
+  const ::google::protobuf::RepeatedPtrField< ::DataTypes::Location >&
+      locations() const;
 
   // @@protoc_insertion_point(class_scope:DataTypes.Unit)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   bool _is_default_instance_;
+  ::DataTypes::Key* id_;
   ::google::protobuf::internal::ArenaStringPtr ip_address_;
-  ::google::protobuf::internal::ArenaStringPtr mac_address_;
-  ::google::protobuf::int64 heartbeat_time_;
-  ::DataTypes::Locations* locations_;
+  ::google::protobuf::RepeatedPtrField< ::DataTypes::Location > locations_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_datatypes_2funit_2eproto();
   friend void protobuf_AssignDesc_datatypes_2funit_2eproto();
@@ -266,9 +256,18 @@ class ConnectMsg : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // optional string ip_address = 1;
+  // optional .DataTypes.Key id = 1;
+  bool has_id() const;
+  void clear_id();
+  static const int kIdFieldNumber = 1;
+  const ::DataTypes::Key& id() const;
+  ::DataTypes::Key* mutable_id();
+  ::DataTypes::Key* release_id();
+  void set_allocated_id(::DataTypes::Key* id);
+
+  // optional string ip_address = 2;
   void clear_ip_address();
-  static const int kIpAddressFieldNumber = 1;
+  static const int kIpAddressFieldNumber = 2;
   const ::std::string& ip_address() const;
   void set_ip_address(const ::std::string& value);
   void set_ip_address(const char* value);
@@ -276,17 +275,6 @@ class ConnectMsg : public ::google::protobuf::Message {
   ::std::string* mutable_ip_address();
   ::std::string* release_ip_address();
   void set_allocated_ip_address(::std::string* ip_address);
-
-  // optional string mac_address = 2;
-  void clear_mac_address();
-  static const int kMacAddressFieldNumber = 2;
-  const ::std::string& mac_address() const;
-  void set_mac_address(const ::std::string& value);
-  void set_mac_address(const char* value);
-  void set_mac_address(const char* value, size_t size);
-  ::std::string* mutable_mac_address();
-  ::std::string* release_mac_address();
-  void set_allocated_mac_address(::std::string* mac_address);
 
   // optional .DataTypes.ServiceType service_type = 3;
   void clear_service_type();
@@ -299,8 +287,8 @@ class ConnectMsg : public ::google::protobuf::Message {
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   bool _is_default_instance_;
+  ::DataTypes::Key* id_;
   ::google::protobuf::internal::ArenaStringPtr ip_address_;
-  ::google::protobuf::internal::ArenaStringPtr mac_address_;
   int service_type_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_datatypes_2funit_2eproto();
@@ -368,16 +356,14 @@ class HeartbeatMessage : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // optional string service_id = 1;
-  void clear_service_id();
-  static const int kServiceIdFieldNumber = 1;
-  const ::std::string& service_id() const;
-  void set_service_id(const ::std::string& value);
-  void set_service_id(const char* value);
-  void set_service_id(const char* value, size_t size);
-  ::std::string* mutable_service_id();
-  ::std::string* release_service_id();
-  void set_allocated_service_id(::std::string* service_id);
+  // optional .DataTypes.Key id = 1;
+  bool has_id() const;
+  void clear_id();
+  static const int kIdFieldNumber = 1;
+  const ::DataTypes::Key& id() const;
+  ::DataTypes::Key* mutable_id();
+  ::DataTypes::Key* release_id();
+  void set_allocated_id(::DataTypes::Key* id);
 
   // optional .DataTypes.ServiceType service_type = 2;
   void clear_service_type();
@@ -390,7 +376,7 @@ class HeartbeatMessage : public ::google::protobuf::Message {
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   bool _is_default_instance_;
-  ::google::protobuf::internal::ArenaStringPtr service_id_;
+  ::DataTypes::Key* id_;
   int service_type_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_datatypes_2funit_2eproto();
@@ -458,35 +444,31 @@ class SubscriptionMsg : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // optional string publisher_id = 1;
+  // optional .DataTypes.Key publisher_id = 1;
+  bool has_publisher_id() const;
   void clear_publisher_id();
   static const int kPublisherIdFieldNumber = 1;
-  const ::std::string& publisher_id() const;
-  void set_publisher_id(const ::std::string& value);
-  void set_publisher_id(const char* value);
-  void set_publisher_id(const char* value, size_t size);
-  ::std::string* mutable_publisher_id();
-  ::std::string* release_publisher_id();
-  void set_allocated_publisher_id(::std::string* publisher_id);
+  const ::DataTypes::Key& publisher_id() const;
+  ::DataTypes::Key* mutable_publisher_id();
+  ::DataTypes::Key* release_publisher_id();
+  void set_allocated_publisher_id(::DataTypes::Key* publisher_id);
 
-  // optional string subscriber_id = 2;
+  // optional .DataTypes.Key subscriber_id = 2;
+  bool has_subscriber_id() const;
   void clear_subscriber_id();
   static const int kSubscriberIdFieldNumber = 2;
-  const ::std::string& subscriber_id() const;
-  void set_subscriber_id(const ::std::string& value);
-  void set_subscriber_id(const char* value);
-  void set_subscriber_id(const char* value, size_t size);
-  ::std::string* mutable_subscriber_id();
-  ::std::string* release_subscriber_id();
-  void set_allocated_subscriber_id(::std::string* subscriber_id);
+  const ::DataTypes::Key& subscriber_id() const;
+  ::DataTypes::Key* mutable_subscriber_id();
+  ::DataTypes::Key* release_subscriber_id();
+  void set_allocated_subscriber_id(::DataTypes::Key* subscriber_id);
 
   // @@protoc_insertion_point(class_scope:DataTypes.SubscriptionMsg)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   bool _is_default_instance_;
-  ::google::protobuf::internal::ArenaStringPtr publisher_id_;
-  ::google::protobuf::internal::ArenaStringPtr subscriber_id_;
+  ::DataTypes::Key* publisher_id_;
+  ::DataTypes::Key* subscriber_id_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_datatypes_2funit_2eproto();
   friend void protobuf_AssignDesc_datatypes_2funit_2eproto();
@@ -494,178 +476,6 @@ class SubscriptionMsg : public ::google::protobuf::Message {
 
   void InitAsDefaultInstance();
   static SubscriptionMsg* default_instance_;
-};
-// -------------------------------------------------------------------
-
-class UpdatedUnit : public ::google::protobuf::Message {
- public:
-  UpdatedUnit();
-  virtual ~UpdatedUnit();
-
-  UpdatedUnit(const UpdatedUnit& from);
-
-  inline UpdatedUnit& operator=(const UpdatedUnit& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const UpdatedUnit& default_instance();
-
-  void Swap(UpdatedUnit* other);
-
-  // implements Message ----------------------------------------------
-
-  inline UpdatedUnit* New() const { return New(NULL); }
-
-  UpdatedUnit* New(::google::protobuf::Arena* arena) const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const UpdatedUnit& from);
-  void MergeFrom(const UpdatedUnit& from);
-  void Clear();
-  bool IsInitialized() const;
-
-  int ByteSize() const;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input);
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
-  int GetCachedSize() const { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  void InternalSwap(UpdatedUnit* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return _internal_metadata_.arena();
-  }
-  inline void* MaybeArenaPtr() const {
-    return _internal_metadata_.raw_arena_ptr();
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // optional .DataTypes.Unit current_unit = 1;
-  bool has_current_unit() const;
-  void clear_current_unit();
-  static const int kCurrentUnitFieldNumber = 1;
-  const ::DataTypes::Unit& current_unit() const;
-  ::DataTypes::Unit* mutable_current_unit();
-  ::DataTypes::Unit* release_current_unit();
-  void set_allocated_current_unit(::DataTypes::Unit* current_unit);
-
-  // optional .DataTypes.UnitState state = 2;
-  void clear_state();
-  static const int kStateFieldNumber = 2;
-  ::DataTypes::UnitState state() const;
-  void set_state(::DataTypes::UnitState value);
-
-  // @@protoc_insertion_point(class_scope:DataTypes.UpdatedUnit)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  bool _is_default_instance_;
-  ::DataTypes::Unit* current_unit_;
-  int state_;
-  mutable int _cached_size_;
-  friend void  protobuf_AddDesc_datatypes_2funit_2eproto();
-  friend void protobuf_AssignDesc_datatypes_2funit_2eproto();
-  friend void protobuf_ShutdownFile_datatypes_2funit_2eproto();
-
-  void InitAsDefaultInstance();
-  static UpdatedUnit* default_instance_;
-};
-// -------------------------------------------------------------------
-
-class UpdatedUnits : public ::google::protobuf::Message {
- public:
-  UpdatedUnits();
-  virtual ~UpdatedUnits();
-
-  UpdatedUnits(const UpdatedUnits& from);
-
-  inline UpdatedUnits& operator=(const UpdatedUnits& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const UpdatedUnits& default_instance();
-
-  void Swap(UpdatedUnits* other);
-
-  // implements Message ----------------------------------------------
-
-  inline UpdatedUnits* New() const { return New(NULL); }
-
-  UpdatedUnits* New(::google::protobuf::Arena* arena) const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const UpdatedUnits& from);
-  void MergeFrom(const UpdatedUnits& from);
-  void Clear();
-  bool IsInitialized() const;
-
-  int ByteSize() const;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input);
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
-  int GetCachedSize() const { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  void InternalSwap(UpdatedUnits* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return _internal_metadata_.arena();
-  }
-  inline void* MaybeArenaPtr() const {
-    return _internal_metadata_.raw_arena_ptr();
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // repeated .DataTypes.UpdatedUnit items = 1;
-  int items_size() const;
-  void clear_items();
-  static const int kItemsFieldNumber = 1;
-  const ::DataTypes::UpdatedUnit& items(int index) const;
-  ::DataTypes::UpdatedUnit* mutable_items(int index);
-  ::DataTypes::UpdatedUnit* add_items();
-  ::google::protobuf::RepeatedPtrField< ::DataTypes::UpdatedUnit >*
-      mutable_items();
-  const ::google::protobuf::RepeatedPtrField< ::DataTypes::UpdatedUnit >&
-      items() const;
-
-  // @@protoc_insertion_point(class_scope:DataTypes.UpdatedUnits)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  bool _is_default_instance_;
-  ::google::protobuf::RepeatedPtrField< ::DataTypes::UpdatedUnit > items_;
-  mutable int _cached_size_;
-  friend void  protobuf_AddDesc_datatypes_2funit_2eproto();
-  friend void protobuf_AssignDesc_datatypes_2funit_2eproto();
-  friend void protobuf_ShutdownFile_datatypes_2funit_2eproto();
-
-  void InitAsDefaultInstance();
-  static UpdatedUnits* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -723,34 +533,26 @@ class Units : public ::google::protobuf::Message {
 
   // nested types ----------------------------------------------------
 
-
   // accessors -------------------------------------------------------
 
-  // map<string, .DataTypes.Unit> items = 1;
+  // repeated .DataTypes.Unit items = 1;
   int items_size() const;
   void clear_items();
   static const int kItemsFieldNumber = 1;
-  const ::google::protobuf::Map< ::std::string, ::DataTypes::Unit >&
-      items() const;
-  ::google::protobuf::Map< ::std::string, ::DataTypes::Unit >*
+  const ::DataTypes::Unit& items(int index) const;
+  ::DataTypes::Unit* mutable_items(int index);
+  ::DataTypes::Unit* add_items();
+  ::google::protobuf::RepeatedPtrField< ::DataTypes::Unit >*
       mutable_items();
+  const ::google::protobuf::RepeatedPtrField< ::DataTypes::Unit >&
+      items() const;
 
   // @@protoc_insertion_point(class_scope:DataTypes.Units)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   bool _is_default_instance_;
-  typedef ::google::protobuf::internal::MapEntryLite<
-      ::std::string, ::DataTypes::Unit,
-      ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
-      ::google::protobuf::internal::WireFormatLite::TYPE_MESSAGE,
-      0 >
-      Units_ItemsEntry;
-  ::google::protobuf::internal::MapField<
-      ::std::string, ::DataTypes::Unit,
-      ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
-      ::google::protobuf::internal::WireFormatLite::TYPE_MESSAGE,
-      0 > items_;
+  ::google::protobuf::RepeatedPtrField< ::DataTypes::Unit > items_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_datatypes_2funit_2eproto();
   friend void protobuf_AssignDesc_datatypes_2funit_2eproto();
@@ -761,32 +563,39 @@ class Units : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class UnitConfiguration : public ::google::protobuf::Message {
+class UnitUpdate : public ::google::protobuf::Message {
  public:
-  UnitConfiguration();
-  virtual ~UnitConfiguration();
+  UnitUpdate();
+  virtual ~UnitUpdate();
 
-  UnitConfiguration(const UnitConfiguration& from);
+  UnitUpdate(const UnitUpdate& from);
 
-  inline UnitConfiguration& operator=(const UnitConfiguration& from) {
+  inline UnitUpdate& operator=(const UnitUpdate& from) {
     CopyFrom(from);
     return *this;
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const UnitConfiguration& default_instance();
+  static const UnitUpdate& default_instance();
 
-  void Swap(UnitConfiguration* other);
+  enum UnitTypeCase {
+    kInserted = 1,
+    kDeleted = 2,
+    kUpdated = 3,
+    UNIT_TYPE_NOT_SET = 0,
+  };
+
+  void Swap(UnitUpdate* other);
 
   // implements Message ----------------------------------------------
 
-  inline UnitConfiguration* New() const { return New(NULL); }
+  inline UnitUpdate* New() const { return New(NULL); }
 
-  UnitConfiguration* New(::google::protobuf::Arena* arena) const;
+  UnitUpdate* New(::google::protobuf::Arena* arena) const;
   void CopyFrom(const ::google::protobuf::Message& from);
   void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const UnitConfiguration& from);
-  void MergeFrom(const UnitConfiguration& from);
+  void CopyFrom(const UnitUpdate& from);
+  void MergeFrom(const UnitUpdate& from);
   void Clear();
   bool IsInitialized() const;
 
@@ -801,7 +610,7 @@ class UnitConfiguration : public ::google::protobuf::Message {
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const;
-  void InternalSwap(UnitConfiguration* other);
+  void InternalSwap(UnitUpdate* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return _internal_metadata_.arena();
@@ -817,59 +626,97 @@ class UnitConfiguration : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // optional string master_ip_address = 1;
-  void clear_master_ip_address();
-  static const int kMasterIpAddressFieldNumber = 1;
-  const ::std::string& master_ip_address() const;
-  void set_master_ip_address(const ::std::string& value);
-  void set_master_ip_address(const char* value);
-  void set_master_ip_address(const char* value, size_t size);
-  ::std::string* mutable_master_ip_address();
-  ::std::string* release_master_ip_address();
-  void set_allocated_master_ip_address(::std::string* master_ip_address);
+  // optional .DataTypes.Unit inserted = 1;
+  bool has_inserted() const;
+  void clear_inserted();
+  static const int kInsertedFieldNumber = 1;
+  const ::DataTypes::Unit& inserted() const;
+  ::DataTypes::Unit* mutable_inserted();
+  ::DataTypes::Unit* release_inserted();
+  void set_allocated_inserted(::DataTypes::Unit* inserted);
 
-  // @@protoc_insertion_point(class_scope:DataTypes.UnitConfiguration)
+  // optional .DataTypes.Unit deleted = 2;
+  bool has_deleted() const;
+  void clear_deleted();
+  static const int kDeletedFieldNumber = 2;
+  const ::DataTypes::Unit& deleted() const;
+  ::DataTypes::Unit* mutable_deleted();
+  ::DataTypes::Unit* release_deleted();
+  void set_allocated_deleted(::DataTypes::Unit* deleted);
+
+  // optional .DataTypes.Unit updated = 3;
+  bool has_updated() const;
+  void clear_updated();
+  static const int kUpdatedFieldNumber = 3;
+  const ::DataTypes::Unit& updated() const;
+  ::DataTypes::Unit* mutable_updated();
+  ::DataTypes::Unit* release_updated();
+  void set_allocated_updated(::DataTypes::Unit* updated);
+
+  // optional .DataTypes.UnitState state = 4;
+  void clear_state();
+  static const int kStateFieldNumber = 4;
+  ::DataTypes::UnitState state() const;
+  void set_state(::DataTypes::UnitState value);
+
+  UnitTypeCase unit_type_case() const;
+  // @@protoc_insertion_point(class_scope:DataTypes.UnitUpdate)
  private:
+  inline void set_has_inserted();
+  inline void set_has_deleted();
+  inline void set_has_updated();
+
+  inline bool has_unit_type() const;
+  void clear_unit_type();
+  inline void clear_has_unit_type();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   bool _is_default_instance_;
-  ::google::protobuf::internal::ArenaStringPtr master_ip_address_;
+  int state_;
+  union UnitTypeUnion {
+    UnitTypeUnion() {}
+    ::DataTypes::Unit* inserted_;
+    ::DataTypes::Unit* deleted_;
+    ::DataTypes::Unit* updated_;
+  } unit_type_;
   mutable int _cached_size_;
+  ::google::protobuf::uint32 _oneof_case_[1];
+
   friend void  protobuf_AddDesc_datatypes_2funit_2eproto();
   friend void protobuf_AssignDesc_datatypes_2funit_2eproto();
   friend void protobuf_ShutdownFile_datatypes_2funit_2eproto();
 
   void InitAsDefaultInstance();
-  static UnitConfiguration* default_instance_;
+  static UnitUpdate* default_instance_;
 };
 // -------------------------------------------------------------------
 
-class UnitLocationState : public ::google::protobuf::Message {
+class UnitUpdates : public ::google::protobuf::Message {
  public:
-  UnitLocationState();
-  virtual ~UnitLocationState();
+  UnitUpdates();
+  virtual ~UnitUpdates();
 
-  UnitLocationState(const UnitLocationState& from);
+  UnitUpdates(const UnitUpdates& from);
 
-  inline UnitLocationState& operator=(const UnitLocationState& from) {
+  inline UnitUpdates& operator=(const UnitUpdates& from) {
     CopyFrom(from);
     return *this;
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const UnitLocationState& default_instance();
+  static const UnitUpdates& default_instance();
 
-  void Swap(UnitLocationState* other);
+  void Swap(UnitUpdates* other);
 
   // implements Message ----------------------------------------------
 
-  inline UnitLocationState* New() const { return New(NULL); }
+  inline UnitUpdates* New() const { return New(NULL); }
 
-  UnitLocationState* New(::google::protobuf::Arena* arena) const;
+  UnitUpdates* New(::google::protobuf::Arena* arena) const;
   void CopyFrom(const ::google::protobuf::Message& from);
   void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const UnitLocationState& from);
-  void MergeFrom(const UnitLocationState& from);
+  void CopyFrom(const UnitUpdates& from);
+  void MergeFrom(const UnitUpdates& from);
   void Clear();
   bool IsInitialized() const;
 
@@ -884,7 +731,7 @@ class UnitLocationState : public ::google::protobuf::Message {
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const;
-  void InternalSwap(UnitLocationState* other);
+  void InternalSwap(UnitUpdates* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return _internal_metadata_.arena();
@@ -900,37 +747,31 @@ class UnitLocationState : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // optional string location_id = 1;
-  void clear_location_id();
-  static const int kLocationIdFieldNumber = 1;
-  const ::std::string& location_id() const;
-  void set_location_id(const ::std::string& value);
-  void set_location_id(const char* value);
-  void set_location_id(const char* value, size_t size);
-  ::std::string* mutable_location_id();
-  ::std::string* release_location_id();
-  void set_allocated_location_id(::std::string* location_id);
+  // repeated .DataTypes.UnitUpdate items = 1;
+  int items_size() const;
+  void clear_items();
+  static const int kItemsFieldNumber = 1;
+  const ::DataTypes::UnitUpdate& items(int index) const;
+  ::DataTypes::UnitUpdate* mutable_items(int index);
+  ::DataTypes::UnitUpdate* add_items();
+  ::google::protobuf::RepeatedPtrField< ::DataTypes::UnitUpdate >*
+      mutable_items();
+  const ::google::protobuf::RepeatedPtrField< ::DataTypes::UnitUpdate >&
+      items() const;
 
-  // optional .DataTypes.LocationState state = 2;
-  void clear_state();
-  static const int kStateFieldNumber = 2;
-  ::DataTypes::LocationState state() const;
-  void set_state(::DataTypes::LocationState value);
-
-  // @@protoc_insertion_point(class_scope:DataTypes.UnitLocationState)
+  // @@protoc_insertion_point(class_scope:DataTypes.UnitUpdates)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   bool _is_default_instance_;
-  ::google::protobuf::internal::ArenaStringPtr location_id_;
-  int state_;
+  ::google::protobuf::RepeatedPtrField< ::DataTypes::UnitUpdate > items_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_datatypes_2funit_2eproto();
   friend void protobuf_AssignDesc_datatypes_2funit_2eproto();
   friend void protobuf_ShutdownFile_datatypes_2funit_2eproto();
 
   void InitAsDefaultInstance();
-  static UnitLocationState* default_instance_;
+  static UnitUpdates* default_instance_;
 };
 // ===================================================================
 
@@ -940,7 +781,45 @@ class UnitLocationState : public ::google::protobuf::Message {
 #if !PROTOBUF_INLINE_NOT_IN_HEADERS
 // Unit
 
-// optional string ip_address = 1;
+// optional .DataTypes.Key id = 1;
+inline bool Unit::has_id() const {
+  return !_is_default_instance_ && id_ != NULL;
+}
+inline void Unit::clear_id() {
+  if (GetArenaNoVirtual() == NULL && id_ != NULL) delete id_;
+  id_ = NULL;
+}
+inline const ::DataTypes::Key& Unit::id() const {
+  // @@protoc_insertion_point(field_get:DataTypes.Unit.id)
+  return id_ != NULL ? *id_ : *default_instance_->id_;
+}
+inline ::DataTypes::Key* Unit::mutable_id() {
+  
+  if (id_ == NULL) {
+    id_ = new ::DataTypes::Key;
+  }
+  // @@protoc_insertion_point(field_mutable:DataTypes.Unit.id)
+  return id_;
+}
+inline ::DataTypes::Key* Unit::release_id() {
+  // @@protoc_insertion_point(field_release:DataTypes.Unit.id)
+  
+  ::DataTypes::Key* temp = id_;
+  id_ = NULL;
+  return temp;
+}
+inline void Unit::set_allocated_id(::DataTypes::Key* id) {
+  delete id_;
+  id_ = id;
+  if (id) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.Unit.id)
+}
+
+// optional string ip_address = 2;
 inline void Unit::clear_ip_address() {
   ip_address_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -984,107 +863,79 @@ inline void Unit::set_allocated_ip_address(::std::string* ip_address) {
   // @@protoc_insertion_point(field_set_allocated:DataTypes.Unit.ip_address)
 }
 
-// optional string mac_address = 2;
-inline void Unit::clear_mac_address() {
-  mac_address_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline const ::std::string& Unit::mac_address() const {
-  // @@protoc_insertion_point(field_get:DataTypes.Unit.mac_address)
-  return mac_address_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void Unit::set_mac_address(const ::std::string& value) {
-  
-  mac_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:DataTypes.Unit.mac_address)
-}
-inline void Unit::set_mac_address(const char* value) {
-  
-  mac_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:DataTypes.Unit.mac_address)
-}
-inline void Unit::set_mac_address(const char* value, size_t size) {
-  
-  mac_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:DataTypes.Unit.mac_address)
-}
-inline ::std::string* Unit::mutable_mac_address() {
-  
-  // @@protoc_insertion_point(field_mutable:DataTypes.Unit.mac_address)
-  return mac_address_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* Unit::release_mac_address() {
-  // @@protoc_insertion_point(field_release:DataTypes.Unit.mac_address)
-  
-  return mac_address_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void Unit::set_allocated_mac_address(::std::string* mac_address) {
-  if (mac_address != NULL) {
-    
-  } else {
-    
-  }
-  mac_address_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), mac_address);
-  // @@protoc_insertion_point(field_set_allocated:DataTypes.Unit.mac_address)
-}
-
-// optional int64 heartbeat_time = 4;
-inline void Unit::clear_heartbeat_time() {
-  heartbeat_time_ = GOOGLE_LONGLONG(0);
-}
-inline ::google::protobuf::int64 Unit::heartbeat_time() const {
-  // @@protoc_insertion_point(field_get:DataTypes.Unit.heartbeat_time)
-  return heartbeat_time_;
-}
-inline void Unit::set_heartbeat_time(::google::protobuf::int64 value) {
-  
-  heartbeat_time_ = value;
-  // @@protoc_insertion_point(field_set:DataTypes.Unit.heartbeat_time)
-}
-
-// optional .DataTypes.Locations locations = 5;
-inline bool Unit::has_locations() const {
-  return !_is_default_instance_ && locations_ != NULL;
+// repeated .DataTypes.Location locations = 3;
+inline int Unit::locations_size() const {
+  return locations_.size();
 }
 inline void Unit::clear_locations() {
-  if (GetArenaNoVirtual() == NULL && locations_ != NULL) delete locations_;
-  locations_ = NULL;
+  locations_.Clear();
 }
-inline const ::DataTypes::Locations& Unit::locations() const {
+inline const ::DataTypes::Location& Unit::locations(int index) const {
   // @@protoc_insertion_point(field_get:DataTypes.Unit.locations)
-  return locations_ != NULL ? *locations_ : *default_instance_->locations_;
+  return locations_.Get(index);
 }
-inline ::DataTypes::Locations* Unit::mutable_locations() {
-  
-  if (locations_ == NULL) {
-    locations_ = new ::DataTypes::Locations;
-  }
+inline ::DataTypes::Location* Unit::mutable_locations(int index) {
   // @@protoc_insertion_point(field_mutable:DataTypes.Unit.locations)
+  return locations_.Mutable(index);
+}
+inline ::DataTypes::Location* Unit::add_locations() {
+  // @@protoc_insertion_point(field_add:DataTypes.Unit.locations)
+  return locations_.Add();
+}
+inline ::google::protobuf::RepeatedPtrField< ::DataTypes::Location >*
+Unit::mutable_locations() {
+  // @@protoc_insertion_point(field_mutable_list:DataTypes.Unit.locations)
+  return &locations_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::DataTypes::Location >&
+Unit::locations() const {
+  // @@protoc_insertion_point(field_list:DataTypes.Unit.locations)
   return locations_;
-}
-inline ::DataTypes::Locations* Unit::release_locations() {
-  // @@protoc_insertion_point(field_release:DataTypes.Unit.locations)
-  
-  ::DataTypes::Locations* temp = locations_;
-  locations_ = NULL;
-  return temp;
-}
-inline void Unit::set_allocated_locations(::DataTypes::Locations* locations) {
-  delete locations_;
-  locations_ = locations;
-  if (locations) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_set_allocated:DataTypes.Unit.locations)
 }
 
 // -------------------------------------------------------------------
 
 // ConnectMsg
 
-// optional string ip_address = 1;
+// optional .DataTypes.Key id = 1;
+inline bool ConnectMsg::has_id() const {
+  return !_is_default_instance_ && id_ != NULL;
+}
+inline void ConnectMsg::clear_id() {
+  if (GetArenaNoVirtual() == NULL && id_ != NULL) delete id_;
+  id_ = NULL;
+}
+inline const ::DataTypes::Key& ConnectMsg::id() const {
+  // @@protoc_insertion_point(field_get:DataTypes.ConnectMsg.id)
+  return id_ != NULL ? *id_ : *default_instance_->id_;
+}
+inline ::DataTypes::Key* ConnectMsg::mutable_id() {
+  
+  if (id_ == NULL) {
+    id_ = new ::DataTypes::Key;
+  }
+  // @@protoc_insertion_point(field_mutable:DataTypes.ConnectMsg.id)
+  return id_;
+}
+inline ::DataTypes::Key* ConnectMsg::release_id() {
+  // @@protoc_insertion_point(field_release:DataTypes.ConnectMsg.id)
+  
+  ::DataTypes::Key* temp = id_;
+  id_ = NULL;
+  return temp;
+}
+inline void ConnectMsg::set_allocated_id(::DataTypes::Key* id) {
+  delete id_;
+  id_ = id;
+  if (id) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.ConnectMsg.id)
+}
+
+// optional string ip_address = 2;
 inline void ConnectMsg::clear_ip_address() {
   ip_address_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -1128,50 +979,6 @@ inline void ConnectMsg::set_allocated_ip_address(::std::string* ip_address) {
   // @@protoc_insertion_point(field_set_allocated:DataTypes.ConnectMsg.ip_address)
 }
 
-// optional string mac_address = 2;
-inline void ConnectMsg::clear_mac_address() {
-  mac_address_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline const ::std::string& ConnectMsg::mac_address() const {
-  // @@protoc_insertion_point(field_get:DataTypes.ConnectMsg.mac_address)
-  return mac_address_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void ConnectMsg::set_mac_address(const ::std::string& value) {
-  
-  mac_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:DataTypes.ConnectMsg.mac_address)
-}
-inline void ConnectMsg::set_mac_address(const char* value) {
-  
-  mac_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:DataTypes.ConnectMsg.mac_address)
-}
-inline void ConnectMsg::set_mac_address(const char* value, size_t size) {
-  
-  mac_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:DataTypes.ConnectMsg.mac_address)
-}
-inline ::std::string* ConnectMsg::mutable_mac_address() {
-  
-  // @@protoc_insertion_point(field_mutable:DataTypes.ConnectMsg.mac_address)
-  return mac_address_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* ConnectMsg::release_mac_address() {
-  // @@protoc_insertion_point(field_release:DataTypes.ConnectMsg.mac_address)
-  
-  return mac_address_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void ConnectMsg::set_allocated_mac_address(::std::string* mac_address) {
-  if (mac_address != NULL) {
-    
-  } else {
-    
-  }
-  mac_address_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), mac_address);
-  // @@protoc_insertion_point(field_set_allocated:DataTypes.ConnectMsg.mac_address)
-}
-
 // optional .DataTypes.ServiceType service_type = 3;
 inline void ConnectMsg::clear_service_type() {
   service_type_ = 0;
@@ -1190,48 +997,42 @@ inline void ConnectMsg::set_service_type(::DataTypes::ServiceType value) {
 
 // HeartbeatMessage
 
-// optional string service_id = 1;
-inline void HeartbeatMessage::clear_service_id() {
-  service_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// optional .DataTypes.Key id = 1;
+inline bool HeartbeatMessage::has_id() const {
+  return !_is_default_instance_ && id_ != NULL;
 }
-inline const ::std::string& HeartbeatMessage::service_id() const {
-  // @@protoc_insertion_point(field_get:DataTypes.HeartbeatMessage.service_id)
-  return service_id_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+inline void HeartbeatMessage::clear_id() {
+  if (GetArenaNoVirtual() == NULL && id_ != NULL) delete id_;
+  id_ = NULL;
 }
-inline void HeartbeatMessage::set_service_id(const ::std::string& value) {
+inline const ::DataTypes::Key& HeartbeatMessage::id() const {
+  // @@protoc_insertion_point(field_get:DataTypes.HeartbeatMessage.id)
+  return id_ != NULL ? *id_ : *default_instance_->id_;
+}
+inline ::DataTypes::Key* HeartbeatMessage::mutable_id() {
   
-  service_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:DataTypes.HeartbeatMessage.service_id)
+  if (id_ == NULL) {
+    id_ = new ::DataTypes::Key;
+  }
+  // @@protoc_insertion_point(field_mutable:DataTypes.HeartbeatMessage.id)
+  return id_;
 }
-inline void HeartbeatMessage::set_service_id(const char* value) {
+inline ::DataTypes::Key* HeartbeatMessage::release_id() {
+  // @@protoc_insertion_point(field_release:DataTypes.HeartbeatMessage.id)
   
-  service_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:DataTypes.HeartbeatMessage.service_id)
+  ::DataTypes::Key* temp = id_;
+  id_ = NULL;
+  return temp;
 }
-inline void HeartbeatMessage::set_service_id(const char* value, size_t size) {
-  
-  service_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:DataTypes.HeartbeatMessage.service_id)
-}
-inline ::std::string* HeartbeatMessage::mutable_service_id() {
-  
-  // @@protoc_insertion_point(field_mutable:DataTypes.HeartbeatMessage.service_id)
-  return service_id_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* HeartbeatMessage::release_service_id() {
-  // @@protoc_insertion_point(field_release:DataTypes.HeartbeatMessage.service_id)
-  
-  return service_id_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void HeartbeatMessage::set_allocated_service_id(::std::string* service_id) {
-  if (service_id != NULL) {
+inline void HeartbeatMessage::set_allocated_id(::DataTypes::Key* id) {
+  delete id_;
+  id_ = id;
+  if (id) {
     
   } else {
     
   }
-  service_id_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), service_id);
-  // @@protoc_insertion_point(field_set_allocated:DataTypes.HeartbeatMessage.service_id)
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.HeartbeatMessage.id)
 }
 
 // optional .DataTypes.ServiceType service_type = 2;
@@ -1252,321 +1053,322 @@ inline void HeartbeatMessage::set_service_type(::DataTypes::ServiceType value) {
 
 // SubscriptionMsg
 
-// optional string publisher_id = 1;
+// optional .DataTypes.Key publisher_id = 1;
+inline bool SubscriptionMsg::has_publisher_id() const {
+  return !_is_default_instance_ && publisher_id_ != NULL;
+}
 inline void SubscriptionMsg::clear_publisher_id() {
-  publisher_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (GetArenaNoVirtual() == NULL && publisher_id_ != NULL) delete publisher_id_;
+  publisher_id_ = NULL;
 }
-inline const ::std::string& SubscriptionMsg::publisher_id() const {
+inline const ::DataTypes::Key& SubscriptionMsg::publisher_id() const {
   // @@protoc_insertion_point(field_get:DataTypes.SubscriptionMsg.publisher_id)
-  return publisher_id_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return publisher_id_ != NULL ? *publisher_id_ : *default_instance_->publisher_id_;
 }
-inline void SubscriptionMsg::set_publisher_id(const ::std::string& value) {
+inline ::DataTypes::Key* SubscriptionMsg::mutable_publisher_id() {
   
-  publisher_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:DataTypes.SubscriptionMsg.publisher_id)
-}
-inline void SubscriptionMsg::set_publisher_id(const char* value) {
-  
-  publisher_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:DataTypes.SubscriptionMsg.publisher_id)
-}
-inline void SubscriptionMsg::set_publisher_id(const char* value, size_t size) {
-  
-  publisher_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:DataTypes.SubscriptionMsg.publisher_id)
-}
-inline ::std::string* SubscriptionMsg::mutable_publisher_id() {
-  
+  if (publisher_id_ == NULL) {
+    publisher_id_ = new ::DataTypes::Key;
+  }
   // @@protoc_insertion_point(field_mutable:DataTypes.SubscriptionMsg.publisher_id)
-  return publisher_id_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return publisher_id_;
 }
-inline ::std::string* SubscriptionMsg::release_publisher_id() {
+inline ::DataTypes::Key* SubscriptionMsg::release_publisher_id() {
   // @@protoc_insertion_point(field_release:DataTypes.SubscriptionMsg.publisher_id)
   
-  return publisher_id_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::DataTypes::Key* temp = publisher_id_;
+  publisher_id_ = NULL;
+  return temp;
 }
-inline void SubscriptionMsg::set_allocated_publisher_id(::std::string* publisher_id) {
-  if (publisher_id != NULL) {
+inline void SubscriptionMsg::set_allocated_publisher_id(::DataTypes::Key* publisher_id) {
+  delete publisher_id_;
+  publisher_id_ = publisher_id;
+  if (publisher_id) {
     
   } else {
     
   }
-  publisher_id_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), publisher_id);
   // @@protoc_insertion_point(field_set_allocated:DataTypes.SubscriptionMsg.publisher_id)
 }
 
-// optional string subscriber_id = 2;
+// optional .DataTypes.Key subscriber_id = 2;
+inline bool SubscriptionMsg::has_subscriber_id() const {
+  return !_is_default_instance_ && subscriber_id_ != NULL;
+}
 inline void SubscriptionMsg::clear_subscriber_id() {
-  subscriber_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (GetArenaNoVirtual() == NULL && subscriber_id_ != NULL) delete subscriber_id_;
+  subscriber_id_ = NULL;
 }
-inline const ::std::string& SubscriptionMsg::subscriber_id() const {
+inline const ::DataTypes::Key& SubscriptionMsg::subscriber_id() const {
   // @@protoc_insertion_point(field_get:DataTypes.SubscriptionMsg.subscriber_id)
-  return subscriber_id_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return subscriber_id_ != NULL ? *subscriber_id_ : *default_instance_->subscriber_id_;
 }
-inline void SubscriptionMsg::set_subscriber_id(const ::std::string& value) {
+inline ::DataTypes::Key* SubscriptionMsg::mutable_subscriber_id() {
   
-  subscriber_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:DataTypes.SubscriptionMsg.subscriber_id)
-}
-inline void SubscriptionMsg::set_subscriber_id(const char* value) {
-  
-  subscriber_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:DataTypes.SubscriptionMsg.subscriber_id)
-}
-inline void SubscriptionMsg::set_subscriber_id(const char* value, size_t size) {
-  
-  subscriber_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:DataTypes.SubscriptionMsg.subscriber_id)
-}
-inline ::std::string* SubscriptionMsg::mutable_subscriber_id() {
-  
+  if (subscriber_id_ == NULL) {
+    subscriber_id_ = new ::DataTypes::Key;
+  }
   // @@protoc_insertion_point(field_mutable:DataTypes.SubscriptionMsg.subscriber_id)
-  return subscriber_id_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return subscriber_id_;
 }
-inline ::std::string* SubscriptionMsg::release_subscriber_id() {
+inline ::DataTypes::Key* SubscriptionMsg::release_subscriber_id() {
   // @@protoc_insertion_point(field_release:DataTypes.SubscriptionMsg.subscriber_id)
   
-  return subscriber_id_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void SubscriptionMsg::set_allocated_subscriber_id(::std::string* subscriber_id) {
-  if (subscriber_id != NULL) {
-    
-  } else {
-    
-  }
-  subscriber_id_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), subscriber_id);
-  // @@protoc_insertion_point(field_set_allocated:DataTypes.SubscriptionMsg.subscriber_id)
-}
-
-// -------------------------------------------------------------------
-
-// UpdatedUnit
-
-// optional .DataTypes.Unit current_unit = 1;
-inline bool UpdatedUnit::has_current_unit() const {
-  return !_is_default_instance_ && current_unit_ != NULL;
-}
-inline void UpdatedUnit::clear_current_unit() {
-  if (GetArenaNoVirtual() == NULL && current_unit_ != NULL) delete current_unit_;
-  current_unit_ = NULL;
-}
-inline const ::DataTypes::Unit& UpdatedUnit::current_unit() const {
-  // @@protoc_insertion_point(field_get:DataTypes.UpdatedUnit.current_unit)
-  return current_unit_ != NULL ? *current_unit_ : *default_instance_->current_unit_;
-}
-inline ::DataTypes::Unit* UpdatedUnit::mutable_current_unit() {
-  
-  if (current_unit_ == NULL) {
-    current_unit_ = new ::DataTypes::Unit;
-  }
-  // @@protoc_insertion_point(field_mutable:DataTypes.UpdatedUnit.current_unit)
-  return current_unit_;
-}
-inline ::DataTypes::Unit* UpdatedUnit::release_current_unit() {
-  // @@protoc_insertion_point(field_release:DataTypes.UpdatedUnit.current_unit)
-  
-  ::DataTypes::Unit* temp = current_unit_;
-  current_unit_ = NULL;
+  ::DataTypes::Key* temp = subscriber_id_;
+  subscriber_id_ = NULL;
   return temp;
 }
-inline void UpdatedUnit::set_allocated_current_unit(::DataTypes::Unit* current_unit) {
-  delete current_unit_;
-  current_unit_ = current_unit;
-  if (current_unit) {
+inline void SubscriptionMsg::set_allocated_subscriber_id(::DataTypes::Key* subscriber_id) {
+  delete subscriber_id_;
+  subscriber_id_ = subscriber_id;
+  if (subscriber_id) {
     
   } else {
     
   }
-  // @@protoc_insertion_point(field_set_allocated:DataTypes.UpdatedUnit.current_unit)
-}
-
-// optional .DataTypes.UnitState state = 2;
-inline void UpdatedUnit::clear_state() {
-  state_ = 0;
-}
-inline ::DataTypes::UnitState UpdatedUnit::state() const {
-  // @@protoc_insertion_point(field_get:DataTypes.UpdatedUnit.state)
-  return static_cast< ::DataTypes::UnitState >(state_);
-}
-inline void UpdatedUnit::set_state(::DataTypes::UnitState value) {
-  
-  state_ = value;
-  // @@protoc_insertion_point(field_set:DataTypes.UpdatedUnit.state)
-}
-
-// -------------------------------------------------------------------
-
-// UpdatedUnits
-
-// repeated .DataTypes.UpdatedUnit items = 1;
-inline int UpdatedUnits::items_size() const {
-  return items_.size();
-}
-inline void UpdatedUnits::clear_items() {
-  items_.Clear();
-}
-inline const ::DataTypes::UpdatedUnit& UpdatedUnits::items(int index) const {
-  // @@protoc_insertion_point(field_get:DataTypes.UpdatedUnits.items)
-  return items_.Get(index);
-}
-inline ::DataTypes::UpdatedUnit* UpdatedUnits::mutable_items(int index) {
-  // @@protoc_insertion_point(field_mutable:DataTypes.UpdatedUnits.items)
-  return items_.Mutable(index);
-}
-inline ::DataTypes::UpdatedUnit* UpdatedUnits::add_items() {
-  // @@protoc_insertion_point(field_add:DataTypes.UpdatedUnits.items)
-  return items_.Add();
-}
-inline ::google::protobuf::RepeatedPtrField< ::DataTypes::UpdatedUnit >*
-UpdatedUnits::mutable_items() {
-  // @@protoc_insertion_point(field_mutable_list:DataTypes.UpdatedUnits.items)
-  return &items_;
-}
-inline const ::google::protobuf::RepeatedPtrField< ::DataTypes::UpdatedUnit >&
-UpdatedUnits::items() const {
-  // @@protoc_insertion_point(field_list:DataTypes.UpdatedUnits.items)
-  return items_;
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.SubscriptionMsg.subscriber_id)
 }
 
 // -------------------------------------------------------------------
 
 // Units
 
-// map<string, .DataTypes.Unit> items = 1;
+// repeated .DataTypes.Unit items = 1;
 inline int Units::items_size() const {
   return items_.size();
 }
 inline void Units::clear_items() {
   items_.Clear();
 }
-inline const ::google::protobuf::Map< ::std::string, ::DataTypes::Unit >&
-Units::items() const {
-  // @@protoc_insertion_point(field_map:DataTypes.Units.items)
-  return items_.GetMap();
+inline const ::DataTypes::Unit& Units::items(int index) const {
+  // @@protoc_insertion_point(field_get:DataTypes.Units.items)
+  return items_.Get(index);
 }
-inline ::google::protobuf::Map< ::std::string, ::DataTypes::Unit >*
+inline ::DataTypes::Unit* Units::mutable_items(int index) {
+  // @@protoc_insertion_point(field_mutable:DataTypes.Units.items)
+  return items_.Mutable(index);
+}
+inline ::DataTypes::Unit* Units::add_items() {
+  // @@protoc_insertion_point(field_add:DataTypes.Units.items)
+  return items_.Add();
+}
+inline ::google::protobuf::RepeatedPtrField< ::DataTypes::Unit >*
 Units::mutable_items() {
-  // @@protoc_insertion_point(field_mutable_map:DataTypes.Units.items)
-  return items_.MutableMap();
+  // @@protoc_insertion_point(field_mutable_list:DataTypes.Units.items)
+  return &items_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::DataTypes::Unit >&
+Units::items() const {
+  // @@protoc_insertion_point(field_list:DataTypes.Units.items)
+  return items_;
 }
 
 // -------------------------------------------------------------------
 
-// UnitConfiguration
+// UnitUpdate
 
-// optional string master_ip_address = 1;
-inline void UnitConfiguration::clear_master_ip_address() {
-  master_ip_address_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// optional .DataTypes.Unit inserted = 1;
+inline bool UnitUpdate::has_inserted() const {
+  return unit_type_case() == kInserted;
 }
-inline const ::std::string& UnitConfiguration::master_ip_address() const {
-  // @@protoc_insertion_point(field_get:DataTypes.UnitConfiguration.master_ip_address)
-  return master_ip_address_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+inline void UnitUpdate::set_has_inserted() {
+  _oneof_case_[0] = kInserted;
 }
-inline void UnitConfiguration::set_master_ip_address(const ::std::string& value) {
-  
-  master_ip_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:DataTypes.UnitConfiguration.master_ip_address)
-}
-inline void UnitConfiguration::set_master_ip_address(const char* value) {
-  
-  master_ip_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:DataTypes.UnitConfiguration.master_ip_address)
-}
-inline void UnitConfiguration::set_master_ip_address(const char* value, size_t size) {
-  
-  master_ip_address_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:DataTypes.UnitConfiguration.master_ip_address)
-}
-inline ::std::string* UnitConfiguration::mutable_master_ip_address() {
-  
-  // @@protoc_insertion_point(field_mutable:DataTypes.UnitConfiguration.master_ip_address)
-  return master_ip_address_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* UnitConfiguration::release_master_ip_address() {
-  // @@protoc_insertion_point(field_release:DataTypes.UnitConfiguration.master_ip_address)
-  
-  return master_ip_address_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void UnitConfiguration::set_allocated_master_ip_address(::std::string* master_ip_address) {
-  if (master_ip_address != NULL) {
-    
-  } else {
-    
+inline void UnitUpdate::clear_inserted() {
+  if (has_inserted()) {
+    delete unit_type_.inserted_;
+    clear_has_unit_type();
   }
-  master_ip_address_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), master_ip_address);
-  // @@protoc_insertion_point(field_set_allocated:DataTypes.UnitConfiguration.master_ip_address)
 }
-
-// -------------------------------------------------------------------
-
-// UnitLocationState
-
-// optional string location_id = 1;
-inline void UnitLocationState::clear_location_id() {
-  location_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+inline  const ::DataTypes::Unit& UnitUpdate::inserted() const {
+  // @@protoc_insertion_point(field_get:DataTypes.UnitUpdate.inserted)
+  return has_inserted()
+      ? *unit_type_.inserted_
+      : ::DataTypes::Unit::default_instance();
 }
-inline const ::std::string& UnitLocationState::location_id() const {
-  // @@protoc_insertion_point(field_get:DataTypes.UnitLocationState.location_id)
-  return location_id_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void UnitLocationState::set_location_id(const ::std::string& value) {
-  
-  location_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:DataTypes.UnitLocationState.location_id)
-}
-inline void UnitLocationState::set_location_id(const char* value) {
-  
-  location_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:DataTypes.UnitLocationState.location_id)
-}
-inline void UnitLocationState::set_location_id(const char* value, size_t size) {
-  
-  location_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:DataTypes.UnitLocationState.location_id)
-}
-inline ::std::string* UnitLocationState::mutable_location_id() {
-  
-  // @@protoc_insertion_point(field_mutable:DataTypes.UnitLocationState.location_id)
-  return location_id_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* UnitLocationState::release_location_id() {
-  // @@protoc_insertion_point(field_release:DataTypes.UnitLocationState.location_id)
-  
-  return location_id_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void UnitLocationState::set_allocated_location_id(::std::string* location_id) {
-  if (location_id != NULL) {
-    
-  } else {
-    
+inline ::DataTypes::Unit* UnitUpdate::mutable_inserted() {
+  if (!has_inserted()) {
+    clear_unit_type();
+    set_has_inserted();
+    unit_type_.inserted_ = new ::DataTypes::Unit;
   }
-  location_id_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), location_id);
-  // @@protoc_insertion_point(field_set_allocated:DataTypes.UnitLocationState.location_id)
+  // @@protoc_insertion_point(field_mutable:DataTypes.UnitUpdate.inserted)
+  return unit_type_.inserted_;
+}
+inline ::DataTypes::Unit* UnitUpdate::release_inserted() {
+  // @@protoc_insertion_point(field_release:DataTypes.UnitUpdate.inserted)
+  if (has_inserted()) {
+    clear_has_unit_type();
+    ::DataTypes::Unit* temp = unit_type_.inserted_;
+    unit_type_.inserted_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline void UnitUpdate::set_allocated_inserted(::DataTypes::Unit* inserted) {
+  clear_unit_type();
+  if (inserted) {
+    set_has_inserted();
+    unit_type_.inserted_ = inserted;
+  }
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.UnitUpdate.inserted)
 }
 
-// optional .DataTypes.LocationState state = 2;
-inline void UnitLocationState::clear_state() {
+// optional .DataTypes.Unit deleted = 2;
+inline bool UnitUpdate::has_deleted() const {
+  return unit_type_case() == kDeleted;
+}
+inline void UnitUpdate::set_has_deleted() {
+  _oneof_case_[0] = kDeleted;
+}
+inline void UnitUpdate::clear_deleted() {
+  if (has_deleted()) {
+    delete unit_type_.deleted_;
+    clear_has_unit_type();
+  }
+}
+inline  const ::DataTypes::Unit& UnitUpdate::deleted() const {
+  // @@protoc_insertion_point(field_get:DataTypes.UnitUpdate.deleted)
+  return has_deleted()
+      ? *unit_type_.deleted_
+      : ::DataTypes::Unit::default_instance();
+}
+inline ::DataTypes::Unit* UnitUpdate::mutable_deleted() {
+  if (!has_deleted()) {
+    clear_unit_type();
+    set_has_deleted();
+    unit_type_.deleted_ = new ::DataTypes::Unit;
+  }
+  // @@protoc_insertion_point(field_mutable:DataTypes.UnitUpdate.deleted)
+  return unit_type_.deleted_;
+}
+inline ::DataTypes::Unit* UnitUpdate::release_deleted() {
+  // @@protoc_insertion_point(field_release:DataTypes.UnitUpdate.deleted)
+  if (has_deleted()) {
+    clear_has_unit_type();
+    ::DataTypes::Unit* temp = unit_type_.deleted_;
+    unit_type_.deleted_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline void UnitUpdate::set_allocated_deleted(::DataTypes::Unit* deleted) {
+  clear_unit_type();
+  if (deleted) {
+    set_has_deleted();
+    unit_type_.deleted_ = deleted;
+  }
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.UnitUpdate.deleted)
+}
+
+// optional .DataTypes.Unit updated = 3;
+inline bool UnitUpdate::has_updated() const {
+  return unit_type_case() == kUpdated;
+}
+inline void UnitUpdate::set_has_updated() {
+  _oneof_case_[0] = kUpdated;
+}
+inline void UnitUpdate::clear_updated() {
+  if (has_updated()) {
+    delete unit_type_.updated_;
+    clear_has_unit_type();
+  }
+}
+inline  const ::DataTypes::Unit& UnitUpdate::updated() const {
+  // @@protoc_insertion_point(field_get:DataTypes.UnitUpdate.updated)
+  return has_updated()
+      ? *unit_type_.updated_
+      : ::DataTypes::Unit::default_instance();
+}
+inline ::DataTypes::Unit* UnitUpdate::mutable_updated() {
+  if (!has_updated()) {
+    clear_unit_type();
+    set_has_updated();
+    unit_type_.updated_ = new ::DataTypes::Unit;
+  }
+  // @@protoc_insertion_point(field_mutable:DataTypes.UnitUpdate.updated)
+  return unit_type_.updated_;
+}
+inline ::DataTypes::Unit* UnitUpdate::release_updated() {
+  // @@protoc_insertion_point(field_release:DataTypes.UnitUpdate.updated)
+  if (has_updated()) {
+    clear_has_unit_type();
+    ::DataTypes::Unit* temp = unit_type_.updated_;
+    unit_type_.updated_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline void UnitUpdate::set_allocated_updated(::DataTypes::Unit* updated) {
+  clear_unit_type();
+  if (updated) {
+    set_has_updated();
+    unit_type_.updated_ = updated;
+  }
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.UnitUpdate.updated)
+}
+
+// optional .DataTypes.UnitState state = 4;
+inline void UnitUpdate::clear_state() {
   state_ = 0;
 }
-inline ::DataTypes::LocationState UnitLocationState::state() const {
-  // @@protoc_insertion_point(field_get:DataTypes.UnitLocationState.state)
-  return static_cast< ::DataTypes::LocationState >(state_);
+inline ::DataTypes::UnitState UnitUpdate::state() const {
+  // @@protoc_insertion_point(field_get:DataTypes.UnitUpdate.state)
+  return static_cast< ::DataTypes::UnitState >(state_);
 }
-inline void UnitLocationState::set_state(::DataTypes::LocationState value) {
+inline void UnitUpdate::set_state(::DataTypes::UnitState value) {
   
   state_ = value;
-  // @@protoc_insertion_point(field_set:DataTypes.UnitLocationState.state)
+  // @@protoc_insertion_point(field_set:DataTypes.UnitUpdate.state)
+}
+
+inline bool UnitUpdate::has_unit_type() const {
+  return unit_type_case() != UNIT_TYPE_NOT_SET;
+}
+inline void UnitUpdate::clear_has_unit_type() {
+  _oneof_case_[0] = UNIT_TYPE_NOT_SET;
+}
+inline UnitUpdate::UnitTypeCase UnitUpdate::unit_type_case() const {
+  return UnitUpdate::UnitTypeCase(_oneof_case_[0]);
+}
+// -------------------------------------------------------------------
+
+// UnitUpdates
+
+// repeated .DataTypes.UnitUpdate items = 1;
+inline int UnitUpdates::items_size() const {
+  return items_.size();
+}
+inline void UnitUpdates::clear_items() {
+  items_.Clear();
+}
+inline const ::DataTypes::UnitUpdate& UnitUpdates::items(int index) const {
+  // @@protoc_insertion_point(field_get:DataTypes.UnitUpdates.items)
+  return items_.Get(index);
+}
+inline ::DataTypes::UnitUpdate* UnitUpdates::mutable_items(int index) {
+  // @@protoc_insertion_point(field_mutable:DataTypes.UnitUpdates.items)
+  return items_.Mutable(index);
+}
+inline ::DataTypes::UnitUpdate* UnitUpdates::add_items() {
+  // @@protoc_insertion_point(field_add:DataTypes.UnitUpdates.items)
+  return items_.Add();
+}
+inline ::google::protobuf::RepeatedPtrField< ::DataTypes::UnitUpdate >*
+UnitUpdates::mutable_items() {
+  // @@protoc_insertion_point(field_mutable_list:DataTypes.UnitUpdates.items)
+  return &items_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::DataTypes::UnitUpdate >&
+UnitUpdates::items() const {
+  // @@protoc_insertion_point(field_list:DataTypes.UnitUpdates.items)
+  return items_;
 }
 
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

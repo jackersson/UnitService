@@ -29,7 +29,7 @@
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "datatypes/geometry.pb.h"
-#include "datatypes/data.pb.h"
+#include "datatypes/key.pb.h"
 // @@protoc_insertion_point(includes)
 
 namespace DataTypes {
@@ -41,6 +41,7 @@ void protobuf_ShutdownFile_datatypes_2fbiometrics_2eproto();
 
 class FaceCharacteristic;
 class Faces;
+class FrameBytes;
 class Match;
 class Matches;
 
@@ -392,6 +393,102 @@ class FaceCharacteristic : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
+class FrameBytes : public ::google::protobuf::Message {
+ public:
+  FrameBytes();
+  virtual ~FrameBytes();
+
+  FrameBytes(const FrameBytes& from);
+
+  inline FrameBytes& operator=(const FrameBytes& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const FrameBytes& default_instance();
+
+  void Swap(FrameBytes* other);
+
+  // implements Message ----------------------------------------------
+
+  inline FrameBytes* New() const { return New(NULL); }
+
+  FrameBytes* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const FrameBytes& from);
+  void MergeFrom(const FrameBytes& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(FrameBytes* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional bytes frame_data = 1;
+  void clear_frame_data();
+  static const int kFrameDataFieldNumber = 1;
+  const ::std::string& frame_data() const;
+  void set_frame_data(const ::std::string& value);
+  void set_frame_data(const char* value);
+  void set_frame_data(const void* value, size_t size);
+  ::std::string* mutable_frame_data();
+  ::std::string* release_frame_data();
+  void set_allocated_frame_data(::std::string* frame_data);
+
+  // repeated .DataTypes.FaceCharacteristic faces = 2;
+  int faces_size() const;
+  void clear_faces();
+  static const int kFacesFieldNumber = 2;
+  const ::DataTypes::FaceCharacteristic& faces(int index) const;
+  ::DataTypes::FaceCharacteristic* mutable_faces(int index);
+  ::DataTypes::FaceCharacteristic* add_faces();
+  ::google::protobuf::RepeatedPtrField< ::DataTypes::FaceCharacteristic >*
+      mutable_faces();
+  const ::google::protobuf::RepeatedPtrField< ::DataTypes::FaceCharacteristic >&
+      faces() const;
+
+  // @@protoc_insertion_point(class_scope:DataTypes.FrameBytes)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  bool _is_default_instance_;
+  ::google::protobuf::internal::ArenaStringPtr frame_data_;
+  ::google::protobuf::RepeatedPtrField< ::DataTypes::FaceCharacteristic > faces_;
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_datatypes_2fbiometrics_2eproto();
+  friend void protobuf_AssignDesc_datatypes_2fbiometrics_2eproto();
+  friend void protobuf_ShutdownFile_datatypes_2fbiometrics_2eproto();
+
+  void InitAsDefaultInstance();
+  static FrameBytes* default_instance_;
+};
+// -------------------------------------------------------------------
+
 class Match : public ::google::protobuf::Message {
  public:
   Match();
@@ -448,18 +545,18 @@ class Match : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // optional .DataTypes.Key face_id = 2;
+  // optional .DataTypes.Key face_id = 1;
   bool has_face_id() const;
   void clear_face_id();
-  static const int kFaceIdFieldNumber = 2;
+  static const int kFaceIdFieldNumber = 1;
   const ::DataTypes::Key& face_id() const;
   ::DataTypes::Key* mutable_face_id();
   ::DataTypes::Key* release_face_id();
   void set_allocated_face_id(::DataTypes::Key* face_id);
 
-  // optional float match = 3;
+  // optional float match = 2;
   void clear_match();
-  static const int kMatchFieldNumber = 3;
+  static const int kMatchFieldNumber = 2;
   float match() const;
   void set_match(float value);
 
@@ -782,9 +879,87 @@ inline void FaceCharacteristic::set_allocated_photo_id(::DataTypes::Key* photo_i
 
 // -------------------------------------------------------------------
 
+// FrameBytes
+
+// optional bytes frame_data = 1;
+inline void FrameBytes::clear_frame_data() {
+  frame_data_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& FrameBytes::frame_data() const {
+  // @@protoc_insertion_point(field_get:DataTypes.FrameBytes.frame_data)
+  return frame_data_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void FrameBytes::set_frame_data(const ::std::string& value) {
+  
+  frame_data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:DataTypes.FrameBytes.frame_data)
+}
+inline void FrameBytes::set_frame_data(const char* value) {
+  
+  frame_data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:DataTypes.FrameBytes.frame_data)
+}
+inline void FrameBytes::set_frame_data(const void* value, size_t size) {
+  
+  frame_data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:DataTypes.FrameBytes.frame_data)
+}
+inline ::std::string* FrameBytes::mutable_frame_data() {
+  
+  // @@protoc_insertion_point(field_mutable:DataTypes.FrameBytes.frame_data)
+  return frame_data_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* FrameBytes::release_frame_data() {
+  // @@protoc_insertion_point(field_release:DataTypes.FrameBytes.frame_data)
+  
+  return frame_data_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void FrameBytes::set_allocated_frame_data(::std::string* frame_data) {
+  if (frame_data != NULL) {
+    
+  } else {
+    
+  }
+  frame_data_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), frame_data);
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.FrameBytes.frame_data)
+}
+
+// repeated .DataTypes.FaceCharacteristic faces = 2;
+inline int FrameBytes::faces_size() const {
+  return faces_.size();
+}
+inline void FrameBytes::clear_faces() {
+  faces_.Clear();
+}
+inline const ::DataTypes::FaceCharacteristic& FrameBytes::faces(int index) const {
+  // @@protoc_insertion_point(field_get:DataTypes.FrameBytes.faces)
+  return faces_.Get(index);
+}
+inline ::DataTypes::FaceCharacteristic* FrameBytes::mutable_faces(int index) {
+  // @@protoc_insertion_point(field_mutable:DataTypes.FrameBytes.faces)
+  return faces_.Mutable(index);
+}
+inline ::DataTypes::FaceCharacteristic* FrameBytes::add_faces() {
+  // @@protoc_insertion_point(field_add:DataTypes.FrameBytes.faces)
+  return faces_.Add();
+}
+inline ::google::protobuf::RepeatedPtrField< ::DataTypes::FaceCharacteristic >*
+FrameBytes::mutable_faces() {
+  // @@protoc_insertion_point(field_mutable_list:DataTypes.FrameBytes.faces)
+  return &faces_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::DataTypes::FaceCharacteristic >&
+FrameBytes::faces() const {
+  // @@protoc_insertion_point(field_list:DataTypes.FrameBytes.faces)
+  return faces_;
+}
+
+// -------------------------------------------------------------------
+
 // Match
 
-// optional .DataTypes.Key face_id = 2;
+// optional .DataTypes.Key face_id = 1;
 inline bool Match::has_face_id() const {
   return !_is_default_instance_ && face_id_ != NULL;
 }
@@ -822,7 +997,7 @@ inline void Match::set_allocated_face_id(::DataTypes::Key* face_id) {
   // @@protoc_insertion_point(field_set_allocated:DataTypes.Match.face_id)
 }
 
-// optional float match = 3;
+// optional float match = 2;
 inline void Match::clear_match() {
   match_ = 0;
 }
@@ -909,6 +1084,8 @@ Matches::matches() const {
 }
 
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

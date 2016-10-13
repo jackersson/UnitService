@@ -13,6 +13,9 @@ namespace contracts
 		public:
 			virtual ~ITrackLocationsCoordinator() {}
 
+			virtual bool grant_access(const DataTypes::Location& location) = 0;
+
+			//TODO maybe not need
 			virtual const std::vector<ILocationPtr>& locations() const = 0;
 		};
 

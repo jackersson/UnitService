@@ -129,6 +129,15 @@
     <ClCompile Include="src\contracts\common\logger.cpp">
       <Filter>Source Files\contracts\common</Filter>
     </ClCompile>
+    <ClCompile Include="src\datatypes\commands.pb.cc">
+      <Filter>Source Files\datatypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\datatypes\entity.pb.cc">
+      <Filter>Source Files\datatypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\datatypes\key.pb.cc">
+      <Filter>Source Files\datatypes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\datatypes\biometrics.pb.h">
@@ -230,9 +239,6 @@
     <ClInclude Include="include\contracts\devices\access_device\iaccess_device_engine.hpp">
       <Filter>Header Files\contracts\devices\access_device</Filter>
     </ClInclude>
-    <ClInclude Include="include\contracts\data\ientity_finder.hpp">
-      <Filter>Header Files\contracts\data</Filter>
-    </ClInclude>
     <ClInclude Include="include\contracts\data\irepository.hpp">
       <Filter>Header Files\contracts\data</Filter>
     </ClInclude>
@@ -277,6 +283,15 @@
     </ClInclude>
     <ClInclude Include="include\contracts\common\logger.hpp">
       <Filter>Header Files\contracts\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\datatypes\commands.pb.h">
+      <Filter>Header Files\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\datatypes\entity.pb.h">
+      <Filter>Header Files\datatypes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\datatypes\key.pb.h">
+      <Filter>Header Files\datatypes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

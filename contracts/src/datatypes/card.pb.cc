@@ -79,14 +79,14 @@ void protobuf_AddDesc_datatypes_2fcard_2eproto() {
   already_here = true;
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-  ::DataTypes::protobuf_AddDesc_datatypes_2fdata_2eproto();
+  ::DataTypes::protobuf_AddDesc_datatypes_2fkey_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\024datatypes/card.proto\022\tDataTypes\032\024datat"
-    "ypes/data.proto\"S\n\004Card\022)\n\021unique_identi"
-    "fier\030\001 \001(\0132\016.DataTypes.Key\022 \n\010owner_id\030\002"
-    " \001(\0132\016.DataTypes.KeyBI\n\007ex.grpcZ8github."
-    "com/Enebra/ServiceCoordinator/grpc/datat"
-    "ypes/card\242\002\003RTGb\006proto3", 223);
+    "\n\024datatypes/card.proto\022\tDataTypes\032\023datat"
+    "ypes/key.proto\"S\n\004Card\022)\n\021unique_identif"
+    "ier\030\001 \001(\0132\016.DataTypes.Key\022 \n\010owner_id\030\002 "
+    "\001(\0132\016.DataTypes.KeyBI\n\007ex.grpcZ8github.c"
+    "om/Enebra/ServiceCoordinator/grpc/dataty"
+    "pes/card\242\002\003RTGb\006proto3", 222);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "datatypes/card.proto", &protobuf_RegisterTypes);
   Card::default_instance_ = new Card();

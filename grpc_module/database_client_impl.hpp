@@ -8,17 +8,12 @@
 #include <src/cpp/server/dynamic_thread_pool.h>
 #include "include/database_service/database_client_calls.hpp"
 #include <contracts/services/idatabase_api.hpp>
+#include <service_utils.hpp>
 
 using grpc::ServerBuilder;
 
 namespace grpc_services
 {
-	typedef std::function<void()> RpcCallbackFunction;
-
-	typedef std::pair<std::shared_ptr<grpc::CompletionQueue>
-		, RpcCallbackFunction> CallHandler;
-	typedef std::map<std::string, CallHandler> CallHandlers;
-
 	class DatabaseClientImpl : public contracts::services::IService
 		                       , public contracts::services::IDatabaseApi	                    
 	{
@@ -65,48 +60,38 @@ namespace grpc_services
 			handlers_.clear();
 		}
 
-		std::shared_ptr<Services::GetResponse> 
-			get( const Services::GetRequest& request ) override
-		{			
+		std::shared_ptr<DataTypes::GetResponse>
+			get(const DataTypes::GetRequest& request) override
+		{
 			DataTypes::MessageBytes message;
-			std::string bytes;
-			request.SerializeToString(&bytes);
-			message.set_data(bytes);
-			message.set_type(DataTypes::DataType::GetRequestType);
+			utils::to_bytes(request, message);
 
-			auto it = handlers_.find(typeid(AsyncGetRequestCall).name());
-			if (it == handlers_.end())
+			auto queue = utils::get_completion_queue<AsyncGetRequestCall>(handlers_);
+			if (queue == nullptr)
 				return nullptr;
 
 			auto call = new AsyncGetRequestCall;
-			call->reader = stub_->AsyncGet(&call->context, message, it->second.first.get());
-			call->reader->Finish(&call->response, &call->status, reinterpret_cast<void*>(call));		
+			call->reader = stub_->AsyncGet(&call->context, message, queue);
+			call->reader->Finish(&call->response, &call->status, reinterpret_cast<void*>(call));
 
-			auto future = call->promise_.get_future();
-			std::chrono::milliseconds span(200);
-			future.wait_for(span);
-			return future.get();
+			return utils::get_result(call->promise_);
 		}
 
-		//TODO make as get()
-		std::shared_ptr<Services::CommitResponse>
-			commit( const Services::CommitRequest& request	) override
+		std::shared_ptr<DataTypes::CommitResponse>
+			commit(const DataTypes::CommitRequest& request) override
 		{
 			DataTypes::MessageBytes message;
-			std::string bytes;
-			request.SerializeToString(&bytes);
-			message.set_data(bytes);
-			message.set_type(DataTypes::DataType::CommitRequestType);
+			utils::to_bytes(request, message);
 
-			auto it = handlers_.find(typeid(AsyncGetRequestCall).name());
+			auto it = handlers_.find(typeid(AsyncCommitRequestCall).name());
 			if (it == handlers_.end())
 				return nullptr;
 
 			auto call = new AsyncCommitRequestCall;
 			call->reader = stub_->AsyncGet(&call->context, message, it->second.first.get());
 			call->reader->Finish(&call->response, &call->status, reinterpret_cast<void*>(call));
-		
-			return nullptr;
+
+			return utils::get_result(call->promise);
 		}
 
 

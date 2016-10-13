@@ -32,11 +32,9 @@ namespace contracts
 		public:
 			virtual ~IDataContext() {}
 
-			virtual const std::vector<TEntity>& get(void* request) = 0;
+			virtual bool get ( void* request, std::vector<TEntity>&) = 0;
 
-			virtual const TEntity& find(DataTypes::Key key) = 0;
-
-			virtual const TEntity& find(Services::Entity entity) = 0;
+			virtual bool find( DataTypes::Key key, TEntity&) = 0;
 
 			virtual bool add   (TEntity* entity) = 0;
 

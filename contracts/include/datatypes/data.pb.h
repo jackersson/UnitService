@@ -28,6 +28,7 @@
 #include <google/protobuf/extension_set.h>
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
+#include "datatypes/entity.pb.h"
 // @@protoc_insertion_point(includes)
 
 namespace DataTypes {
@@ -37,8 +38,9 @@ void protobuf_AddDesc_datatypes_2fdata_2eproto();
 void protobuf_AssignDesc_datatypes_2fdata_2eproto();
 void protobuf_ShutdownFile_datatypes_2fdata_2eproto();
 
-class Key;
 class MessageBytes;
+class Mutation;
+class MutationResult;
 
 enum DataType {
   NoneType = 0,
@@ -156,39 +158,32 @@ class MessageBytes : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class Key : public ::google::protobuf::Message {
+class MutationResult : public ::google::protobuf::Message {
  public:
-  Key();
-  virtual ~Key();
+  MutationResult();
+  virtual ~MutationResult();
 
-  Key(const Key& from);
+  MutationResult(const MutationResult& from);
 
-  inline Key& operator=(const Key& from) {
+  inline MutationResult& operator=(const MutationResult& from) {
     CopyFrom(from);
     return *this;
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const Key& default_instance();
+  static const MutationResult& default_instance();
 
-  enum IdTypeCase {
-    kNumber = 1,
-    kIdentifier = 2,
-    kGuid = 3,
-    ID_TYPE_NOT_SET = 0,
-  };
-
-  void Swap(Key* other);
+  void Swap(MutationResult* other);
 
   // implements Message ----------------------------------------------
 
-  inline Key* New() const { return New(NULL); }
+  inline MutationResult* New() const { return New(NULL); }
 
-  Key* New(::google::protobuf::Arena* arena) const;
+  MutationResult* New(::google::protobuf::Arena* arena) const;
   void CopyFrom(const ::google::protobuf::Message& from);
   void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const Key& from);
-  void MergeFrom(const Key& from);
+  void CopyFrom(const MutationResult& from);
+  void MergeFrom(const MutationResult& from);
   void Clear();
   bool IsInitialized() const;
 
@@ -203,7 +198,7 @@ class Key : public ::google::protobuf::Message {
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const;
-  void InternalSwap(Key* other);
+  void InternalSwap(MutationResult* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return _internal_metadata_.arena();
@@ -219,62 +214,152 @@ class Key : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // optional int64 number = 1;
-  private:
-  bool has_number() const;
-  public:
-  void clear_number();
-  static const int kNumberFieldNumber = 1;
-  ::google::protobuf::int64 number() const;
-  void set_number(::google::protobuf::int64 value);
+  // optional .DataTypes.Entity entity = 1;
+  bool has_entity() const;
+  void clear_entity();
+  static const int kEntityFieldNumber = 1;
+  const ::DataTypes::Entity& entity() const;
+  ::DataTypes::Entity* mutable_entity();
+  ::DataTypes::Entity* release_entity();
+  void set_allocated_entity(::DataTypes::Entity* entity);
 
-  // optional string identifier = 2;
-  private:
-  bool has_identifier() const;
-  public:
-  void clear_identifier();
-  static const int kIdentifierFieldNumber = 2;
-  const ::std::string& identifier() const;
-  void set_identifier(const ::std::string& value);
-  void set_identifier(const char* value);
-  void set_identifier(const char* value, size_t size);
-  ::std::string* mutable_identifier();
-  ::std::string* release_identifier();
-  void set_allocated_identifier(::std::string* identifier);
+  // optional string error = 2;
+  void clear_error();
+  static const int kErrorFieldNumber = 2;
+  const ::std::string& error() const;
+  void set_error(const ::std::string& value);
+  void set_error(const char* value);
+  void set_error(const char* value, size_t size);
+  ::std::string* mutable_error();
+  ::std::string* release_error();
+  void set_allocated_error(::std::string* error);
 
-  // optional bytes guid = 3;
-  private:
-  bool has_guid() const;
-  public:
-  void clear_guid();
-  static const int kGuidFieldNumber = 3;
-  const ::std::string& guid() const;
-  void set_guid(const ::std::string& value);
-  void set_guid(const char* value);
-  void set_guid(const void* value, size_t size);
-  ::std::string* mutable_guid();
-  ::std::string* release_guid();
-  void set_allocated_guid(::std::string* guid);
-
-  IdTypeCase id_type_case() const;
-  // @@protoc_insertion_point(class_scope:DataTypes.Key)
+  // @@protoc_insertion_point(class_scope:DataTypes.MutationResult)
  private:
-  inline void set_has_number();
-  inline void set_has_identifier();
-  inline void set_has_guid();
-
-  inline bool has_id_type() const;
-  void clear_id_type();
-  inline void clear_has_id_type();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   bool _is_default_instance_;
-  union IdTypeUnion {
-    IdTypeUnion() {}
-    ::google::protobuf::int64 number_;
-    ::google::protobuf::internal::ArenaStringPtr identifier_;
-    ::google::protobuf::internal::ArenaStringPtr guid_;
-  } id_type_;
+  ::DataTypes::Entity* entity_;
+  ::google::protobuf::internal::ArenaStringPtr error_;
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_datatypes_2fdata_2eproto();
+  friend void protobuf_AssignDesc_datatypes_2fdata_2eproto();
+  friend void protobuf_ShutdownFile_datatypes_2fdata_2eproto();
+
+  void InitAsDefaultInstance();
+  static MutationResult* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class Mutation : public ::google::protobuf::Message {
+ public:
+  Mutation();
+  virtual ~Mutation();
+
+  Mutation(const Mutation& from);
+
+  inline Mutation& operator=(const Mutation& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Mutation& default_instance();
+
+  enum OperationCase {
+    kInsert = 1,
+    kUpdate = 2,
+    kDelete = 3,
+    OPERATION_NOT_SET = 0,
+  };
+
+  void Swap(Mutation* other);
+
+  // implements Message ----------------------------------------------
+
+  inline Mutation* New() const { return New(NULL); }
+
+  Mutation* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const Mutation& from);
+  void MergeFrom(const Mutation& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(Mutation* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional .DataTypes.Entity insert = 1;
+  bool has_insert() const;
+  void clear_insert();
+  static const int kInsertFieldNumber = 1;
+  const ::DataTypes::Entity& insert() const;
+  ::DataTypes::Entity* mutable_insert();
+  ::DataTypes::Entity* release_insert();
+  void set_allocated_insert(::DataTypes::Entity* insert);
+
+  // optional .DataTypes.Entity update = 2;
+  bool has_update() const;
+  void clear_update();
+  static const int kUpdateFieldNumber = 2;
+  const ::DataTypes::Entity& update() const;
+  ::DataTypes::Entity* mutable_update();
+  ::DataTypes::Entity* release_update();
+  void set_allocated_update(::DataTypes::Entity* update);
+
+  // optional .DataTypes.Entity delete = 3;
+  bool has_delete_() const;
+  void clear_delete_();
+  static const int kDeleteFieldNumber = 3;
+  const ::DataTypes::Entity& delete_() const;
+  ::DataTypes::Entity* mutable_delete_();
+  ::DataTypes::Entity* release_delete_();
+  void set_allocated_delete_(::DataTypes::Entity* delete_);
+
+  OperationCase operation_case() const;
+  // @@protoc_insertion_point(class_scope:DataTypes.Mutation)
+ private:
+  inline void set_has_insert();
+  inline void set_has_update();
+  inline void set_has_delete_();
+
+  inline bool has_operation() const;
+  void clear_operation();
+  inline void clear_has_operation();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  bool _is_default_instance_;
+  union OperationUnion {
+    OperationUnion() {}
+    ::DataTypes::Entity* insert_;
+    ::DataTypes::Entity* update_;
+    ::DataTypes::Entity* delete__;
+  } operation_;
   mutable int _cached_size_;
   ::google::protobuf::uint32 _oneof_case_[1];
 
@@ -283,7 +368,7 @@ class Key : public ::google::protobuf::Message {
   friend void protobuf_ShutdownFile_datatypes_2fdata_2eproto();
 
   void InitAsDefaultInstance();
-  static Key* default_instance_;
+  static Mutation* default_instance_;
 };
 // ===================================================================
 
@@ -353,209 +438,250 @@ inline void MessageBytes::set_type(::DataTypes::DataType value) {
 
 // -------------------------------------------------------------------
 
-// Key
+// MutationResult
 
-// optional int64 number = 1;
-inline bool Key::has_number() const {
-  return id_type_case() == kNumber;
+// optional .DataTypes.Entity entity = 1;
+inline bool MutationResult::has_entity() const {
+  return !_is_default_instance_ && entity_ != NULL;
 }
-inline void Key::set_has_number() {
-  _oneof_case_[0] = kNumber;
+inline void MutationResult::clear_entity() {
+  if (GetArenaNoVirtual() == NULL && entity_ != NULL) delete entity_;
+  entity_ = NULL;
 }
-inline void Key::clear_number() {
-  if (has_number()) {
-    id_type_.number_ = GOOGLE_LONGLONG(0);
-    clear_has_id_type();
+inline const ::DataTypes::Entity& MutationResult::entity() const {
+  // @@protoc_insertion_point(field_get:DataTypes.MutationResult.entity)
+  return entity_ != NULL ? *entity_ : *default_instance_->entity_;
+}
+inline ::DataTypes::Entity* MutationResult::mutable_entity() {
+  
+  if (entity_ == NULL) {
+    entity_ = new ::DataTypes::Entity;
   }
+  // @@protoc_insertion_point(field_mutable:DataTypes.MutationResult.entity)
+  return entity_;
 }
-inline ::google::protobuf::int64 Key::number() const {
-  // @@protoc_insertion_point(field_get:DataTypes.Key.number)
-  if (has_number()) {
-    return id_type_.number_;
-  }
-  return GOOGLE_LONGLONG(0);
+inline ::DataTypes::Entity* MutationResult::release_entity() {
+  // @@protoc_insertion_point(field_release:DataTypes.MutationResult.entity)
+  
+  ::DataTypes::Entity* temp = entity_;
+  entity_ = NULL;
+  return temp;
 }
-inline void Key::set_number(::google::protobuf::int64 value) {
-  if (!has_number()) {
-    clear_id_type();
-    set_has_number();
+inline void MutationResult::set_allocated_entity(::DataTypes::Entity* entity) {
+  delete entity_;
+  entity_ = entity;
+  if (entity) {
+    
+  } else {
+    
   }
-  id_type_.number_ = value;
-  // @@protoc_insertion_point(field_set:DataTypes.Key.number)
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.MutationResult.entity)
 }
 
-// optional string identifier = 2;
-inline bool Key::has_identifier() const {
-  return id_type_case() == kIdentifier;
+// optional string error = 2;
+inline void MutationResult::clear_error() {
+  error_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void Key::set_has_identifier() {
-  _oneof_case_[0] = kIdentifier;
+inline const ::std::string& MutationResult::error() const {
+  // @@protoc_insertion_point(field_get:DataTypes.MutationResult.error)
+  return error_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void Key::clear_identifier() {
-  if (has_identifier()) {
-    id_type_.identifier_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-    clear_has_id_type();
+inline void MutationResult::set_error(const ::std::string& value) {
+  
+  error_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:DataTypes.MutationResult.error)
+}
+inline void MutationResult::set_error(const char* value) {
+  
+  error_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:DataTypes.MutationResult.error)
+}
+inline void MutationResult::set_error(const char* value, size_t size) {
+  
+  error_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:DataTypes.MutationResult.error)
+}
+inline ::std::string* MutationResult::mutable_error() {
+  
+  // @@protoc_insertion_point(field_mutable:DataTypes.MutationResult.error)
+  return error_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* MutationResult::release_error() {
+  // @@protoc_insertion_point(field_release:DataTypes.MutationResult.error)
+  
+  return error_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void MutationResult::set_allocated_error(::std::string* error) {
+  if (error != NULL) {
+    
+  } else {
+    
+  }
+  error_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), error);
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.MutationResult.error)
+}
+
+// -------------------------------------------------------------------
+
+// Mutation
+
+// optional .DataTypes.Entity insert = 1;
+inline bool Mutation::has_insert() const {
+  return operation_case() == kInsert;
+}
+inline void Mutation::set_has_insert() {
+  _oneof_case_[0] = kInsert;
+}
+inline void Mutation::clear_insert() {
+  if (has_insert()) {
+    delete operation_.insert_;
+    clear_has_operation();
   }
 }
-inline const ::std::string& Key::identifier() const {
-  // @@protoc_insertion_point(field_get:DataTypes.Key.identifier)
-  if (has_identifier()) {
-    return id_type_.identifier_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  }
-  return *&::google::protobuf::internal::GetEmptyStringAlreadyInited();
+inline  const ::DataTypes::Entity& Mutation::insert() const {
+  // @@protoc_insertion_point(field_get:DataTypes.Mutation.insert)
+  return has_insert()
+      ? *operation_.insert_
+      : ::DataTypes::Entity::default_instance();
 }
-inline void Key::set_identifier(const ::std::string& value) {
-  // @@protoc_insertion_point(field_set:DataTypes.Key.identifier)
-  if (!has_identifier()) {
-    clear_id_type();
-    set_has_identifier();
-    id_type_.identifier_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+inline ::DataTypes::Entity* Mutation::mutable_insert() {
+  if (!has_insert()) {
+    clear_operation();
+    set_has_insert();
+    operation_.insert_ = new ::DataTypes::Entity;
   }
-  id_type_.identifier_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:DataTypes.Key.identifier)
+  // @@protoc_insertion_point(field_mutable:DataTypes.Mutation.insert)
+  return operation_.insert_;
 }
-inline void Key::set_identifier(const char* value) {
-  if (!has_identifier()) {
-    clear_id_type();
-    set_has_identifier();
-    id_type_.identifier_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  }
-  id_type_.identifier_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:DataTypes.Key.identifier)
-}
-inline void Key::set_identifier(const char* value, size_t size) {
-  if (!has_identifier()) {
-    clear_id_type();
-    set_has_identifier();
-    id_type_.identifier_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  }
-  id_type_.identifier_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
-      reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:DataTypes.Key.identifier)
-}
-inline ::std::string* Key::mutable_identifier() {
-  if (!has_identifier()) {
-    clear_id_type();
-    set_has_identifier();
-    id_type_.identifier_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  }
-  // @@protoc_insertion_point(field_mutable:DataTypes.Key.identifier)
-  return id_type_.identifier_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* Key::release_identifier() {
-  // @@protoc_insertion_point(field_release:DataTypes.Key.identifier)
-  if (has_identifier()) {
-    clear_has_id_type();
-    return id_type_.identifier_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+inline ::DataTypes::Entity* Mutation::release_insert() {
+  // @@protoc_insertion_point(field_release:DataTypes.Mutation.insert)
+  if (has_insert()) {
+    clear_has_operation();
+    ::DataTypes::Entity* temp = operation_.insert_;
+    operation_.insert_ = NULL;
+    return temp;
   } else {
     return NULL;
   }
 }
-inline void Key::set_allocated_identifier(::std::string* identifier) {
-  if (!has_identifier()) {
-    id_type_.identifier_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+inline void Mutation::set_allocated_insert(::DataTypes::Entity* insert) {
+  clear_operation();
+  if (insert) {
+    set_has_insert();
+    operation_.insert_ = insert;
   }
-  clear_id_type();
-  if (identifier != NULL) {
-    set_has_identifier();
-    id_type_.identifier_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-        identifier);
-  }
-  // @@protoc_insertion_point(field_set_allocated:DataTypes.Key.identifier)
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.Mutation.insert)
 }
 
-// optional bytes guid = 3;
-inline bool Key::has_guid() const {
-  return id_type_case() == kGuid;
+// optional .DataTypes.Entity update = 2;
+inline bool Mutation::has_update() const {
+  return operation_case() == kUpdate;
 }
-inline void Key::set_has_guid() {
-  _oneof_case_[0] = kGuid;
+inline void Mutation::set_has_update() {
+  _oneof_case_[0] = kUpdate;
 }
-inline void Key::clear_guid() {
-  if (has_guid()) {
-    id_type_.guid_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-    clear_has_id_type();
+inline void Mutation::clear_update() {
+  if (has_update()) {
+    delete operation_.update_;
+    clear_has_operation();
   }
 }
-inline const ::std::string& Key::guid() const {
-  // @@protoc_insertion_point(field_get:DataTypes.Key.guid)
-  if (has_guid()) {
-    return id_type_.guid_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  }
-  return *&::google::protobuf::internal::GetEmptyStringAlreadyInited();
+inline  const ::DataTypes::Entity& Mutation::update() const {
+  // @@protoc_insertion_point(field_get:DataTypes.Mutation.update)
+  return has_update()
+      ? *operation_.update_
+      : ::DataTypes::Entity::default_instance();
 }
-inline void Key::set_guid(const ::std::string& value) {
-  // @@protoc_insertion_point(field_set:DataTypes.Key.guid)
-  if (!has_guid()) {
-    clear_id_type();
-    set_has_guid();
-    id_type_.guid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+inline ::DataTypes::Entity* Mutation::mutable_update() {
+  if (!has_update()) {
+    clear_operation();
+    set_has_update();
+    operation_.update_ = new ::DataTypes::Entity;
   }
-  id_type_.guid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:DataTypes.Key.guid)
+  // @@protoc_insertion_point(field_mutable:DataTypes.Mutation.update)
+  return operation_.update_;
 }
-inline void Key::set_guid(const char* value) {
-  if (!has_guid()) {
-    clear_id_type();
-    set_has_guid();
-    id_type_.guid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  }
-  id_type_.guid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:DataTypes.Key.guid)
-}
-inline void Key::set_guid(const void* value, size_t size) {
-  if (!has_guid()) {
-    clear_id_type();
-    set_has_guid();
-    id_type_.guid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  }
-  id_type_.guid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(
-      reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:DataTypes.Key.guid)
-}
-inline ::std::string* Key::mutable_guid() {
-  if (!has_guid()) {
-    clear_id_type();
-    set_has_guid();
-    id_type_.guid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  }
-  // @@protoc_insertion_point(field_mutable:DataTypes.Key.guid)
-  return id_type_.guid_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* Key::release_guid() {
-  // @@protoc_insertion_point(field_release:DataTypes.Key.guid)
-  if (has_guid()) {
-    clear_has_id_type();
-    return id_type_.guid_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+inline ::DataTypes::Entity* Mutation::release_update() {
+  // @@protoc_insertion_point(field_release:DataTypes.Mutation.update)
+  if (has_update()) {
+    clear_has_operation();
+    ::DataTypes::Entity* temp = operation_.update_;
+    operation_.update_ = NULL;
+    return temp;
   } else {
     return NULL;
   }
 }
-inline void Key::set_allocated_guid(::std::string* guid) {
-  if (!has_guid()) {
-    id_type_.guid_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+inline void Mutation::set_allocated_update(::DataTypes::Entity* update) {
+  clear_operation();
+  if (update) {
+    set_has_update();
+    operation_.update_ = update;
   }
-  clear_id_type();
-  if (guid != NULL) {
-    set_has_guid();
-    id_type_.guid_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-        guid);
-  }
-  // @@protoc_insertion_point(field_set_allocated:DataTypes.Key.guid)
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.Mutation.update)
 }
 
-inline bool Key::has_id_type() const {
-  return id_type_case() != ID_TYPE_NOT_SET;
+// optional .DataTypes.Entity delete = 3;
+inline bool Mutation::has_delete_() const {
+  return operation_case() == kDelete;
 }
-inline void Key::clear_has_id_type() {
-  _oneof_case_[0] = ID_TYPE_NOT_SET;
+inline void Mutation::set_has_delete_() {
+  _oneof_case_[0] = kDelete;
 }
-inline Key::IdTypeCase Key::id_type_case() const {
-  return Key::IdTypeCase(_oneof_case_[0]);
+inline void Mutation::clear_delete_() {
+  if (has_delete_()) {
+    delete operation_.delete__;
+    clear_has_operation();
+  }
+}
+inline  const ::DataTypes::Entity& Mutation::delete_() const {
+  // @@protoc_insertion_point(field_get:DataTypes.Mutation.delete)
+  return has_delete_()
+      ? *operation_.delete__
+      : ::DataTypes::Entity::default_instance();
+}
+inline ::DataTypes::Entity* Mutation::mutable_delete_() {
+  if (!has_delete_()) {
+    clear_operation();
+    set_has_delete_();
+    operation_.delete__ = new ::DataTypes::Entity;
+  }
+  // @@protoc_insertion_point(field_mutable:DataTypes.Mutation.delete)
+  return operation_.delete__;
+}
+inline ::DataTypes::Entity* Mutation::release_delete_() {
+  // @@protoc_insertion_point(field_release:DataTypes.Mutation.delete)
+  if (has_delete_()) {
+    clear_has_operation();
+    ::DataTypes::Entity* temp = operation_.delete__;
+    operation_.delete__ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline void Mutation::set_allocated_delete_(::DataTypes::Entity* delete_) {
+  clear_operation();
+  if (delete_) {
+    set_has_delete_();
+    operation_.delete__ = delete_;
+  }
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.Mutation.delete)
+}
+
+inline bool Mutation::has_operation() const {
+  return operation_case() != OPERATION_NOT_SET;
+}
+inline void Mutation::clear_has_operation() {
+  _oneof_case_[0] = OPERATION_NOT_SET;
+}
+inline Mutation::OperationCase Mutation::operation_case() const {
+  return Mutation::OperationCase(_oneof_case_[0]);
 }
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 

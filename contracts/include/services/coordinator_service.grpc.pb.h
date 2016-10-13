@@ -54,13 +54,14 @@ class CoordinatorService GRPC_FINAL {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::DataTypes::MessageBytes>> AsyncGet(::grpc::ClientContext* context, const ::DataTypes::MessageBytes& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::DataTypes::MessageBytes>>(AsyncGetRaw(context, request, cq));
     }
+    // update locations/visitrecords rely on commit
     virtual ::grpc::Status Commit(::grpc::ClientContext* context, const ::DataTypes::MessageBytes& request, ::DataTypes::MessageBytes* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::DataTypes::MessageBytes>> AsyncCommit(::grpc::ClientContext* context, const ::DataTypes::MessageBytes& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::DataTypes::MessageBytes>>(AsyncCommitRaw(context, request, cq));
     }
-    virtual ::grpc::Status PushUpdates(::grpc::ClientContext* context, const ::DataTypes::DeviceUpdate& request, ::google::protobuf::Empty* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>> AsyncPushUpdates(::grpc::ClientContext* context, const ::DataTypes::DeviceUpdate& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>>(AsyncPushUpdatesRaw(context, request, cq));
+    virtual ::grpc::Status UpdateDevices(::grpc::ClientContext* context, const ::DataTypes::DeviceUpdate& request, ::google::protobuf::Empty* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>> AsyncUpdateDevices(::grpc::ClientContext* context, const ::DataTypes::DeviceUpdate& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>>(AsyncUpdateDevicesRaw(context, request, cq));
     }
   private:
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>* AsyncConnectRaw(::grpc::ClientContext* context, const ::DataTypes::ConnectMsg& request, ::grpc::CompletionQueue* cq) = 0;
@@ -70,7 +71,7 @@ class CoordinatorService GRPC_FINAL {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>* AsyncUnsubscribeRaw(::grpc::ClientContext* context, const ::DataTypes::SubscriptionMsg& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::DataTypes::MessageBytes>* AsyncGetRaw(::grpc::ClientContext* context, const ::DataTypes::MessageBytes& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::DataTypes::MessageBytes>* AsyncCommitRaw(::grpc::ClientContext* context, const ::DataTypes::MessageBytes& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>* AsyncPushUpdatesRaw(::grpc::ClientContext* context, const ::DataTypes::DeviceUpdate& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::google::protobuf::Empty>* AsyncUpdateDevicesRaw(::grpc::ClientContext* context, const ::DataTypes::DeviceUpdate& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub GRPC_FINAL : public StubInterface {
    public:
@@ -103,9 +104,9 @@ class CoordinatorService GRPC_FINAL {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::DataTypes::MessageBytes>> AsyncCommit(::grpc::ClientContext* context, const ::DataTypes::MessageBytes& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::DataTypes::MessageBytes>>(AsyncCommitRaw(context, request, cq));
     }
-    ::grpc::Status PushUpdates(::grpc::ClientContext* context, const ::DataTypes::DeviceUpdate& request, ::google::protobuf::Empty* response) GRPC_OVERRIDE;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>> AsyncPushUpdates(::grpc::ClientContext* context, const ::DataTypes::DeviceUpdate& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>>(AsyncPushUpdatesRaw(context, request, cq));
+    ::grpc::Status UpdateDevices(::grpc::ClientContext* context, const ::DataTypes::DeviceUpdate& request, ::google::protobuf::Empty* response) GRPC_OVERRIDE;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>> AsyncUpdateDevices(::grpc::ClientContext* context, const ::DataTypes::DeviceUpdate& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>>(AsyncUpdateDevicesRaw(context, request, cq));
     }
 
    private:
@@ -117,7 +118,7 @@ class CoordinatorService GRPC_FINAL {
     ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* AsyncUnsubscribeRaw(::grpc::ClientContext* context, const ::DataTypes::SubscriptionMsg& request, ::grpc::CompletionQueue* cq) GRPC_OVERRIDE;
     ::grpc::ClientAsyncResponseReader< ::DataTypes::MessageBytes>* AsyncGetRaw(::grpc::ClientContext* context, const ::DataTypes::MessageBytes& request, ::grpc::CompletionQueue* cq) GRPC_OVERRIDE;
     ::grpc::ClientAsyncResponseReader< ::DataTypes::MessageBytes>* AsyncCommitRaw(::grpc::ClientContext* context, const ::DataTypes::MessageBytes& request, ::grpc::CompletionQueue* cq) GRPC_OVERRIDE;
-    ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* AsyncPushUpdatesRaw(::grpc::ClientContext* context, const ::DataTypes::DeviceUpdate& request, ::grpc::CompletionQueue* cq) GRPC_OVERRIDE;
+    ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* AsyncUpdateDevicesRaw(::grpc::ClientContext* context, const ::DataTypes::DeviceUpdate& request, ::grpc::CompletionQueue* cq) GRPC_OVERRIDE;
     const ::grpc::RpcMethod rpcmethod_Connect_;
     const ::grpc::RpcMethod rpcmethod_Heartbeat_;
     const ::grpc::RpcMethod rpcmethod_GetUnits_;
@@ -125,7 +126,7 @@ class CoordinatorService GRPC_FINAL {
     const ::grpc::RpcMethod rpcmethod_Unsubscribe_;
     const ::grpc::RpcMethod rpcmethod_Get_;
     const ::grpc::RpcMethod rpcmethod_Commit_;
-    const ::grpc::RpcMethod rpcmethod_PushUpdates_;
+    const ::grpc::RpcMethod rpcmethod_UpdateDevices_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -139,8 +140,9 @@ class CoordinatorService GRPC_FINAL {
     virtual ::grpc::Status Subscribe(::grpc::ServerContext* context, const ::DataTypes::SubscriptionMsg* request, ::google::protobuf::Empty* response);
     virtual ::grpc::Status Unsubscribe(::grpc::ServerContext* context, const ::DataTypes::SubscriptionMsg* request, ::google::protobuf::Empty* response);
     virtual ::grpc::Status Get(::grpc::ServerContext* context, const ::DataTypes::MessageBytes* request, ::DataTypes::MessageBytes* response);
+    // update locations/visitrecords rely on commit
     virtual ::grpc::Status Commit(::grpc::ServerContext* context, const ::DataTypes::MessageBytes* request, ::DataTypes::MessageBytes* response);
-    virtual ::grpc::Status PushUpdates(::grpc::ServerContext* context, const ::DataTypes::DeviceUpdate* request, ::google::protobuf::Empty* response);
+    virtual ::grpc::Status UpdateDevices(::grpc::ServerContext* context, const ::DataTypes::DeviceUpdate* request, ::google::protobuf::Empty* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_Connect : public BaseClass {
@@ -283,26 +285,26 @@ class CoordinatorService GRPC_FINAL {
     }
   };
   template <class BaseClass>
-  class WithAsyncMethod_PushUpdates : public BaseClass {
+  class WithAsyncMethod_UpdateDevices : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
-    WithAsyncMethod_PushUpdates() {
+    WithAsyncMethod_UpdateDevices() {
       ::grpc::Service::MarkMethodAsync(7);
     }
-    ~WithAsyncMethod_PushUpdates() GRPC_OVERRIDE {
+    ~WithAsyncMethod_UpdateDevices() GRPC_OVERRIDE {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status PushUpdates(::grpc::ServerContext* context, const ::DataTypes::DeviceUpdate* request, ::google::protobuf::Empty* response) GRPC_FINAL GRPC_OVERRIDE {
+    ::grpc::Status UpdateDevices(::grpc::ServerContext* context, const ::DataTypes::DeviceUpdate* request, ::google::protobuf::Empty* response) GRPC_FINAL GRPC_OVERRIDE {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestPushUpdates(::grpc::ServerContext* context, ::DataTypes::DeviceUpdate* request, ::grpc::ServerAsyncResponseWriter< ::google::protobuf::Empty>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void RequestUpdateDevices(::grpc::ServerContext* context, ::DataTypes::DeviceUpdate* request, ::grpc::ServerAsyncResponseWriter< ::google::protobuf::Empty>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_Connect<WithAsyncMethod_Heartbeat<WithAsyncMethod_GetUnits<WithAsyncMethod_Subscribe<WithAsyncMethod_Unsubscribe<WithAsyncMethod_Get<WithAsyncMethod_Commit<WithAsyncMethod_PushUpdates<Service > > > > > > > > AsyncService;
+  typedef WithAsyncMethod_Connect<WithAsyncMethod_Heartbeat<WithAsyncMethod_GetUnits<WithAsyncMethod_Subscribe<WithAsyncMethod_Unsubscribe<WithAsyncMethod_Get<WithAsyncMethod_Commit<WithAsyncMethod_UpdateDevices<Service > > > > > > > > AsyncService;
   template <class BaseClass>
   class WithGenericMethod_Connect : public BaseClass {
    private:
@@ -423,18 +425,18 @@ class CoordinatorService GRPC_FINAL {
     }
   };
   template <class BaseClass>
-  class WithGenericMethod_PushUpdates : public BaseClass {
+  class WithGenericMethod_UpdateDevices : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service *service) {}
    public:
-    WithGenericMethod_PushUpdates() {
+    WithGenericMethod_UpdateDevices() {
       ::grpc::Service::MarkMethodGeneric(7);
     }
-    ~WithGenericMethod_PushUpdates() GRPC_OVERRIDE {
+    ~WithGenericMethod_UpdateDevices() GRPC_OVERRIDE {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status PushUpdates(::grpc::ServerContext* context, const ::DataTypes::DeviceUpdate* request, ::google::protobuf::Empty* response) GRPC_FINAL GRPC_OVERRIDE {
+    ::grpc::Status UpdateDevices(::grpc::ServerContext* context, const ::DataTypes::DeviceUpdate* request, ::google::protobuf::Empty* response) GRPC_FINAL GRPC_OVERRIDE {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }

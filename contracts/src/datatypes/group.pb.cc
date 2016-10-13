@@ -107,19 +107,19 @@ void protobuf_AddDesc_datatypes_2fgroup_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::DataTypes::protobuf_AddDesc_datatypes_2fvisit_5frecord_2eproto();
-  ::DataTypes::protobuf_AddDesc_datatypes_2fdata_2eproto();
+  ::DataTypes::protobuf_AddDesc_datatypes_2fkey_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\025datatypes/group.proto\022\tDataTypes\032\034data"
-    "types/visit_record.proto\032\024datatypes/data"
-    ".proto\"\262\001\n\005Group\022\032\n\002id\030\001 \001(\0132\016.DataTypes"
-    ".Key\022\014\n\004name\030\002 \001(\t\022\023\n\013description\030\003 \001(\t\022"
-    "&\n\006access\030\004 \001(\0162\026.DataTypes.AccessState\022"
-    "\037\n\007persons\030\005 \003(\0132\016.DataTypes.Key\022!\n\tloca"
-    "tions\030\006 \003(\0132\016.DataTypes.Key\"8\n\006Groups\022\037\n"
-    "\005items\030\001 \003(\0132\020.DataTypes.Group\022\r\n\005count\030"
-    "\002 \001(\003BJ\n\007ex.grpcZ9github.com/Enebra/Serv"
-    "iceCoordinator/grpc/datatypes/group\242\002\003RT"
-    "Gb\006proto3", 409);
+    "types/visit_record.proto\032\023datatypes/key."
+    "proto\"\262\001\n\005Group\022\032\n\002id\030\001 \001(\0132\016.DataTypes."
+    "Key\022\014\n\004name\030\002 \001(\t\022\023\n\013description\030\003 \001(\t\022&"
+    "\n\006access\030\004 \001(\0162\026.DataTypes.AccessState\022\037"
+    "\n\007persons\030\005 \003(\0132\016.DataTypes.Key\022!\n\tlocat"
+    "ions\030\006 \003(\0132\016.DataTypes.Key\"8\n\006Groups\022\037\n\005"
+    "items\030\001 \003(\0132\020.DataTypes.Group\022\r\n\005count\030\002"
+    " \001(\003BJ\n\007ex.grpcZ9github.com/Enebra/Servi"
+    "ceCoordinator/grpc/datatypes/group\242\002\003RTG"
+    "b\006proto3", 408);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "datatypes/group.proto", &protobuf_RegisterTypes);
   Group::default_instance_ = new Group();

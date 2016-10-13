@@ -24,9 +24,6 @@ namespace {
 const ::google::protobuf::Descriptor* Photo_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   Photo_reflection_ = NULL;
-const ::google::protobuf::Descriptor* Photos_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  Photos_reflection_ = NULL;
 const ::google::protobuf::EnumDescriptor* Purpose_descriptor_ = NULL;
 
 }  // namespace
@@ -59,22 +56,6 @@ void protobuf_AssignDesc_datatypes_2fphoto_2eproto() {
       sizeof(Photo),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Photo, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Photo, _is_default_instance_));
-  Photos_descriptor_ = file->message_type(1);
-  static const int Photos_offsets_[2] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Photos, photos_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Photos, count_),
-  };
-  Photos_reflection_ =
-    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
-      Photos_descriptor_,
-      Photos::default_instance_,
-      Photos_offsets_,
-      -1,
-      -1,
-      -1,
-      sizeof(Photos),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Photos, _internal_metadata_),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Photos, _is_default_instance_));
   Purpose_descriptor_ = file->enum_type(0);
 }
 
@@ -90,8 +71,6 @@ void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
       Photo_descriptor_, &Photo::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-      Photos_descriptor_, &Photos::default_instance());
 }
 
 }  // namespace
@@ -99,8 +78,6 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void protobuf_ShutdownFile_datatypes_2fphoto_2eproto() {
   delete Photo::default_instance_;
   delete Photo_reflection_;
-  delete Photos::default_instance_;
-  delete Photos_reflection_;
 }
 
 void protobuf_AddDesc_datatypes_2fphoto_2eproto() {
@@ -110,27 +87,23 @@ void protobuf_AddDesc_datatypes_2fphoto_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::DataTypes::protobuf_AddDesc_datatypes_2fbiometrics_2eproto();
-  ::DataTypes::protobuf_AddDesc_datatypes_2fdata_2eproto();
+  ::DataTypes::protobuf_AddDesc_datatypes_2fkey_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\025datatypes/photo.proto\022\tDataTypes\032\032data"
-    "types/biometrics.proto\032\024datatypes/data.p"
-    "roto\"\310\001\n\005Photo\022\032\n\002id\030\001 \001(\0132\016.DataTypes.K"
-    "ey\022\013\n\003url\030\002 \001(\t\022\r\n\005width\030\003 \001(\005\022\016\n\006height"
-    "\030\004 \001(\005\022#\n\007purpose\030\005 \001(\0162\022.DataTypes.Purp"
-    "ose\0220\n\016biometric_type\030\006 \001(\0162\030.DataTypes."
-    "BiometricType\022 \n\010owner_id\030\007 \001(\0132\016.DataTy"
-    "pes.Key\"9\n\006Photos\022 \n\006photos\030\001 \003(\0132\020.Data"
-    "Types.Photo\022\r\n\005count\030\002 \001(\003*9\n\007Purpose\022\017\n"
-    "\013NonePurpose\020\000\022\r\n\tThumbnail\020\001\022\016\n\nPopulat"
-    "ion\020\002BJ\n\007ex.grpcZ9github.com/Enebra/Serv"
-    "iceCoordinator/grpc/datatypes/photo\242\002\003RT"
-    "Gb\006proto3", 489);
+    "types/biometrics.proto\032\023datatypes/key.pr"
+    "oto\"\310\001\n\005Photo\022\032\n\002id\030\001 \001(\0132\016.DataTypes.Ke"
+    "y\022\013\n\003url\030\002 \001(\t\022\r\n\005width\030\003 \001(\005\022\016\n\006height\030"
+    "\004 \001(\005\022#\n\007purpose\030\005 \001(\0162\022.DataTypes.Purpo"
+    "se\0220\n\016biometric_type\030\006 \001(\0162\030.DataTypes.B"
+    "iometricType\022 \n\010owner_id\030\007 \001(\0132\016.DataTyp"
+    "es.Key*9\n\007Purpose\022\017\n\013NonePurpose\020\000\022\r\n\tTh"
+    "umbnail\020\001\022\016\n\nPopulation\020\002BJ\n\007ex.grpcZ9gi"
+    "thub.com/Enebra/ServiceCoordinator/grpc/"
+    "datatypes/photo\242\002\003RTGb\006proto3", 429);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "datatypes/photo.proto", &protobuf_RegisterTypes);
   Photo::default_instance_ = new Photo();
-  Photos::default_instance_ = new Photos();
   Photo::default_instance_->InitAsDefaultInstance();
-  Photos::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_datatypes_2fphoto_2eproto);
 }
 
@@ -837,312 +810,6 @@ void Photo::set_allocated_owner_id(::DataTypes::Key* owner_id) {
     
   }
   // @@protoc_insertion_point(field_set_allocated:DataTypes.Photo.owner_id)
-}
-
-#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
-
-// ===================================================================
-
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int Photos::kPhotosFieldNumber;
-const int Photos::kCountFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-
-Photos::Photos()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:DataTypes.Photos)
-}
-
-void Photos::InitAsDefaultInstance() {
-  _is_default_instance_ = true;
-}
-
-Photos::Photos(const Photos& from)
-  : ::google::protobuf::Message(),
-    _internal_metadata_(NULL) {
-  SharedCtor();
-  MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:DataTypes.Photos)
-}
-
-void Photos::SharedCtor() {
-    _is_default_instance_ = false;
-  _cached_size_ = 0;
-  count_ = GOOGLE_LONGLONG(0);
-}
-
-Photos::~Photos() {
-  // @@protoc_insertion_point(destructor:DataTypes.Photos)
-  SharedDtor();
-}
-
-void Photos::SharedDtor() {
-  if (this != default_instance_) {
-  }
-}
-
-void Photos::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const ::google::protobuf::Descriptor* Photos::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return Photos_descriptor_;
-}
-
-const Photos& Photos::default_instance() {
-  if (default_instance_ == NULL) protobuf_AddDesc_datatypes_2fphoto_2eproto();
-  return *default_instance_;
-}
-
-Photos* Photos::default_instance_ = NULL;
-
-Photos* Photos::New(::google::protobuf::Arena* arena) const {
-  Photos* n = new Photos;
-  if (arena != NULL) {
-    arena->Own(n);
-  }
-  return n;
-}
-
-void Photos::Clear() {
-// @@protoc_insertion_point(message_clear_start:DataTypes.Photos)
-  count_ = GOOGLE_LONGLONG(0);
-  photos_.Clear();
-}
-
-bool Photos::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:DataTypes.Photos)
-  for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // repeated .DataTypes.Photo photos = 1;
-      case 1: {
-        if (tag == 10) {
-          DO_(input->IncrementRecursionDepth());
-         parse_loop_photos:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtualNoRecursionDepth(
-                input, add_photos()));
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(10)) goto parse_loop_photos;
-        input->UnsafeDecrementRecursionDepth();
-        if (input->ExpectTag(16)) goto parse_count;
-        break;
-      }
-
-      // optional int64 count = 2;
-      case 2: {
-        if (tag == 16) {
-         parse_count:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
-                 input, &count_)));
-
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectAtEnd()) goto success;
-        break;
-      }
-
-      default: {
-      handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          goto success;
-        }
-        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
-        break;
-      }
-    }
-  }
-success:
-  // @@protoc_insertion_point(parse_success:DataTypes.Photos)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:DataTypes.Photos)
-  return false;
-#undef DO_
-}
-
-void Photos::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:DataTypes.Photos)
-  // repeated .DataTypes.Photo photos = 1;
-  for (unsigned int i = 0, n = this->photos_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, this->photos(i), output);
-  }
-
-  // optional int64 count = 2;
-  if (this->count() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt64(2, this->count(), output);
-  }
-
-  // @@protoc_insertion_point(serialize_end:DataTypes.Photos)
-}
-
-::google::protobuf::uint8* Photos::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:DataTypes.Photos)
-  // repeated .DataTypes.Photo photos = 1;
-  for (unsigned int i = 0, n = this->photos_size(); i < n; i++) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->photos(i), target);
-  }
-
-  // optional int64 count = 2;
-  if (this->count() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(2, this->count(), target);
-  }
-
-  // @@protoc_insertion_point(serialize_to_array_end:DataTypes.Photos)
-  return target;
-}
-
-int Photos::ByteSize() const {
-// @@protoc_insertion_point(message_byte_size_start:DataTypes.Photos)
-  int total_size = 0;
-
-  // optional int64 count = 2;
-  if (this->count() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int64Size(
-        this->count());
-  }
-
-  // repeated .DataTypes.Photo photos = 1;
-  total_size += 1 * this->photos_size();
-  for (int i = 0; i < this->photos_size(); i++) {
-    total_size +=
-      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-        this->photos(i));
-  }
-
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
-}
-
-void Photos::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:DataTypes.Photos)
-  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
-  const Photos* source = 
-      ::google::protobuf::internal::DynamicCastToGenerated<const Photos>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:DataTypes.Photos)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:DataTypes.Photos)
-    MergeFrom(*source);
-  }
-}
-
-void Photos::MergeFrom(const Photos& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:DataTypes.Photos)
-  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
-  photos_.MergeFrom(from.photos_);
-  if (from.count() != 0) {
-    set_count(from.count());
-  }
-}
-
-void Photos::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:DataTypes.Photos)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void Photos::CopyFrom(const Photos& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:DataTypes.Photos)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool Photos::IsInitialized() const {
-
-  return true;
-}
-
-void Photos::Swap(Photos* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
-void Photos::InternalSwap(Photos* other) {
-  photos_.UnsafeArenaSwap(&other->photos_);
-  std::swap(count_, other->count_);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-  std::swap(_cached_size_, other->_cached_size_);
-}
-
-::google::protobuf::Metadata Photos::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Photos_descriptor_;
-  metadata.reflection = Photos_reflection_;
-  return metadata;
-}
-
-#if PROTOBUF_INLINE_NOT_IN_HEADERS
-// Photos
-
-// repeated .DataTypes.Photo photos = 1;
-int Photos::photos_size() const {
-  return photos_.size();
-}
-void Photos::clear_photos() {
-  photos_.Clear();
-}
-const ::DataTypes::Photo& Photos::photos(int index) const {
-  // @@protoc_insertion_point(field_get:DataTypes.Photos.photos)
-  return photos_.Get(index);
-}
-::DataTypes::Photo* Photos::mutable_photos(int index) {
-  // @@protoc_insertion_point(field_mutable:DataTypes.Photos.photos)
-  return photos_.Mutable(index);
-}
-::DataTypes::Photo* Photos::add_photos() {
-  // @@protoc_insertion_point(field_add:DataTypes.Photos.photos)
-  return photos_.Add();
-}
-::google::protobuf::RepeatedPtrField< ::DataTypes::Photo >*
-Photos::mutable_photos() {
-  // @@protoc_insertion_point(field_mutable_list:DataTypes.Photos.photos)
-  return &photos_;
-}
-const ::google::protobuf::RepeatedPtrField< ::DataTypes::Photo >&
-Photos::photos() const {
-  // @@protoc_insertion_point(field_list:DataTypes.Photos.photos)
-  return photos_;
-}
-
-// optional int64 count = 2;
-void Photos::clear_count() {
-  count_ = GOOGLE_LONGLONG(0);
-}
- ::google::protobuf::int64 Photos::count() const {
-  // @@protoc_insertion_point(field_get:DataTypes.Photos.count)
-  return count_;
-}
- void Photos::set_count(::google::protobuf::int64 value) {
-  
-  count_ = value;
-  // @@protoc_insertion_point(field_set:DataTypes.Photos.count)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

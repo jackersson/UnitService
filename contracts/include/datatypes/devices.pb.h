@@ -28,7 +28,7 @@
 #include <google/protobuf/extension_set.h>
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
-#include "datatypes/data.pb.h"
+#include "datatypes/key.pb.h"
 // @@protoc_insertion_point(includes)
 
 namespace DataTypes {
@@ -40,10 +40,12 @@ void protobuf_ShutdownFile_datatypes_2fdevices_2eproto();
 
 class AccessDevice;
 class AccessDeviceStateMsg;
-class ConnectedDevices;
+class CardMsg;
+class CheckMsg;
 class Device;
 class DeviceStateMessage;
 class DeviceUpdate;
+class Devices;
 class GenericDeviceStateMsg;
 
 enum DeviceType {
@@ -201,7 +203,7 @@ class DeviceUpdate : public ::google::protobuf::Message {
   static const DeviceUpdate& default_instance();
 
   enum UpdateCase {
-    kConnectedDevices = 1,
+    kItems = 1,
     kDeviceStateMsg = 2,
     UPDATE_NOT_SET = 0,
   };
@@ -247,14 +249,14 @@ class DeviceUpdate : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // optional .DataTypes.ConnectedDevices connected_devices = 1;
-  bool has_connected_devices() const;
-  void clear_connected_devices();
-  static const int kConnectedDevicesFieldNumber = 1;
-  const ::DataTypes::ConnectedDevices& connected_devices() const;
-  ::DataTypes::ConnectedDevices* mutable_connected_devices();
-  ::DataTypes::ConnectedDevices* release_connected_devices();
-  void set_allocated_connected_devices(::DataTypes::ConnectedDevices* connected_devices);
+  // optional .DataTypes.Devices items = 1;
+  bool has_items() const;
+  void clear_items();
+  static const int kItemsFieldNumber = 1;
+  const ::DataTypes::Devices& items() const;
+  ::DataTypes::Devices* mutable_items();
+  ::DataTypes::Devices* release_items();
+  void set_allocated_items(::DataTypes::Devices* items);
 
   // optional .DataTypes.DeviceStateMessage device_state_msg = 2;
   bool has_device_state_msg() const;
@@ -268,7 +270,7 @@ class DeviceUpdate : public ::google::protobuf::Message {
   UpdateCase update_case() const;
   // @@protoc_insertion_point(class_scope:DataTypes.DeviceUpdate)
  private:
-  inline void set_has_connected_devices();
+  inline void set_has_items();
   inline void set_has_device_state_msg();
 
   inline bool has_update() const;
@@ -279,7 +281,7 @@ class DeviceUpdate : public ::google::protobuf::Message {
   bool _is_default_instance_;
   union UpdateUnion {
     UpdateUnion() {}
-    ::DataTypes::ConnectedDevices* connected_devices_;
+    ::DataTypes::Devices* items_;
     ::DataTypes::DeviceStateMessage* device_state_msg_;
   } update_;
   mutable int _cached_size_;
@@ -294,32 +296,32 @@ class DeviceUpdate : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class ConnectedDevices : public ::google::protobuf::Message {
+class Devices : public ::google::protobuf::Message {
  public:
-  ConnectedDevices();
-  virtual ~ConnectedDevices();
+  Devices();
+  virtual ~Devices();
 
-  ConnectedDevices(const ConnectedDevices& from);
+  Devices(const Devices& from);
 
-  inline ConnectedDevices& operator=(const ConnectedDevices& from) {
+  inline Devices& operator=(const Devices& from) {
     CopyFrom(from);
     return *this;
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const ConnectedDevices& default_instance();
+  static const Devices& default_instance();
 
-  void Swap(ConnectedDevices* other);
+  void Swap(Devices* other);
 
   // implements Message ----------------------------------------------
 
-  inline ConnectedDevices* New() const { return New(NULL); }
+  inline Devices* New() const { return New(NULL); }
 
-  ConnectedDevices* New(::google::protobuf::Arena* arena) const;
+  Devices* New(::google::protobuf::Arena* arena) const;
   void CopyFrom(const ::google::protobuf::Message& from);
   void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const ConnectedDevices& from);
-  void MergeFrom(const ConnectedDevices& from);
+  void CopyFrom(const Devices& from);
+  void MergeFrom(const Devices& from);
   void Clear();
   bool IsInitialized() const;
 
@@ -334,7 +336,7 @@ class ConnectedDevices : public ::google::protobuf::Message {
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const;
-  void InternalSwap(ConnectedDevices* other);
+  void InternalSwap(Devices* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return _internal_metadata_.arena();
@@ -371,7 +373,7 @@ class ConnectedDevices : public ::google::protobuf::Message {
   const ::google::protobuf::RepeatedPtrField< ::DataTypes::Device >&
       devices() const;
 
-  // @@protoc_insertion_point(class_scope:DataTypes.ConnectedDevices)
+  // @@protoc_insertion_point(class_scope:DataTypes.Devices)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -384,7 +386,7 @@ class ConnectedDevices : public ::google::protobuf::Message {
   friend void protobuf_ShutdownFile_datatypes_2fdevices_2eproto();
 
   void InitAsDefaultInstance();
-  static ConnectedDevices* default_instance_;
+  static Devices* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -450,23 +452,23 @@ class Device : public ::google::protobuf::Message {
   ::DataTypes::DeviceType device_type() const;
   void set_device_type(::DataTypes::DeviceType value);
 
-  // optional string device_names = 2;
-  void clear_device_names();
-  static const int kDeviceNamesFieldNumber = 2;
-  const ::std::string& device_names() const;
-  void set_device_names(const ::std::string& value);
-  void set_device_names(const char* value);
-  void set_device_names(const char* value, size_t size);
-  ::std::string* mutable_device_names();
-  ::std::string* release_device_names();
-  void set_allocated_device_names(::std::string* device_names);
+  // optional string device_name = 2;
+  void clear_device_name();
+  static const int kDeviceNameFieldNumber = 2;
+  const ::std::string& device_name() const;
+  void set_device_name(const ::std::string& value);
+  void set_device_name(const char* value);
+  void set_device_name(const char* value, size_t size);
+  ::std::string* mutable_device_name();
+  ::std::string* release_device_name();
+  void set_allocated_device_name(::std::string* device_name);
 
   // @@protoc_insertion_point(class_scope:DataTypes.Device)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   bool _is_default_instance_;
-  ::google::protobuf::internal::ArenaStringPtr device_names_;
+  ::google::protobuf::internal::ArenaStringPtr device_name_;
   int device_type_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_datatypes_2fdevices_2eproto();
@@ -780,6 +782,179 @@ class AccessDeviceStateMsg : public ::google::protobuf::Message {
   void InitAsDefaultInstance();
   static AccessDeviceStateMsg* default_instance_;
 };
+// -------------------------------------------------------------------
+
+class CardMsg : public ::google::protobuf::Message {
+ public:
+  CardMsg();
+  virtual ~CardMsg();
+
+  CardMsg(const CardMsg& from);
+
+  inline CardMsg& operator=(const CardMsg& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const CardMsg& default_instance();
+
+  void Swap(CardMsg* other);
+
+  // implements Message ----------------------------------------------
+
+  inline CardMsg* New() const { return New(NULL); }
+
+  CardMsg* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const CardMsg& from);
+  void MergeFrom(const CardMsg& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(CardMsg* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional string card_num = 1;
+  void clear_card_num();
+  static const int kCardNumFieldNumber = 1;
+  const ::std::string& card_num() const;
+  void set_card_num(const ::std::string& value);
+  void set_card_num(const char* value);
+  void set_card_num(const char* value, size_t size);
+  ::std::string* mutable_card_num();
+  ::std::string* release_card_num();
+  void set_allocated_card_num(::std::string* card_num);
+
+  // @@protoc_insertion_point(class_scope:DataTypes.CardMsg)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  bool _is_default_instance_;
+  ::google::protobuf::internal::ArenaStringPtr card_num_;
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_datatypes_2fdevices_2eproto();
+  friend void protobuf_AssignDesc_datatypes_2fdevices_2eproto();
+  friend void protobuf_ShutdownFile_datatypes_2fdevices_2eproto();
+
+  void InitAsDefaultInstance();
+  static CardMsg* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class CheckMsg : public ::google::protobuf::Message {
+ public:
+  CheckMsg();
+  virtual ~CheckMsg();
+
+  CheckMsg(const CheckMsg& from);
+
+  inline CheckMsg& operator=(const CheckMsg& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const CheckMsg& default_instance();
+
+  void Swap(CheckMsg* other);
+
+  // implements Message ----------------------------------------------
+
+  inline CheckMsg* New() const { return New(NULL); }
+
+  CheckMsg* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const CheckMsg& from);
+  void MergeFrom(const CheckMsg& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(CheckMsg* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional bool ok = 1;
+  void clear_ok();
+  static const int kOkFieldNumber = 1;
+  bool ok() const;
+  void set_ok(bool value);
+
+  // optional string message = 2;
+  void clear_message();
+  static const int kMessageFieldNumber = 2;
+  const ::std::string& message() const;
+  void set_message(const ::std::string& value);
+  void set_message(const char* value);
+  void set_message(const char* value, size_t size);
+  ::std::string* mutable_message();
+  ::std::string* release_message();
+  void set_allocated_message(::std::string* message);
+
+  // @@protoc_insertion_point(class_scope:DataTypes.CheckMsg)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  bool _is_default_instance_;
+  ::google::protobuf::internal::ArenaStringPtr message_;
+  bool ok_;
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_datatypes_2fdevices_2eproto();
+  friend void protobuf_AssignDesc_datatypes_2fdevices_2eproto();
+  friend void protobuf_ShutdownFile_datatypes_2fdevices_2eproto();
+
+  void InitAsDefaultInstance();
+  static CheckMsg* default_instance_;
+};
 // ===================================================================
 
 
@@ -850,52 +1025,52 @@ inline void AccessDevice::set_serial_number(::google::protobuf::uint64 value) {
 
 // DeviceUpdate
 
-// optional .DataTypes.ConnectedDevices connected_devices = 1;
-inline bool DeviceUpdate::has_connected_devices() const {
-  return update_case() == kConnectedDevices;
+// optional .DataTypes.Devices items = 1;
+inline bool DeviceUpdate::has_items() const {
+  return update_case() == kItems;
 }
-inline void DeviceUpdate::set_has_connected_devices() {
-  _oneof_case_[0] = kConnectedDevices;
+inline void DeviceUpdate::set_has_items() {
+  _oneof_case_[0] = kItems;
 }
-inline void DeviceUpdate::clear_connected_devices() {
-  if (has_connected_devices()) {
-    delete update_.connected_devices_;
+inline void DeviceUpdate::clear_items() {
+  if (has_items()) {
+    delete update_.items_;
     clear_has_update();
   }
 }
-inline  const ::DataTypes::ConnectedDevices& DeviceUpdate::connected_devices() const {
-  // @@protoc_insertion_point(field_get:DataTypes.DeviceUpdate.connected_devices)
-  return has_connected_devices()
-      ? *update_.connected_devices_
-      : ::DataTypes::ConnectedDevices::default_instance();
+inline  const ::DataTypes::Devices& DeviceUpdate::items() const {
+  // @@protoc_insertion_point(field_get:DataTypes.DeviceUpdate.items)
+  return has_items()
+      ? *update_.items_
+      : ::DataTypes::Devices::default_instance();
 }
-inline ::DataTypes::ConnectedDevices* DeviceUpdate::mutable_connected_devices() {
-  if (!has_connected_devices()) {
+inline ::DataTypes::Devices* DeviceUpdate::mutable_items() {
+  if (!has_items()) {
     clear_update();
-    set_has_connected_devices();
-    update_.connected_devices_ = new ::DataTypes::ConnectedDevices;
+    set_has_items();
+    update_.items_ = new ::DataTypes::Devices;
   }
-  // @@protoc_insertion_point(field_mutable:DataTypes.DeviceUpdate.connected_devices)
-  return update_.connected_devices_;
+  // @@protoc_insertion_point(field_mutable:DataTypes.DeviceUpdate.items)
+  return update_.items_;
 }
-inline ::DataTypes::ConnectedDevices* DeviceUpdate::release_connected_devices() {
-  // @@protoc_insertion_point(field_release:DataTypes.DeviceUpdate.connected_devices)
-  if (has_connected_devices()) {
+inline ::DataTypes::Devices* DeviceUpdate::release_items() {
+  // @@protoc_insertion_point(field_release:DataTypes.DeviceUpdate.items)
+  if (has_items()) {
     clear_has_update();
-    ::DataTypes::ConnectedDevices* temp = update_.connected_devices_;
-    update_.connected_devices_ = NULL;
+    ::DataTypes::Devices* temp = update_.items_;
+    update_.items_ = NULL;
     return temp;
   } else {
     return NULL;
   }
 }
-inline void DeviceUpdate::set_allocated_connected_devices(::DataTypes::ConnectedDevices* connected_devices) {
+inline void DeviceUpdate::set_allocated_items(::DataTypes::Devices* items) {
   clear_update();
-  if (connected_devices) {
-    set_has_connected_devices();
-    update_.connected_devices_ = connected_devices;
+  if (items) {
+    set_has_items();
+    update_.items_ = items;
   }
-  // @@protoc_insertion_point(field_set_allocated:DataTypes.DeviceUpdate.connected_devices)
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.DeviceUpdate.items)
 }
 
 // optional .DataTypes.DeviceStateMessage device_state_msg = 2;
@@ -957,36 +1132,36 @@ inline DeviceUpdate::UpdateCase DeviceUpdate::update_case() const {
 }
 // -------------------------------------------------------------------
 
-// ConnectedDevices
+// Devices
 
 // optional .DataTypes.Key location_id = 1;
-inline bool ConnectedDevices::has_location_id() const {
+inline bool Devices::has_location_id() const {
   return !_is_default_instance_ && location_id_ != NULL;
 }
-inline void ConnectedDevices::clear_location_id() {
+inline void Devices::clear_location_id() {
   if (GetArenaNoVirtual() == NULL && location_id_ != NULL) delete location_id_;
   location_id_ = NULL;
 }
-inline const ::DataTypes::Key& ConnectedDevices::location_id() const {
-  // @@protoc_insertion_point(field_get:DataTypes.ConnectedDevices.location_id)
+inline const ::DataTypes::Key& Devices::location_id() const {
+  // @@protoc_insertion_point(field_get:DataTypes.Devices.location_id)
   return location_id_ != NULL ? *location_id_ : *default_instance_->location_id_;
 }
-inline ::DataTypes::Key* ConnectedDevices::mutable_location_id() {
+inline ::DataTypes::Key* Devices::mutable_location_id() {
   
   if (location_id_ == NULL) {
     location_id_ = new ::DataTypes::Key;
   }
-  // @@protoc_insertion_point(field_mutable:DataTypes.ConnectedDevices.location_id)
+  // @@protoc_insertion_point(field_mutable:DataTypes.Devices.location_id)
   return location_id_;
 }
-inline ::DataTypes::Key* ConnectedDevices::release_location_id() {
-  // @@protoc_insertion_point(field_release:DataTypes.ConnectedDevices.location_id)
+inline ::DataTypes::Key* Devices::release_location_id() {
+  // @@protoc_insertion_point(field_release:DataTypes.Devices.location_id)
   
   ::DataTypes::Key* temp = location_id_;
   location_id_ = NULL;
   return temp;
 }
-inline void ConnectedDevices::set_allocated_location_id(::DataTypes::Key* location_id) {
+inline void Devices::set_allocated_location_id(::DataTypes::Key* location_id) {
   delete location_id_;
   location_id_ = location_id;
   if (location_id) {
@@ -994,36 +1169,36 @@ inline void ConnectedDevices::set_allocated_location_id(::DataTypes::Key* locati
   } else {
     
   }
-  // @@protoc_insertion_point(field_set_allocated:DataTypes.ConnectedDevices.location_id)
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.Devices.location_id)
 }
 
 // repeated .DataTypes.Device devices = 2;
-inline int ConnectedDevices::devices_size() const {
+inline int Devices::devices_size() const {
   return devices_.size();
 }
-inline void ConnectedDevices::clear_devices() {
+inline void Devices::clear_devices() {
   devices_.Clear();
 }
-inline const ::DataTypes::Device& ConnectedDevices::devices(int index) const {
-  // @@protoc_insertion_point(field_get:DataTypes.ConnectedDevices.devices)
+inline const ::DataTypes::Device& Devices::devices(int index) const {
+  // @@protoc_insertion_point(field_get:DataTypes.Devices.devices)
   return devices_.Get(index);
 }
-inline ::DataTypes::Device* ConnectedDevices::mutable_devices(int index) {
-  // @@protoc_insertion_point(field_mutable:DataTypes.ConnectedDevices.devices)
+inline ::DataTypes::Device* Devices::mutable_devices(int index) {
+  // @@protoc_insertion_point(field_mutable:DataTypes.Devices.devices)
   return devices_.Mutable(index);
 }
-inline ::DataTypes::Device* ConnectedDevices::add_devices() {
-  // @@protoc_insertion_point(field_add:DataTypes.ConnectedDevices.devices)
+inline ::DataTypes::Device* Devices::add_devices() {
+  // @@protoc_insertion_point(field_add:DataTypes.Devices.devices)
   return devices_.Add();
 }
 inline ::google::protobuf::RepeatedPtrField< ::DataTypes::Device >*
-ConnectedDevices::mutable_devices() {
-  // @@protoc_insertion_point(field_mutable_list:DataTypes.ConnectedDevices.devices)
+Devices::mutable_devices() {
+  // @@protoc_insertion_point(field_mutable_list:DataTypes.Devices.devices)
   return &devices_;
 }
 inline const ::google::protobuf::RepeatedPtrField< ::DataTypes::Device >&
-ConnectedDevices::devices() const {
-  // @@protoc_insertion_point(field_list:DataTypes.ConnectedDevices.devices)
+Devices::devices() const {
+  // @@protoc_insertion_point(field_list:DataTypes.Devices.devices)
   return devices_;
 }
 
@@ -1045,48 +1220,48 @@ inline void Device::set_device_type(::DataTypes::DeviceType value) {
   // @@protoc_insertion_point(field_set:DataTypes.Device.device_type)
 }
 
-// optional string device_names = 2;
-inline void Device::clear_device_names() {
-  device_names_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// optional string device_name = 2;
+inline void Device::clear_device_name() {
+  device_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::std::string& Device::device_names() const {
-  // @@protoc_insertion_point(field_get:DataTypes.Device.device_names)
-  return device_names_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+inline const ::std::string& Device::device_name() const {
+  // @@protoc_insertion_point(field_get:DataTypes.Device.device_name)
+  return device_name_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void Device::set_device_names(const ::std::string& value) {
+inline void Device::set_device_name(const ::std::string& value) {
   
-  device_names_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:DataTypes.Device.device_names)
+  device_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:DataTypes.Device.device_name)
 }
-inline void Device::set_device_names(const char* value) {
+inline void Device::set_device_name(const char* value) {
   
-  device_names_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:DataTypes.Device.device_names)
+  device_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:DataTypes.Device.device_name)
 }
-inline void Device::set_device_names(const char* value, size_t size) {
+inline void Device::set_device_name(const char* value, size_t size) {
   
-  device_names_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  device_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:DataTypes.Device.device_names)
+  // @@protoc_insertion_point(field_set_pointer:DataTypes.Device.device_name)
 }
-inline ::std::string* Device::mutable_device_names() {
+inline ::std::string* Device::mutable_device_name() {
   
-  // @@protoc_insertion_point(field_mutable:DataTypes.Device.device_names)
-  return device_names_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  // @@protoc_insertion_point(field_mutable:DataTypes.Device.device_name)
+  return device_name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* Device::release_device_names() {
-  // @@protoc_insertion_point(field_release:DataTypes.Device.device_names)
+inline ::std::string* Device::release_device_name() {
+  // @@protoc_insertion_point(field_release:DataTypes.Device.device_name)
   
-  return device_names_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return device_name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void Device::set_allocated_device_names(::std::string* device_names) {
-  if (device_names != NULL) {
+inline void Device::set_allocated_device_name(::std::string* device_name) {
+  if (device_name != NULL) {
     
   } else {
     
   }
-  device_names_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), device_names);
-  // @@protoc_insertion_point(field_set_allocated:DataTypes.Device.device_names)
+  device_name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), device_name);
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.Device.device_name)
 }
 
 // -------------------------------------------------------------------
@@ -1368,7 +1543,121 @@ inline void AccessDeviceStateMsg::set_opened(bool value) {
   // @@protoc_insertion_point(field_set:DataTypes.AccessDeviceStateMsg.opened)
 }
 
+// -------------------------------------------------------------------
+
+// CardMsg
+
+// optional string card_num = 1;
+inline void CardMsg::clear_card_num() {
+  card_num_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& CardMsg::card_num() const {
+  // @@protoc_insertion_point(field_get:DataTypes.CardMsg.card_num)
+  return card_num_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void CardMsg::set_card_num(const ::std::string& value) {
+  
+  card_num_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:DataTypes.CardMsg.card_num)
+}
+inline void CardMsg::set_card_num(const char* value) {
+  
+  card_num_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:DataTypes.CardMsg.card_num)
+}
+inline void CardMsg::set_card_num(const char* value, size_t size) {
+  
+  card_num_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:DataTypes.CardMsg.card_num)
+}
+inline ::std::string* CardMsg::mutable_card_num() {
+  
+  // @@protoc_insertion_point(field_mutable:DataTypes.CardMsg.card_num)
+  return card_num_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* CardMsg::release_card_num() {
+  // @@protoc_insertion_point(field_release:DataTypes.CardMsg.card_num)
+  
+  return card_num_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void CardMsg::set_allocated_card_num(::std::string* card_num) {
+  if (card_num != NULL) {
+    
+  } else {
+    
+  }
+  card_num_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), card_num);
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.CardMsg.card_num)
+}
+
+// -------------------------------------------------------------------
+
+// CheckMsg
+
+// optional bool ok = 1;
+inline void CheckMsg::clear_ok() {
+  ok_ = false;
+}
+inline bool CheckMsg::ok() const {
+  // @@protoc_insertion_point(field_get:DataTypes.CheckMsg.ok)
+  return ok_;
+}
+inline void CheckMsg::set_ok(bool value) {
+  
+  ok_ = value;
+  // @@protoc_insertion_point(field_set:DataTypes.CheckMsg.ok)
+}
+
+// optional string message = 2;
+inline void CheckMsg::clear_message() {
+  message_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& CheckMsg::message() const {
+  // @@protoc_insertion_point(field_get:DataTypes.CheckMsg.message)
+  return message_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void CheckMsg::set_message(const ::std::string& value) {
+  
+  message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:DataTypes.CheckMsg.message)
+}
+inline void CheckMsg::set_message(const char* value) {
+  
+  message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:DataTypes.CheckMsg.message)
+}
+inline void CheckMsg::set_message(const char* value, size_t size) {
+  
+  message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:DataTypes.CheckMsg.message)
+}
+inline ::std::string* CheckMsg::mutable_message() {
+  
+  // @@protoc_insertion_point(field_mutable:DataTypes.CheckMsg.message)
+  return message_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* CheckMsg::release_message() {
+  // @@protoc_insertion_point(field_release:DataTypes.CheckMsg.message)
+  
+  return message_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void CheckMsg::set_allocated_message(::std::string* message) {
+  if (message != NULL) {
+    
+  } else {
+    
+  }
+  message_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), message);
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.CheckMsg.message)
+}
+
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

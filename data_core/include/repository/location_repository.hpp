@@ -19,22 +19,15 @@ namespace data_core
 				, local_(std::make_shared<localstorage::LocationsLocalStorage>())
 			{}
 
-			//TODO make not reference style
-			const std::vector<DataTypes::Location>& get(void* request) override
+			bool get(void* request, std::vector<DataTypes::Location>& entities) override
 			{
-				return datacontext_->get(request);
+				return datacontext_->get(request, entities);
 			}
 			
-			//TODO make not copy style
-			const DataTypes::Location& find(DataTypes::Key key) override {
-				return datacontext_->find(key);
+			bool find(DataTypes::Key key, DataTypes::Location& entity) override {
+				return datacontext_->find(key, entity);
 			}
-
-			const DataTypes::Location& find(Services::Entity entity) override
-			{
-				return datacontext_->find(entity);
-			}
-
+			
 			bool add(DataTypes::Location* entity) override
 			{
 				return datacontext_->add(entity);

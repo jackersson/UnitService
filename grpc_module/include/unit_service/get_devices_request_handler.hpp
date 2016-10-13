@@ -4,28 +4,31 @@
 #include <include/grpc++/impl/codegen/completion_queue.h>
 #include <services/unit_service.grpc.pb.h>
 #include "../request_handler.hpp"
+#include <contracts/iunit_context.hpp>
 
 
 namespace grpc_services
 {
 	namespace unit_service
-	{/*
+	{
 		typedef Services::UnitService::AsyncService UnitServicePtr;
 
 		class GetDevicesRequestHandler : public RequestHandler<UnitServicePtr>
 		{
 		public:
 			GetDevicesRequestHandler(std::shared_ptr<UnitServicePtr> service
-				, grpc::ServerCompletionQueue* completion_queue)
-				: responder_(&server_context_)
-				,	RequestHandler<UnitServicePtr>(service, completion_queue )				
+				, grpc::ServerCompletionQueue* completion_queue
+			  , contracts::IUnitContextPtr context)
+				: RequestHandler<UnitServicePtr>(service, completion_queue )
+				,	responder_(&server_context_)			
+				, context_(context)
 			{
 				Proceed();
 			}
 		
 			void CreateRequestHandler() override
 			{
-				new GetDevicesRequestHandler(service_, server_completion_queue_);
+				new GetDevicesRequestHandler(service_, server_completion_queue_, context_);
 			}
 
 			void CreateRequest() override
@@ -37,17 +40,21 @@ namespace grpc_services
 
 			void ProcessRequest() override
 			{
-				DataTypes::DevicesResponse response;
+				DataTypes::Devices response;
+
+				//TODO test
+				context_->devices()->enumerate(response);
 
 				responder_.Finish(response, grpc::Status::OK, this);
 			}
 
 		private:		
-			DataTypes::GetDevicesRequest  request_;
-			grpc::ServerAsyncResponseWriter<DataTypes::DevicesResponse>    responder_;
-			
+			google::protobuf::Empty  request_;
+			grpc::ServerAsyncResponseWriter<DataTypes::Devices>    responder_;
+			contracts::IUnitContextPtr context_;
+
 		};
-		*/
+		
 	}
 	
 }

@@ -14,7 +14,7 @@ namespace contracts
 			public:
 				virtual ~IAccessCoordinator() {}
 		
-				virtual void set_state(DataTypes::AccessState  state) = 0;
+				virtual void set_state(DataTypes::AccessState  state) const = 0;
 			};
 
 		}

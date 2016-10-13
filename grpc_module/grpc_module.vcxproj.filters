@@ -44,9 +44,6 @@
     <ClInclude Include="include\unit_service\open_door_request_handler.hpp">
       <Filter>includes\unit_service</Filter>
     </ClInclude>
-    <ClInclude Include="include\unit_service\get_video_stream_request_handler.hpp">
-      <Filter>includes\unit_service</Filter>
-    </ClInclude>
     <ClInclude Include="database_client_impl.hpp">
       <Filter>includes\database_service</Filter>
     </ClInclude>
@@ -65,8 +62,26 @@
     <ClInclude Include="include\clients_manager.hpp">
       <Filter>includes</Filter>
     </ClInclude>
-    <ClInclude Include="include\services_ccoordinator.hpp">
+    <ClInclude Include="include\services_coordinator.hpp">
       <Filter>includes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\coordinator_service\coordinator_client_impl.hpp">
+      <Filter>includes\coordinator_service</Filter>
+    </ClInclude>
+    <ClInclude Include="include\coordinator_service\coordinator_client_calls.hpp">
+      <Filter>includes\coordinator_service</Filter>
+    </ClInclude>
+    <ClInclude Include="include\service_utils.hpp">
+      <Filter>includes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\facial_service\facial_client_impl.hpp">
+      <Filter>includes\facial_service</Filter>
+    </ClInclude>
+    <ClInclude Include="include\unit_service\get_device_stream_request_handler.hpp">
+      <Filter>includes\unit_service</Filter>
+    </ClInclude>
+    <ClInclude Include="include\unit_service\get_location_stream_request_handler.hpp">
+      <Filter>includes\unit_service</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

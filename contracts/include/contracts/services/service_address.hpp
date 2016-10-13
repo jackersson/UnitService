@@ -18,9 +18,15 @@ namespace contracts
 			virtual  const std::string&  FormattedAddress() const = 0;
 		};
 
-		class ServiceAddress : public services::IServiceAddress
+		class ServiceAddress : public IServiceAddress
 		{
 		public:
+			explicit ServiceAddress(const std::string& ip_address)
+				: ip_address_("")
+				, port_(0)
+				, formatted_address_(ip_address)
+			{}
+
 			ServiceAddress( const std::string& ip_address 
 			              , unsigned int port)
 				            : ip_address_(ip_address)
@@ -29,8 +35,6 @@ namespace contracts
 				std::stringstream stream;
 				stream << ip_address << ":" << port;
 				formatted_address_ = stream.str();
-
-				std::cout << formatted_address_ << std::endl;
 			}
 
 			~ServiceAddress() {}

@@ -12,6 +12,8 @@ namespace contracts
 		{
 		public:
 			virtual access_device::IAccessDeviceEnginePtr access_device_engine() = 0;
+
+			virtual void enumerate(DataTypes::Devices&) const = 0;
 		};
 
 	}

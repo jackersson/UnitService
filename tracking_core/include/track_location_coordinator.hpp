@@ -30,9 +30,26 @@ namespace tracking
 
 			virtual ~TrackLocationCoordinator() {}
 
+			//TODO maybe not need
 			const std::vector<contracts::locations::ILocationPtr>& 
 				locations() const override {
 				return locations_;
+			}
+
+			bool grant_access(const DataTypes::Location& location) override
+			{
+				auto uuid = to_uuid(location.id());
+				try
+				{
+					auto it = track_locations_.find(uuid);
+					it->access_coordinator().set_state(DataTypes::AccessState::Granted);
+				}
+				catch (std::exception&)
+				{
+					return false;
+				}
+				
+				return true;
 			}
 
 		private:

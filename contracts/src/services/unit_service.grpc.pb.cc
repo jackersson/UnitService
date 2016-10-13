@@ -17,8 +17,13 @@ namespace Services {
 
 static const char* UnitService_method_names[] = {
   "/Services.UnitService/OpenDoor",
-  "/Services.UnitService/GetVideoStream",
+  "/Services.UnitService/GetLocationStream",
+  "/Services.UnitService/GetDevices",
   "/Services.UnitService/UpdateLocation",
+  "/Services.UnitService/GetCard",
+  "/Services.UnitService/CheckDevice",
+  "/Services.UnitService/GetDeviceStream",
+  "/Services.UnitService/Enroll",
 };
 
 std::unique_ptr< UnitService::Stub> UnitService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -28,8 +33,13 @@ std::unique_ptr< UnitService::Stub> UnitService::NewStub(const std::shared_ptr< 
 
 UnitService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel)
   : channel_(channel), rpcmethod_OpenDoor_(UnitService_method_names[0], ::grpc::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_GetVideoStream_(UnitService_method_names[1], ::grpc::RpcMethod::SERVER_STREAMING, channel)
-  , rpcmethod_UpdateLocation_(UnitService_method_names[2], ::grpc::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetLocationStream_(UnitService_method_names[1], ::grpc::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_GetDevices_(UnitService_method_names[2], ::grpc::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_UpdateLocation_(UnitService_method_names[3], ::grpc::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetCard_(UnitService_method_names[4], ::grpc::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_CheckDevice_(UnitService_method_names[5], ::grpc::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetDeviceStream_(UnitService_method_names[6], ::grpc::RpcMethod::SERVER_STREAMING, channel)
+  , rpcmethod_Enroll_(UnitService_method_names[7], ::grpc::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status UnitService::Stub::OpenDoor(::grpc::ClientContext* context, const ::DataTypes::Location& request, ::google::protobuf::Empty* response) {
@@ -40,12 +50,20 @@ UnitService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channe
   return new ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>(channel_.get(), cq, rpcmethod_OpenDoor_, context, request);
 }
 
-::grpc::ClientReader< ::Services::FrameBytes>* UnitService::Stub::GetVideoStreamRaw(::grpc::ClientContext* context, const ::DataTypes::Location& request) {
-  return new ::grpc::ClientReader< ::Services::FrameBytes>(channel_.get(), rpcmethod_GetVideoStream_, context, request);
+::grpc::ClientReader< ::DataTypes::FrameBytes>* UnitService::Stub::GetLocationStreamRaw(::grpc::ClientContext* context, const ::DataTypes::Location& request) {
+  return new ::grpc::ClientReader< ::DataTypes::FrameBytes>(channel_.get(), rpcmethod_GetLocationStream_, context, request);
 }
 
-::grpc::ClientAsyncReader< ::Services::FrameBytes>* UnitService::Stub::AsyncGetVideoStreamRaw(::grpc::ClientContext* context, const ::DataTypes::Location& request, ::grpc::CompletionQueue* cq, void* tag) {
-  return new ::grpc::ClientAsyncReader< ::Services::FrameBytes>(channel_.get(), cq, rpcmethod_GetVideoStream_, context, request, tag);
+::grpc::ClientAsyncReader< ::DataTypes::FrameBytes>* UnitService::Stub::AsyncGetLocationStreamRaw(::grpc::ClientContext* context, const ::DataTypes::Location& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return new ::grpc::ClientAsyncReader< ::DataTypes::FrameBytes>(channel_.get(), cq, rpcmethod_GetLocationStream_, context, request, tag);
+}
+
+::grpc::Status UnitService::Stub::GetDevices(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::DataTypes::Devices* response) {
+  return ::grpc::BlockingUnaryCall(channel_.get(), rpcmethod_GetDevices_, context, request, response);
+}
+
+::grpc::ClientAsyncResponseReader< ::DataTypes::Devices>* UnitService::Stub::AsyncGetDevicesRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
+  return new ::grpc::ClientAsyncResponseReader< ::DataTypes::Devices>(channel_.get(), cq, rpcmethod_GetDevices_, context, request);
 }
 
 ::grpc::Status UnitService::Stub::UpdateLocation(::grpc::ClientContext* context, const ::DataTypes::Location& request, ::google::protobuf::Empty* response) {
@@ -54,6 +72,38 @@ UnitService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channe
 
 ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* UnitService::Stub::AsyncUpdateLocationRaw(::grpc::ClientContext* context, const ::DataTypes::Location& request, ::grpc::CompletionQueue* cq) {
   return new ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>(channel_.get(), cq, rpcmethod_UpdateLocation_, context, request);
+}
+
+::grpc::Status UnitService::Stub::GetCard(::grpc::ClientContext* context, const ::DataTypes::Device& request, ::DataTypes::CardMsg* response) {
+  return ::grpc::BlockingUnaryCall(channel_.get(), rpcmethod_GetCard_, context, request, response);
+}
+
+::grpc::ClientAsyncResponseReader< ::DataTypes::CardMsg>* UnitService::Stub::AsyncGetCardRaw(::grpc::ClientContext* context, const ::DataTypes::Device& request, ::grpc::CompletionQueue* cq) {
+  return new ::grpc::ClientAsyncResponseReader< ::DataTypes::CardMsg>(channel_.get(), cq, rpcmethod_GetCard_, context, request);
+}
+
+::grpc::Status UnitService::Stub::CheckDevice(::grpc::ClientContext* context, const ::DataTypes::Device& request, ::DataTypes::CheckMsg* response) {
+  return ::grpc::BlockingUnaryCall(channel_.get(), rpcmethod_CheckDevice_, context, request, response);
+}
+
+::grpc::ClientAsyncResponseReader< ::DataTypes::CheckMsg>* UnitService::Stub::AsyncCheckDeviceRaw(::grpc::ClientContext* context, const ::DataTypes::Device& request, ::grpc::CompletionQueue* cq) {
+  return new ::grpc::ClientAsyncResponseReader< ::DataTypes::CheckMsg>(channel_.get(), cq, rpcmethod_CheckDevice_, context, request);
+}
+
+::grpc::ClientReader< ::DataTypes::FrameBytes>* UnitService::Stub::GetDeviceStreamRaw(::grpc::ClientContext* context, const ::DataTypes::Device& request) {
+  return new ::grpc::ClientReader< ::DataTypes::FrameBytes>(channel_.get(), rpcmethod_GetDeviceStream_, context, request);
+}
+
+::grpc::ClientAsyncReader< ::DataTypes::FrameBytes>* UnitService::Stub::AsyncGetDeviceStreamRaw(::grpc::ClientContext* context, const ::DataTypes::Device& request, ::grpc::CompletionQueue* cq, void* tag) {
+  return new ::grpc::ClientAsyncReader< ::DataTypes::FrameBytes>(channel_.get(), cq, rpcmethod_GetDeviceStream_, context, request, tag);
+}
+
+::grpc::Status UnitService::Stub::Enroll(::grpc::ClientContext* context, const ::DataTypes::Device& request, ::DataTypes::Faces* response) {
+  return ::grpc::BlockingUnaryCall(channel_.get(), rpcmethod_Enroll_, context, request, response);
+}
+
+::grpc::ClientAsyncResponseReader< ::DataTypes::Faces>* UnitService::Stub::AsyncEnrollRaw(::grpc::ClientContext* context, const ::DataTypes::Device& request, ::grpc::CompletionQueue* cq) {
+  return new ::grpc::ClientAsyncResponseReader< ::DataTypes::Faces>(channel_.get(), cq, rpcmethod_Enroll_, context, request);
 }
 
 UnitService::Service::Service() {
@@ -66,13 +116,38 @@ UnitService::Service::Service() {
   AddMethod(new ::grpc::RpcServiceMethod(
       UnitService_method_names[1],
       ::grpc::RpcMethod::SERVER_STREAMING,
-      new ::grpc::ServerStreamingHandler< UnitService::Service, ::DataTypes::Location, ::Services::FrameBytes>(
-          std::mem_fn(&UnitService::Service::GetVideoStream), this)));
+      new ::grpc::ServerStreamingHandler< UnitService::Service, ::DataTypes::Location, ::DataTypes::FrameBytes>(
+          std::mem_fn(&UnitService::Service::GetLocationStream), this)));
   AddMethod(new ::grpc::RpcServiceMethod(
       UnitService_method_names[2],
       ::grpc::RpcMethod::NORMAL_RPC,
+      new ::grpc::RpcMethodHandler< UnitService::Service, ::google::protobuf::Empty, ::DataTypes::Devices>(
+          std::mem_fn(&UnitService::Service::GetDevices), this)));
+  AddMethod(new ::grpc::RpcServiceMethod(
+      UnitService_method_names[3],
+      ::grpc::RpcMethod::NORMAL_RPC,
       new ::grpc::RpcMethodHandler< UnitService::Service, ::DataTypes::Location, ::google::protobuf::Empty>(
           std::mem_fn(&UnitService::Service::UpdateLocation), this)));
+  AddMethod(new ::grpc::RpcServiceMethod(
+      UnitService_method_names[4],
+      ::grpc::RpcMethod::NORMAL_RPC,
+      new ::grpc::RpcMethodHandler< UnitService::Service, ::DataTypes::Device, ::DataTypes::CardMsg>(
+          std::mem_fn(&UnitService::Service::GetCard), this)));
+  AddMethod(new ::grpc::RpcServiceMethod(
+      UnitService_method_names[5],
+      ::grpc::RpcMethod::NORMAL_RPC,
+      new ::grpc::RpcMethodHandler< UnitService::Service, ::DataTypes::Device, ::DataTypes::CheckMsg>(
+          std::mem_fn(&UnitService::Service::CheckDevice), this)));
+  AddMethod(new ::grpc::RpcServiceMethod(
+      UnitService_method_names[6],
+      ::grpc::RpcMethod::SERVER_STREAMING,
+      new ::grpc::ServerStreamingHandler< UnitService::Service, ::DataTypes::Device, ::DataTypes::FrameBytes>(
+          std::mem_fn(&UnitService::Service::GetDeviceStream), this)));
+  AddMethod(new ::grpc::RpcServiceMethod(
+      UnitService_method_names[7],
+      ::grpc::RpcMethod::NORMAL_RPC,
+      new ::grpc::RpcMethodHandler< UnitService::Service, ::DataTypes::Device, ::DataTypes::Faces>(
+          std::mem_fn(&UnitService::Service::Enroll), this)));
 }
 
 UnitService::Service::~Service() {
@@ -85,14 +160,49 @@ UnitService::Service::~Service() {
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status UnitService::Service::GetVideoStream(::grpc::ServerContext* context, const ::DataTypes::Location* request, ::grpc::ServerWriter< ::Services::FrameBytes>* writer) {
+::grpc::Status UnitService::Service::GetLocationStream(::grpc::ServerContext* context, const ::DataTypes::Location* request, ::grpc::ServerWriter< ::DataTypes::FrameBytes>* writer) {
   (void) context;
   (void) request;
   (void) writer;
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
+::grpc::Status UnitService::Service::GetDevices(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::DataTypes::Devices* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
 ::grpc::Status UnitService::Service::UpdateLocation(::grpc::ServerContext* context, const ::DataTypes::Location* request, ::google::protobuf::Empty* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status UnitService::Service::GetCard(::grpc::ServerContext* context, const ::DataTypes::Device* request, ::DataTypes::CardMsg* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status UnitService::Service::CheckDevice(::grpc::ServerContext* context, const ::DataTypes::Device* request, ::DataTypes::CheckMsg* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status UnitService::Service::GetDeviceStream(::grpc::ServerContext* context, const ::DataTypes::Device* request, ::grpc::ServerWriter< ::DataTypes::FrameBytes>* writer) {
+  (void) context;
+  (void) request;
+  (void) writer;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status UnitService::Service::Enroll(::grpc::ServerContext* context, const ::DataTypes::Device* request, ::DataTypes::Faces* response) {
   (void) context;
   (void) request;
   (void) response;

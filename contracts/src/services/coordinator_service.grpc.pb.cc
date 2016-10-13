@@ -23,7 +23,7 @@ static const char* CoordinatorService_method_names[] = {
   "/Services.CoordinatorService/Unsubscribe",
   "/Services.CoordinatorService/Get",
   "/Services.CoordinatorService/Commit",
-  "/Services.CoordinatorService/PushUpdates",
+  "/Services.CoordinatorService/UpdateDevices",
 };
 
 std::unique_ptr< CoordinatorService::Stub> CoordinatorService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -39,7 +39,7 @@ CoordinatorService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>&
   , rpcmethod_Unsubscribe_(CoordinatorService_method_names[4], ::grpc::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_Get_(CoordinatorService_method_names[5], ::grpc::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_Commit_(CoordinatorService_method_names[6], ::grpc::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_PushUpdates_(CoordinatorService_method_names[7], ::grpc::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_UpdateDevices_(CoordinatorService_method_names[7], ::grpc::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status CoordinatorService::Stub::Connect(::grpc::ClientContext* context, const ::DataTypes::ConnectMsg& request, ::google::protobuf::Empty* response) {
@@ -98,12 +98,12 @@ CoordinatorService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>&
   return new ::grpc::ClientAsyncResponseReader< ::DataTypes::MessageBytes>(channel_.get(), cq, rpcmethod_Commit_, context, request);
 }
 
-::grpc::Status CoordinatorService::Stub::PushUpdates(::grpc::ClientContext* context, const ::DataTypes::DeviceUpdate& request, ::google::protobuf::Empty* response) {
-  return ::grpc::BlockingUnaryCall(channel_.get(), rpcmethod_PushUpdates_, context, request, response);
+::grpc::Status CoordinatorService::Stub::UpdateDevices(::grpc::ClientContext* context, const ::DataTypes::DeviceUpdate& request, ::google::protobuf::Empty* response) {
+  return ::grpc::BlockingUnaryCall(channel_.get(), rpcmethod_UpdateDevices_, context, request, response);
 }
 
-::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* CoordinatorService::Stub::AsyncPushUpdatesRaw(::grpc::ClientContext* context, const ::DataTypes::DeviceUpdate& request, ::grpc::CompletionQueue* cq) {
-  return new ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>(channel_.get(), cq, rpcmethod_PushUpdates_, context, request);
+::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>* CoordinatorService::Stub::AsyncUpdateDevicesRaw(::grpc::ClientContext* context, const ::DataTypes::DeviceUpdate& request, ::grpc::CompletionQueue* cq) {
+  return new ::grpc::ClientAsyncResponseReader< ::google::protobuf::Empty>(channel_.get(), cq, rpcmethod_UpdateDevices_, context, request);
 }
 
 CoordinatorService::Service::Service() {
@@ -147,7 +147,7 @@ CoordinatorService::Service::Service() {
       CoordinatorService_method_names[7],
       ::grpc::RpcMethod::NORMAL_RPC,
       new ::grpc::RpcMethodHandler< CoordinatorService::Service, ::DataTypes::DeviceUpdate, ::google::protobuf::Empty>(
-          std::mem_fn(&CoordinatorService::Service::PushUpdates), this)));
+          std::mem_fn(&CoordinatorService::Service::UpdateDevices), this)));
 }
 
 CoordinatorService::Service::~Service() {
@@ -202,7 +202,7 @@ CoordinatorService::Service::~Service() {
   return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
 }
 
-::grpc::Status CoordinatorService::Service::PushUpdates(::grpc::ServerContext* context, const ::DataTypes::DeviceUpdate* request, ::google::protobuf::Empty* response) {
+::grpc::Status CoordinatorService::Service::UpdateDevices(::grpc::ServerContext* context, const ::DataTypes::DeviceUpdate* request, ::google::protobuf::Empty* response) {
   (void) context;
   (void) request;
   (void) response;

@@ -18,12 +18,21 @@
     <ClCompile Include="main.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\launcher.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\unit_service.hpp">
       <Filter>includes</Filter>
     </ClInclude>
     <ClInclude Include="include\devices_container.hpp">
+      <Filter>includes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\launcher.hpp">
+      <Filter>includes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\unit_service_configuration.hpp">
       <Filter>includes</Filter>
     </ClInclude>
   </ItemGroup>

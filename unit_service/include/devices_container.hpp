@@ -31,6 +31,11 @@ public:
 		return access_device_engine_;
 	}
 
+	void enumerate(DataTypes::Devices&) const override
+	{
+		throw std::exception("Not implemented enumerate in devices container");
+	}
+
 private:
 	std::shared_ptr<access_device::AccessDeviceEngine> access_device_engine_;
 };

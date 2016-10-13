@@ -140,34 +140,34 @@ void protobuf_AddDesc_services_2ffacial_5fservice_2eproto() {
 
   ::DataTypes::protobuf_AddDesc_datatypes_2fperson_2eproto();
   ::DataTypes::protobuf_AddDesc_datatypes_2fphoto_2eproto();
-  ::DataTypes::protobuf_AddDesc_datatypes_2fdata_2eproto();
+  ::DataTypes::protobuf_AddDesc_datatypes_2fkey_2eproto();
   ::DataTypes::protobuf_AddDesc_datatypes_2fgroup_2eproto();
   ::DataTypes::protobuf_AddDesc_datatypes_2fbiometrics_2eproto();
   ::google::protobuf::protobuf_AddDesc_google_2fprotobuf_2fempty_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\035services/facial_service.proto\022\010Service"
     "s\032\026datatypes/person.proto\032\025datatypes/pho"
-    "to.proto\032\024datatypes/data.proto\032\025datatype"
-    "s/group.proto\032\032datatypes/biometrics.prot"
-    "o\032\033google/protobuf/empty.proto\"\304\001\n\020Biome"
-    "tricRequest\022\037\n\005photo\030\001 \001(\0132\020.DataTypes.P"
-    "hoto\022\036\n\006person\030\002 \001(\0132\016.DataTypes.Key\022\035\n\005"
-    "group\030\003 \001(\0132\016.DataTypes.Key\022(\n\006action\030\004 "
-    "\001(\0162\030.DataTypes.BioActionType\022&\n\004type\030\005 "
-    "\001(\0162\030.DataTypes.BiometricType\"\206\001\n\021Biomet"
-    "ricResponse\022\037\n\005photo\030\001 \001(\0132\020.DataTypes.P"
-    "hoto\022\036\n\006person\030\002 \001(\0132\016.DataTypes.Key\022\037\n\005"
-    "faces\030\003 \001(\0132\020.DataTypes.Faces\022\017\n\007success"
-    "\030\004 \001(\010\"x\n\017BiometricUpdate\022+\n\016person_upda"
-    "tes\030\002 \001(\0132\021.DataTypes.PersonH\000\022)\n\rgroup_"
-    "updates\030\004 \001(\0132\020.DataTypes.GroupH\000B\r\n\013upd"
-    "ate_type2\235\001\n\026BiometricFacialService\022D\n\007P"
-    "rocess\022\032.Services.BiometricRequest\032\033.Ser"
-    "vices.BiometricResponse\"\000\022=\n\006Update\022\031.Se"
-    "rvices.BiometricUpdate\032\026.google.protobuf"
-    ".Empty\"\000BQ\n\007ex.grpcZ@github.com/Enebra/S"
-    "erviceCoordinator/grpc/services/facialse"
-    "rvice\242\002\003RTGb\006proto3", 899);
+    "to.proto\032\023datatypes/key.proto\032\025datatypes"
+    "/group.proto\032\032datatypes/biometrics.proto"
+    "\032\033google/protobuf/empty.proto\"\304\001\n\020Biomet"
+    "ricRequest\022\037\n\005photo\030\001 \001(\0132\020.DataTypes.Ph"
+    "oto\022\036\n\006person\030\002 \001(\0132\016.DataTypes.Key\022\035\n\005g"
+    "roup\030\003 \001(\0132\016.DataTypes.Key\022(\n\006action\030\004 \001"
+    "(\0162\030.DataTypes.BioActionType\022&\n\004type\030\005 \001"
+    "(\0162\030.DataTypes.BiometricType\"\206\001\n\021Biometr"
+    "icResponse\022\037\n\005photo\030\001 \001(\0132\020.DataTypes.Ph"
+    "oto\022\036\n\006person\030\002 \001(\0132\016.DataTypes.Key\022\037\n\005f"
+    "aces\030\003 \001(\0132\020.DataTypes.Faces\022\017\n\007success\030"
+    "\004 \001(\010\"x\n\017BiometricUpdate\022+\n\016person_updat"
+    "es\030\002 \001(\0132\021.DataTypes.PersonH\000\022)\n\rgroup_u"
+    "pdates\030\004 \001(\0132\020.DataTypes.GroupH\000B\r\n\013upda"
+    "te_type2\235\001\n\026BiometricFacialService\022D\n\007Pr"
+    "ocess\022\032.Services.BiometricRequest\032\033.Serv"
+    "ices.BiometricResponse\"\000\022=\n\006Update\022\031.Ser"
+    "vices.BiometricUpdate\032\026.google.protobuf."
+    "Empty\"\000BQ\n\007ex.grpcZ@github.com/Enebra/Se"
+    "rviceCoordinator/grpc/services/facialser"
+    "vice\242\002\003RTGb\006proto3", 898);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "services/facial_service.proto", &protobuf_RegisterTypes);
   BiometricRequest::default_instance_ = new BiometricRequest();

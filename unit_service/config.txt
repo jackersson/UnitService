@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+<facial_service_address>127.0.0.1:50052</facial_service_address>
+<coordinator_service_address>127.0.0.1:49065</coordinator_service_address>
+<unit_service_port>50053</unit_service_port>
+</config>

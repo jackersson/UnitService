@@ -20,58 +20,56 @@ namespace data_core
 			}
 
 			//TODO make not reference style
-			const std::vector<DataTypes::Location>& get(void* request) override
+			bool get(void* request, std::vector<DataTypes::Location>& entities) override
 			{
-				std::vector<DataTypes::Location> data;
 				auto target_request = static_cast<DataTypes::GetLocationRequest*>(request);
 				if (target_request == nullptr)
-					return data;
-			 return get(target_request);
+					return false;
+			 return get(target_request, entities);
 			}
 
-			const std::vector<DataTypes::Location>& get(DataTypes::GetLocationRequest* request)
+			bool get( DataTypes::GetLocationRequest* request
+				      , std::vector<DataTypes::Location>& entities)
 			{
-				std::vector<DataTypes::Location> data;
-				Services::GetRequest service_request;
+				DataTypes::GetRequest service_request;
 				service_request.set_allocated_location_request(request);
 				auto result = api_->get(service_request);
 
 				for (auto item : result->items().items())
 				{
-					if (item.value_type_case() != Services::Entity::ValueTypeCase::kLocation)
+					if (item.value_type_case() != DataTypes::Entity::ValueTypeCase::kLocation)
 					{
 						std::cout << "wrong entity format in locations";
 						continue;
 					}
-					data.push_back(item.location());
+					entities.push_back(item.location());
 				}
 
-				return data;
+				return true;
 			}
 
-			const DataTypes::Location& find(DataTypes::Key key) override {
+			bool find(DataTypes::Key key, DataTypes::Location& result) override
+		  {
 				DataTypes::GetLocationRequest request;
+			
 				//TODO set key
-				auto response = get(&request);
-				return response[0]; //TODO check if exists first item
+				std::vector<DataTypes::Location> entities;
+				//TODO common
+				auto response = get(&request, entities);
+				if (entities.size() > 0)
+				{
+					result = entities[0];
+					return true;
+				}
+				return false;				
 			}
-
-			//TODO implement
-			const DataTypes::Location& find(Services::Entity entity) override
-			{
-				DataTypes::GetLocationRequest request;
-				//TODO set key
-				auto response = get(&request);
-				return response[0]; //TODO check if exists first item
-			}
-
-			//TODO pass by reference
+		
 			bool add(DataTypes::Location* entity) override
 			{
-				Services::Entity service_entity;
+				DataTypes::Entity service_entity;
 				service_entity.set_allocated_location(entity);
 
-				Services::CommitRequest request;
+				DataTypes::CommitRequest request;
 				auto mutation = request.add_mutations();
 				mutation->set_allocated_insert(&service_entity);
 

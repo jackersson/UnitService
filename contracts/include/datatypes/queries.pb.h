@@ -28,6 +28,8 @@
 #include <google/protobuf/extension_set.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "datatypes/visit_record.pb.h"
+#include "datatypes/key.pb.h"
+#include "datatypes/entity.pb.h"
 // @@protoc_insertion_point(includes)
 
 namespace DataTypes {
@@ -40,10 +42,233 @@ void protobuf_ShutdownFile_datatypes_2fqueries_2eproto();
 class GetCardRequest;
 class GetLocationRequest;
 class GetPersonRequest;
+class GetRequest;
+class GetResponse;
 class GetVisitRecordRequest;
 class Page;
 
 // ===================================================================
+
+class GetResponse : public ::google::protobuf::Message {
+ public:
+  GetResponse();
+  virtual ~GetResponse();
+
+  GetResponse(const GetResponse& from);
+
+  inline GetResponse& operator=(const GetResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const GetResponse& default_instance();
+
+  void Swap(GetResponse* other);
+
+  // implements Message ----------------------------------------------
+
+  inline GetResponse* New() const { return New(NULL); }
+
+  GetResponse* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const GetResponse& from);
+  void MergeFrom(const GetResponse& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(GetResponse* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional .DataTypes.Entities items = 1;
+  bool has_items() const;
+  void clear_items();
+  static const int kItemsFieldNumber = 1;
+  const ::DataTypes::Entities& items() const;
+  ::DataTypes::Entities* mutable_items();
+  ::DataTypes::Entities* release_items();
+  void set_allocated_items(::DataTypes::Entities* items);
+
+  // optional int64 count = 2;
+  void clear_count();
+  static const int kCountFieldNumber = 2;
+  ::google::protobuf::int64 count() const;
+  void set_count(::google::protobuf::int64 value);
+
+  // @@protoc_insertion_point(class_scope:DataTypes.GetResponse)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  bool _is_default_instance_;
+  ::DataTypes::Entities* items_;
+  ::google::protobuf::int64 count_;
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_datatypes_2fqueries_2eproto();
+  friend void protobuf_AssignDesc_datatypes_2fqueries_2eproto();
+  friend void protobuf_ShutdownFile_datatypes_2fqueries_2eproto();
+
+  void InitAsDefaultInstance();
+  static GetResponse* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class GetRequest : public ::google::protobuf::Message {
+ public:
+  GetRequest();
+  virtual ~GetRequest();
+
+  GetRequest(const GetRequest& from);
+
+  inline GetRequest& operator=(const GetRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const GetRequest& default_instance();
+
+  enum RequestTypeCase {
+    kPersonRequest = 1,
+    kCardRequest = 2,
+    kLocationRequest = 3,
+    kVisitRecordRequest = 4,
+    REQUEST_TYPE_NOT_SET = 0,
+  };
+
+  void Swap(GetRequest* other);
+
+  // implements Message ----------------------------------------------
+
+  inline GetRequest* New() const { return New(NULL); }
+
+  GetRequest* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const GetRequest& from);
+  void MergeFrom(const GetRequest& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(GetRequest* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional .DataTypes.GetPersonRequest person_request = 1;
+  bool has_person_request() const;
+  void clear_person_request();
+  static const int kPersonRequestFieldNumber = 1;
+  const ::DataTypes::GetPersonRequest& person_request() const;
+  ::DataTypes::GetPersonRequest* mutable_person_request();
+  ::DataTypes::GetPersonRequest* release_person_request();
+  void set_allocated_person_request(::DataTypes::GetPersonRequest* person_request);
+
+  // optional .DataTypes.GetCardRequest card_request = 2;
+  bool has_card_request() const;
+  void clear_card_request();
+  static const int kCardRequestFieldNumber = 2;
+  const ::DataTypes::GetCardRequest& card_request() const;
+  ::DataTypes::GetCardRequest* mutable_card_request();
+  ::DataTypes::GetCardRequest* release_card_request();
+  void set_allocated_card_request(::DataTypes::GetCardRequest* card_request);
+
+  // optional .DataTypes.GetLocationRequest location_request = 3;
+  bool has_location_request() const;
+  void clear_location_request();
+  static const int kLocationRequestFieldNumber = 3;
+  const ::DataTypes::GetLocationRequest& location_request() const;
+  ::DataTypes::GetLocationRequest* mutable_location_request();
+  ::DataTypes::GetLocationRequest* release_location_request();
+  void set_allocated_location_request(::DataTypes::GetLocationRequest* location_request);
+
+  // optional .DataTypes.GetVisitRecordRequest visit_record_request = 4;
+  bool has_visit_record_request() const;
+  void clear_visit_record_request();
+  static const int kVisitRecordRequestFieldNumber = 4;
+  const ::DataTypes::GetVisitRecordRequest& visit_record_request() const;
+  ::DataTypes::GetVisitRecordRequest* mutable_visit_record_request();
+  ::DataTypes::GetVisitRecordRequest* release_visit_record_request();
+  void set_allocated_visit_record_request(::DataTypes::GetVisitRecordRequest* visit_record_request);
+
+  RequestTypeCase request_type_case() const;
+  // @@protoc_insertion_point(class_scope:DataTypes.GetRequest)
+ private:
+  inline void set_has_person_request();
+  inline void set_has_card_request();
+  inline void set_has_location_request();
+  inline void set_has_visit_record_request();
+
+  inline bool has_request_type() const;
+  void clear_request_type();
+  inline void clear_has_request_type();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  bool _is_default_instance_;
+  union RequestTypeUnion {
+    RequestTypeUnion() {}
+    ::DataTypes::GetPersonRequest* person_request_;
+    ::DataTypes::GetCardRequest* card_request_;
+    ::DataTypes::GetLocationRequest* location_request_;
+    ::DataTypes::GetVisitRecordRequest* visit_record_request_;
+  } request_type_;
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _oneof_case_[1];
+
+  friend void  protobuf_AddDesc_datatypes_2fqueries_2eproto();
+  friend void protobuf_AssignDesc_datatypes_2fqueries_2eproto();
+  friend void protobuf_ShutdownFile_datatypes_2fqueries_2eproto();
+
+  void InitAsDefaultInstance();
+  static GetRequest* default_instance_;
+};
+// -------------------------------------------------------------------
 
 class GetPersonRequest : public ::google::protobuf::Message {
  public:
@@ -145,21 +370,17 @@ class GetPersonRequest : public ::google::protobuf::Message {
   ::std::string* release_card();
   void set_allocated_card(::std::string* card);
 
-  // repeated string locations = 5;
+  // repeated .DataTypes.Key locations = 5;
   int locations_size() const;
   void clear_locations();
   static const int kLocationsFieldNumber = 5;
-  const ::std::string& locations(int index) const;
-  ::std::string* mutable_locations(int index);
-  void set_locations(int index, const ::std::string& value);
-  void set_locations(int index, const char* value);
-  void set_locations(int index, const char* value, size_t size);
-  ::std::string* add_locations();
-  void add_locations(const ::std::string& value);
-  void add_locations(const char* value);
-  void add_locations(const char* value, size_t size);
-  const ::google::protobuf::RepeatedPtrField< ::std::string>& locations() const;
-  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_locations();
+  const ::DataTypes::Key& locations(int index) const;
+  ::DataTypes::Key* mutable_locations(int index);
+  ::DataTypes::Key* add_locations();
+  ::google::protobuf::RepeatedPtrField< ::DataTypes::Key >*
+      mutable_locations();
+  const ::google::protobuf::RepeatedPtrField< ::DataTypes::Key >&
+      locations() const;
 
   // optional .DataTypes.Page page = 6;
   bool has_page() const;
@@ -170,6 +391,15 @@ class GetPersonRequest : public ::google::protobuf::Message {
   ::DataTypes::Page* release_page();
   void set_allocated_page(::DataTypes::Page* page);
 
+  // optional .DataTypes.Key id = 7;
+  bool has_id() const;
+  void clear_id();
+  static const int kIdFieldNumber = 7;
+  const ::DataTypes::Key& id() const;
+  ::DataTypes::Key* mutable_id();
+  ::DataTypes::Key* release_id();
+  void set_allocated_id(::DataTypes::Key* id);
+
   // @@protoc_insertion_point(class_scope:DataTypes.GetPersonRequest)
  private:
 
@@ -179,8 +409,9 @@ class GetPersonRequest : public ::google::protobuf::Message {
   ::google::protobuf::internal::ArenaStringPtr first_name_;
   ::google::protobuf::internal::ArenaStringPtr last_name_;
   ::google::protobuf::internal::ArenaStringPtr card_;
-  ::google::protobuf::RepeatedPtrField< ::std::string> locations_;
+  ::google::protobuf::RepeatedPtrField< ::DataTypes::Key > locations_;
   ::DataTypes::Page* page_;
+  ::DataTypes::Key* id_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_datatypes_2fqueries_2eproto();
   friend void protobuf_AssignDesc_datatypes_2fqueries_2eproto();
@@ -300,6 +531,15 @@ class GetLocationRequest : public ::google::protobuf::Message {
   ::DataTypes::Page* release_page();
   void set_allocated_page(::DataTypes::Page* page);
 
+  // optional .DataTypes.Key id = 6;
+  bool has_id() const;
+  void clear_id();
+  static const int kIdFieldNumber = 6;
+  const ::DataTypes::Key& id() const;
+  ::DataTypes::Key* mutable_id();
+  ::DataTypes::Key* release_id();
+  void set_allocated_id(::DataTypes::Key* id);
+
   // @@protoc_insertion_point(class_scope:DataTypes.GetLocationRequest)
  private:
 
@@ -310,6 +550,7 @@ class GetLocationRequest : public ::google::protobuf::Message {
   ::google::protobuf::internal::ArenaStringPtr mac_address_;
   ::google::protobuf::internal::ArenaStringPtr device_name_;
   ::DataTypes::Page* page_;
+  ::DataTypes::Key* id_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_datatypes_2fqueries_2eproto();
   friend void protobuf_AssignDesc_datatypes_2fqueries_2eproto();
@@ -393,37 +634,29 @@ class GetVisitRecordRequest : public ::google::protobuf::Message {
   ::DataTypes::AccessState state() const;
   void set_state(::DataTypes::AccessState value);
 
-  // repeated string locations = 3;
+  // repeated .DataTypes.Key locations = 3;
   int locations_size() const;
   void clear_locations();
   static const int kLocationsFieldNumber = 3;
-  const ::std::string& locations(int index) const;
-  ::std::string* mutable_locations(int index);
-  void set_locations(int index, const ::std::string& value);
-  void set_locations(int index, const char* value);
-  void set_locations(int index, const char* value, size_t size);
-  ::std::string* add_locations();
-  void add_locations(const ::std::string& value);
-  void add_locations(const char* value);
-  void add_locations(const char* value, size_t size);
-  const ::google::protobuf::RepeatedPtrField< ::std::string>& locations() const;
-  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_locations();
+  const ::DataTypes::Key& locations(int index) const;
+  ::DataTypes::Key* mutable_locations(int index);
+  ::DataTypes::Key* add_locations();
+  ::google::protobuf::RepeatedPtrField< ::DataTypes::Key >*
+      mutable_locations();
+  const ::google::protobuf::RepeatedPtrField< ::DataTypes::Key >&
+      locations() const;
 
-  // repeated string persons = 4;
+  // repeated .DataTypes.Key persons = 4;
   int persons_size() const;
   void clear_persons();
   static const int kPersonsFieldNumber = 4;
-  const ::std::string& persons(int index) const;
-  ::std::string* mutable_persons(int index);
-  void set_persons(int index, const ::std::string& value);
-  void set_persons(int index, const char* value);
-  void set_persons(int index, const char* value, size_t size);
-  ::std::string* add_persons();
-  void add_persons(const ::std::string& value);
-  void add_persons(const char* value);
-  void add_persons(const char* value, size_t size);
-  const ::google::protobuf::RepeatedPtrField< ::std::string>& persons() const;
-  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_persons();
+  const ::DataTypes::Key& persons(int index) const;
+  ::DataTypes::Key* mutable_persons(int index);
+  ::DataTypes::Key* add_persons();
+  ::google::protobuf::RepeatedPtrField< ::DataTypes::Key >*
+      mutable_persons();
+  const ::google::protobuf::RepeatedPtrField< ::DataTypes::Key >&
+      persons() const;
 
   // optional int64 datetime_from = 5;
   void clear_datetime_from();
@@ -457,18 +690,28 @@ class GetVisitRecordRequest : public ::google::protobuf::Message {
   ::DataTypes::Page* release_page();
   void set_allocated_page(::DataTypes::Page* page);
 
+  // optional .DataTypes.Key id = 9;
+  bool has_id() const;
+  void clear_id();
+  static const int kIdFieldNumber = 9;
+  const ::DataTypes::Key& id() const;
+  ::DataTypes::Key* mutable_id();
+  ::DataTypes::Key* release_id();
+  void set_allocated_id(::DataTypes::Key* id);
+
   // @@protoc_insertion_point(class_scope:DataTypes.GetVisitRecordRequest)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   bool _is_default_instance_;
   ::google::protobuf::internal::ArenaStringPtr search_text_;
-  ::google::protobuf::RepeatedPtrField< ::std::string> locations_;
-  ::google::protobuf::RepeatedPtrField< ::std::string> persons_;
+  ::google::protobuf::RepeatedPtrField< ::DataTypes::Key > locations_;
+  ::google::protobuf::RepeatedPtrField< ::DataTypes::Key > persons_;
   ::google::protobuf::int64 datetime_from_;
   ::google::protobuf::int64 datetime_to_;
   ::google::protobuf::internal::ArenaStringPtr card_;
   ::DataTypes::Page* page_;
+  ::DataTypes::Key* id_;
   int state_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_datatypes_2fqueries_2eproto();
@@ -643,21 +886,17 @@ class GetCardRequest : public ::google::protobuf::Message {
   ::std::string* release_unique_identifier();
   void set_allocated_unique_identifier(::std::string* unique_identifier);
 
-  // repeated string owners = 3;
+  // repeated .DataTypes.Key owners = 3;
   int owners_size() const;
   void clear_owners();
   static const int kOwnersFieldNumber = 3;
-  const ::std::string& owners(int index) const;
-  ::std::string* mutable_owners(int index);
-  void set_owners(int index, const ::std::string& value);
-  void set_owners(int index, const char* value);
-  void set_owners(int index, const char* value, size_t size);
-  ::std::string* add_owners();
-  void add_owners(const ::std::string& value);
-  void add_owners(const char* value);
-  void add_owners(const char* value, size_t size);
-  const ::google::protobuf::RepeatedPtrField< ::std::string>& owners() const;
-  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_owners();
+  const ::DataTypes::Key& owners(int index) const;
+  ::DataTypes::Key* mutable_owners(int index);
+  ::DataTypes::Key* add_owners();
+  ::google::protobuf::RepeatedPtrField< ::DataTypes::Key >*
+      mutable_owners();
+  const ::google::protobuf::RepeatedPtrField< ::DataTypes::Key >&
+      owners() const;
 
   // optional .DataTypes.Page page = 4;
   bool has_page() const;
@@ -675,7 +914,7 @@ class GetCardRequest : public ::google::protobuf::Message {
   bool _is_default_instance_;
   ::google::protobuf::internal::ArenaStringPtr search_text_;
   ::google::protobuf::internal::ArenaStringPtr unique_identifier_;
-  ::google::protobuf::RepeatedPtrField< ::std::string> owners_;
+  ::google::protobuf::RepeatedPtrField< ::DataTypes::Key > owners_;
   ::DataTypes::Page* page_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_datatypes_2fqueries_2eproto();
@@ -691,6 +930,267 @@ class GetCardRequest : public ::google::protobuf::Message {
 // ===================================================================
 
 #if !PROTOBUF_INLINE_NOT_IN_HEADERS
+// GetResponse
+
+// optional .DataTypes.Entities items = 1;
+inline bool GetResponse::has_items() const {
+  return !_is_default_instance_ && items_ != NULL;
+}
+inline void GetResponse::clear_items() {
+  if (GetArenaNoVirtual() == NULL && items_ != NULL) delete items_;
+  items_ = NULL;
+}
+inline const ::DataTypes::Entities& GetResponse::items() const {
+  // @@protoc_insertion_point(field_get:DataTypes.GetResponse.items)
+  return items_ != NULL ? *items_ : *default_instance_->items_;
+}
+inline ::DataTypes::Entities* GetResponse::mutable_items() {
+  
+  if (items_ == NULL) {
+    items_ = new ::DataTypes::Entities;
+  }
+  // @@protoc_insertion_point(field_mutable:DataTypes.GetResponse.items)
+  return items_;
+}
+inline ::DataTypes::Entities* GetResponse::release_items() {
+  // @@protoc_insertion_point(field_release:DataTypes.GetResponse.items)
+  
+  ::DataTypes::Entities* temp = items_;
+  items_ = NULL;
+  return temp;
+}
+inline void GetResponse::set_allocated_items(::DataTypes::Entities* items) {
+  delete items_;
+  items_ = items;
+  if (items) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.GetResponse.items)
+}
+
+// optional int64 count = 2;
+inline void GetResponse::clear_count() {
+  count_ = GOOGLE_LONGLONG(0);
+}
+inline ::google::protobuf::int64 GetResponse::count() const {
+  // @@protoc_insertion_point(field_get:DataTypes.GetResponse.count)
+  return count_;
+}
+inline void GetResponse::set_count(::google::protobuf::int64 value) {
+  
+  count_ = value;
+  // @@protoc_insertion_point(field_set:DataTypes.GetResponse.count)
+}
+
+// -------------------------------------------------------------------
+
+// GetRequest
+
+// optional .DataTypes.GetPersonRequest person_request = 1;
+inline bool GetRequest::has_person_request() const {
+  return request_type_case() == kPersonRequest;
+}
+inline void GetRequest::set_has_person_request() {
+  _oneof_case_[0] = kPersonRequest;
+}
+inline void GetRequest::clear_person_request() {
+  if (has_person_request()) {
+    delete request_type_.person_request_;
+    clear_has_request_type();
+  }
+}
+inline  const ::DataTypes::GetPersonRequest& GetRequest::person_request() const {
+  // @@protoc_insertion_point(field_get:DataTypes.GetRequest.person_request)
+  return has_person_request()
+      ? *request_type_.person_request_
+      : ::DataTypes::GetPersonRequest::default_instance();
+}
+inline ::DataTypes::GetPersonRequest* GetRequest::mutable_person_request() {
+  if (!has_person_request()) {
+    clear_request_type();
+    set_has_person_request();
+    request_type_.person_request_ = new ::DataTypes::GetPersonRequest;
+  }
+  // @@protoc_insertion_point(field_mutable:DataTypes.GetRequest.person_request)
+  return request_type_.person_request_;
+}
+inline ::DataTypes::GetPersonRequest* GetRequest::release_person_request() {
+  // @@protoc_insertion_point(field_release:DataTypes.GetRequest.person_request)
+  if (has_person_request()) {
+    clear_has_request_type();
+    ::DataTypes::GetPersonRequest* temp = request_type_.person_request_;
+    request_type_.person_request_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline void GetRequest::set_allocated_person_request(::DataTypes::GetPersonRequest* person_request) {
+  clear_request_type();
+  if (person_request) {
+    set_has_person_request();
+    request_type_.person_request_ = person_request;
+  }
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.GetRequest.person_request)
+}
+
+// optional .DataTypes.GetCardRequest card_request = 2;
+inline bool GetRequest::has_card_request() const {
+  return request_type_case() == kCardRequest;
+}
+inline void GetRequest::set_has_card_request() {
+  _oneof_case_[0] = kCardRequest;
+}
+inline void GetRequest::clear_card_request() {
+  if (has_card_request()) {
+    delete request_type_.card_request_;
+    clear_has_request_type();
+  }
+}
+inline  const ::DataTypes::GetCardRequest& GetRequest::card_request() const {
+  // @@protoc_insertion_point(field_get:DataTypes.GetRequest.card_request)
+  return has_card_request()
+      ? *request_type_.card_request_
+      : ::DataTypes::GetCardRequest::default_instance();
+}
+inline ::DataTypes::GetCardRequest* GetRequest::mutable_card_request() {
+  if (!has_card_request()) {
+    clear_request_type();
+    set_has_card_request();
+    request_type_.card_request_ = new ::DataTypes::GetCardRequest;
+  }
+  // @@protoc_insertion_point(field_mutable:DataTypes.GetRequest.card_request)
+  return request_type_.card_request_;
+}
+inline ::DataTypes::GetCardRequest* GetRequest::release_card_request() {
+  // @@protoc_insertion_point(field_release:DataTypes.GetRequest.card_request)
+  if (has_card_request()) {
+    clear_has_request_type();
+    ::DataTypes::GetCardRequest* temp = request_type_.card_request_;
+    request_type_.card_request_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline void GetRequest::set_allocated_card_request(::DataTypes::GetCardRequest* card_request) {
+  clear_request_type();
+  if (card_request) {
+    set_has_card_request();
+    request_type_.card_request_ = card_request;
+  }
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.GetRequest.card_request)
+}
+
+// optional .DataTypes.GetLocationRequest location_request = 3;
+inline bool GetRequest::has_location_request() const {
+  return request_type_case() == kLocationRequest;
+}
+inline void GetRequest::set_has_location_request() {
+  _oneof_case_[0] = kLocationRequest;
+}
+inline void GetRequest::clear_location_request() {
+  if (has_location_request()) {
+    delete request_type_.location_request_;
+    clear_has_request_type();
+  }
+}
+inline  const ::DataTypes::GetLocationRequest& GetRequest::location_request() const {
+  // @@protoc_insertion_point(field_get:DataTypes.GetRequest.location_request)
+  return has_location_request()
+      ? *request_type_.location_request_
+      : ::DataTypes::GetLocationRequest::default_instance();
+}
+inline ::DataTypes::GetLocationRequest* GetRequest::mutable_location_request() {
+  if (!has_location_request()) {
+    clear_request_type();
+    set_has_location_request();
+    request_type_.location_request_ = new ::DataTypes::GetLocationRequest;
+  }
+  // @@protoc_insertion_point(field_mutable:DataTypes.GetRequest.location_request)
+  return request_type_.location_request_;
+}
+inline ::DataTypes::GetLocationRequest* GetRequest::release_location_request() {
+  // @@protoc_insertion_point(field_release:DataTypes.GetRequest.location_request)
+  if (has_location_request()) {
+    clear_has_request_type();
+    ::DataTypes::GetLocationRequest* temp = request_type_.location_request_;
+    request_type_.location_request_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline void GetRequest::set_allocated_location_request(::DataTypes::GetLocationRequest* location_request) {
+  clear_request_type();
+  if (location_request) {
+    set_has_location_request();
+    request_type_.location_request_ = location_request;
+  }
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.GetRequest.location_request)
+}
+
+// optional .DataTypes.GetVisitRecordRequest visit_record_request = 4;
+inline bool GetRequest::has_visit_record_request() const {
+  return request_type_case() == kVisitRecordRequest;
+}
+inline void GetRequest::set_has_visit_record_request() {
+  _oneof_case_[0] = kVisitRecordRequest;
+}
+inline void GetRequest::clear_visit_record_request() {
+  if (has_visit_record_request()) {
+    delete request_type_.visit_record_request_;
+    clear_has_request_type();
+  }
+}
+inline  const ::DataTypes::GetVisitRecordRequest& GetRequest::visit_record_request() const {
+  // @@protoc_insertion_point(field_get:DataTypes.GetRequest.visit_record_request)
+  return has_visit_record_request()
+      ? *request_type_.visit_record_request_
+      : ::DataTypes::GetVisitRecordRequest::default_instance();
+}
+inline ::DataTypes::GetVisitRecordRequest* GetRequest::mutable_visit_record_request() {
+  if (!has_visit_record_request()) {
+    clear_request_type();
+    set_has_visit_record_request();
+    request_type_.visit_record_request_ = new ::DataTypes::GetVisitRecordRequest;
+  }
+  // @@protoc_insertion_point(field_mutable:DataTypes.GetRequest.visit_record_request)
+  return request_type_.visit_record_request_;
+}
+inline ::DataTypes::GetVisitRecordRequest* GetRequest::release_visit_record_request() {
+  // @@protoc_insertion_point(field_release:DataTypes.GetRequest.visit_record_request)
+  if (has_visit_record_request()) {
+    clear_has_request_type();
+    ::DataTypes::GetVisitRecordRequest* temp = request_type_.visit_record_request_;
+    request_type_.visit_record_request_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline void GetRequest::set_allocated_visit_record_request(::DataTypes::GetVisitRecordRequest* visit_record_request) {
+  clear_request_type();
+  if (visit_record_request) {
+    set_has_visit_record_request();
+    request_type_.visit_record_request_ = visit_record_request;
+  }
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.GetRequest.visit_record_request)
+}
+
+inline bool GetRequest::has_request_type() const {
+  return request_type_case() != REQUEST_TYPE_NOT_SET;
+}
+inline void GetRequest::clear_has_request_type() {
+  _oneof_case_[0] = REQUEST_TYPE_NOT_SET;
+}
+inline GetRequest::RequestTypeCase GetRequest::request_type_case() const {
+  return GetRequest::RequestTypeCase(_oneof_case_[0]);
+}
+// -------------------------------------------------------------------
+
 // GetPersonRequest
 
 // optional string search_text = 1;
@@ -869,59 +1369,34 @@ inline void GetPersonRequest::set_allocated_card(::std::string* card) {
   // @@protoc_insertion_point(field_set_allocated:DataTypes.GetPersonRequest.card)
 }
 
-// repeated string locations = 5;
+// repeated .DataTypes.Key locations = 5;
 inline int GetPersonRequest::locations_size() const {
   return locations_.size();
 }
 inline void GetPersonRequest::clear_locations() {
   locations_.Clear();
 }
-inline const ::std::string& GetPersonRequest::locations(int index) const {
+inline const ::DataTypes::Key& GetPersonRequest::locations(int index) const {
   // @@protoc_insertion_point(field_get:DataTypes.GetPersonRequest.locations)
   return locations_.Get(index);
 }
-inline ::std::string* GetPersonRequest::mutable_locations(int index) {
+inline ::DataTypes::Key* GetPersonRequest::mutable_locations(int index) {
   // @@protoc_insertion_point(field_mutable:DataTypes.GetPersonRequest.locations)
   return locations_.Mutable(index);
 }
-inline void GetPersonRequest::set_locations(int index, const ::std::string& value) {
-  // @@protoc_insertion_point(field_set:DataTypes.GetPersonRequest.locations)
-  locations_.Mutable(index)->assign(value);
-}
-inline void GetPersonRequest::set_locations(int index, const char* value) {
-  locations_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:DataTypes.GetPersonRequest.locations)
-}
-inline void GetPersonRequest::set_locations(int index, const char* value, size_t size) {
-  locations_.Mutable(index)->assign(
-    reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:DataTypes.GetPersonRequest.locations)
-}
-inline ::std::string* GetPersonRequest::add_locations() {
-  // @@protoc_insertion_point(field_add_mutable:DataTypes.GetPersonRequest.locations)
+inline ::DataTypes::Key* GetPersonRequest::add_locations() {
+  // @@protoc_insertion_point(field_add:DataTypes.GetPersonRequest.locations)
   return locations_.Add();
 }
-inline void GetPersonRequest::add_locations(const ::std::string& value) {
-  locations_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:DataTypes.GetPersonRequest.locations)
-}
-inline void GetPersonRequest::add_locations(const char* value) {
-  locations_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:DataTypes.GetPersonRequest.locations)
-}
-inline void GetPersonRequest::add_locations(const char* value, size_t size) {
-  locations_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:DataTypes.GetPersonRequest.locations)
-}
-inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
-GetPersonRequest::locations() const {
-  // @@protoc_insertion_point(field_list:DataTypes.GetPersonRequest.locations)
-  return locations_;
-}
-inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+inline ::google::protobuf::RepeatedPtrField< ::DataTypes::Key >*
 GetPersonRequest::mutable_locations() {
   // @@protoc_insertion_point(field_mutable_list:DataTypes.GetPersonRequest.locations)
   return &locations_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::DataTypes::Key >&
+GetPersonRequest::locations() const {
+  // @@protoc_insertion_point(field_list:DataTypes.GetPersonRequest.locations)
+  return locations_;
 }
 
 // optional .DataTypes.Page page = 6;
@@ -960,6 +1435,44 @@ inline void GetPersonRequest::set_allocated_page(::DataTypes::Page* page) {
     
   }
   // @@protoc_insertion_point(field_set_allocated:DataTypes.GetPersonRequest.page)
+}
+
+// optional .DataTypes.Key id = 7;
+inline bool GetPersonRequest::has_id() const {
+  return !_is_default_instance_ && id_ != NULL;
+}
+inline void GetPersonRequest::clear_id() {
+  if (GetArenaNoVirtual() == NULL && id_ != NULL) delete id_;
+  id_ = NULL;
+}
+inline const ::DataTypes::Key& GetPersonRequest::id() const {
+  // @@protoc_insertion_point(field_get:DataTypes.GetPersonRequest.id)
+  return id_ != NULL ? *id_ : *default_instance_->id_;
+}
+inline ::DataTypes::Key* GetPersonRequest::mutable_id() {
+  
+  if (id_ == NULL) {
+    id_ = new ::DataTypes::Key;
+  }
+  // @@protoc_insertion_point(field_mutable:DataTypes.GetPersonRequest.id)
+  return id_;
+}
+inline ::DataTypes::Key* GetPersonRequest::release_id() {
+  // @@protoc_insertion_point(field_release:DataTypes.GetPersonRequest.id)
+  
+  ::DataTypes::Key* temp = id_;
+  id_ = NULL;
+  return temp;
+}
+inline void GetPersonRequest::set_allocated_id(::DataTypes::Key* id) {
+  delete id_;
+  id_ = id;
+  if (id) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.GetPersonRequest.id)
 }
 
 // -------------------------------------------------------------------
@@ -1180,6 +1693,44 @@ inline void GetLocationRequest::set_allocated_page(::DataTypes::Page* page) {
   // @@protoc_insertion_point(field_set_allocated:DataTypes.GetLocationRequest.page)
 }
 
+// optional .DataTypes.Key id = 6;
+inline bool GetLocationRequest::has_id() const {
+  return !_is_default_instance_ && id_ != NULL;
+}
+inline void GetLocationRequest::clear_id() {
+  if (GetArenaNoVirtual() == NULL && id_ != NULL) delete id_;
+  id_ = NULL;
+}
+inline const ::DataTypes::Key& GetLocationRequest::id() const {
+  // @@protoc_insertion_point(field_get:DataTypes.GetLocationRequest.id)
+  return id_ != NULL ? *id_ : *default_instance_->id_;
+}
+inline ::DataTypes::Key* GetLocationRequest::mutable_id() {
+  
+  if (id_ == NULL) {
+    id_ = new ::DataTypes::Key;
+  }
+  // @@protoc_insertion_point(field_mutable:DataTypes.GetLocationRequest.id)
+  return id_;
+}
+inline ::DataTypes::Key* GetLocationRequest::release_id() {
+  // @@protoc_insertion_point(field_release:DataTypes.GetLocationRequest.id)
+  
+  ::DataTypes::Key* temp = id_;
+  id_ = NULL;
+  return temp;
+}
+inline void GetLocationRequest::set_allocated_id(::DataTypes::Key* id) {
+  delete id_;
+  id_ = id;
+  if (id) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.GetLocationRequest.id)
+}
+
 // -------------------------------------------------------------------
 
 // GetVisitRecordRequest
@@ -1242,114 +1793,64 @@ inline void GetVisitRecordRequest::set_state(::DataTypes::AccessState value) {
   // @@protoc_insertion_point(field_set:DataTypes.GetVisitRecordRequest.state)
 }
 
-// repeated string locations = 3;
+// repeated .DataTypes.Key locations = 3;
 inline int GetVisitRecordRequest::locations_size() const {
   return locations_.size();
 }
 inline void GetVisitRecordRequest::clear_locations() {
   locations_.Clear();
 }
-inline const ::std::string& GetVisitRecordRequest::locations(int index) const {
+inline const ::DataTypes::Key& GetVisitRecordRequest::locations(int index) const {
   // @@protoc_insertion_point(field_get:DataTypes.GetVisitRecordRequest.locations)
   return locations_.Get(index);
 }
-inline ::std::string* GetVisitRecordRequest::mutable_locations(int index) {
+inline ::DataTypes::Key* GetVisitRecordRequest::mutable_locations(int index) {
   // @@protoc_insertion_point(field_mutable:DataTypes.GetVisitRecordRequest.locations)
   return locations_.Mutable(index);
 }
-inline void GetVisitRecordRequest::set_locations(int index, const ::std::string& value) {
-  // @@protoc_insertion_point(field_set:DataTypes.GetVisitRecordRequest.locations)
-  locations_.Mutable(index)->assign(value);
-}
-inline void GetVisitRecordRequest::set_locations(int index, const char* value) {
-  locations_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:DataTypes.GetVisitRecordRequest.locations)
-}
-inline void GetVisitRecordRequest::set_locations(int index, const char* value, size_t size) {
-  locations_.Mutable(index)->assign(
-    reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:DataTypes.GetVisitRecordRequest.locations)
-}
-inline ::std::string* GetVisitRecordRequest::add_locations() {
-  // @@protoc_insertion_point(field_add_mutable:DataTypes.GetVisitRecordRequest.locations)
+inline ::DataTypes::Key* GetVisitRecordRequest::add_locations() {
+  // @@protoc_insertion_point(field_add:DataTypes.GetVisitRecordRequest.locations)
   return locations_.Add();
 }
-inline void GetVisitRecordRequest::add_locations(const ::std::string& value) {
-  locations_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:DataTypes.GetVisitRecordRequest.locations)
-}
-inline void GetVisitRecordRequest::add_locations(const char* value) {
-  locations_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:DataTypes.GetVisitRecordRequest.locations)
-}
-inline void GetVisitRecordRequest::add_locations(const char* value, size_t size) {
-  locations_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:DataTypes.GetVisitRecordRequest.locations)
-}
-inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
-GetVisitRecordRequest::locations() const {
-  // @@protoc_insertion_point(field_list:DataTypes.GetVisitRecordRequest.locations)
-  return locations_;
-}
-inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+inline ::google::protobuf::RepeatedPtrField< ::DataTypes::Key >*
 GetVisitRecordRequest::mutable_locations() {
   // @@protoc_insertion_point(field_mutable_list:DataTypes.GetVisitRecordRequest.locations)
   return &locations_;
 }
+inline const ::google::protobuf::RepeatedPtrField< ::DataTypes::Key >&
+GetVisitRecordRequest::locations() const {
+  // @@protoc_insertion_point(field_list:DataTypes.GetVisitRecordRequest.locations)
+  return locations_;
+}
 
-// repeated string persons = 4;
+// repeated .DataTypes.Key persons = 4;
 inline int GetVisitRecordRequest::persons_size() const {
   return persons_.size();
 }
 inline void GetVisitRecordRequest::clear_persons() {
   persons_.Clear();
 }
-inline const ::std::string& GetVisitRecordRequest::persons(int index) const {
+inline const ::DataTypes::Key& GetVisitRecordRequest::persons(int index) const {
   // @@protoc_insertion_point(field_get:DataTypes.GetVisitRecordRequest.persons)
   return persons_.Get(index);
 }
-inline ::std::string* GetVisitRecordRequest::mutable_persons(int index) {
+inline ::DataTypes::Key* GetVisitRecordRequest::mutable_persons(int index) {
   // @@protoc_insertion_point(field_mutable:DataTypes.GetVisitRecordRequest.persons)
   return persons_.Mutable(index);
 }
-inline void GetVisitRecordRequest::set_persons(int index, const ::std::string& value) {
-  // @@protoc_insertion_point(field_set:DataTypes.GetVisitRecordRequest.persons)
-  persons_.Mutable(index)->assign(value);
-}
-inline void GetVisitRecordRequest::set_persons(int index, const char* value) {
-  persons_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:DataTypes.GetVisitRecordRequest.persons)
-}
-inline void GetVisitRecordRequest::set_persons(int index, const char* value, size_t size) {
-  persons_.Mutable(index)->assign(
-    reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:DataTypes.GetVisitRecordRequest.persons)
-}
-inline ::std::string* GetVisitRecordRequest::add_persons() {
-  // @@protoc_insertion_point(field_add_mutable:DataTypes.GetVisitRecordRequest.persons)
+inline ::DataTypes::Key* GetVisitRecordRequest::add_persons() {
+  // @@protoc_insertion_point(field_add:DataTypes.GetVisitRecordRequest.persons)
   return persons_.Add();
 }
-inline void GetVisitRecordRequest::add_persons(const ::std::string& value) {
-  persons_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:DataTypes.GetVisitRecordRequest.persons)
-}
-inline void GetVisitRecordRequest::add_persons(const char* value) {
-  persons_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:DataTypes.GetVisitRecordRequest.persons)
-}
-inline void GetVisitRecordRequest::add_persons(const char* value, size_t size) {
-  persons_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:DataTypes.GetVisitRecordRequest.persons)
-}
-inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
-GetVisitRecordRequest::persons() const {
-  // @@protoc_insertion_point(field_list:DataTypes.GetVisitRecordRequest.persons)
-  return persons_;
-}
-inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+inline ::google::protobuf::RepeatedPtrField< ::DataTypes::Key >*
 GetVisitRecordRequest::mutable_persons() {
   // @@protoc_insertion_point(field_mutable_list:DataTypes.GetVisitRecordRequest.persons)
   return &persons_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::DataTypes::Key >&
+GetVisitRecordRequest::persons() const {
+  // @@protoc_insertion_point(field_list:DataTypes.GetVisitRecordRequest.persons)
+  return persons_;
 }
 
 // optional int64 datetime_from = 5;
@@ -1460,6 +1961,44 @@ inline void GetVisitRecordRequest::set_allocated_page(::DataTypes::Page* page) {
     
   }
   // @@protoc_insertion_point(field_set_allocated:DataTypes.GetVisitRecordRequest.page)
+}
+
+// optional .DataTypes.Key id = 9;
+inline bool GetVisitRecordRequest::has_id() const {
+  return !_is_default_instance_ && id_ != NULL;
+}
+inline void GetVisitRecordRequest::clear_id() {
+  if (GetArenaNoVirtual() == NULL && id_ != NULL) delete id_;
+  id_ = NULL;
+}
+inline const ::DataTypes::Key& GetVisitRecordRequest::id() const {
+  // @@protoc_insertion_point(field_get:DataTypes.GetVisitRecordRequest.id)
+  return id_ != NULL ? *id_ : *default_instance_->id_;
+}
+inline ::DataTypes::Key* GetVisitRecordRequest::mutable_id() {
+  
+  if (id_ == NULL) {
+    id_ = new ::DataTypes::Key;
+  }
+  // @@protoc_insertion_point(field_mutable:DataTypes.GetVisitRecordRequest.id)
+  return id_;
+}
+inline ::DataTypes::Key* GetVisitRecordRequest::release_id() {
+  // @@protoc_insertion_point(field_release:DataTypes.GetVisitRecordRequest.id)
+  
+  ::DataTypes::Key* temp = id_;
+  id_ = NULL;
+  return temp;
+}
+inline void GetVisitRecordRequest::set_allocated_id(::DataTypes::Key* id) {
+  delete id_;
+  id_ = id;
+  if (id) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.GetVisitRecordRequest.id)
 }
 
 // -------------------------------------------------------------------
@@ -1586,59 +2125,34 @@ inline void GetCardRequest::set_allocated_unique_identifier(::std::string* uniqu
   // @@protoc_insertion_point(field_set_allocated:DataTypes.GetCardRequest.unique_identifier)
 }
 
-// repeated string owners = 3;
+// repeated .DataTypes.Key owners = 3;
 inline int GetCardRequest::owners_size() const {
   return owners_.size();
 }
 inline void GetCardRequest::clear_owners() {
   owners_.Clear();
 }
-inline const ::std::string& GetCardRequest::owners(int index) const {
+inline const ::DataTypes::Key& GetCardRequest::owners(int index) const {
   // @@protoc_insertion_point(field_get:DataTypes.GetCardRequest.owners)
   return owners_.Get(index);
 }
-inline ::std::string* GetCardRequest::mutable_owners(int index) {
+inline ::DataTypes::Key* GetCardRequest::mutable_owners(int index) {
   // @@protoc_insertion_point(field_mutable:DataTypes.GetCardRequest.owners)
   return owners_.Mutable(index);
 }
-inline void GetCardRequest::set_owners(int index, const ::std::string& value) {
-  // @@protoc_insertion_point(field_set:DataTypes.GetCardRequest.owners)
-  owners_.Mutable(index)->assign(value);
-}
-inline void GetCardRequest::set_owners(int index, const char* value) {
-  owners_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:DataTypes.GetCardRequest.owners)
-}
-inline void GetCardRequest::set_owners(int index, const char* value, size_t size) {
-  owners_.Mutable(index)->assign(
-    reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:DataTypes.GetCardRequest.owners)
-}
-inline ::std::string* GetCardRequest::add_owners() {
-  // @@protoc_insertion_point(field_add_mutable:DataTypes.GetCardRequest.owners)
+inline ::DataTypes::Key* GetCardRequest::add_owners() {
+  // @@protoc_insertion_point(field_add:DataTypes.GetCardRequest.owners)
   return owners_.Add();
 }
-inline void GetCardRequest::add_owners(const ::std::string& value) {
-  owners_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:DataTypes.GetCardRequest.owners)
-}
-inline void GetCardRequest::add_owners(const char* value) {
-  owners_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:DataTypes.GetCardRequest.owners)
-}
-inline void GetCardRequest::add_owners(const char* value, size_t size) {
-  owners_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:DataTypes.GetCardRequest.owners)
-}
-inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
-GetCardRequest::owners() const {
-  // @@protoc_insertion_point(field_list:DataTypes.GetCardRequest.owners)
-  return owners_;
-}
-inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+inline ::google::protobuf::RepeatedPtrField< ::DataTypes::Key >*
 GetCardRequest::mutable_owners() {
   // @@protoc_insertion_point(field_mutable_list:DataTypes.GetCardRequest.owners)
   return &owners_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::DataTypes::Key >&
+GetCardRequest::owners() const {
+  // @@protoc_insertion_point(field_list:DataTypes.GetCardRequest.owners)
+  return owners_;
 }
 
 // optional .DataTypes.Page page = 4;
@@ -1680,6 +2194,10 @@ inline void GetCardRequest::set_allocated_page(::DataTypes::Page* page) {
 }
 
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

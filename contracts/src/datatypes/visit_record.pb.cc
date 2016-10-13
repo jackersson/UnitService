@@ -59,9 +59,8 @@ void protobuf_AssignDesc_datatypes_2fvisit_5frecord_2eproto() {
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(VisitRecord, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(VisitRecord, _is_default_instance_));
   VisitRecords_descriptor_ = file->message_type(1);
-  static const int VisitRecords_offsets_[2] = {
+  static const int VisitRecords_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(VisitRecords, items_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(VisitRecords, count_),
   };
   VisitRecords_reflection_ =
     ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
@@ -109,21 +108,21 @@ void protobuf_AddDesc_datatypes_2fvisit_5frecord_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::DataTypes::protobuf_AddDesc_datatypes_2fcard_2eproto();
-  ::DataTypes::protobuf_AddDesc_datatypes_2fdata_2eproto();
+  ::DataTypes::protobuf_AddDesc_datatypes_2fkey_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\034datatypes/visit_record.proto\022\tDataType"
-    "s\032\024datatypes/card.proto\032\024datatypes/data."
-    "proto\"\305\001\n\013VisitRecord\022\032\n\002id\030\001 \001(\0132\016.Data"
-    "Types.Key\022!\n\tperson_id\030\002 \001(\0132\016.DataTypes"
-    ".Key\022#\n\013location_id\030\003 \001(\0132\016.DataTypes.Ke"
-    "y\022\014\n\004time\030\004 \001(\003\022\035\n\004card\030\005 \001(\0132\017.DataType"
-    "s.Card\022%\n\005state\030\006 \001(\0162\026.DataTypes.Access"
-    "State\"D\n\014VisitRecords\022%\n\005items\030\001 \003(\0132\026.D"
-    "ataTypes.VisitRecord\022\r\n\005count\030\002 \001(\003*5\n\013A"
-    "ccessState\022\r\n\tNoneState\020\000\022\013\n\007Granted\020\001\022\n"
-    "\n\006Denied\020\002BP\n\007ex.grpcZ\?github.com/Enebra"
-    "/ServiceCoordinator/grpc/datatypes/visit"
-    "record\242\002\003RTGb\006proto3", 500);
+    "s\032\024datatypes/card.proto\032\023datatypes/key.p"
+    "roto\"\305\001\n\013VisitRecord\022\032\n\002id\030\001 \001(\0132\016.DataT"
+    "ypes.Key\022!\n\tperson_id\030\002 \001(\0132\016.DataTypes."
+    "Key\022#\n\013location_id\030\003 \001(\0132\016.DataTypes.Key"
+    "\022\014\n\004time\030\004 \001(\003\022\035\n\004card\030\005 \001(\0132\017.DataTypes"
+    ".Card\022%\n\005state\030\006 \001(\0162\026.DataTypes.AccessS"
+    "tate\"5\n\014VisitRecords\022%\n\005items\030\001 \003(\0132\026.Da"
+    "taTypes.VisitRecord*5\n\013AccessState\022\r\n\tNo"
+    "neState\020\000\022\013\n\007Granted\020\001\022\n\n\006Denied\020\002BP\n\007ex"
+    ".grpcZ\?github.com/Enebra/ServiceCoordina"
+    "tor/grpc/datatypes/visitrecord\242\002\003RTGb\006pr"
+    "oto3", 484);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "datatypes/visit_record.proto", &protobuf_RegisterTypes);
   VisitRecord::default_instance_ = new VisitRecord();
@@ -782,7 +781,6 @@ void VisitRecord::clear_state() {
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int VisitRecords::kItemsFieldNumber;
-const int VisitRecords::kCountFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 VisitRecords::VisitRecords()
@@ -806,7 +804,6 @@ VisitRecords::VisitRecords(const VisitRecords& from)
 void VisitRecords::SharedCtor() {
     _is_default_instance_ = false;
   _cached_size_ = 0;
-  count_ = GOOGLE_LONGLONG(0);
 }
 
 VisitRecords::~VisitRecords() {
@@ -846,7 +843,6 @@ VisitRecords* VisitRecords::New(::google::protobuf::Arena* arena) const {
 
 void VisitRecords::Clear() {
 // @@protoc_insertion_point(message_clear_start:DataTypes.VisitRecords)
-  count_ = GOOGLE_LONGLONG(0);
   items_.Clear();
 }
 
@@ -872,21 +868,6 @@ bool VisitRecords::MergePartialFromCodedStream(
         }
         if (input->ExpectTag(10)) goto parse_loop_items;
         input->UnsafeDecrementRecursionDepth();
-        if (input->ExpectTag(16)) goto parse_count;
-        break;
-      }
-
-      // optional int64 count = 2;
-      case 2: {
-        if (tag == 16) {
-         parse_count:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
-                 input, &count_)));
-
-        } else {
-          goto handle_unusual;
-        }
         if (input->ExpectAtEnd()) goto success;
         break;
       }
@@ -921,11 +902,6 @@ void VisitRecords::SerializeWithCachedSizes(
       1, this->items(i), output);
   }
 
-  // optional int64 count = 2;
-  if (this->count() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt64(2, this->count(), output);
-  }
-
   // @@protoc_insertion_point(serialize_end:DataTypes.VisitRecords)
 }
 
@@ -939,11 +915,6 @@ void VisitRecords::SerializeWithCachedSizes(
         1, this->items(i), target);
   }
 
-  // optional int64 count = 2;
-  if (this->count() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(2, this->count(), target);
-  }
-
   // @@protoc_insertion_point(serialize_to_array_end:DataTypes.VisitRecords)
   return target;
 }
@@ -951,13 +922,6 @@ void VisitRecords::SerializeWithCachedSizes(
 int VisitRecords::ByteSize() const {
 // @@protoc_insertion_point(message_byte_size_start:DataTypes.VisitRecords)
   int total_size = 0;
-
-  // optional int64 count = 2;
-  if (this->count() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int64Size(
-        this->count());
-  }
 
   // repeated .DataTypes.VisitRecord items = 1;
   total_size += 1 * this->items_size();
@@ -992,9 +956,6 @@ void VisitRecords::MergeFrom(const VisitRecords& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:DataTypes.VisitRecords)
   if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
   items_.MergeFrom(from.items_);
-  if (from.count() != 0) {
-    set_count(from.count());
-  }
 }
 
 void VisitRecords::CopyFrom(const ::google::protobuf::Message& from) {
@@ -1022,7 +983,6 @@ void VisitRecords::Swap(VisitRecords* other) {
 }
 void VisitRecords::InternalSwap(VisitRecords* other) {
   items_.UnsafeArenaSwap(&other->items_);
-  std::swap(count_, other->count_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
 }
@@ -1066,20 +1026,6 @@ const ::google::protobuf::RepeatedPtrField< ::DataTypes::VisitRecord >&
 VisitRecords::items() const {
   // @@protoc_insertion_point(field_list:DataTypes.VisitRecords.items)
   return items_;
-}
-
-// optional int64 count = 2;
-void VisitRecords::clear_count() {
-  count_ = GOOGLE_LONGLONG(0);
-}
- ::google::protobuf::int64 VisitRecords::count() const {
-  // @@protoc_insertion_point(field_get:DataTypes.VisitRecords.count)
-  return count_;
-}
- void VisitRecords::set_count(::google::protobuf::int64 value) {
-  
-  count_ = value;
-  // @@protoc_insertion_point(field_set:DataTypes.VisitRecords.count)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

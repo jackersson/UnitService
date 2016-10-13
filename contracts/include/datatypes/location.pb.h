@@ -26,10 +26,9 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>
 #include <google/protobuf/extension_set.h>
-#include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "datatypes/devices.pb.h"
-#include "datatypes/data.pb.h"
+#include "datatypes/key.pb.h"
 // @@protoc_insertion_point(includes)
 
 namespace DataTypes {
@@ -40,31 +39,7 @@ void protobuf_AssignDesc_datatypes_2flocation_2eproto();
 void protobuf_ShutdownFile_datatypes_2flocation_2eproto();
 
 class Location;
-class Locations;
 
-enum LocationState {
-  Unspecified_State = 0,
-  Opened = 1,
-  Closed = 2,
-  Failure = 3,
-  LocationState_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  LocationState_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
-};
-bool LocationState_IsValid(int value);
-const LocationState LocationState_MIN = Unspecified_State;
-const LocationState LocationState_MAX = Failure;
-const int LocationState_ARRAYSIZE = LocationState_MAX + 1;
-
-const ::google::protobuf::EnumDescriptor* LocationState_descriptor();
-inline const ::std::string& LocationState_Name(LocationState value) {
-  return ::google::protobuf::internal::NameOfEnum(
-    LocationState_descriptor(), value);
-}
-inline bool LocationState_Parse(
-    const ::std::string& name, LocationState* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<LocationState>(
-    LocationState_descriptor(), name, value);
-}
 // ===================================================================
 
 class Location : public ::google::protobuf::Message {
@@ -191,97 +166,6 @@ class Location : public ::google::protobuf::Message {
 
   void InitAsDefaultInstance();
   static Location* default_instance_;
-};
-// -------------------------------------------------------------------
-
-class Locations : public ::google::protobuf::Message {
- public:
-  Locations();
-  virtual ~Locations();
-
-  Locations(const Locations& from);
-
-  inline Locations& operator=(const Locations& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const Locations& default_instance();
-
-  void Swap(Locations* other);
-
-  // implements Message ----------------------------------------------
-
-  inline Locations* New() const { return New(NULL); }
-
-  Locations* New(::google::protobuf::Arena* arena) const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const Locations& from);
-  void MergeFrom(const Locations& from);
-  void Clear();
-  bool IsInitialized() const;
-
-  int ByteSize() const;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input);
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
-  int GetCachedSize() const { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  void InternalSwap(Locations* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return _internal_metadata_.arena();
-  }
-  inline void* MaybeArenaPtr() const {
-    return _internal_metadata_.raw_arena_ptr();
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // repeated .DataTypes.Location items = 1;
-  int items_size() const;
-  void clear_items();
-  static const int kItemsFieldNumber = 1;
-  const ::DataTypes::Location& items(int index) const;
-  ::DataTypes::Location* mutable_items(int index);
-  ::DataTypes::Location* add_items();
-  ::google::protobuf::RepeatedPtrField< ::DataTypes::Location >*
-      mutable_items();
-  const ::google::protobuf::RepeatedPtrField< ::DataTypes::Location >&
-      items() const;
-
-  // optional int64 count = 2;
-  void clear_count();
-  static const int kCountFieldNumber = 2;
-  ::google::protobuf::int64 count() const;
-  void set_count(::google::protobuf::int64 value);
-
-  // @@protoc_insertion_point(class_scope:DataTypes.Locations)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  bool _is_default_instance_;
-  ::google::protobuf::RepeatedPtrField< ::DataTypes::Location > items_;
-  ::google::protobuf::int64 count_;
-  mutable int _cached_size_;
-  friend void  protobuf_AddDesc_datatypes_2flocation_2eproto();
-  friend void protobuf_AssignDesc_datatypes_2flocation_2eproto();
-  friend void protobuf_ShutdownFile_datatypes_2flocation_2eproto();
-
-  void InitAsDefaultInstance();
-  static Locations* default_instance_;
 };
 // ===================================================================
 
@@ -499,75 +383,11 @@ inline void Location::set_allocated_access_device(::DataTypes::AccessDevice* acc
   // @@protoc_insertion_point(field_set_allocated:DataTypes.Location.access_device)
 }
 
-// -------------------------------------------------------------------
-
-// Locations
-
-// repeated .DataTypes.Location items = 1;
-inline int Locations::items_size() const {
-  return items_.size();
-}
-inline void Locations::clear_items() {
-  items_.Clear();
-}
-inline const ::DataTypes::Location& Locations::items(int index) const {
-  // @@protoc_insertion_point(field_get:DataTypes.Locations.items)
-  return items_.Get(index);
-}
-inline ::DataTypes::Location* Locations::mutable_items(int index) {
-  // @@protoc_insertion_point(field_mutable:DataTypes.Locations.items)
-  return items_.Mutable(index);
-}
-inline ::DataTypes::Location* Locations::add_items() {
-  // @@protoc_insertion_point(field_add:DataTypes.Locations.items)
-  return items_.Add();
-}
-inline ::google::protobuf::RepeatedPtrField< ::DataTypes::Location >*
-Locations::mutable_items() {
-  // @@protoc_insertion_point(field_mutable_list:DataTypes.Locations.items)
-  return &items_;
-}
-inline const ::google::protobuf::RepeatedPtrField< ::DataTypes::Location >&
-Locations::items() const {
-  // @@protoc_insertion_point(field_list:DataTypes.Locations.items)
-  return items_;
-}
-
-// optional int64 count = 2;
-inline void Locations::clear_count() {
-  count_ = GOOGLE_LONGLONG(0);
-}
-inline ::google::protobuf::int64 Locations::count() const {
-  // @@protoc_insertion_point(field_get:DataTypes.Locations.count)
-  return count_;
-}
-inline void Locations::set_count(::google::protobuf::int64 value) {
-  
-  count_ = value;
-  // @@protoc_insertion_point(field_set:DataTypes.Locations.count)
-}
-
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
-// -------------------------------------------------------------------
-
 
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace DataTypes
-
-#ifndef SWIG
-namespace google {
-namespace protobuf {
-
-template <> struct is_proto_enum< ::DataTypes::LocationState> : ::google::protobuf::internal::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::DataTypes::LocationState>() {
-  return ::DataTypes::LocationState_descriptor();
-}
-
-}  // namespace protobuf
-}  // namespace google
-#endif  // SWIG
 
 // @@protoc_insertion_point(global_scope)
 

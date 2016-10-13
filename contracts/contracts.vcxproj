@@ -157,7 +157,6 @@
     <ClInclude Include="include\contracts\common\ilifecycle.hpp" />
     <ClInclude Include="include\contracts\common\logger.hpp" />
     <ClInclude Include="include\contracts\common\raw_image.hpp" />
-    <ClInclude Include="include\contracts\data\ientity_finder.hpp" />
     <ClInclude Include="include\contracts\data\irepository.hpp" />
     <ClInclude Include="include\contracts\devices\access_device\access_device_types.hpp" />
     <ClInclude Include="include\contracts\devices\access_device\iaccess_coordinator.hpp" />
@@ -184,10 +183,13 @@
     <ClInclude Include="include\contracts\video\iplayer.hpp" />
     <ClInclude Include="include\datatypes\biometrics.pb.h" />
     <ClInclude Include="include\datatypes\card.pb.h" />
+    <ClInclude Include="include\datatypes\commands.pb.h" />
     <ClInclude Include="include\datatypes\data.pb.h" />
     <ClInclude Include="include\datatypes\devices.pb.h" />
+    <ClInclude Include="include\datatypes\entity.pb.h" />
     <ClInclude Include="include\datatypes\geometry.pb.h" />
     <ClInclude Include="include\datatypes\group.pb.h" />
+    <ClInclude Include="include\datatypes\key.pb.h" />
     <ClInclude Include="include\datatypes\location.pb.h" />
     <ClInclude Include="include\datatypes\person.pb.h" />
     <ClInclude Include="include\datatypes\photo.pb.h" />
@@ -208,10 +210,13 @@
     <ClCompile Include="src\contracts\common\logger.cpp" />
     <ClCompile Include="src\datatypes\biometrics.pb.cc" />
     <ClCompile Include="src\datatypes\card.pb.cc" />
+    <ClCompile Include="src\datatypes\commands.pb.cc" />
     <ClCompile Include="src\datatypes\data.pb.cc" />
     <ClCompile Include="src\datatypes\devices.pb.cc" />
+    <ClCompile Include="src\datatypes\entity.pb.cc" />
     <ClCompile Include="src\datatypes\geometry.pb.cc" />
     <ClCompile Include="src\datatypes\group.pb.cc" />
+    <ClCompile Include="src\datatypes\key.pb.cc" />
     <ClCompile Include="src\datatypes\location.pb.cc" />
     <ClCompile Include="src\datatypes\person.pb.cc" />
     <ClCompile Include="src\datatypes\photo.pb.cc" />

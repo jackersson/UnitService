@@ -7,53 +7,50 @@
 
 namespace grpc_services
 {
+	template <typename TResponse>
+	struct AsyncCallBase
+	{
+		TResponse           response;
+		grpc::ClientContext context ;
+		grpc::Status        status  ;
+	};
 
-	struct AsyncGetRequestCall {
-		DataTypes::MessageBytes response;
-
-		void parsed_response() 
+	struct AsyncGetRequestCall : AsyncCallBase<DataTypes::MessageBytes> {
+		void process_response()
 		{
 			if (response.type() != DataTypes::DataType::GetResponseType)
 			{
 				promise_.set_exception(std::make_exception_ptr("Invalid data type"));
 				return;
 			}
-			auto gr = std::make_shared<Services::GetResponse>();
+			auto gr = std::make_shared<DataTypes::GetResponse>();
 			gr->ParseFromString(response.data());
 			promise_.set_value(gr);
 		}
 
-		std::promise<std::shared_ptr<Services::GetResponse>> promise_;
+		std::promise<std::shared_ptr<DataTypes::GetResponse>> promise_;
 	
-		grpc::ClientContext context;
-
-		grpc::Status status;
-
 		std::unique_ptr<grpc::ClientAsyncResponseReader<DataTypes::MessageBytes>> reader;
 	};
 
 
-	typedef std::function<void(std::shared_ptr<Services::CommitResponse>)> CommitCallbackFunction;
 
-	struct AsyncCommitRequestCall {
-		DataTypes::MessageBytes response;
+	struct AsyncCommitRequestCall : AsyncCallBase<DataTypes::MessageBytes> {
 
-		std::shared_ptr<Services::CommitResponse> parsed_response() const
+		void process_response()
 		{
 			if (response.type() != DataTypes::DataType::CommitResponseType)
-				return nullptr;
+			{
+				promise.set_exception(std::make_exception_ptr("Invalid data type"));
+				return;
+			}
 
-			auto gr = std::make_shared<Services::CommitResponse>();
+			auto gr = std::make_shared<DataTypes::CommitResponse>();
 			gr->ParseFromString(response.data());
-			return gr;
+			promise.set_value(gr);
 		}
 
-		grpc::ClientContext context;
-
-		CommitCallbackFunction callback;
-
-		grpc::Status status;
-
+		std::promise<std::shared_ptr<DataTypes::CommitResponse>> promise;
 		std::unique_ptr<grpc::ClientAsyncResponseReader<DataTypes::MessageBytes>> reader;
 	};
 }

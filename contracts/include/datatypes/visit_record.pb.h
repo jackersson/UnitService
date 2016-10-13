@@ -29,7 +29,7 @@
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "datatypes/card.pb.h"
-#include "datatypes/data.pb.h"
+#include "datatypes/key.pb.h"
 // @@protoc_insertion_point(includes)
 
 namespace DataTypes {
@@ -259,19 +259,12 @@ class VisitRecords : public ::google::protobuf::Message {
   const ::google::protobuf::RepeatedPtrField< ::DataTypes::VisitRecord >&
       items() const;
 
-  // optional int64 count = 2;
-  void clear_count();
-  static const int kCountFieldNumber = 2;
-  ::google::protobuf::int64 count() const;
-  void set_count(::google::protobuf::int64 value);
-
   // @@protoc_insertion_point(class_scope:DataTypes.VisitRecords)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   bool _is_default_instance_;
   ::google::protobuf::RepeatedPtrField< ::DataTypes::VisitRecord > items_;
-  ::google::protobuf::int64 count_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_datatypes_2fvisit_5frecord_2eproto();
   friend void protobuf_AssignDesc_datatypes_2fvisit_5frecord_2eproto();
@@ -500,20 +493,6 @@ inline const ::google::protobuf::RepeatedPtrField< ::DataTypes::VisitRecord >&
 VisitRecords::items() const {
   // @@protoc_insertion_point(field_list:DataTypes.VisitRecords.items)
   return items_;
-}
-
-// optional int64 count = 2;
-inline void VisitRecords::clear_count() {
-  count_ = GOOGLE_LONGLONG(0);
-}
-inline ::google::protobuf::int64 VisitRecords::count() const {
-  // @@protoc_insertion_point(field_get:DataTypes.VisitRecords.count)
-  return count_;
-}
-inline void VisitRecords::set_count(::google::protobuf::int64 value) {
-  
-  count_ = value;
-  // @@protoc_insertion_point(field_set:DataTypes.VisitRecords.count)
 }
 
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS

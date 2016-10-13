@@ -8,6 +8,7 @@
 #include "server_context.hpp"
 #include <contracts/services/service_address.hpp>
 #include "unit_service/open_door_request_handler.hpp"
+#include <service_utils.hpp>
 
 using grpc::ServerBuilder;
 
@@ -17,7 +18,7 @@ namespace grpc_services
 	{
 	public:
 
-		typedef std::function<void()> RpcCallbackFunction;
+//		typedef std::function<void()> RpcCallbackFunction;
 		typedef std::pair<std::shared_ptr<grpc::ServerCompletionQueue>
 			, RpcCallbackFunction> RequestHandler;
 		typedef std::list<RequestHandler> RequestHandlers;
@@ -43,7 +44,7 @@ namespace grpc_services
 			builder->RegisterService(service_.get());
 
 			//AddRpcHandler<unit_service::GetDevicesRequestHandler>(*thread_pool_, builder);
-			AddRpcHandler<unit_service::OpenDoorRequestHandler>(builder);
+			add_rpc_handler<unit_service::OpenDoorRequestHandler>(builder);
 			//AddRpcHandler<unit_service::CreatePopulationHandler>(builder);
 		}
 
@@ -64,9 +65,9 @@ namespace grpc_services
 
 	private:
 		template<typename T>
-		void HandleRpc(grpc::ServerCompletionQueue* queue) const
+		void handle_rpc(grpc::ServerCompletionQueue* queue) const
 		{
-			new T(service_, queue);
+			new T(service_, queue, context_.unit_context());
 			void* tag;
 			bool  ok;
 
@@ -86,11 +87,11 @@ namespace grpc_services
 		}
 
 		template<typename T>
-		void AddRpcHandler(std::shared_ptr<grpc::ServerBuilder> builder)
+		void add_rpc_handler(std::shared_ptr<grpc::ServerBuilder> builder)
 		{
 			std::shared_ptr<grpc::ServerCompletionQueue> cq_(builder->AddCompletionQueue());
 
-			auto callback = std::bind(&UnitServiceImpl::HandleRpc<T>, this, cq_.get());
+			auto callback = std::bind(&UnitServiceImpl::handle_rpc<T>, this, cq_.get());
 			handlers_.push_back(RequestHandler(cq_, callback));
 		}
 

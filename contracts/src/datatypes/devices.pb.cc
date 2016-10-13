@@ -28,12 +28,12 @@ const ::google::protobuf::Descriptor* DeviceUpdate_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   DeviceUpdate_reflection_ = NULL;
 struct DeviceUpdateOneofInstance {
-  const ::DataTypes::ConnectedDevices* connected_devices_;
+  const ::DataTypes::Devices* items_;
   const ::DataTypes::DeviceStateMessage* device_state_msg_;
 }* DeviceUpdate_default_oneof_instance_ = NULL;
-const ::google::protobuf::Descriptor* ConnectedDevices_descriptor_ = NULL;
+const ::google::protobuf::Descriptor* Devices_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
-  ConnectedDevices_reflection_ = NULL;
+  Devices_reflection_ = NULL;
 const ::google::protobuf::Descriptor* Device_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   Device_reflection_ = NULL;
@@ -50,6 +50,12 @@ const ::google::protobuf::internal::GeneratedMessageReflection*
 const ::google::protobuf::Descriptor* AccessDeviceStateMsg_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   AccessDeviceStateMsg_reflection_ = NULL;
+const ::google::protobuf::Descriptor* CardMsg_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  CardMsg_reflection_ = NULL;
+const ::google::protobuf::Descriptor* CheckMsg_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  CheckMsg_reflection_ = NULL;
 const ::google::protobuf::EnumDescriptor* DeviceType_descriptor_ = NULL;
 const ::google::protobuf::EnumDescriptor* DeviceState_descriptor_ = NULL;
 
@@ -80,7 +86,7 @@ void protobuf_AssignDesc_datatypes_2fdevices_2eproto() {
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AccessDevice, _is_default_instance_));
   DeviceUpdate_descriptor_ = file->message_type(1);
   static const int DeviceUpdate_offsets_[3] = {
-    PROTO2_GENERATED_DEFAULT_ONEOF_FIELD_OFFSET(DeviceUpdate_default_oneof_instance_, connected_devices_),
+    PROTO2_GENERATED_DEFAULT_ONEOF_FIELD_OFFSET(DeviceUpdate_default_oneof_instance_, items_),
     PROTO2_GENERATED_DEFAULT_ONEOF_FIELD_OFFSET(DeviceUpdate_default_oneof_instance_, device_state_msg_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(DeviceUpdate, update_),
   };
@@ -97,26 +103,26 @@ void protobuf_AssignDesc_datatypes_2fdevices_2eproto() {
       sizeof(DeviceUpdate),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(DeviceUpdate, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(DeviceUpdate, _is_default_instance_));
-  ConnectedDevices_descriptor_ = file->message_type(2);
-  static const int ConnectedDevices_offsets_[2] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ConnectedDevices, location_id_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ConnectedDevices, devices_),
+  Devices_descriptor_ = file->message_type(2);
+  static const int Devices_offsets_[2] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Devices, location_id_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Devices, devices_),
   };
-  ConnectedDevices_reflection_ =
+  Devices_reflection_ =
     ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
-      ConnectedDevices_descriptor_,
-      ConnectedDevices::default_instance_,
-      ConnectedDevices_offsets_,
+      Devices_descriptor_,
+      Devices::default_instance_,
+      Devices_offsets_,
       -1,
       -1,
       -1,
-      sizeof(ConnectedDevices),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ConnectedDevices, _internal_metadata_),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ConnectedDevices, _is_default_instance_));
+      sizeof(Devices),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Devices, _internal_metadata_),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Devices, _is_default_instance_));
   Device_descriptor_ = file->message_type(3);
   static const int Device_offsets_[2] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Device, device_type_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Device, device_names_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Device, device_name_),
   };
   Device_reflection_ =
     ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
@@ -182,6 +188,37 @@ void protobuf_AssignDesc_datatypes_2fdevices_2eproto() {
       sizeof(AccessDeviceStateMsg),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AccessDeviceStateMsg, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AccessDeviceStateMsg, _is_default_instance_));
+  CardMsg_descriptor_ = file->message_type(7);
+  static const int CardMsg_offsets_[1] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CardMsg, card_num_),
+  };
+  CardMsg_reflection_ =
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
+      CardMsg_descriptor_,
+      CardMsg::default_instance_,
+      CardMsg_offsets_,
+      -1,
+      -1,
+      -1,
+      sizeof(CardMsg),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CardMsg, _internal_metadata_),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CardMsg, _is_default_instance_));
+  CheckMsg_descriptor_ = file->message_type(8);
+  static const int CheckMsg_offsets_[2] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CheckMsg, ok_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CheckMsg, message_),
+  };
+  CheckMsg_reflection_ =
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
+      CheckMsg_descriptor_,
+      CheckMsg::default_instance_,
+      CheckMsg_offsets_,
+      -1,
+      -1,
+      -1,
+      sizeof(CheckMsg),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CheckMsg, _internal_metadata_),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CheckMsg, _is_default_instance_));
   DeviceType_descriptor_ = file->enum_type(0);
   DeviceState_descriptor_ = file->enum_type(1);
 }
@@ -201,7 +238,7 @@ void protobuf_RegisterTypes(const ::std::string&) {
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
       DeviceUpdate_descriptor_, &DeviceUpdate::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-      ConnectedDevices_descriptor_, &ConnectedDevices::default_instance());
+      Devices_descriptor_, &Devices::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
       Device_descriptor_, &Device::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
@@ -210,6 +247,10 @@ void protobuf_RegisterTypes(const ::std::string&) {
       GenericDeviceStateMsg_descriptor_, &GenericDeviceStateMsg::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
       AccessDeviceStateMsg_descriptor_, &AccessDeviceStateMsg::default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+      CardMsg_descriptor_, &CardMsg::default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+      CheckMsg_descriptor_, &CheckMsg::default_instance());
 }
 
 }  // namespace
@@ -220,8 +261,8 @@ void protobuf_ShutdownFile_datatypes_2fdevices_2eproto() {
   delete DeviceUpdate::default_instance_;
   delete DeviceUpdate_default_oneof_instance_;
   delete DeviceUpdate_reflection_;
-  delete ConnectedDevices::default_instance_;
-  delete ConnectedDevices_reflection_;
+  delete Devices::default_instance_;
+  delete Devices_reflection_;
   delete Device::default_instance_;
   delete Device_reflection_;
   delete DeviceStateMessage::default_instance_;
@@ -231,6 +272,10 @@ void protobuf_ShutdownFile_datatypes_2fdevices_2eproto() {
   delete GenericDeviceStateMsg_reflection_;
   delete AccessDeviceStateMsg::default_instance_;
   delete AccessDeviceStateMsg_reflection_;
+  delete CardMsg::default_instance_;
+  delete CardMsg_reflection_;
+  delete CheckMsg::default_instance_;
+  delete CheckMsg_reflection_;
 }
 
 void protobuf_AddDesc_datatypes_2fdevices_2eproto() {
@@ -239,53 +284,58 @@ void protobuf_AddDesc_datatypes_2fdevices_2eproto() {
   already_here = true;
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-  ::DataTypes::protobuf_AddDesc_datatypes_2fdata_2eproto();
+  ::DataTypes::protobuf_AddDesc_datatypes_2fkey_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\027datatypes/devices.proto\022\tDataTypes\032\024da"
-    "tatypes/data.proto\"3\n\014AccessDevice\022\014\n\004na"
-    "me\030\001 \001(\t\022\025\n\rserial_number\030\002 \001(\006\"\215\001\n\014Devi"
-    "ceUpdate\0228\n\021connected_devices\030\001 \001(\0132\033.Da"
-    "taTypes.ConnectedDevicesH\000\0229\n\020device_sta"
-    "te_msg\030\002 \001(\0132\035.DataTypes.DeviceStateMess"
-    "ageH\000B\010\n\006update\"[\n\020ConnectedDevices\022#\n\013l"
-    "ocation_id\030\001 \001(\0132\016.DataTypes.Key\022\"\n\007devi"
-    "ces\030\002 \003(\0132\021.DataTypes.Device\"J\n\006Device\022*"
-    "\n\013device_type\030\001 \001(\0162\025.DataTypes.DeviceTy"
-    "pe\022\024\n\014device_names\030\002 \001(\t\"\245\001\n\022DeviceState"
-    "Message\022D\n\030generic_device_state_msg\030\001 \001("
-    "\0132 .DataTypes.GenericDeviceStateMsgH\000\022B\n"
-    "\027access_device_state_msg\030\002 \001(\0132\037.DataTyp"
-    "es.AccessDeviceStateMsgH\000B\005\n\003msg\"\231\001\n\025Gen"
-    "ericDeviceStateMsg\022#\n\013location_id\030\001 \001(\0132"
-    "\016.DataTypes.Key\022#\n\004type\030\002 \001(\0162\025.DataType"
-    "s.DeviceType\022%\n\005state\030\003 \001(\0162\026.DataTypes."
-    "DeviceState\022\017\n\007message\030\004 \001(\t\"K\n\024AccessDe"
-    "viceStateMsg\022#\n\013location_id\030\001 \001(\0132\016.Data"
-    "Types.Key\022\016\n\006opened\030\002 \001(\010*8\n\nDeviceType\022"
-    "\r\n\tNone_Type\020\000\022\016\n\nCardReader\020\001\022\013\n\007Captur"
-    "e\020\002*`\n\013DeviceState\022\016\n\nNone_State\020\000\022\n\n\006Ac"
-    "tive\020\001\022\021\n\rStoppedByUser\020\002\022\n\n\006Paused\020\003\022\013\n"
-    "\007Stopped\020\004\022\t\n\005Error\020\005BL\n\007ex.grpcZ;github"
-    ".com/Enebra/ServiceCoordinator/grpc/data"
-    "types/devices\242\002\003RTGb\006proto3", 1067);
+    "\n\027datatypes/devices.proto\022\tDataTypes\032\023da"
+    "tatypes/key.proto\"3\n\014AccessDevice\022\014\n\004nam"
+    "e\030\001 \001(\t\022\025\n\rserial_number\030\002 \001(\006\"x\n\014Device"
+    "Update\022#\n\005items\030\001 \001(\0132\022.DataTypes.Device"
+    "sH\000\0229\n\020device_state_msg\030\002 \001(\0132\035.DataType"
+    "s.DeviceStateMessageH\000B\010\n\006update\"R\n\007Devi"
+    "ces\022#\n\013location_id\030\001 \001(\0132\016.DataTypes.Key"
+    "\022\"\n\007devices\030\002 \003(\0132\021.DataTypes.Device\"I\n\006"
+    "Device\022*\n\013device_type\030\001 \001(\0162\025.DataTypes."
+    "DeviceType\022\023\n\013device_name\030\002 \001(\t\"\245\001\n\022Devi"
+    "ceStateMessage\022D\n\030generic_device_state_m"
+    "sg\030\001 \001(\0132 .DataTypes.GenericDeviceStateM"
+    "sgH\000\022B\n\027access_device_state_msg\030\002 \001(\0132\037."
+    "DataTypes.AccessDeviceStateMsgH\000B\005\n\003msg\""
+    "\231\001\n\025GenericDeviceStateMsg\022#\n\013location_id"
+    "\030\001 \001(\0132\016.DataTypes.Key\022#\n\004type\030\002 \001(\0162\025.D"
+    "ataTypes.DeviceType\022%\n\005state\030\003 \001(\0162\026.Dat"
+    "aTypes.DeviceState\022\017\n\007message\030\004 \001(\t\"K\n\024A"
+    "ccessDeviceStateMsg\022#\n\013location_id\030\001 \001(\013"
+    "2\016.DataTypes.Key\022\016\n\006opened\030\002 \001(\010\"\033\n\007Card"
+    "Msg\022\020\n\010card_num\030\001 \001(\t\"\'\n\010CheckMsg\022\n\n\002ok\030"
+    "\001 \001(\010\022\017\n\007message\030\002 \001(\t*8\n\nDeviceType\022\r\n\t"
+    "None_Type\020\000\022\016\n\nCardReader\020\001\022\013\n\007Capture\020\002"
+    "*`\n\013DeviceState\022\016\n\nNone_State\020\000\022\n\n\006Activ"
+    "e\020\001\022\021\n\rStoppedByUser\020\002\022\n\n\006Paused\020\003\022\013\n\007St"
+    "opped\020\004\022\t\n\005Error\020\005BL\n\007ex.grpcZ;github.co"
+    "m/Enebra/ServiceCoordinator/grpc/datatyp"
+    "es/devices\242\002\003RTGb\006proto3", 1104);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "datatypes/devices.proto", &protobuf_RegisterTypes);
   AccessDevice::default_instance_ = new AccessDevice();
   DeviceUpdate::default_instance_ = new DeviceUpdate();
   DeviceUpdate_default_oneof_instance_ = new DeviceUpdateOneofInstance();
-  ConnectedDevices::default_instance_ = new ConnectedDevices();
+  Devices::default_instance_ = new Devices();
   Device::default_instance_ = new Device();
   DeviceStateMessage::default_instance_ = new DeviceStateMessage();
   DeviceStateMessage_default_oneof_instance_ = new DeviceStateMessageOneofInstance();
   GenericDeviceStateMsg::default_instance_ = new GenericDeviceStateMsg();
   AccessDeviceStateMsg::default_instance_ = new AccessDeviceStateMsg();
+  CardMsg::default_instance_ = new CardMsg();
+  CheckMsg::default_instance_ = new CheckMsg();
   AccessDevice::default_instance_->InitAsDefaultInstance();
   DeviceUpdate::default_instance_->InitAsDefaultInstance();
-  ConnectedDevices::default_instance_->InitAsDefaultInstance();
+  Devices::default_instance_->InitAsDefaultInstance();
   Device::default_instance_->InitAsDefaultInstance();
   DeviceStateMessage::default_instance_->InitAsDefaultInstance();
   GenericDeviceStateMsg::default_instance_->InitAsDefaultInstance();
   AccessDeviceStateMsg::default_instance_->InitAsDefaultInstance();
+  CardMsg::default_instance_->InitAsDefaultInstance();
+  CheckMsg::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_datatypes_2fdevices_2eproto);
 }
 
@@ -673,7 +723,7 @@ void AccessDevice::clear_serial_number() {
 // ===================================================================
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int DeviceUpdate::kConnectedDevicesFieldNumber;
+const int DeviceUpdate::kItemsFieldNumber;
 const int DeviceUpdate::kDeviceStateMsgFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
@@ -685,7 +735,7 @@ DeviceUpdate::DeviceUpdate()
 
 void DeviceUpdate::InitAsDefaultInstance() {
   _is_default_instance_ = true;
-  DeviceUpdate_default_oneof_instance_->connected_devices_ = const_cast< ::DataTypes::ConnectedDevices*>(&::DataTypes::ConnectedDevices::default_instance());
+  DeviceUpdate_default_oneof_instance_->items_ = const_cast< ::DataTypes::Devices*>(&::DataTypes::Devices::default_instance());
   DeviceUpdate_default_oneof_instance_->device_state_msg_ = const_cast< ::DataTypes::DeviceStateMessage*>(&::DataTypes::DeviceStateMessage::default_instance());
 }
 
@@ -744,8 +794,8 @@ DeviceUpdate* DeviceUpdate::New(::google::protobuf::Arena* arena) const {
 void DeviceUpdate::clear_update() {
 // @@protoc_insertion_point(one_of_clear_start:DataTypes.DeviceUpdate)
   switch(update_case()) {
-    case kConnectedDevices: {
-      delete update_.connected_devices_;
+    case kItems: {
+      delete update_.items_;
       break;
     }
     case kDeviceStateMsg: {
@@ -775,11 +825,11 @@ bool DeviceUpdate::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // optional .DataTypes.ConnectedDevices connected_devices = 1;
+      // optional .DataTypes.Devices items = 1;
       case 1: {
         if (tag == 10) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_connected_devices()));
+               input, mutable_items()));
         } else {
           goto handle_unusual;
         }
@@ -824,10 +874,10 @@ failure:
 void DeviceUpdate::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:DataTypes.DeviceUpdate)
-  // optional .DataTypes.ConnectedDevices connected_devices = 1;
-  if (has_connected_devices()) {
+  // optional .DataTypes.Devices items = 1;
+  if (has_items()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, *update_.connected_devices_, output);
+      1, *update_.items_, output);
   }
 
   // optional .DataTypes.DeviceStateMessage device_state_msg = 2;
@@ -842,11 +892,11 @@ void DeviceUpdate::SerializeWithCachedSizes(
 ::google::protobuf::uint8* DeviceUpdate::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:DataTypes.DeviceUpdate)
-  // optional .DataTypes.ConnectedDevices connected_devices = 1;
-  if (has_connected_devices()) {
+  // optional .DataTypes.Devices items = 1;
+  if (has_items()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
-        1, *update_.connected_devices_, target);
+        1, *update_.items_, target);
   }
 
   // optional .DataTypes.DeviceStateMessage device_state_msg = 2;
@@ -865,11 +915,11 @@ int DeviceUpdate::ByteSize() const {
   int total_size = 0;
 
   switch (update_case()) {
-    // optional .DataTypes.ConnectedDevices connected_devices = 1;
-    case kConnectedDevices: {
+    // optional .DataTypes.Devices items = 1;
+    case kItems: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          *update_.connected_devices_);
+          *update_.items_);
       break;
     }
     // optional .DataTypes.DeviceStateMessage device_state_msg = 2;
@@ -908,8 +958,8 @@ void DeviceUpdate::MergeFrom(const DeviceUpdate& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:DataTypes.DeviceUpdate)
   if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
   switch (from.update_case()) {
-    case kConnectedDevices: {
-      mutable_connected_devices()->::DataTypes::ConnectedDevices::MergeFrom(from.connected_devices());
+    case kItems: {
+      mutable_items()->::DataTypes::Devices::MergeFrom(from.items());
       break;
     }
     case kDeviceStateMsg: {
@@ -963,52 +1013,52 @@ void DeviceUpdate::InternalSwap(DeviceUpdate* other) {
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
 // DeviceUpdate
 
-// optional .DataTypes.ConnectedDevices connected_devices = 1;
-bool DeviceUpdate::has_connected_devices() const {
-  return update_case() == kConnectedDevices;
+// optional .DataTypes.Devices items = 1;
+bool DeviceUpdate::has_items() const {
+  return update_case() == kItems;
 }
-void DeviceUpdate::set_has_connected_devices() {
-  _oneof_case_[0] = kConnectedDevices;
+void DeviceUpdate::set_has_items() {
+  _oneof_case_[0] = kItems;
 }
-void DeviceUpdate::clear_connected_devices() {
-  if (has_connected_devices()) {
-    delete update_.connected_devices_;
+void DeviceUpdate::clear_items() {
+  if (has_items()) {
+    delete update_.items_;
     clear_has_update();
   }
 }
- const ::DataTypes::ConnectedDevices& DeviceUpdate::connected_devices() const {
-  // @@protoc_insertion_point(field_get:DataTypes.DeviceUpdate.connected_devices)
-  return has_connected_devices()
-      ? *update_.connected_devices_
-      : ::DataTypes::ConnectedDevices::default_instance();
+ const ::DataTypes::Devices& DeviceUpdate::items() const {
+  // @@protoc_insertion_point(field_get:DataTypes.DeviceUpdate.items)
+  return has_items()
+      ? *update_.items_
+      : ::DataTypes::Devices::default_instance();
 }
-::DataTypes::ConnectedDevices* DeviceUpdate::mutable_connected_devices() {
-  if (!has_connected_devices()) {
+::DataTypes::Devices* DeviceUpdate::mutable_items() {
+  if (!has_items()) {
     clear_update();
-    set_has_connected_devices();
-    update_.connected_devices_ = new ::DataTypes::ConnectedDevices;
+    set_has_items();
+    update_.items_ = new ::DataTypes::Devices;
   }
-  // @@protoc_insertion_point(field_mutable:DataTypes.DeviceUpdate.connected_devices)
-  return update_.connected_devices_;
+  // @@protoc_insertion_point(field_mutable:DataTypes.DeviceUpdate.items)
+  return update_.items_;
 }
-::DataTypes::ConnectedDevices* DeviceUpdate::release_connected_devices() {
-  // @@protoc_insertion_point(field_release:DataTypes.DeviceUpdate.connected_devices)
-  if (has_connected_devices()) {
+::DataTypes::Devices* DeviceUpdate::release_items() {
+  // @@protoc_insertion_point(field_release:DataTypes.DeviceUpdate.items)
+  if (has_items()) {
     clear_has_update();
-    ::DataTypes::ConnectedDevices* temp = update_.connected_devices_;
-    update_.connected_devices_ = NULL;
+    ::DataTypes::Devices* temp = update_.items_;
+    update_.items_ = NULL;
     return temp;
   } else {
     return NULL;
   }
 }
-void DeviceUpdate::set_allocated_connected_devices(::DataTypes::ConnectedDevices* connected_devices) {
+void DeviceUpdate::set_allocated_items(::DataTypes::Devices* items) {
   clear_update();
-  if (connected_devices) {
-    set_has_connected_devices();
-    update_.connected_devices_ = connected_devices;
+  if (items) {
+    set_has_items();
+    update_.items_ = items;
   }
-  // @@protoc_insertion_point(field_set_allocated:DataTypes.DeviceUpdate.connected_devices)
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.DeviceUpdate.items)
 }
 
 // optional .DataTypes.DeviceStateMessage device_state_msg = 2;
@@ -1073,83 +1123,83 @@ DeviceUpdate::UpdateCase DeviceUpdate::update_case() const {
 // ===================================================================
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int ConnectedDevices::kLocationIdFieldNumber;
-const int ConnectedDevices::kDevicesFieldNumber;
+const int Devices::kLocationIdFieldNumber;
+const int Devices::kDevicesFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-ConnectedDevices::ConnectedDevices()
+Devices::Devices()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:DataTypes.ConnectedDevices)
+  // @@protoc_insertion_point(constructor:DataTypes.Devices)
 }
 
-void ConnectedDevices::InitAsDefaultInstance() {
+void Devices::InitAsDefaultInstance() {
   _is_default_instance_ = true;
   location_id_ = const_cast< ::DataTypes::Key*>(&::DataTypes::Key::default_instance());
 }
 
-ConnectedDevices::ConnectedDevices(const ConnectedDevices& from)
+Devices::Devices(const Devices& from)
   : ::google::protobuf::Message(),
     _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:DataTypes.ConnectedDevices)
+  // @@protoc_insertion_point(copy_constructor:DataTypes.Devices)
 }
 
-void ConnectedDevices::SharedCtor() {
+void Devices::SharedCtor() {
     _is_default_instance_ = false;
   _cached_size_ = 0;
   location_id_ = NULL;
 }
 
-ConnectedDevices::~ConnectedDevices() {
-  // @@protoc_insertion_point(destructor:DataTypes.ConnectedDevices)
+Devices::~Devices() {
+  // @@protoc_insertion_point(destructor:DataTypes.Devices)
   SharedDtor();
 }
 
-void ConnectedDevices::SharedDtor() {
+void Devices::SharedDtor() {
   if (this != default_instance_) {
     delete location_id_;
   }
 }
 
-void ConnectedDevices::SetCachedSize(int size) const {
+void Devices::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* ConnectedDevices::descriptor() {
+const ::google::protobuf::Descriptor* Devices::descriptor() {
   protobuf_AssignDescriptorsOnce();
-  return ConnectedDevices_descriptor_;
+  return Devices_descriptor_;
 }
 
-const ConnectedDevices& ConnectedDevices::default_instance() {
+const Devices& Devices::default_instance() {
   if (default_instance_ == NULL) protobuf_AddDesc_datatypes_2fdevices_2eproto();
   return *default_instance_;
 }
 
-ConnectedDevices* ConnectedDevices::default_instance_ = NULL;
+Devices* Devices::default_instance_ = NULL;
 
-ConnectedDevices* ConnectedDevices::New(::google::protobuf::Arena* arena) const {
-  ConnectedDevices* n = new ConnectedDevices;
+Devices* Devices::New(::google::protobuf::Arena* arena) const {
+  Devices* n = new Devices;
   if (arena != NULL) {
     arena->Own(n);
   }
   return n;
 }
 
-void ConnectedDevices::Clear() {
-// @@protoc_insertion_point(message_clear_start:DataTypes.ConnectedDevices)
+void Devices::Clear() {
+// @@protoc_insertion_point(message_clear_start:DataTypes.Devices)
   if (GetArenaNoVirtual() == NULL && location_id_ != NULL) delete location_id_;
   location_id_ = NULL;
   devices_.Clear();
 }
 
-bool ConnectedDevices::MergePartialFromCodedStream(
+bool Devices::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:DataTypes.ConnectedDevices)
+  // @@protoc_insertion_point(parse_start:DataTypes.Devices)
   for (;;) {
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
     tag = p.first;
@@ -1197,17 +1247,17 @@ bool ConnectedDevices::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:DataTypes.ConnectedDevices)
+  // @@protoc_insertion_point(parse_success:DataTypes.Devices)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:DataTypes.ConnectedDevices)
+  // @@protoc_insertion_point(parse_failure:DataTypes.Devices)
   return false;
 #undef DO_
 }
 
-void ConnectedDevices::SerializeWithCachedSizes(
+void Devices::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:DataTypes.ConnectedDevices)
+  // @@protoc_insertion_point(serialize_start:DataTypes.Devices)
   // optional .DataTypes.Key location_id = 1;
   if (this->has_location_id()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
@@ -1220,12 +1270,12 @@ void ConnectedDevices::SerializeWithCachedSizes(
       2, this->devices(i), output);
   }
 
-  // @@protoc_insertion_point(serialize_end:DataTypes.ConnectedDevices)
+  // @@protoc_insertion_point(serialize_end:DataTypes.Devices)
 }
 
-::google::protobuf::uint8* ConnectedDevices::SerializeWithCachedSizesToArray(
+::google::protobuf::uint8* Devices::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:DataTypes.ConnectedDevices)
+  // @@protoc_insertion_point(serialize_to_array_start:DataTypes.Devices)
   // optional .DataTypes.Key location_id = 1;
   if (this->has_location_id()) {
     target = ::google::protobuf::internal::WireFormatLite::
@@ -1240,12 +1290,12 @@ void ConnectedDevices::SerializeWithCachedSizes(
         2, this->devices(i), target);
   }
 
-  // @@protoc_insertion_point(serialize_to_array_end:DataTypes.ConnectedDevices)
+  // @@protoc_insertion_point(serialize_to_array_end:DataTypes.Devices)
   return target;
 }
 
-int ConnectedDevices::ByteSize() const {
-// @@protoc_insertion_point(message_byte_size_start:DataTypes.ConnectedDevices)
+int Devices::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:DataTypes.Devices)
   int total_size = 0;
 
   // optional .DataTypes.Key location_id = 1;
@@ -1269,23 +1319,23 @@ int ConnectedDevices::ByteSize() const {
   return total_size;
 }
 
-void ConnectedDevices::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:DataTypes.ConnectedDevices)
+void Devices::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:DataTypes.Devices)
   if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
-  const ConnectedDevices* source = 
-      ::google::protobuf::internal::DynamicCastToGenerated<const ConnectedDevices>(
+  const Devices* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const Devices>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:DataTypes.ConnectedDevices)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:DataTypes.Devices)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:DataTypes.ConnectedDevices)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:DataTypes.Devices)
     MergeFrom(*source);
   }
 }
 
-void ConnectedDevices::MergeFrom(const ConnectedDevices& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:DataTypes.ConnectedDevices)
+void Devices::MergeFrom(const Devices& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:DataTypes.Devices)
   if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
   devices_.MergeFrom(from.devices_);
   if (from.has_location_id()) {
@@ -1293,75 +1343,75 @@ void ConnectedDevices::MergeFrom(const ConnectedDevices& from) {
   }
 }
 
-void ConnectedDevices::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:DataTypes.ConnectedDevices)
+void Devices::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:DataTypes.Devices)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void ConnectedDevices::CopyFrom(const ConnectedDevices& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:DataTypes.ConnectedDevices)
+void Devices::CopyFrom(const Devices& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:DataTypes.Devices)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool ConnectedDevices::IsInitialized() const {
+bool Devices::IsInitialized() const {
 
   return true;
 }
 
-void ConnectedDevices::Swap(ConnectedDevices* other) {
+void Devices::Swap(Devices* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void ConnectedDevices::InternalSwap(ConnectedDevices* other) {
+void Devices::InternalSwap(Devices* other) {
   std::swap(location_id_, other->location_id_);
   devices_.UnsafeArenaSwap(&other->devices_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
 }
 
-::google::protobuf::Metadata ConnectedDevices::GetMetadata() const {
+::google::protobuf::Metadata Devices::GetMetadata() const {
   protobuf_AssignDescriptorsOnce();
   ::google::protobuf::Metadata metadata;
-  metadata.descriptor = ConnectedDevices_descriptor_;
-  metadata.reflection = ConnectedDevices_reflection_;
+  metadata.descriptor = Devices_descriptor_;
+  metadata.reflection = Devices_reflection_;
   return metadata;
 }
 
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
-// ConnectedDevices
+// Devices
 
 // optional .DataTypes.Key location_id = 1;
-bool ConnectedDevices::has_location_id() const {
+bool Devices::has_location_id() const {
   return !_is_default_instance_ && location_id_ != NULL;
 }
-void ConnectedDevices::clear_location_id() {
+void Devices::clear_location_id() {
   if (GetArenaNoVirtual() == NULL && location_id_ != NULL) delete location_id_;
   location_id_ = NULL;
 }
-const ::DataTypes::Key& ConnectedDevices::location_id() const {
-  // @@protoc_insertion_point(field_get:DataTypes.ConnectedDevices.location_id)
+const ::DataTypes::Key& Devices::location_id() const {
+  // @@protoc_insertion_point(field_get:DataTypes.Devices.location_id)
   return location_id_ != NULL ? *location_id_ : *default_instance_->location_id_;
 }
-::DataTypes::Key* ConnectedDevices::mutable_location_id() {
+::DataTypes::Key* Devices::mutable_location_id() {
   
   if (location_id_ == NULL) {
     location_id_ = new ::DataTypes::Key;
   }
-  // @@protoc_insertion_point(field_mutable:DataTypes.ConnectedDevices.location_id)
+  // @@protoc_insertion_point(field_mutable:DataTypes.Devices.location_id)
   return location_id_;
 }
-::DataTypes::Key* ConnectedDevices::release_location_id() {
-  // @@protoc_insertion_point(field_release:DataTypes.ConnectedDevices.location_id)
+::DataTypes::Key* Devices::release_location_id() {
+  // @@protoc_insertion_point(field_release:DataTypes.Devices.location_id)
   
   ::DataTypes::Key* temp = location_id_;
   location_id_ = NULL;
   return temp;
 }
-void ConnectedDevices::set_allocated_location_id(::DataTypes::Key* location_id) {
+void Devices::set_allocated_location_id(::DataTypes::Key* location_id) {
   delete location_id_;
   location_id_ = location_id;
   if (location_id) {
@@ -1369,36 +1419,36 @@ void ConnectedDevices::set_allocated_location_id(::DataTypes::Key* location_id) 
   } else {
     
   }
-  // @@protoc_insertion_point(field_set_allocated:DataTypes.ConnectedDevices.location_id)
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.Devices.location_id)
 }
 
 // repeated .DataTypes.Device devices = 2;
-int ConnectedDevices::devices_size() const {
+int Devices::devices_size() const {
   return devices_.size();
 }
-void ConnectedDevices::clear_devices() {
+void Devices::clear_devices() {
   devices_.Clear();
 }
-const ::DataTypes::Device& ConnectedDevices::devices(int index) const {
-  // @@protoc_insertion_point(field_get:DataTypes.ConnectedDevices.devices)
+const ::DataTypes::Device& Devices::devices(int index) const {
+  // @@protoc_insertion_point(field_get:DataTypes.Devices.devices)
   return devices_.Get(index);
 }
-::DataTypes::Device* ConnectedDevices::mutable_devices(int index) {
-  // @@protoc_insertion_point(field_mutable:DataTypes.ConnectedDevices.devices)
+::DataTypes::Device* Devices::mutable_devices(int index) {
+  // @@protoc_insertion_point(field_mutable:DataTypes.Devices.devices)
   return devices_.Mutable(index);
 }
-::DataTypes::Device* ConnectedDevices::add_devices() {
-  // @@protoc_insertion_point(field_add:DataTypes.ConnectedDevices.devices)
+::DataTypes::Device* Devices::add_devices() {
+  // @@protoc_insertion_point(field_add:DataTypes.Devices.devices)
   return devices_.Add();
 }
 ::google::protobuf::RepeatedPtrField< ::DataTypes::Device >*
-ConnectedDevices::mutable_devices() {
-  // @@protoc_insertion_point(field_mutable_list:DataTypes.ConnectedDevices.devices)
+Devices::mutable_devices() {
+  // @@protoc_insertion_point(field_mutable_list:DataTypes.Devices.devices)
   return &devices_;
 }
 const ::google::protobuf::RepeatedPtrField< ::DataTypes::Device >&
-ConnectedDevices::devices() const {
-  // @@protoc_insertion_point(field_list:DataTypes.ConnectedDevices.devices)
+Devices::devices() const {
+  // @@protoc_insertion_point(field_list:DataTypes.Devices.devices)
   return devices_;
 }
 
@@ -1408,7 +1458,7 @@ ConnectedDevices::devices() const {
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int Device::kDeviceTypeFieldNumber;
-const int Device::kDeviceNamesFieldNumber;
+const int Device::kDeviceNameFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Device::Device()
@@ -1434,7 +1484,7 @@ void Device::SharedCtor() {
   ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
   device_type_ = 0;
-  device_names_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  device_name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 Device::~Device() {
@@ -1443,7 +1493,7 @@ Device::~Device() {
 }
 
 void Device::SharedDtor() {
-  device_names_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  device_name_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (this != default_instance_) {
   }
 }
@@ -1476,7 +1526,7 @@ Device* Device::New(::google::protobuf::Arena* arena) const {
 void Device::Clear() {
 // @@protoc_insertion_point(message_clear_start:DataTypes.Device)
   device_type_ = 0;
-  device_names_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  device_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 bool Device::MergePartialFromCodedStream(
@@ -1500,20 +1550,20 @@ bool Device::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(18)) goto parse_device_names;
+        if (input->ExpectTag(18)) goto parse_device_name;
         break;
       }
 
-      // optional string device_names = 2;
+      // optional string device_name = 2;
       case 2: {
         if (tag == 18) {
-         parse_device_names:
+         parse_device_name:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_device_names()));
+                input, this->mutable_device_name()));
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->device_names().data(), this->device_names().length(),
+            this->device_name().data(), this->device_name().length(),
             ::google::protobuf::internal::WireFormatLite::PARSE,
-            "DataTypes.Device.device_names"));
+            "DataTypes.Device.device_name"));
         } else {
           goto handle_unusual;
         }
@@ -1551,14 +1601,14 @@ void Device::SerializeWithCachedSizes(
       1, this->device_type(), output);
   }
 
-  // optional string device_names = 2;
-  if (this->device_names().size() > 0) {
+  // optional string device_name = 2;
+  if (this->device_name().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->device_names().data(), this->device_names().length(),
+      this->device_name().data(), this->device_name().length(),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "DataTypes.Device.device_names");
+      "DataTypes.Device.device_name");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      2, this->device_names(), output);
+      2, this->device_name(), output);
   }
 
   // @@protoc_insertion_point(serialize_end:DataTypes.Device)
@@ -1573,15 +1623,15 @@ void Device::SerializeWithCachedSizes(
       1, this->device_type(), target);
   }
 
-  // optional string device_names = 2;
-  if (this->device_names().size() > 0) {
+  // optional string device_name = 2;
+  if (this->device_name().size() > 0) {
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->device_names().data(), this->device_names().length(),
+      this->device_name().data(), this->device_name().length(),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "DataTypes.Device.device_names");
+      "DataTypes.Device.device_name");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        2, this->device_names(), target);
+        2, this->device_name(), target);
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:DataTypes.Device)
@@ -1598,11 +1648,11 @@ int Device::ByteSize() const {
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->device_type());
   }
 
-  // optional string device_names = 2;
-  if (this->device_names().size() > 0) {
+  // optional string device_name = 2;
+  if (this->device_name().size() > 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->device_names());
+        this->device_name());
   }
 
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
@@ -1632,9 +1682,9 @@ void Device::MergeFrom(const Device& from) {
   if (from.device_type() != 0) {
     set_device_type(from.device_type());
   }
-  if (from.device_names().size() > 0) {
+  if (from.device_name().size() > 0) {
 
-    device_names_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.device_names_);
+    device_name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.device_name_);
   }
 }
 
@@ -1663,7 +1713,7 @@ void Device::Swap(Device* other) {
 }
 void Device::InternalSwap(Device* other) {
   std::swap(device_type_, other->device_type_);
-  device_names_.Swap(&other->device_names_);
+  device_name_.Swap(&other->device_name_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
 }
@@ -1693,48 +1743,48 @@ void Device::clear_device_type() {
   // @@protoc_insertion_point(field_set:DataTypes.Device.device_type)
 }
 
-// optional string device_names = 2;
-void Device::clear_device_names() {
-  device_names_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// optional string device_name = 2;
+void Device::clear_device_name() {
+  device_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- const ::std::string& Device::device_names() const {
-  // @@protoc_insertion_point(field_get:DataTypes.Device.device_names)
-  return device_names_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+ const ::std::string& Device::device_name() const {
+  // @@protoc_insertion_point(field_get:DataTypes.Device.device_name)
+  return device_name_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- void Device::set_device_names(const ::std::string& value) {
+ void Device::set_device_name(const ::std::string& value) {
   
-  device_names_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:DataTypes.Device.device_names)
+  device_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:DataTypes.Device.device_name)
 }
- void Device::set_device_names(const char* value) {
+ void Device::set_device_name(const char* value) {
   
-  device_names_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:DataTypes.Device.device_names)
+  device_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:DataTypes.Device.device_name)
 }
- void Device::set_device_names(const char* value, size_t size) {
+ void Device::set_device_name(const char* value, size_t size) {
   
-  device_names_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+  device_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:DataTypes.Device.device_names)
+  // @@protoc_insertion_point(field_set_pointer:DataTypes.Device.device_name)
 }
- ::std::string* Device::mutable_device_names() {
+ ::std::string* Device::mutable_device_name() {
   
-  // @@protoc_insertion_point(field_mutable:DataTypes.Device.device_names)
-  return device_names_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  // @@protoc_insertion_point(field_mutable:DataTypes.Device.device_name)
+  return device_name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- ::std::string* Device::release_device_names() {
-  // @@protoc_insertion_point(field_release:DataTypes.Device.device_names)
+ ::std::string* Device::release_device_name() {
+  // @@protoc_insertion_point(field_release:DataTypes.Device.device_name)
   
-  return device_names_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return device_name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
- void Device::set_allocated_device_names(::std::string* device_names) {
-  if (device_names != NULL) {
+ void Device::set_allocated_device_name(::std::string* device_name) {
+  if (device_name != NULL) {
     
   } else {
     
   }
-  device_names_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), device_names);
-  // @@protoc_insertion_point(field_set_allocated:DataTypes.Device.device_names)
+  device_name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), device_name);
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.Device.device_name)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
@@ -2938,6 +2988,617 @@ void AccessDeviceStateMsg::clear_opened() {
   
   opened_ = value;
   // @@protoc_insertion_point(field_set:DataTypes.AccessDeviceStateMsg.opened)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
+
+// ===================================================================
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int CardMsg::kCardNumFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+CardMsg::CardMsg()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:DataTypes.CardMsg)
+}
+
+void CardMsg::InitAsDefaultInstance() {
+  _is_default_instance_ = true;
+}
+
+CardMsg::CardMsg(const CardMsg& from)
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:DataTypes.CardMsg)
+}
+
+void CardMsg::SharedCtor() {
+    _is_default_instance_ = false;
+  ::google::protobuf::internal::GetEmptyString();
+  _cached_size_ = 0;
+  card_num_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+CardMsg::~CardMsg() {
+  // @@protoc_insertion_point(destructor:DataTypes.CardMsg)
+  SharedDtor();
+}
+
+void CardMsg::SharedDtor() {
+  card_num_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (this != default_instance_) {
+  }
+}
+
+void CardMsg::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* CardMsg::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return CardMsg_descriptor_;
+}
+
+const CardMsg& CardMsg::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_datatypes_2fdevices_2eproto();
+  return *default_instance_;
+}
+
+CardMsg* CardMsg::default_instance_ = NULL;
+
+CardMsg* CardMsg::New(::google::protobuf::Arena* arena) const {
+  CardMsg* n = new CardMsg;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void CardMsg::Clear() {
+// @@protoc_insertion_point(message_clear_start:DataTypes.CardMsg)
+  card_num_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+bool CardMsg::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:DataTypes.CardMsg)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // optional string card_num = 1;
+      case 1: {
+        if (tag == 10) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_card_num()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->card_num().data(), this->card_num().length(),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "DataTypes.CardMsg.card_num"));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:DataTypes.CardMsg)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:DataTypes.CardMsg)
+  return false;
+#undef DO_
+}
+
+void CardMsg::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:DataTypes.CardMsg)
+  // optional string card_num = 1;
+  if (this->card_num().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->card_num().data(), this->card_num().length(),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "DataTypes.CardMsg.card_num");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->card_num(), output);
+  }
+
+  // @@protoc_insertion_point(serialize_end:DataTypes.CardMsg)
+}
+
+::google::protobuf::uint8* CardMsg::SerializeWithCachedSizesToArray(
+    ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:DataTypes.CardMsg)
+  // optional string card_num = 1;
+  if (this->card_num().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->card_num().data(), this->card_num().length(),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "DataTypes.CardMsg.card_num");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->card_num(), target);
+  }
+
+  // @@protoc_insertion_point(serialize_to_array_end:DataTypes.CardMsg)
+  return target;
+}
+
+int CardMsg::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:DataTypes.CardMsg)
+  int total_size = 0;
+
+  // optional string card_num = 1;
+  if (this->card_num().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->card_num());
+  }
+
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void CardMsg::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:DataTypes.CardMsg)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
+  const CardMsg* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const CardMsg>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:DataTypes.CardMsg)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:DataTypes.CardMsg)
+    MergeFrom(*source);
+  }
+}
+
+void CardMsg::MergeFrom(const CardMsg& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:DataTypes.CardMsg)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
+  if (from.card_num().size() > 0) {
+
+    card_num_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.card_num_);
+  }
+}
+
+void CardMsg::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:DataTypes.CardMsg)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void CardMsg::CopyFrom(const CardMsg& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:DataTypes.CardMsg)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool CardMsg::IsInitialized() const {
+
+  return true;
+}
+
+void CardMsg::Swap(CardMsg* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void CardMsg::InternalSwap(CardMsg* other) {
+  card_num_.Swap(&other->card_num_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata CardMsg::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = CardMsg_descriptor_;
+  metadata.reflection = CardMsg_reflection_;
+  return metadata;
+}
+
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// CardMsg
+
+// optional string card_num = 1;
+void CardMsg::clear_card_num() {
+  card_num_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ const ::std::string& CardMsg::card_num() const {
+  // @@protoc_insertion_point(field_get:DataTypes.CardMsg.card_num)
+  return card_num_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void CardMsg::set_card_num(const ::std::string& value) {
+  
+  card_num_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:DataTypes.CardMsg.card_num)
+}
+ void CardMsg::set_card_num(const char* value) {
+  
+  card_num_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:DataTypes.CardMsg.card_num)
+}
+ void CardMsg::set_card_num(const char* value, size_t size) {
+  
+  card_num_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:DataTypes.CardMsg.card_num)
+}
+ ::std::string* CardMsg::mutable_card_num() {
+  
+  // @@protoc_insertion_point(field_mutable:DataTypes.CardMsg.card_num)
+  return card_num_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* CardMsg::release_card_num() {
+  // @@protoc_insertion_point(field_release:DataTypes.CardMsg.card_num)
+  
+  return card_num_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void CardMsg::set_allocated_card_num(::std::string* card_num) {
+  if (card_num != NULL) {
+    
+  } else {
+    
+  }
+  card_num_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), card_num);
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.CardMsg.card_num)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
+
+// ===================================================================
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int CheckMsg::kOkFieldNumber;
+const int CheckMsg::kMessageFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+CheckMsg::CheckMsg()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:DataTypes.CheckMsg)
+}
+
+void CheckMsg::InitAsDefaultInstance() {
+  _is_default_instance_ = true;
+}
+
+CheckMsg::CheckMsg(const CheckMsg& from)
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:DataTypes.CheckMsg)
+}
+
+void CheckMsg::SharedCtor() {
+    _is_default_instance_ = false;
+  ::google::protobuf::internal::GetEmptyString();
+  _cached_size_ = 0;
+  ok_ = false;
+  message_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+CheckMsg::~CheckMsg() {
+  // @@protoc_insertion_point(destructor:DataTypes.CheckMsg)
+  SharedDtor();
+}
+
+void CheckMsg::SharedDtor() {
+  message_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (this != default_instance_) {
+  }
+}
+
+void CheckMsg::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* CheckMsg::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return CheckMsg_descriptor_;
+}
+
+const CheckMsg& CheckMsg::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_datatypes_2fdevices_2eproto();
+  return *default_instance_;
+}
+
+CheckMsg* CheckMsg::default_instance_ = NULL;
+
+CheckMsg* CheckMsg::New(::google::protobuf::Arena* arena) const {
+  CheckMsg* n = new CheckMsg;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void CheckMsg::Clear() {
+// @@protoc_insertion_point(message_clear_start:DataTypes.CheckMsg)
+  ok_ = false;
+  message_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+bool CheckMsg::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:DataTypes.CheckMsg)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // optional bool ok = 1;
+      case 1: {
+        if (tag == 8) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   bool, ::google::protobuf::internal::WireFormatLite::TYPE_BOOL>(
+                 input, &ok_)));
+
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(18)) goto parse_message;
+        break;
+      }
+
+      // optional string message = 2;
+      case 2: {
+        if (tag == 18) {
+         parse_message:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_message()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->message().data(), this->message().length(),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "DataTypes.CheckMsg.message"));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:DataTypes.CheckMsg)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:DataTypes.CheckMsg)
+  return false;
+#undef DO_
+}
+
+void CheckMsg::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:DataTypes.CheckMsg)
+  // optional bool ok = 1;
+  if (this->ok() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBool(1, this->ok(), output);
+  }
+
+  // optional string message = 2;
+  if (this->message().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->message().data(), this->message().length(),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "DataTypes.CheckMsg.message");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      2, this->message(), output);
+  }
+
+  // @@protoc_insertion_point(serialize_end:DataTypes.CheckMsg)
+}
+
+::google::protobuf::uint8* CheckMsg::SerializeWithCachedSizesToArray(
+    ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:DataTypes.CheckMsg)
+  // optional bool ok = 1;
+  if (this->ok() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteBoolToArray(1, this->ok(), target);
+  }
+
+  // optional string message = 2;
+  if (this->message().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->message().data(), this->message().length(),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "DataTypes.CheckMsg.message");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        2, this->message(), target);
+  }
+
+  // @@protoc_insertion_point(serialize_to_array_end:DataTypes.CheckMsg)
+  return target;
+}
+
+int CheckMsg::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:DataTypes.CheckMsg)
+  int total_size = 0;
+
+  // optional bool ok = 1;
+  if (this->ok() != 0) {
+    total_size += 1 + 1;
+  }
+
+  // optional string message = 2;
+  if (this->message().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->message());
+  }
+
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void CheckMsg::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:DataTypes.CheckMsg)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
+  const CheckMsg* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const CheckMsg>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:DataTypes.CheckMsg)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:DataTypes.CheckMsg)
+    MergeFrom(*source);
+  }
+}
+
+void CheckMsg::MergeFrom(const CheckMsg& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:DataTypes.CheckMsg)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
+  if (from.ok() != 0) {
+    set_ok(from.ok());
+  }
+  if (from.message().size() > 0) {
+
+    message_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.message_);
+  }
+}
+
+void CheckMsg::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:DataTypes.CheckMsg)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void CheckMsg::CopyFrom(const CheckMsg& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:DataTypes.CheckMsg)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool CheckMsg::IsInitialized() const {
+
+  return true;
+}
+
+void CheckMsg::Swap(CheckMsg* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void CheckMsg::InternalSwap(CheckMsg* other) {
+  std::swap(ok_, other->ok_);
+  message_.Swap(&other->message_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata CheckMsg::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = CheckMsg_descriptor_;
+  metadata.reflection = CheckMsg_reflection_;
+  return metadata;
+}
+
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// CheckMsg
+
+// optional bool ok = 1;
+void CheckMsg::clear_ok() {
+  ok_ = false;
+}
+ bool CheckMsg::ok() const {
+  // @@protoc_insertion_point(field_get:DataTypes.CheckMsg.ok)
+  return ok_;
+}
+ void CheckMsg::set_ok(bool value) {
+  
+  ok_ = value;
+  // @@protoc_insertion_point(field_set:DataTypes.CheckMsg.ok)
+}
+
+// optional string message = 2;
+void CheckMsg::clear_message() {
+  message_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ const ::std::string& CheckMsg::message() const {
+  // @@protoc_insertion_point(field_get:DataTypes.CheckMsg.message)
+  return message_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void CheckMsg::set_message(const ::std::string& value) {
+  
+  message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:DataTypes.CheckMsg.message)
+}
+ void CheckMsg::set_message(const char* value) {
+  
+  message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:DataTypes.CheckMsg.message)
+}
+ void CheckMsg::set_message(const char* value, size_t size) {
+  
+  message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:DataTypes.CheckMsg.message)
+}
+ ::std::string* CheckMsg::mutable_message() {
+  
+  // @@protoc_insertion_point(field_mutable:DataTypes.CheckMsg.message)
+  return message_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* CheckMsg::release_message() {
+  // @@protoc_insertion_point(field_release:DataTypes.CheckMsg.message)
+  
+  return message_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void CheckMsg::set_allocated_message(::std::string* message) {
+  if (message != NULL) {
+    
+  } else {
+    
+  }
+  message_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), message);
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.CheckMsg.message)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

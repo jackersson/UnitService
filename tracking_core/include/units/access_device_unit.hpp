@@ -63,7 +63,7 @@ namespace tracking
 				device_name_ = device_name;
 			}
 
-			void set_state(DataTypes::AccessState  state) override
+			void set_state(DataTypes::AccessState  state) const override
 			{
 				switch (state)
 				{

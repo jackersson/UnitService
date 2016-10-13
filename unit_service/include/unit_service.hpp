@@ -4,7 +4,7 @@
 #include <contracts/common/ilifecycle.hpp>
 #include <contracts/iunit_context.hpp>
 #include <track_location_coordinator.hpp>
-#include <services_ccoordinator.hpp>
+#include <services_coordinator.hpp>
 #include <repository_container.hpp>
 #include <contracts/locations/itrack_location_coordinator.hpp>
 #include "devices_container.hpp"
@@ -14,8 +14,9 @@ class UnitService : public contracts::common::IModule
 	, public std::enable_shared_from_this<UnitService>
 {
 public:
-	UnitService()
-		: logger_(std::make_shared<contracts::common::Logger>())
+	explicit UnitService( std::shared_ptr<contracts::IUnitConfiguration> configuration)
+		: configuration_(configuration)
+		, logger_(std::make_shared<contracts::common::Logger>())
 	{}
 
 	~UnitService(){
@@ -64,6 +65,12 @@ public:
 	std::shared_ptr<contracts::common::Logger>             logger() override{
 		return logger_;
 	}
+
+	std::shared_ptr<contracts::IUnitConfiguration>         configuration() override	{
+		return configuration_;
+	}
+
+	std::shared_ptr<contracts::IUnitConfiguration> configuration_;
 
 	contracts::locations::ITrackLocationsCoordinatorPtr tracking_coordinator_;
 	std::shared_ptr<contracts::services::IServices>        services_;
