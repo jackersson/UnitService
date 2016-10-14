@@ -19,7 +19,6 @@ namespace data_core
 			{				
 			}
 
-			//TODO make not reference style
 			bool get(void* request, std::vector<DataTypes::Location>& entities) override
 			{
 				auto target_request = static_cast<DataTypes::GetLocationRequest*>(request);
@@ -30,7 +29,7 @@ namespace data_core
 
 			bool get( DataTypes::GetLocationRequest* request
 				      , std::vector<DataTypes::Location>& entities)
-			{
+			{				
 				DataTypes::GetRequest service_request;
 				service_request.set_allocated_location_request(request);
 				auto result = api_->get(service_request);

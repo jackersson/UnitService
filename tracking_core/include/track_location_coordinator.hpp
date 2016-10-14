@@ -24,8 +24,8 @@ namespace tracking
 				: context_(context)
 			{
 				auto locations = context_->repository()->locations()->local();
-				locations->subscribe(
-					std::bind(&TrackLocationCoordinator::on_data_changed, this));
+				//locations->subscribe(
+				//	std::bind(&TrackLocationCoordinator::on_data_changed, this));
 			}
 
 			virtual ~TrackLocationCoordinator() {}

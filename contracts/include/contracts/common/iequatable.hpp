@@ -20,7 +20,7 @@ namespace contracts
 		public:
 			virtual ~IObject() {}
 
-			virtual int get_hash_code() const = 0;
+			virtual size_t get_hash_code() const = 0;
 		};
 	}
 }

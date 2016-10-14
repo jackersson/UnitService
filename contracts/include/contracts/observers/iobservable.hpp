@@ -12,18 +12,23 @@ namespace contracts
 		public:
 			virtual ~IObservable() {}
 
-			virtual void subscribe   (std::shared_ptr<T> observer) = 0;
-			virtual void unsubscribe (std::shared_ptr<T> observer) = 0;
-			virtual bool has_observer(std::shared_ptr<T> observer) = 0;
+			virtual void subscribe   (T* observer) = 0;
+			virtual void unsubscribe (T* observer) = 0;
+			virtual bool has_observer(T* observer) = 0;
 
 			virtual void unsubscribe_all() = 0;
+
+			virtual size_t count() const = 0;
+		};
+
+		class IObserver
+		{
+		public:
+			virtual ~IObserver() {}
+
+			virtual void on_data() = 0;
 		};
 	}
-
-	class IObserver
-	{
-
-	};
 }
 
 #endif

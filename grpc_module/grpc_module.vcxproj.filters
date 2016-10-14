@@ -83,6 +83,18 @@
     <ClInclude Include="include\unit_service\get_location_stream_request_handler.hpp">
       <Filter>includes\unit_service</Filter>
     </ClInclude>
+    <ClInclude Include="include\unit_service\update_location_request_handler.hpp">
+      <Filter>includes\unit_service</Filter>
+    </ClInclude>
+    <ClInclude Include="include\unit_service\get_card_request_handler.hpp">
+      <Filter>includes\unit_service</Filter>
+    </ClInclude>
+    <ClInclude Include="include\unit_service\check_device_request_handler.hpp">
+      <Filter>includes\unit_service</Filter>
+    </ClInclude>
+    <ClInclude Include="include\unit_service\enroll_request_handler.hpp">
+      <Filter>includes\unit_service</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,0 +1,2 @@
+*** [19:15:50 +03:00] [thread 21800] Unit service start init ***
+*** [19:15:50 +03:00] [thread 21800] Unit service init done ***

@@ -171,11 +171,15 @@
     <ClInclude Include="include\server_context.hpp" />
     <ClInclude Include="include\services_coordinator.hpp" />
     <ClInclude Include="include\service_utils.hpp" />
+    <ClInclude Include="include\unit_service\check_device_request_handler.hpp" />
+    <ClInclude Include="include\unit_service\enroll_request_handler.hpp" />
+    <ClInclude Include="include\unit_service\get_card_request_handler.hpp" />
     <ClInclude Include="include\unit_service\get_devices_request_handler.hpp" />
     <ClInclude Include="include\unit_service\get_device_stream_request_handler.hpp" />
     <ClInclude Include="include\unit_service\get_location_stream_request_handler.hpp" />
     <ClInclude Include="include\unit_service\open_door_request_handler.hpp" />
     <ClInclude Include="include\unit_service\unit_service_impl.hpp" />
+    <ClInclude Include="include\unit_service\update_location_request_handler.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

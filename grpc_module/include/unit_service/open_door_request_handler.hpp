@@ -6,13 +6,12 @@
 #include <services/unit_service.grpc.pb.h>
 #include <request_handler.hpp>
 #include <contracts/iunit_context.hpp>
+#include <service_utils.hpp>
 
 namespace grpc_services
 {
 	namespace unit_service
 	{		
-		typedef Services::UnitService::AsyncService AsyncService;
-		
 		class OpenDoorRequestHandler : public RequestHandler<AsyncService>
 		{
 		public:

@@ -158,7 +158,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="data_core_tests.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="repository_tests.cpp" />
     <ClCompile Include="rs232_controller_tests.cpp" />
     <ClCompile Include="unit_service_tests.cpp" />
   </ItemGroup>

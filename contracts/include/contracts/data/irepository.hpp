@@ -5,24 +5,38 @@
 #include <services/database_service.pb.h>
 #include <contracts/common/ilifecycle.hpp>
 #include <functional>
+#include <contracts/observers/iobservable.hpp>
+#include <contracts/observers/observable..hpp>
 
 namespace contracts
 {
 	namespace data
 	{
 		template <typename TEntity>
-		class ILocalStorage
+		class ILocalStorage : public observers::Observable<observers::IObserver>
 		{
 		public:
 			virtual ~ILocalStorage() {}
 
-			virtual const std::vector<TEntity>& entities() = 0;
+			virtual void clear() = 0;
 
+			virtual const TEntity& operator[](const size_t& i) const = 0;
+
+			virtual size_t size() const = 0;
+			
+			virtual bool add   (TEntity* entity) = 0;
+
+			virtual bool remove(const DataTypes::Key& key) = 0;
+
+			virtual bool update(TEntity* entity) = 0;
+
+			/*
 			virtual void subscribe(std::function<void()> func)  = 0;			
 
 			virtual void unsubscribe(std::function<void()> func) = 0;
 
 			virtual void unsubscribe_all() = 0;
+			*/
 			
 		};
 

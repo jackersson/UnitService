@@ -5,21 +5,20 @@
 #include <services/unit_service.grpc.pb.h>
 #include "../request_handler.hpp"
 #include <contracts/iunit_context.hpp>
-
+#include <service_utils.hpp>
 
 namespace grpc_services
 {
 	namespace unit_service
 	{
-		typedef Services::UnitService::AsyncService UnitServicePtr;
 
-		class GetDevicesRequestHandler : public RequestHandler<UnitServicePtr>
+		class GetDevicesRequestHandler : public RequestHandler<AsyncService>
 		{
 		public:
-			GetDevicesRequestHandler(std::shared_ptr<UnitServicePtr> service
+			GetDevicesRequestHandler(std::shared_ptr<AsyncService> service
 				, grpc::ServerCompletionQueue* completion_queue
 			  , contracts::IUnitContextPtr context)
-				: RequestHandler<UnitServicePtr>(service, completion_queue )
+				: RequestHandler<AsyncService>(service, completion_queue )
 				,	responder_(&server_context_)			
 				, context_(context)
 			{

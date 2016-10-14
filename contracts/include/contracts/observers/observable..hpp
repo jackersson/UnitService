@@ -14,21 +14,26 @@ namespace contracts
 		public:
 			virtual ~Observable() {}
 
-			void subscribe(std::shared_ptr<T> observer) override
+			void subscribe(T* observer) override
 			{
 				if (!has_observer(observer))
 					observers_.push_back(observer);
 			}
 
-			void unsubscribe(std::shared_ptr<T> observer) override
+			void unsubscribe(T* observer) override
 			{
 				if (has_observer(observer))
 					observers_.remove(observer);
 			}
 
-			bool has_observer(std::shared_ptr<T> observer) override
+			bool has_observer(T* observer) override
 			{
 				return observers_.contains(observer);
+			}
+
+			size_t count() const override
+			{
+				return observers_.size();
 			}
 
 			void unsubscribe_all() override
@@ -37,7 +42,7 @@ namespace contracts
 			}			
 
 		protected:
-			concurrent::containers::ConcurrentVector<std::shared_ptr<T>> observers_;
+			concurrent::containers::ConcurrentVector<T*> observers_;
 		};
 	}
 }

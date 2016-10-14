@@ -6,7 +6,7 @@
 #include <iostream>
 #include <contracts/iunit_context.hpp>
 
-class UnitServiceConfiguration : contracts::IUnitConfiguration
+class UnitServiceConfiguration : public contracts::IUnitConfiguration
 {
 public:
 	UnitServiceConfiguration()

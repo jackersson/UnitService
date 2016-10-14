@@ -1,5 +1,5 @@
-#ifndef GetLocationStreamRequestHandler_Included
-#define GetLocationStreamRequestHandler_Included
+#ifndef UpdateLocationRequestHandler_Included
+#define UpdateLocationRequestHandler_Included
 
 #include <memory>
 #include <include/grpc++/impl/codegen/completion_queue.h>
@@ -11,11 +11,11 @@
 namespace grpc_services
 {
 	namespace unit_service
-	{	
-		class GetLocationStreamRequestHandler : public RequestHandler<AsyncService>
+	{
+		class UpdateLocationRequestHandler : public RequestHandler<AsyncService>
 		{
 		public:
-			GetLocationStreamRequestHandler(std::shared_ptr<AsyncService> service
+			UpdateLocationRequestHandler(std::shared_ptr<AsyncService> service
 				, grpc::ServerCompletionQueue* completion_queue
 				, contracts::IUnitContextPtr context)
 				: RequestHandler<AsyncService>(service, completion_queue)
@@ -27,12 +27,12 @@ namespace grpc_services
 
 			void CreateRequestHandler() override
 			{
-				new GetLocationStreamRequestHandler(service_, server_completion_queue_, context_);
+				new UpdateLocationRequestHandler(service_, server_completion_queue_, context_);
 			}
 
 			void CreateRequest() override
 			{
-				service_->RequestGetLocationStream(&server_context_, &request_
+				service_->RequestUpdateLocation(&server_context_, &request_
 					, &responder_, server_completion_queue_
 					, server_completion_queue_, this);
 			}
@@ -40,16 +40,17 @@ namespace grpc_services
 			void ProcessRequest() override
 			{
 				google::protobuf::Empty response;
-				//TODO handle frames
-				//context_->track_locations()->grant_access(request_);
 
-				std::cout << "Client wants capture location video stream" << std::endl;
-				//responder_.Finish(response, grpc::Status::OK, this);
+				//TODO update location in local storage and coordinator
+				context_->repository()->locations()->local()->update(&request_);
+
+				std::cout << "Coordinator wants update location" << std::endl;
+				responder_.Finish(response, grpc::Status::OK, this);
 			}
 
 		private:
 			DataTypes::Location  request_;
-			grpc::ServerAsyncWriter<DataTypes::FrameBytes> responder_;
+			grpc::ServerAsyncResponseWriter<google::protobuf::Empty> responder_;
 			contracts::IUnitContextPtr context_;
 		};
 	}

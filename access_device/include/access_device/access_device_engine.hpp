@@ -93,7 +93,7 @@ namespace access_device
 		}
 			
 
-		void subscribe( IAccessDeviceObserverPtr observer
+		void subscribe( IAccessDeviceObserver* observer
 				          , const std::string& device_name) override
 		{
 			
@@ -111,14 +111,14 @@ namespace access_device
 			
 		}
 
-		void unsubscribe(IAccessDeviceObserverPtr observer) override
+		void unsubscribe(IAccessDeviceObserver* observer) override
 		{
 			for ( auto it : devices_) {
 				it.second->unsubscribe(observer);
 			}		
 		}
 
-		bool has_observer( IAccessDeviceObserverPtr observer
+		bool has_observer( IAccessDeviceObserver* observer
 			               , const std::string& device_name) override
 		{
 			

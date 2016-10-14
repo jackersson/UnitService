@@ -11,7 +11,7 @@
 
 class UnitService : public contracts::common::IModule
 	, public contracts::IUnitContext
-	, public std::enable_shared_from_this<UnitService>
+	, public std::enable_shared_from_this<contracts::IUnitContext>
 {
 public:
 	explicit UnitService( std::shared_ptr<contracts::IUnitConfiguration> configuration)
@@ -66,8 +66,14 @@ public:
 		return logger_;
 	}
 
-	std::shared_ptr<contracts::IUnitConfiguration>         configuration() override	{
+	std::shared_ptr<contracts::IUnitConfiguration>       configuration() override	{
 		return configuration_;
+	}
+
+	std::shared_ptr<contracts::locations::ITrackLocationsCoordinator>
+		track_locations() override
+	{
+		return tracking_coordinator_;
 	}
 
 	std::shared_ptr<contracts::IUnitConfiguration> configuration_;

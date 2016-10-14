@@ -24,6 +24,10 @@ public:
 		return configuration_;
 	}
 
+	std::shared_ptr<UnitService> context() const {
+		return unit_service_;
+	}
+
 private:
 	std::shared_ptr<UnitService>              unit_service_ ;
 	std::shared_ptr<UnitServiceConfiguration> configuration_;

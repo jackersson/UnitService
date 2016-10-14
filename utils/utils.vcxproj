@@ -73,7 +73,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)$(ProjectName)\lib\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -154,10 +154,12 @@
     <ClInclude Include="include\concurrent_containers.hpp" />
     <ClInclude Include="include\containers_utils.hpp" />
     <ClInclude Include="include\flags.hpp" />
+    <ClInclude Include="include\network_utils.hpp" />
     <ClInclude Include="include\threadable.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\main.cpp" />
+    <ClCompile Include="src\network_utils.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

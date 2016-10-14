@@ -111,7 +111,7 @@ namespace concurrent
 				container_.clear();
 			}
 
-			size_t size()
+			size_t size() const
 			{
 				std::lock_guard<std::recursive_mutex> lock(mutex_);
 				return container_.size();
@@ -152,7 +152,7 @@ namespace concurrent
 
 
 			std::vector<Value> container_;
-			std::recursive_mutex mutex_;
+			mutable std::recursive_mutex mutex_;
 		};
 	}
 }

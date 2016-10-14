@@ -34,12 +34,12 @@
 	 auto ok = configuration_->load(string_path);
 	 if (!ok)
 		 save_default_config(string_path);
-	 //unit_service_ = std::make_shared<UnitService>(configuration_);
-	 //unit_service_->init();
+	 unit_service_ = std::make_shared<UnitService>(configuration_);
+	 unit_service_->init();
  }
 
  void Launcher::de_init()
  {
-	 //unit_service_->de_init();
+	 unit_service_->de_init();
  }
 

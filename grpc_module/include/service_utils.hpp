@@ -8,6 +8,7 @@
 
 namespace grpc_services
 {
+	typedef Services::UnitService::AsyncService AsyncService;
 	
 	typedef std::function<void()> RpcCallbackFunction;
 

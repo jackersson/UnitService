@@ -31,9 +31,16 @@ public:
 		return access_device_engine_;
 	}
 
-	void enumerate(DataTypes::Devices&) const override
+	void enumerate(DataTypes::Devices& devices) const override
 	{
-		throw std::exception("Not implemented enumerate in devices container");
+		auto access_devices = access_device_engine_->device_enumerator().devices();
+		auto items = devices.devices();
+		for ( auto item : access_devices)
+		{
+			auto dev = items.Add();
+			dev->set_device_name(item);
+			dev->set_device_type(DataTypes::DeviceType::CardReader);
+		}
 	}
 
 private:

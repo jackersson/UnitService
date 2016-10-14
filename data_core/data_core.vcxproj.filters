@@ -41,5 +41,8 @@
     <ClInclude Include="include\localstorage\locations_localstorage.hpp">
       <Filter>includes\localstorage</Filter>
     </ClInclude>
+    <ClInclude Include="include\data_utils.hpp">
+      <Filter>includes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

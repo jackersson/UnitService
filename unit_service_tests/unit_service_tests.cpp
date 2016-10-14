@@ -11,11 +11,4 @@ namespace unit_service_tests
 		EXPECT_FALSE(launcher.configuration()->empty());
 	}
 
-	TEST(LoadingConfiguraionTest, LoadingConfiguraionTest)
-	{
-		Launcher launcher;
-		launcher.init();
-
-		EXPECT_FALSE(launcher.configuration()->empty());
-	}
 }

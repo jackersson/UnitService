@@ -121,7 +121,7 @@ namespace grpc_services
 				{
 					if (call->status.ok())
 					{
-						call->parsed_response();
+						call->process_response();
 						std::cout << "Received" << std::endl;
 					}
 					else
