@@ -12,7 +12,7 @@ namespace grpc_services
 		enum RequestStatus { CREATE, PROCESS, FINISH };
 	public:
 	
-		RequestHandler( std::shared_ptr<T> service
+		RequestHandler( T* service
 			            , grpc::ServerCompletionQueue* completion_queue	)
 			            : service_(service)
 			            , server_completion_queue_(completion_queue)
@@ -78,7 +78,7 @@ namespace grpc_services
 		}
 
 	protected:
-		std::shared_ptr<T> service_;
+		T* service_;
 		grpc::ServerCompletionQueue* server_completion_queue_;
 		grpc::ServerContext          server_context_;
 

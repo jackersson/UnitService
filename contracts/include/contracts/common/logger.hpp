@@ -74,30 +74,32 @@ namespace contracts
 			void error(const char* fmt, const Args&... args)
 			{
 				for (auto logger : loggers_)
-					logger->error(fmt, args);
+					logger->error(fmt, args...);
 			}
 
+			/*
 			template<typename T>
 			void error(const T& msg)
 			{
 				for (auto logger : loggers_)
 					logger->critical(msg);
 			}
-			/*
+			*/
+
 			template <typename... Args>
 			void info(const char* fmt, const Args&... args)
 			{
 				for (auto logger : loggers_)
-					logger->info(fmt, args);
+					logger->info(fmt, args...);
 			}
-			*/
+			/*
 			template<typename T>
 			void info(const T& msg)
 			{
 				for (auto logger : loggers_)
 					logger->info(msg);
 			}
-
+			*/
 		private:
 			static void initialize();		
 

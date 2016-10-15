@@ -40,6 +40,7 @@
 
  void Launcher::de_init()
  {
-	 unit_service_->de_init();
+	 if ( unit_service_ != nullptr )
+	   unit_service_->de_init();
  }
 

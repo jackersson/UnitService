@@ -16,7 +16,7 @@ namespace grpc_services
 	};
 
 	struct AsyncGetRequestCall : AsyncCallBase<DataTypes::MessageBytes> {
-		void process_response()
+		void process()
 		{
 			if (response.type() != DataTypes::DataType::GetResponseType)
 			{
@@ -37,7 +37,7 @@ namespace grpc_services
 
 	struct AsyncCommitRequestCall : AsyncCallBase<DataTypes::MessageBytes> {
 
-		void process_response()
+		void process()
 		{
 			if (response.type() != DataTypes::DataType::CommitResponseType)
 			{

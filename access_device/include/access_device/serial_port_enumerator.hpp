@@ -34,6 +34,9 @@ namespace access_device
 				update();
 				print();
 				std::this_thread::sleep_for(delay_);
+
+				if (cancelation_requested)
+					break;
 			}
 		}
 

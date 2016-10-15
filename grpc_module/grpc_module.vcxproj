@@ -68,6 +68,9 @@
     <Import Project="gflags_x32d.props" />
     <Import Project="gtest_x32d.props" />
     <Import Project="grpc_module_x32d.props" />
+    <Import Project="..\realsense_device\utils_x32d.props" />
+    <Import Project="..\UnitService\boost_serial_32d.props" />
+    <Import Project="..\UnitService\spdlog.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />

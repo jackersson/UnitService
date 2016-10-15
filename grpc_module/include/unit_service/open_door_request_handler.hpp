@@ -15,7 +15,7 @@ namespace grpc_services
 		class OpenDoorRequestHandler : public RequestHandler<AsyncService>
 		{
 		public:
-			OpenDoorRequestHandler( std::shared_ptr<AsyncService> service
+			OpenDoorRequestHandler( AsyncService* service
 	                        	, grpc::ServerCompletionQueue* completion_queue
 			                      , contracts::IUnitContextPtr context )
 	                        	: RequestHandler<AsyncService>(service, completion_queue )

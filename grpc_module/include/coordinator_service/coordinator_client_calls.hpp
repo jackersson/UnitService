@@ -9,7 +9,7 @@ namespace grpc_services
 {
 	struct AsyncEmptyCall : AsyncCallBase<google::protobuf::Empty>
 	{
-		void process_response() {
+		void process() {
 			promise.set_value(true);
 		}
 

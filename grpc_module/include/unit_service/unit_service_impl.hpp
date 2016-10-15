@@ -3,12 +3,14 @@
 
 #include <services/unit_service.grpc.pb.h>
 #include <contracts/services/iservice.hpp>
-#include <src/cpp/server/dynamic_thread_pool.h>
 #include <list>
 #include "server_context.hpp"
 #include <contracts/services/service_address.hpp>
 #include "unit_service/open_door_request_handler.hpp"
 #include <service_utils.hpp>
+
+#include <boost/asio.hpp>
+#include <boost/thread.hpp>
 
 using grpc::ServerBuilder;
 
@@ -17,57 +19,56 @@ namespace grpc_services
 	class UnitServiceImpl : public contracts::services::IService
 	{
 	public:
-
-//		typedef std::function<void()> RpcCallbackFunction;
-		typedef std::pair<std::shared_ptr<grpc::ServerCompletionQueue>
-			, RpcCallbackFunction> RequestHandler;
-		typedef std::list<RequestHandler> RequestHandlers;
-
 		explicit UnitServiceImpl(ServerContext& context) : context_(context)
 		{
-			thread_pool_ = std::make_shared<grpc::DynamicThreadPool>(MAX_THREAD_POOL_CAPACITY);
+			threads_.create_thread(boost::bind(&boost::asio::io_service::run, &io_service_));
+			logger_ = context.unit_context()->logger();
 			UnitServiceImpl::init();
 		}
 
 		virtual ~UnitServiceImpl()
 		{
 			UnitServiceImpl::stop();
+			logger_->info("{0} destroyed", class_name());
 		}
 
 		void init() override
 		{
-			auto builder = context_.ServerBuilder();
-			builder->AddListeningPort(context_.Address().FormattedAddress()
-				, grpc::InsecureServerCredentials());
+			auto address = context_.address().get();
+			logger_->info("Try open port on {0}", address);
 
-			service_ = std::make_shared<Services::UnitService::AsyncService>();
-			builder->RegisterService(service_.get());
+			auto builder = context_.server_builder();
+			builder->AddListeningPort( address, grpc::InsecureServerCredentials());
+						
+			builder->RegisterService(&service_);
 
-			//AddRpcHandler<unit_service::GetDevicesRequestHandler>(*thread_pool_, builder);
 			add_rpc_handler<unit_service::OpenDoorRequestHandler>(builder);
-			//AddRpcHandler<unit_service::CreatePopulationHandler>(builder);
 		}
 
 		void start() override
 		{
-			for (auto it = handlers_.begin(); it != handlers_.end(); ++it)
-				thread_pool_->Add(it->second);
-
-			std::cout << "Server listening on " << context_.Address().FormattedAddress() << std::endl;
+			for (auto handler: handlers_)
+				io_service_.post(handler.callback);
+	
+			logger_->info( "{0} listening on {1}", class_name()
+				           , context_.address().get() );
 		}
 
 		void stop() override
 		{
-			for (auto it : handlers_)
-				it.first->Shutdown();
+			io_service_.stop();	
+			for (auto& it : handlers_)
+				it.completion_queue->Shutdown();
 			handlers_.clear();
+
+			logger_->info("{0} stopped", class_name());
 		}
 
 	private:
 		template<typename T>
-		void handle_rpc(grpc::ServerCompletionQueue* queue) const
+		void handle_rpc(grpc::ServerCompletionQueue* queue) 
 		{
-			new T(service_, queue, context_.unit_context());
+			new T(&service_, queue, context_.unit_context());
 			void* tag;
 			bool  ok;
 
@@ -80,8 +81,7 @@ namespace grpc_services
 						static_cast<T*>(tag)->Proceed();
 				}
 				catch (std::exception& ex) {
-					//TODO log
-					std::cout << ex.what() << std::endl;
+					logger_->error(ex.what());
 				}
 			}
 		}
@@ -89,23 +89,27 @@ namespace grpc_services
 		template<typename T>
 		void add_rpc_handler(std::shared_ptr<grpc::ServerBuilder> builder)
 		{
-			std::shared_ptr<grpc::ServerCompletionQueue> cq_(builder->AddCompletionQueue());
+			auto cq_ = builder->AddCompletionQueue();			
+			auto callback = boost::bind(&UnitServiceImpl::handle_rpc<T>, this, cq_.get());
+			handlers_.push_back(ServerRequestHandler(move(cq_), callback));
+		}
 
-			auto callback = std::bind(&UnitServiceImpl::handle_rpc<T>, this, cq_.get());
-			handlers_.push_back(RequestHandler(cq_, callback));
+		std::string class_name() const
+		{
+			return typeid(UnitServiceImpl).name();
 		}
 
 		UnitServiceImpl(const UnitServiceImpl&) = delete;
 		UnitServiceImpl& operator=(const UnitServiceImpl&) = delete;
 
+	  AsyncService  service_;
 
-		std::shared_ptr<Services::UnitService::AsyncService>  service_;
-		std::shared_ptr<grpc::ThreadPoolInterface>            thread_pool_;
-
-		const int MAX_THREAD_POOL_CAPACITY = 10;
-
-		RequestHandlers handlers_;
+		boost::asio::io_service io_service_;
+		boost::thread_group threads_;
+		
+		ServerRequestHandlers handlers_;
 		ServerContext context_;
+		std::shared_ptr<contracts::common::Logger> logger_;
 	};
 }
 

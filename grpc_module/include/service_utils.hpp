@@ -12,10 +12,45 @@ namespace grpc_services
 	
 	typedef std::function<void()> RpcCallbackFunction;
 
-	typedef std::pair<std::shared_ptr<grpc::CompletionQueue>
-		, RpcCallbackFunction> CallHandler;
+	//typedef std::pair<std::shared_ptr<grpc::CompletionQueue>
+		//, RpcCallbackFunction> CallHandler;
+//
 
-	typedef std::map<std::string, CallHandler> CallHandlers;
+	template<typename TQueue>
+	struct RequestHandlerBase
+	{
+		RequestHandlerBase() {}
+
+		RequestHandlerBase(std::shared_ptr<TQueue> cq
+			, RpcCallbackFunction callback_)
+			: completion_queue(cq), callback(callback_)
+		{	}
+		std::shared_ptr<TQueue> completion_queue;
+		RpcCallbackFunction callback;
+	};
+
+
+	struct ServerRequestHandler : RequestHandlerBase<grpc::ServerCompletionQueue>
+	{
+		ServerRequestHandler( std::shared_ptr<grpc::ServerCompletionQueue> cq
+			                  , RpcCallbackFunction callback_) 
+			                  : RequestHandlerBase(cq, callback_)
+		{	}
+
+	};
+
+	struct ClientRequestHandler : RequestHandlerBase<grpc::CompletionQueue>
+	{
+		ClientRequestHandler( std::shared_ptr<grpc::CompletionQueue> cq
+			                  , RpcCallbackFunction callback_)
+			                  : RequestHandlerBase(cq, callback_)
+		{	}
+
+	};
+
+	typedef std::map<std::string, ClientRequestHandler> ClientRequestHandlers;
+	typedef std::list<ServerRequestHandler> ServerRequestHandlers;
+
 
 	namespace utils
 	{
@@ -38,12 +73,12 @@ namespace grpc_services
 		}
 
 		template <typename T>
-		grpc::CompletionQueue* get_completion_queue(const CallHandlers& handlers)
+		grpc::CompletionQueue* get_completion_queue(const ClientRequestHandlers& handlers)
 		{
 			auto it = handlers.find(typeid(T).name());
 			if (it == handlers.end())
 				return nullptr;
-			return it->second.first.get();
+			return it->second.completion_queue.get();
 		}
 		
 		template <typename T>

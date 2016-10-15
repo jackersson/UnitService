@@ -1,10 +1,8 @@
 #include <gtest/gtest.h>
 #include <launcher.hpp>
 
-
 namespace repository_tests
-{
-	
+{	
 	TEST(GetLocationTests, GetLocationTests)
 	{
 		Launcher launcher;
@@ -16,9 +14,9 @@ namespace repository_tests
 		std::vector<DataTypes::Location> items;
 		auto request = new DataTypes::GetLocationRequest();
 		context->repository()->locations()->get(request, items);
+
+		//TODO not correct de_init()
 		EXPECT_TRUE(items.size() > 0);
 	}
-
-
 
 }

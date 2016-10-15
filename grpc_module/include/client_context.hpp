@@ -15,8 +15,7 @@ namespace grpc_services
 			 , context_(context)
 		{	}
 
-		//TODO rename lower case 
-		const contracts::services::IServiceAddress& Address() const {
+		const contracts::services::IServiceAddress& address() const {
 			return address_;
 		}
 

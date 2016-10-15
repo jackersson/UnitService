@@ -18,11 +18,11 @@ namespace grpc_services
 			, context_(context)
 		{	}
 
-		std::shared_ptr<grpc::ServerBuilder> ServerBuilder() const		{
+		std::shared_ptr<grpc::ServerBuilder> server_builder() const		{
 			return server_builder_;
 		}
 
-		const contracts::services::IServiceAddress& Address() const {
+		const contracts::services::IServiceAddress& address() const {
 			return address_;
 		}
 

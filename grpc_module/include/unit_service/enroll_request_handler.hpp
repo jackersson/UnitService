@@ -15,7 +15,7 @@ namespace grpc_services
 		class EnrollRequestHandler : public RequestHandler<AsyncService>
 		{
 		public:
-			EnrollRequestHandler(std::shared_ptr<AsyncService> service
+			EnrollRequestHandler(AsyncService* service
 				, grpc::ServerCompletionQueue* completion_queue
 				, contracts::IUnitContextPtr context)
 				: RequestHandler<AsyncService>(service, completion_queue)

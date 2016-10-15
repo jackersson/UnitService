@@ -9,6 +9,9 @@
 
 #include <service_utils.hpp>
 
+#include <boost/asio.hpp>
+#include <boost/thread.hpp>
+
 using grpc::ServerBuilder;
 
 namespace grpc_services
@@ -20,23 +23,25 @@ namespace grpc_services
 		explicit FacialClientImpl(const ClientContext& context)
 			: active_(false), context_(context)
 		{
+			threads_.create_thread(boost::bind(&boost::asio::io_service::run, &io_service_));
+			logger_ = context.unit_context()->logger();
 			FacialClientImpl::init();
 		}
 
-		~FacialClientImpl()
-		{
+		~FacialClientImpl()	{
 			FacialClientImpl::stop();
+			logger_->info("{0} destroyed", class_name());
 		}
 
 		void init() override
 		{
-			channel_ = grpc::CreateChannel(context_.Address().FormattedAddress()
-				, grpc::InsecureChannelCredentials());
-			thread_pool_ = std::make_shared<grpc::DynamicThreadPool>(MAX_THREAD_POOL_CAPACITY);
+			auto address = context_.address().get();
+			logger_->info("Try create channel {0}", address);
+
+			channel_ = CreateChannel(address, grpc::InsecureChannelCredentials());
 			stub_ = Services::CoordinatorService::NewStub(channel_);
 
 			//add_call_handler<AsyncGetRequestCall>();
-			//add_call_handler<AsyncCommitRequestCall>();
 		}
 
 		void start() override
@@ -46,17 +51,21 @@ namespace grpc_services
 
 			active_ = true;
 
-			for (auto it = handlers_.begin(); it != handlers_.end(); ++it)
-				thread_pool_->Add(it->second.second);
+			for (auto handler : handlers_)
+				io_service_.post(handler.second.callback);
 
-			std::cout << "Client connected to " << context_.Address().FormattedAddress() << std::endl;
+			logger_->info("{0} connected to {1}", class_name()
+				            , context_.address().get());
 		}
 
 		void stop() override
 		{
+			io_service_.stop();
 			for (auto it : handlers_)
-				it.second.first->Shutdown();
+				it.second.completion_queue->Shutdown();
 			handlers_.clear();
+
+			logger_->info("{0} stopped", class_name());
 		}
 			
 
@@ -69,8 +78,8 @@ namespace grpc_services
 			auto callback = std::bind(&FacialClientImpl::async_complete_rpc<T>
 				, this, cq.get());
 			handlers_.insert(
-				std::pair<std::string, CallHandler>(
-					typeid(T).name(), CallHandler(cq, callback)));
+				std::pair<std::string, ClientRequestHandler>(
+					typeid(T).name(), ClientRequestHandler(cq, callback)));
 		}
 
 		template <typename T>
@@ -85,29 +94,32 @@ namespace grpc_services
 				try
 				{
 					if (call->status.ok())
-					{
-						call->parsed_response();
-						std::cout << "Received" << std::endl;
-					}
+						call->process();
 					else
-						std::cout << "Rpc failed" << std::endl;
+						logger_->error("{0} rpc failed", class_name());
 				}
 				catch (std::exception& ex) {
-					std::cout << ex.what() << std::endl;
+					logger_->error("{0} rpc failed. {1}", class_name(), ex.what());
 				}
 				delete call;
 			}
 		}
 
+		std::string class_name() const {
+			return typeid(FacialClientImpl).name();
+		}
+
 		bool active_;
-		std::shared_ptr<grpc::ThreadPoolInterface>       thread_pool_;
 		std::unique_ptr<Services::CoordinatorService::Stub> stub_;
 		std::shared_ptr<grpc::Channel>                   channel_;
 
 		ClientContext context_;
-		CallHandlers handlers_;
+		ClientRequestHandlers handlers_;
 
-		const int MAX_THREAD_POOL_CAPACITY = 10;
+		boost::asio::io_service io_service_;
+		boost::thread_group threads_;
+
+		std::shared_ptr<contracts::common::Logger> logger_;
 
 		FacialClientImpl(const FacialClientImpl&) = delete;
 		FacialClientImpl& operator=(const FacialClientImpl&) = delete;

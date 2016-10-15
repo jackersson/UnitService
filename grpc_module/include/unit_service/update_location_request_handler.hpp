@@ -15,7 +15,7 @@ namespace grpc_services
 		class UpdateLocationRequestHandler : public RequestHandler<AsyncService>
 		{
 		public:
-			UpdateLocationRequestHandler(std::shared_ptr<AsyncService> service
+			UpdateLocationRequestHandler(AsyncService* service
 				, grpc::ServerCompletionQueue* completion_queue
 				, contracts::IUnitContextPtr context)
 				: RequestHandler<AsyncService>(service, completion_queue)

@@ -15,7 +15,7 @@ namespace grpc_services
 		class GetLocationStreamRequestHandler : public RequestHandler<AsyncService>
 		{
 		public:
-			GetLocationStreamRequestHandler(std::shared_ptr<AsyncService> service
+			GetLocationStreamRequestHandler(AsyncService* service
 				, grpc::ServerCompletionQueue* completion_queue
 				, contracts::IUnitContextPtr context)
 				: RequestHandler<AsyncService>(service, completion_queue)

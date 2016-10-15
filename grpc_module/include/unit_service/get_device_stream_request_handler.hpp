@@ -17,7 +17,7 @@ namespace grpc_services
 		class GetDeviceStreamRequestHandler : public RequestHandler<AsyncService>
 		{
 		public:
-			GetDeviceStreamRequestHandler(std::shared_ptr<AsyncService> service
+			GetDeviceStreamRequestHandler(AsyncService* service
 				, grpc::ServerCompletionQueue* completion_queue
 				, contracts::IUnitContextPtr context)
 				: RequestHandler<AsyncService>(service, completion_queue)

@@ -25,29 +25,35 @@ public:
 
 	void init() override
 	{
-		logger()->info(std::string("Unit service start init"));
+		logger()->info("Unit service start init");
 
 		auto this_ptr = shared_from_this();
+
 		devices_ = std::make_shared<DevicesContainer>();
 		devices_->init();
-
+		
 		services_ = std::make_shared<grpc_services::ServicesCoordinator>(this_ptr);
 		services_->init();
-
+		/*
 		repository_ = std::make_shared<data_core::RepositoryContainer>(this_ptr);
 		repository_->init();
 
 		tracking_coordinator_
 			= std::make_shared<tracking::locations::TrackLocationCoordinator>(this_ptr);
-
-		logger()->info(std::string("Unit service init done"));
+			*/
+		logger()->info("Unit service init done");
 	}
 
 	void de_init() override
 	{
-		services_->de_init();
-		devices_->de_init();
-		repository_->de_init();
+		if (services_ != nullptr)
+	  	services_->de_init();
+
+		if (devices_ != nullptr)
+		  devices_->de_init();
+
+		if (repository_ != nullptr)
+		  repository_->de_init();
 	}
 
 	std::shared_ptr<contracts::devices::IDevicesContainer> devices() override	{

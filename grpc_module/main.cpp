@@ -38,12 +38,12 @@ public:
 		std::cout << "here" << std::endl;
 	}
 };
-
+/*
 void callback(shared_ptr<Services::GetResponse> response)
 {
 	cout << "on response " << endl;
 }
-
+*/
 int main()
 {
 	/*

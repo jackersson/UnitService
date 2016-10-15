@@ -1,5 +1,6 @@
 #include <string>
 #include <iostream>
+/*
 #include <asio/io_service.hpp>
 #include <asio/ip/tcp.hpp>
 #include <asio/ip/host_name.hpp>
@@ -12,6 +13,7 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <lexical_cast.hpp>
+*/
 #include "include/launcher.hpp"
 
 /*
@@ -65,7 +67,7 @@ struct UnitServiceConfiguration
 	}
 
 };
-*/
+
 std::string get_local_ip()
 {
 	boost::asio::io_service io_service;
@@ -97,7 +99,7 @@ void test_settings()
   UnitServiceConfiguration loaded;
   loaded.load("config.txt");
 }
-*/
+
 void guid_parsing()
 {
 	auto uuid = boost::uuids::random_generator()();
@@ -111,12 +113,15 @@ void guid_parsing()
 	std::cout << sts << std::endl;
 
 }
-
+*/
 int main()
 {
 	Launcher launcher;
 	launcher.init();
-	std::cin.get();	
-	
+	std::this_thread::sleep_for(std::chrono::microseconds(1000));
+	launcher.de_init();
+
+	std::cin.get();
+
 	return 0;
 }

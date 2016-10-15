@@ -32,23 +32,22 @@ namespace grpc_services
 		void stop()  override {
 			server_->Shutdown();
 			for (auto it : servers_)
-				it->stop();
+			  it->stop();
 			servers_.clear();
 		}
 		
 	private:
 		void init()
 		{
-			auto builder = std::make_shared<ServerBuilder>();
-
-			auto port = context_->configuration()->unit_service_port();
+			auto builder = std::make_shared<ServerBuilder>();		
+			auto port    = context_->configuration()->unit_service_port();
 
 			//Unit service
 			contracts::services::ServiceAddress sa("0.0.0.0", port);
 			auto unit_service = std::make_shared<UnitServiceImpl>(
 				ServerContext(sa, builder, context_));
 			servers_.push_back(unit_service);
-
+			
 			server_ = builder->BuildAndStart();
 		}
 

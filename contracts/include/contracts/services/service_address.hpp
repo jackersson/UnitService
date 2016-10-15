@@ -13,9 +13,9 @@ namespace contracts
 		public:
 			virtual ~IServiceAddress() {}
 
-			virtual const std::string&  IpAddress() const = 0;
-			virtual unsigned int  Port() const = 0;
-			virtual  const std::string&  FormattedAddress() const = 0;
+			virtual const std::string&  host() const = 0;
+			virtual unsigned int        port() const = 0;
+			virtual const std::string&  get() const = 0;
 		};
 
 		class ServiceAddress : public IServiceAddress
@@ -39,16 +39,16 @@ namespace contracts
 
 			~ServiceAddress() {}
 
-			const std::string&  IpAddress() const override	{
+			const std::string&  host() const override	{
 				return ip_address_;
 			}
 
-			unsigned int  Port() const override
+			unsigned int  port() const override
 			{
 				return  port_;
 			}
 
-			const std::string& FormattedAddress() const override { return formatted_address_; }
+			const std::string& get() const override { return formatted_address_; }
 
 		private:
 			std::string  ip_address_;
