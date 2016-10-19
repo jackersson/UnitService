@@ -7,8 +7,8 @@
 #include <boost/uuid/random_generator.hpp>
 #include <data_utils.hpp>
 #include <network_utils.hpp>
+#include <localstorage/locations_localstorage.hpp>
 
-using namespace data_core::utils;
 
 namespace unit_service_tests
 {
@@ -35,12 +35,12 @@ namespace unit_service_tests
 	template<typename T>
 	void check_local_storage( contracts::data::ILocalStorage<T>& local_storage
 	                        , T* entity, T* updated)
-	{
+	{		
 		LocalStorageObserver observer;
 		local_storage.subscribe(&observer);
 		EXPECT_EQ(1, local_storage.count());
 
-		EXPECT_TRUE(keys_equal(entity->id(), updated->id()));
+		EXPECT_TRUE(contracts::data::keys_equal(entity->id(), updated->id()));
 
 		EXPECT_EQ(0, local_storage.size());
 
@@ -57,13 +57,14 @@ namespace unit_service_tests
 
 		local_storage.unsubscribe(&observer);
 		EXPECT_EQ(0, local_storage.count());
+		
 	}
 	
 
 	DataTypes::Location get_location()
 	{
 		DataTypes::Location location;
-		auto key = new DataTypes::Key(get_random_key());
+		auto key = new DataTypes::Key(contracts::data::get_random_key());
 		location.set_allocated_id(key);
 		location.set_name("TestLocation");
 		location.set_description("Test Location Description");
@@ -88,10 +89,10 @@ namespace unit_service_tests
 	{		
 		DataTypes::Key key;
 		auto uud = boost::uuids::random_generator()();
-		data_core::utils::set_guid(uud, key);
+		contracts::data::set_guid(uud, key);
 
 		boost::uuids::uuid parsed_guid;
-		auto result = data_core::utils::get_guid(key, parsed_guid);
+		auto result = contracts::data::get_guid(key, parsed_guid);
 
 		EXPECT_TRUE(result);
 		EXPECT_EQ  (uud, parsed_guid);

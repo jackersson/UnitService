@@ -5,6 +5,7 @@
 #include <datatypes/commands.pb.h>
 #include <include/grpc++/impl/codegen/completion_queue.h>
 #include <future>
+#include <function.hpp>
 
 namespace grpc_services
 {
@@ -83,10 +84,18 @@ namespace grpc_services
 		
 		template <typename T>
 		T get_result(std::promise<T>& promise
-			 , std::chrono::milliseconds time_duration = std::chrono::milliseconds(200))
+			 , std::chrono::milliseconds time_duration = std::chrono::milliseconds(50))
 		{
 			auto future = promise.get_future();
-			future.wait_for(time_duration);
+
+			auto try_count = 0;
+			while (future.wait_for(time_duration) == std::future_status::timeout
+				&& try_count < 10)			
+				try_count++;
+			auto failed = try_count >= 10;
+			if (failed)
+				throw std::exception("timeout exception");
+			
 			return future.get();
 		}
 	}

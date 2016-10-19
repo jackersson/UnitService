@@ -31,10 +31,26 @@ namespace data_core
 				      , std::vector<DataTypes::Location>& entities)
 			{				
 				DataTypes::GetRequest service_request;
-				service_request.set_allocated_location_request(request);
-				auto result = api_->get(service_request);
+				//TODO check if type is good
 
-				for (auto item : result->items().items())
+				service_request.set_allocated_location_request(request);
+				try
+				{
+					auto result = api_->get(service_request);
+					parse(result, entities);
+					return true;
+				}
+				catch (std::exception& )	{
+					return false;
+				}				
+			}
+
+			void parse(std::shared_ptr<DataTypes::GetResponse> response
+		          	, std::vector<DataTypes::Location>& entities) const
+			{
+				if (response == nullptr)
+					return;
+				for (auto item : response->items().items())
 				{
 					if (item.value_type_case() != DataTypes::Entity::ValueTypeCase::kLocation)
 					{
@@ -43,8 +59,6 @@ namespace data_core
 					}
 					entities.push_back(item.location());
 				}
-
-				return true;
 			}
 
 			bool find(DataTypes::Key key, DataTypes::Location& result) override

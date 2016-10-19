@@ -12,7 +12,7 @@ namespace grpc_services
 	class ServicesCoordinator : public contracts::services::IServices
 	{
 	public:
-		explicit ServicesCoordinator(contracts::IUnitContextPtr context)			
+		explicit ServicesCoordinator(contracts::IUnitContext* context)			
 			: context_(context)
 		{
 			servers_ = std::make_shared<ServerManager>(context_);
@@ -40,7 +40,7 @@ namespace grpc_services
 		}
 
 	private:
-		contracts::IUnitContextPtr context_;
+		contracts::IUnitContext* context_;
 		ServerManagerPtr servers_;
 		ClientManagerPtr clients_;
 	};

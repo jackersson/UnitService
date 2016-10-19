@@ -14,10 +14,14 @@ namespace contracts
 	public:
 		virtual ~IUnitConfiguration() {}
 
-		virtual const std::string& facial_service_address() = 0;
-		virtual const std::string& coordinator_service_address() = 0;
+		virtual const std::string& facial_service_address() const = 0;
+		virtual const std::string& coordinator_service_address() const = 0;
 
-		virtual uint16_t    unit_service_port() = 0;
+		virtual uint16_t    unit_service_port() const = 0;
+
+		virtual const std::string& service_uuid() const = 0;
+
+		virtual const std::string& database_service_address() const = 0;
 	};
 
 	class IUnitContext
@@ -32,7 +36,7 @@ namespace contracts
 		virtual std::shared_ptr<data::IRepositoryContainer> repository     () = 0;
 		virtual std::shared_ptr<services::IServices>        services       () = 0;
 		virtual std::shared_ptr<common::Logger>             logger         () = 0;
-		virtual std::shared_ptr<IUnitConfiguration>         configuration  () = 0;
+		virtual const IUnitConfiguration&                   configuration  () = 0;
 	};
 
 	typedef std::shared_ptr<IUnitContext> IUnitContextPtr;

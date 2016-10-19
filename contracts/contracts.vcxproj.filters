@@ -293,5 +293,11 @@
     <ClInclude Include="include\datatypes\key.pb.h">
       <Filter>Header Files\datatypes</Filter>
     </ClInclude>
+    <ClInclude Include="include\contracts\services\icoordinator_api.hpp">
+      <Filter>Header Files\contracts\services</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\data\data_utils.hpp">
+      <Filter>Header Files\contracts\data</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -25,6 +25,9 @@
     <Filter Include="includes\coordinator_service">
       <UniqueIdentifier>{63232fe6-c5fc-4569-84b0-28702867de5e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="includes\features">
+      <UniqueIdentifier>{a99b20d7-372f-4a04-9d23-5aed4fcd08f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -94,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="include\unit_service\enroll_request_handler.hpp">
       <Filter>includes\unit_service</Filter>
+    </ClInclude>
+    <ClInclude Include="include\features\heartbeat.hpp">
+      <Filter>includes\features</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

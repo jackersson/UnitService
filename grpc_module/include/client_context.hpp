@@ -10,7 +10,7 @@ namespace grpc_services
 	{
 	public:
 		explicit ClientContext(const contracts::services::ServiceAddress& address
-		                     , contracts::IUnitContextPtr context)
+		                     , contracts::IUnitContext* context)
 			 : address_(address)
 			 , context_(context)
 		{	}
@@ -19,13 +19,13 @@ namespace grpc_services
 			return address_;
 		}
 
-		contracts::IUnitContextPtr unit_context() const {
+		contracts::IUnitContext* unit_context() const {
 			return context_;
 		}
 
 	private:
 		contracts::services::ServiceAddress  address_;
-		contracts::IUnitContextPtr           context_;
+		contracts::IUnitContext*           context_;
 	};
 }
 

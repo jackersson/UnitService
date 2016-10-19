@@ -8,7 +8,9 @@ namespace unit_service_tests
 		Launcher launcher;
 		launcher.init();
 
-		EXPECT_FALSE(launcher.configuration()->empty());
+		EXPECT_FALSE(launcher.configuration().empty());
+
+		launcher.de_init();
 	}
 
 }

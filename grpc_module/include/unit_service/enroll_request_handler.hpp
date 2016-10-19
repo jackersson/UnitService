@@ -17,7 +17,7 @@ namespace grpc_services
 		public:
 			EnrollRequestHandler(AsyncService* service
 				, grpc::ServerCompletionQueue* completion_queue
-				, contracts::IUnitContextPtr context)
+				, contracts::IUnitContext* context)
 				: RequestHandler<AsyncService>(service, completion_queue)
 				, responder_(&server_context_)
 				, context_(context)
@@ -47,7 +47,7 @@ namespace grpc_services
 		private:
 			DataTypes::Device  request_;
 			grpc::ServerAsyncResponseWriter<DataTypes::Faces> responder_;
-			contracts::IUnitContextPtr context_;
+			contracts::IUnitContext* context_;
 		};
 	}
 }

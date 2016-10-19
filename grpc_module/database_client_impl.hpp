@@ -10,9 +10,6 @@
 #include <contracts/services/idatabase_api.hpp>
 #include <service_utils.hpp>
 
-#include <boost/asio.hpp>
-#include <boost/thread.hpp>
-
 using grpc::ServerBuilder;
 
 namespace grpc_services
@@ -23,8 +20,8 @@ namespace grpc_services
 	public:
 		explicit DatabaseClientImpl(const ClientContext& context) 
 			: active_(false), context_(context)
-		{
-			threads_.create_thread(boost::bind(&boost::asio::io_service::run, &io_service_));
+			, thread_pool_(0)
+		{	
 			logger_ = context.unit_context()->logger();
 			DatabaseClientImpl::init();
 		}
@@ -32,7 +29,6 @@ namespace grpc_services
 		~DatabaseClientImpl()		{
 			DatabaseClientImpl::stop();
 			logger_->info("{0} destroyed", class_name());
-
 		}
 
 		void init() override
@@ -55,15 +51,15 @@ namespace grpc_services
 			active_ = true;
 
 			for (auto handler : handlers_)
-				io_service_.post(handler.second.callback);
+				thread_pool_.Add(handler.second.callback);			
 
 			logger_->info("{0} connected to {1}", class_name()
 				, context_.address().get());
 		}
 
 		void stop() override
-		{			
-			io_service_.stop();
+		{		
+		
 			for (auto it : handlers_)
 				it.second.completion_queue->Shutdown();
 			handlers_.clear();
@@ -74,6 +70,8 @@ namespace grpc_services
 		std::shared_ptr<DataTypes::GetResponse>
 			get(const DataTypes::GetRequest& request) override
 		{
+			logger_->info("{0} Get request ", class_name());
+
 			DataTypes::MessageBytes message;
 			utils::to_bytes(request, message);
 
@@ -82,10 +80,18 @@ namespace grpc_services
 				return nullptr;
 
 			auto call = new AsyncGetRequestCall;
+			call->context.AddMetadata("guid", "01234");
 			call->reader = stub_->AsyncGet(&call->context, message, queue);
 			call->reader->Finish(&call->response, &call->status, reinterpret_cast<void*>(call));
 
-			return utils::get_result(call->promise_);
+			try
+			{
+				auto result = utils::get_result(call->promise_);
+				return result;
+			}
+			catch (std::exception&){
+				return nullptr;
+			}
 		}
 
 		std::shared_ptr<DataTypes::CommitResponse>
@@ -114,6 +120,7 @@ namespace grpc_services
 
 			auto callback = std::bind( &DatabaseClientImpl::async_complete_rpc<T>
 				                        , this, cq.get());
+			
 			handlers_.insert(
 				std::pair<std::string, ClientRequestHandler>(
 					typeid(T).name(), ClientRequestHandler(cq, callback)));
@@ -149,15 +156,14 @@ namespace grpc_services
 		bool active_;
 		std::unique_ptr<Services::DatabaseService::Stub> stub_       ;
 		std::shared_ptr<grpc::Channel>                   channel_    ;
-				
+						
 		ClientContext context_;
 		ClientRequestHandlers handlers_;
 
-		boost::asio::io_service io_service_;
-		boost::thread_group threads_;
-
 		std::shared_ptr<contracts::common::Logger> logger_;
 
+		grpc::DynamicThreadPool thread_pool_;
+		
 		DatabaseClientImpl(const DatabaseClientImpl&) = delete;
 		DatabaseClientImpl& operator=(const DatabaseClientImpl&) = delete;
 	};

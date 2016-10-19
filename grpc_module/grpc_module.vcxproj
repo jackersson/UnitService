@@ -169,6 +169,7 @@
     <ClInclude Include="include\coordinator_service\coordinator_client_impl.hpp" />
     <ClInclude Include="include\database_service\database_client_calls.hpp" />
     <ClInclude Include="include\facial_service\facial_client_impl.hpp" />
+    <ClInclude Include="include\features\heartbeat.hpp" />
     <ClInclude Include="include\request_handler.hpp" />
     <ClInclude Include="include\server_manager.hpp" />
     <ClInclude Include="include\server_context.hpp" />

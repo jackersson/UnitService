@@ -12,7 +12,7 @@ namespace grpc_services
 	public:
 		explicit ServerContext(  contracts::services::ServiceAddress address
 			                     , std::shared_ptr<grpc::ServerBuilder> builder
-		                       , contracts::IUnitContextPtr context)
+		                       , contracts::IUnitContext* context)
 			: server_builder_(builder)
 			, address_(address)
 			, context_(context)
@@ -26,14 +26,14 @@ namespace grpc_services
 			return address_;
 		}
 
-		contracts::IUnitContextPtr unit_context() const {
+		contracts::IUnitContext* unit_context() const {
 			return context_;
 		}
 
 	private:
 		std::shared_ptr<grpc::ServerBuilder> server_builder_;
 		contracts::services::ServiceAddress  address_;
-		contracts::IUnitContextPtr           context_;
+		contracts::IUnitContext*           context_;
 	};
 }
 

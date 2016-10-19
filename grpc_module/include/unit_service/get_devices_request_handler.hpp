@@ -17,7 +17,7 @@ namespace grpc_services
 		public:
 			GetDevicesRequestHandler(AsyncService* service
 				, grpc::ServerCompletionQueue* completion_queue
-			  , contracts::IUnitContextPtr context)
+			  , contracts::IUnitContext* context)
 				: RequestHandler<AsyncService>(service, completion_queue )
 				,	responder_(&server_context_)			
 				, context_(context)
@@ -50,7 +50,7 @@ namespace grpc_services
 		private:		
 			google::protobuf::Empty  request_;
 			grpc::ServerAsyncResponseWriter<DataTypes::Devices>    responder_;
-			contracts::IUnitContextPtr context_;
+			contracts::IUnitContext* context_;
 
 		};
 		

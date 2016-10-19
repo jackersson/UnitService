@@ -9,13 +9,12 @@ namespace repository_tests
 		launcher.init();
 
 		auto context = launcher.context();
-		EXPECT_NE(nullptr, context);
+		//EXPECT_NE(nullptr, context);
 
 		std::vector<DataTypes::Location> items;
 		auto request = new DataTypes::GetLocationRequest();
-		context->repository()->locations()->get(request, items);
+		context.repository()->locations()->get(request, items);
 
-		//TODO not correct de_init()
 		EXPECT_TRUE(items.size() > 0);
 	}
 

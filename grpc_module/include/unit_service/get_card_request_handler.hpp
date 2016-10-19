@@ -21,7 +21,7 @@ namespace grpc_services
 		public:
 			GetCardRequestHandler(AsyncService* service
 				, grpc::ServerCompletionQueue* completion_queue
-				, contracts::IUnitContextPtr context)
+				, contracts::IUnitContext* context)
 				: RequestHandler<AsyncService>(service, completion_queue)
 				, responder_(&server_context_)
 				, context_(context)
@@ -98,7 +98,7 @@ namespace grpc_services
 		private:
 			DataTypes::Device  request_;
 			grpc::ServerAsyncResponseWriter<DataTypes::CardMsg> responder_;
-			contracts::IUnitContextPtr context_;
+			contracts::IUnitContext* context_;
 			clock_t creation_time_;
 		};
 	}

@@ -4,6 +4,7 @@
 #include <contracts/data/irepository.hpp>
 #include <mutex>
 #include <data_utils.hpp>
+#include <contracts/data/data_utils.hpp>
 
 namespace data_core
 {
@@ -85,7 +86,7 @@ namespace data_core
 		  	find(const DataTypes::Key& key)
 			{
 				auto predicate = [key](std::shared_ptr<DataTypes::Location> ent) {
-					return utils::keys_equal(ent->id(), key);
+					return contracts::data::keys_equal(ent->id(), key);
 				};
 
 				auto it = std::find_if(entities_.begin(), entities_.end(), predicate);

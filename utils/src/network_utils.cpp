@@ -1,10 +1,16 @@
 #include "network_utils.hpp"
 
-#include <stdio.h>
 #include <sstream>
-
+#include <asio/io_service.hpp>
+#include <asio/ip/tcp.hpp>
+#include <asio/ip/host_name.hpp>
+#include <iostream>
+#include "platform_includes.hpp"
+/*
 #if defined(WIN32) || defined(UNDER_CE)
 #   include <windows.h>
+#   include <rpc.h>
+
 #pragma comment( lib, "Rpcrt4.lib" )
 #   if defined(UNDER_CE)
 #       include <iphlpapi .h="">
@@ -22,11 +28,29 @@
 #   include </sys><sys socket.h="">
 #   include <arpa inet.h="">
 #endif
-
+*/
 namespace utils
 {
 	namespace network
-	{
+	{	
+		std::string MACAddressUtility::get_local_ip()
+		{			
+			boost::asio::io_service io_service;
+			boost::asio::ip::tcp::resolver resolver(io_service);
+			const size_t max_ip_address_size = 16;
+			auto h = boost::asio::ip::host_name();
+			std::string target_ip = "127.0.0.1";
+			std::for_each(resolver.resolve({ h, "" }), {},
+				[&target_ip, max_ip_address_size](const auto& re) {
+				std::string address = re.endpoint().address().to_string();
+				if (address.size() <= max_ip_address_size)
+					target_ip = address;
+			});
+		
+			return target_ip;
+		}
+		
+
 		long MACAddressUtility::get_mac_address(unsigned char * result)
 		{
 			// Fill result with zeroes
@@ -230,5 +254,8 @@ namespace utils
 			return 0;
 		}
   #endif
+		
 		}
+
+
 }

@@ -1,5 +1,3 @@
-/*
-
 #ifndef DataUtils_Included
 #define DataUtils_Included
 
@@ -10,12 +8,15 @@
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/random_generator.hpp>
 
-namespace data_core
+namespace contracts
 {
-	namespace utils
+	namespace data
 	{
-		inline bool try_parse_guid( const std::string& value
-		                         	, boost::uuids::uuid& uid)
+		const int UUID_BYTES_SIZE = 16;
+
+
+		inline bool try_parse_guid(const std::string& value
+			, boost::uuids::uuid& uid)
 		{
 			try
 			{
@@ -26,17 +27,28 @@ namespace data_core
 				return false;
 			}
 		}
-			
+
 		//TODO check if guid not empty
 
 		inline void set_guid(const boost::uuids::uuid& guid, DataTypes::Key& key)
 		{
-			const auto uid_size = 16;
-			unsigned char data[uid_size];
-			memcpy(&data, guid.data, uid_size);
+			unsigned char data[UUID_BYTES_SIZE];
+			memcpy(&data, guid.data, UUID_BYTES_SIZE);
 
 			auto str = new std::string(data, data + sizeof(data) / sizeof(data[0]));
 			key.set_allocated_guid(str);
+		}
+
+		inline std::string to_bytestring(const std::string& guid)
+		{
+			boost::uuids::uuid uuid;
+			if (!try_parse_guid(guid, uuid))
+				throw std::exception("Cannot parse guid from string");
+
+			unsigned char data[UUID_BYTES_SIZE];
+			memcpy(&data, uuid.data, UUID_BYTES_SIZE);
+
+			return std::string(data, data + sizeof(data) / sizeof(data[0]));
 		}
 
 		inline void set_guid(const std::string& guid, DataTypes::Key& key)
@@ -54,7 +66,7 @@ namespace data_core
 				return false;
 
 			auto key_guid = key.guid();
-			memcpy(&guid, key_guid.data(), 16);
+			memcpy(&guid, key_guid.data(), UUID_BYTES_SIZE);
 			return true;
 		}
 
@@ -71,7 +83,7 @@ namespace data_core
 		}
 
 		inline std::string uuid_to_string(const boost::uuids::uuid& uid)
-		{				
+		{
 			return to_string(uid);
 		}
 
@@ -89,10 +101,10 @@ namespace data_core
 			return to_string(uuid);
 		}
 
-		
 
-		inline bool keys_equal( const DataTypes::Key& first
-			                    , const DataTypes::Key& second)
+
+		inline bool keys_equal(const DataTypes::Key& first
+			, const DataTypes::Key& second)
 		{
 			if (first.id_type_case() != second.id_type_case())
 				return false;
@@ -116,4 +128,3 @@ namespace data_core
 }
 
 #endif
-*/

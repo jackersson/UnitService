@@ -12,7 +12,7 @@ namespace data_core
 	class RepositoryContainer	: public contracts::data::IRepositoryContainer	
 	{
 	public:
-		explicit RepositoryContainer(contracts::IUnitContextPtr context )
+		explicit RepositoryContainer(contracts::IUnitContext* context )
 			: context_(context)
 		{	}
 
@@ -46,7 +46,7 @@ namespace data_core
 		}
 
 	private:
-		contracts::IUnitContextPtr context_;
+		contracts::IUnitContext* context_;
 
 		contracts::data::VisitRecordRepositoryPtr visit_record_repository_;
 		contracts::data::LocationRepositoryPtr    location_repository_    ;

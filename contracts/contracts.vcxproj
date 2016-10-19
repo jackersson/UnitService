@@ -157,6 +157,7 @@
     <ClInclude Include="include\contracts\common\ilifecycle.hpp" />
     <ClInclude Include="include\contracts\common\logger.hpp" />
     <ClInclude Include="include\contracts\common\raw_image.hpp" />
+    <ClInclude Include="include\contracts\data\data_utils.hpp" />
     <ClInclude Include="include\contracts\data\irepository.hpp" />
     <ClInclude Include="include\contracts\devices\access_device\access_device_types.hpp" />
     <ClInclude Include="include\contracts\devices\access_device\iaccess_coordinator.hpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="include\contracts\locations\itrack_location_coordinator.hpp" />
     <ClInclude Include="include\contracts\observers\iobservable.hpp" />
     <ClInclude Include="include\contracts\observers\observable..hpp" />
+    <ClInclude Include="include\contracts\services\icoordinator_api.hpp" />
     <ClInclude Include="include\contracts\services\idatabase_api.hpp" />
     <ClInclude Include="include\contracts\services\iserver_manager.hpp" />
     <ClInclude Include="include\contracts\services\iservice.hpp" />

@@ -8,11 +8,7 @@
 class Launcher : contracts::common::IModule
 {
 public:
-	Launcher()
-		: configuration_(std::make_shared<UnitServiceConfiguration>())
-	{}
-
-	~Launcher()	{
+	virtual ~Launcher()	{
 		Launcher::de_init();
 	}
 
@@ -20,18 +16,20 @@ public:
 
 	void de_init() override;
 
-	std::shared_ptr<UnitServiceConfiguration> configuration() const	{
+	const UnitServiceConfiguration& configuration() const	{
 		return configuration_;
 	}
 
-	std::shared_ptr<UnitService> context() const {
+	UnitService& context() {
 		return unit_service_;
 	}
 
+	static const std::string CONFIG_NAME; //= "config.bio";
+
 private:
-	std::shared_ptr<UnitService>              unit_service_ ;
-	std::shared_ptr<UnitServiceConfiguration> configuration_;
-	static const std::string config_filename_; //= "config.bio";
+	UnitServiceConfiguration configuration_;
+	UnitService unit_service_;
+
 };
 
 #endif

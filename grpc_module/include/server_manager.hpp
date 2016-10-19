@@ -14,8 +14,9 @@ namespace grpc_services
 	class ServerManager : public contracts::services::IServiceManager
 	{
 	public:
-		explicit ServerManager(contracts::IUnitContextPtr context )
+		explicit ServerManager(contracts::IUnitContext* context)
 			: context_(context)
+			, active_(false)
 		{
 			init();
 		}
@@ -25,12 +26,20 @@ namespace grpc_services
 		}
 
 		void start() override {
+			if (active_)
+				return;
+
+			active_ = true;
 			for (auto it = servers_.begin(); it != servers_.end(); ++it)
 				it->get()->start();
 		}
 
 		void stop()  override {
-			server_->Shutdown();
+			if (!active_)
+				return;
+			if (server_ != nullptr )
+		  	server_->Shutdown();
+
 			for (auto it : servers_)
 			  it->stop();
 			servers_.clear();
@@ -40,8 +49,8 @@ namespace grpc_services
 		void init()
 		{
 			auto builder = std::make_shared<ServerBuilder>();		
-			auto port    = context_->configuration()->unit_service_port();
-
+			auto port    = context_->configuration().unit_service_port();
+			
 			//Unit service
 			contracts::services::ServiceAddress sa("0.0.0.0", port);
 			auto unit_service = std::make_shared<UnitServiceImpl>(
@@ -51,11 +60,12 @@ namespace grpc_services
 			server_ = builder->BuildAndStart();
 		}
 
+		bool active_;
 
 		ServerManager(const ServerManager&) = delete;
 		ServerManager& operator=(const ServerManager&) = delete;
 
-		contracts::IUnitContextPtr context_;
+		contracts::IUnitContext* context_;
 
 		std::unique_ptr<grpc::Server>        server_;
 		std::vector<std::shared_ptr<contracts::services::IService>> servers_;

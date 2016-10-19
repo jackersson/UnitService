@@ -11,6 +11,7 @@ namespace utils
 	{
 	public:
 		Threadable() : active_(false), cancelation_requested(false)
+			, work(io_service)
 		{
 			threads.create_thread(boost::bind(&boost::asio::io_service::run, &io_service));
 		}
@@ -31,7 +32,7 @@ namespace utils
 			cancelation_requested = true;
 			active_ = false;
 			io_service.stop();
-			//thread_.join();
+			threads.join_all();
 		}
 
 		bool active() const {
@@ -54,10 +55,11 @@ namespace utils
 			instance->active_ = false;
 		}
 
-		std::thread thread_;
+		//std::thread thread_;
 
 		boost::asio::io_service io_service;
 	  boost::thread_group threads;
+		boost::asio::io_service::work work;
 
 		bool active_;
 

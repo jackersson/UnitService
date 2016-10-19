@@ -9,8 +9,9 @@
 #include "unit_service/open_door_request_handler.hpp"
 #include <service_utils.hpp>
 
-#include <boost/asio.hpp>
-#include <boost/thread.hpp>
+#include <boost/asio/io_service.hpp>
+#include <boost/bind.hpp>
+#include <boost/thread/thread.hpp>
 
 using grpc::ServerBuilder;
 
@@ -20,8 +21,9 @@ namespace grpc_services
 	{
 	public:
 		explicit UnitServiceImpl(ServerContext& context) : context_(context)
+			, work(ioService)
+			, cancelation_requested_(false)
 		{
-			threads_.create_thread(boost::bind(&boost::asio::io_service::run, &io_service_));
 			logger_ = context.unit_context()->logger();
 			UnitServiceImpl::init();
 		}
@@ -47,8 +49,9 @@ namespace grpc_services
 
 		void start() override
 		{
+			cancelation_requested_ = false;
 			for (auto handler: handlers_)
-				io_service_.post(handler.callback);
+				ioService.post(handler.callback);		
 	
 			logger_->info( "{0} listening on {1}", class_name()
 				           , context_.address().get() );
@@ -56,10 +59,19 @@ namespace grpc_services
 
 		void stop() override
 		{
-			io_service_.stop();	
-			for (auto& it : handlers_)
-				it.completion_queue->Shutdown();
-			handlers_.clear();
+			try
+			{
+				cancelation_requested_ = true;
+				for (auto& it : handlers_)
+					it.completion_queue->Shutdown();
+				ioService.stop();
+				threadpool.join_all();					
+				handlers_.clear();
+			}
+			catch (std::exception& )
+			{
+				//Not implemented
+			}
 
 			logger_->info("{0} stopped", class_name());
 		}
@@ -74,6 +86,7 @@ namespace grpc_services
 
 			while (true)
 			{
+				logger_->info("doing");
 				try
 				{
 					queue->Next(&tag, &ok);
@@ -83,6 +96,12 @@ namespace grpc_services
 				catch (std::exception& ex) {
 					logger_->error(ex.what());
 				}
+
+				if (cancelation_requested_)
+				{
+					logger_->info("Cancelation requested");
+					break;
+				}
 			}
 		}
 
@@ -90,7 +109,13 @@ namespace grpc_services
 		void add_rpc_handler(std::shared_ptr<grpc::ServerBuilder> builder)
 		{
 			auto cq_ = builder->AddCompletionQueue();			
-			auto callback = boost::bind(&UnitServiceImpl::handle_rpc<T>, this, cq_.get());
+
+			threadpool.create_thread(
+				boost::bind(&boost::asio::io_service::run, &ioService)
+			);			
+
+
+			auto callback = std::bind(&UnitServiceImpl::handle_rpc<T>, this, cq_.get());
 			handlers_.push_back(ServerRequestHandler(move(cq_), callback));
 		}
 
@@ -102,13 +127,19 @@ namespace grpc_services
 		UnitServiceImpl(const UnitServiceImpl&) = delete;
 		UnitServiceImpl& operator=(const UnitServiceImpl&) = delete;
 
+
+
 	  AsyncService  service_;
 
-		boost::asio::io_service io_service_;
-		boost::thread_group threads_;
+		bool cancelation_requested_;
 		
 		ServerRequestHandlers handlers_;
 		ServerContext context_;
+
+		boost::asio::io_service ioService;
+		boost::thread_group threadpool;
+		boost::asio::io_service::work work;
+
 		std::shared_ptr<contracts::common::Logger> logger_;
 	};
 }

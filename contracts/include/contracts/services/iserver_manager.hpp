@@ -3,6 +3,7 @@
 
 #include <contracts/common/ilifecycle.hpp>
 #include <contracts/services/idatabase_api.hpp>
+#include <contracts/services/icoordinator_api.hpp>
 
 namespace contracts
 {
@@ -19,7 +20,8 @@ namespace contracts
 		public:
 			virtual ~IClients() {}
 
-			virtual IDatabaseApiPtr database() = 0;
+			virtual IDatabaseApiPtr    database   () = 0;
+			virtual ICoordinatorApiPtr coordinator() = 0;
 		};
 
 		typedef std::shared_ptr<IClients> IClientsPtr;
