@@ -30,6 +30,7 @@
 #include "datatypes/visit_record.pb.h"
 #include "datatypes/key.pb.h"
 #include "datatypes/entity.pb.h"
+#include "datatypes/datetime.pb.h"
 // @@protoc_insertion_point(includes)
 
 namespace DataTypes {
@@ -658,17 +659,23 @@ class GetVisitRecordRequest : public ::google::protobuf::Message {
   const ::google::protobuf::RepeatedPtrField< ::DataTypes::Key >&
       persons() const;
 
-  // optional int64 datetime_from = 5;
+  // optional .DataTypes.DateTime datetime_from = 5;
+  bool has_datetime_from() const;
   void clear_datetime_from();
   static const int kDatetimeFromFieldNumber = 5;
-  ::google::protobuf::int64 datetime_from() const;
-  void set_datetime_from(::google::protobuf::int64 value);
+  const ::DataTypes::DateTime& datetime_from() const;
+  ::DataTypes::DateTime* mutable_datetime_from();
+  ::DataTypes::DateTime* release_datetime_from();
+  void set_allocated_datetime_from(::DataTypes::DateTime* datetime_from);
 
-  // optional int64 datetime_to = 6;
+  // optional .DataTypes.DateTime datetime_to = 6;
+  bool has_datetime_to() const;
   void clear_datetime_to();
   static const int kDatetimeToFieldNumber = 6;
-  ::google::protobuf::int64 datetime_to() const;
-  void set_datetime_to(::google::protobuf::int64 value);
+  const ::DataTypes::DateTime& datetime_to() const;
+  ::DataTypes::DateTime* mutable_datetime_to();
+  ::DataTypes::DateTime* release_datetime_to();
+  void set_allocated_datetime_to(::DataTypes::DateTime* datetime_to);
 
   // optional string card = 7;
   void clear_card();
@@ -707,8 +714,8 @@ class GetVisitRecordRequest : public ::google::protobuf::Message {
   ::google::protobuf::internal::ArenaStringPtr search_text_;
   ::google::protobuf::RepeatedPtrField< ::DataTypes::Key > locations_;
   ::google::protobuf::RepeatedPtrField< ::DataTypes::Key > persons_;
-  ::google::protobuf::int64 datetime_from_;
-  ::google::protobuf::int64 datetime_to_;
+  ::DataTypes::DateTime* datetime_from_;
+  ::DataTypes::DateTime* datetime_to_;
   ::google::protobuf::internal::ArenaStringPtr card_;
   ::DataTypes::Page* page_;
   ::DataTypes::Key* id_;
@@ -1853,32 +1860,80 @@ GetVisitRecordRequest::persons() const {
   return persons_;
 }
 
-// optional int64 datetime_from = 5;
-inline void GetVisitRecordRequest::clear_datetime_from() {
-  datetime_from_ = GOOGLE_LONGLONG(0);
+// optional .DataTypes.DateTime datetime_from = 5;
+inline bool GetVisitRecordRequest::has_datetime_from() const {
+  return !_is_default_instance_ && datetime_from_ != NULL;
 }
-inline ::google::protobuf::int64 GetVisitRecordRequest::datetime_from() const {
+inline void GetVisitRecordRequest::clear_datetime_from() {
+  if (GetArenaNoVirtual() == NULL && datetime_from_ != NULL) delete datetime_from_;
+  datetime_from_ = NULL;
+}
+inline const ::DataTypes::DateTime& GetVisitRecordRequest::datetime_from() const {
   // @@protoc_insertion_point(field_get:DataTypes.GetVisitRecordRequest.datetime_from)
+  return datetime_from_ != NULL ? *datetime_from_ : *default_instance_->datetime_from_;
+}
+inline ::DataTypes::DateTime* GetVisitRecordRequest::mutable_datetime_from() {
+  
+  if (datetime_from_ == NULL) {
+    datetime_from_ = new ::DataTypes::DateTime;
+  }
+  // @@protoc_insertion_point(field_mutable:DataTypes.GetVisitRecordRequest.datetime_from)
   return datetime_from_;
 }
-inline void GetVisitRecordRequest::set_datetime_from(::google::protobuf::int64 value) {
+inline ::DataTypes::DateTime* GetVisitRecordRequest::release_datetime_from() {
+  // @@protoc_insertion_point(field_release:DataTypes.GetVisitRecordRequest.datetime_from)
   
-  datetime_from_ = value;
-  // @@protoc_insertion_point(field_set:DataTypes.GetVisitRecordRequest.datetime_from)
+  ::DataTypes::DateTime* temp = datetime_from_;
+  datetime_from_ = NULL;
+  return temp;
+}
+inline void GetVisitRecordRequest::set_allocated_datetime_from(::DataTypes::DateTime* datetime_from) {
+  delete datetime_from_;
+  datetime_from_ = datetime_from;
+  if (datetime_from) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.GetVisitRecordRequest.datetime_from)
 }
 
-// optional int64 datetime_to = 6;
-inline void GetVisitRecordRequest::clear_datetime_to() {
-  datetime_to_ = GOOGLE_LONGLONG(0);
+// optional .DataTypes.DateTime datetime_to = 6;
+inline bool GetVisitRecordRequest::has_datetime_to() const {
+  return !_is_default_instance_ && datetime_to_ != NULL;
 }
-inline ::google::protobuf::int64 GetVisitRecordRequest::datetime_to() const {
+inline void GetVisitRecordRequest::clear_datetime_to() {
+  if (GetArenaNoVirtual() == NULL && datetime_to_ != NULL) delete datetime_to_;
+  datetime_to_ = NULL;
+}
+inline const ::DataTypes::DateTime& GetVisitRecordRequest::datetime_to() const {
   // @@protoc_insertion_point(field_get:DataTypes.GetVisitRecordRequest.datetime_to)
+  return datetime_to_ != NULL ? *datetime_to_ : *default_instance_->datetime_to_;
+}
+inline ::DataTypes::DateTime* GetVisitRecordRequest::mutable_datetime_to() {
+  
+  if (datetime_to_ == NULL) {
+    datetime_to_ = new ::DataTypes::DateTime;
+  }
+  // @@protoc_insertion_point(field_mutable:DataTypes.GetVisitRecordRequest.datetime_to)
   return datetime_to_;
 }
-inline void GetVisitRecordRequest::set_datetime_to(::google::protobuf::int64 value) {
+inline ::DataTypes::DateTime* GetVisitRecordRequest::release_datetime_to() {
+  // @@protoc_insertion_point(field_release:DataTypes.GetVisitRecordRequest.datetime_to)
   
-  datetime_to_ = value;
-  // @@protoc_insertion_point(field_set:DataTypes.GetVisitRecordRequest.datetime_to)
+  ::DataTypes::DateTime* temp = datetime_to_;
+  datetime_to_ = NULL;
+  return temp;
+}
+inline void GetVisitRecordRequest::set_allocated_datetime_to(::DataTypes::DateTime* datetime_to) {
+  delete datetime_to_;
+  datetime_to_ = datetime_to;
+  if (datetime_to) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.GetVisitRecordRequest.datetime_to)
 }
 
 // optional string card = 7;

@@ -107,6 +107,8 @@ namespace contracts
 			static bool initialized_;
 
 		};
+
+		typedef std::shared_ptr<Logger> LoggerPtr;
 	}
 }
 

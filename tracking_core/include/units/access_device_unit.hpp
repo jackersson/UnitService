@@ -8,6 +8,7 @@
 #include <contracts/devices/access_device/iaccess_coordinator.hpp>
 #include <contracts/devices/access_device/iaccess_device_engine.hpp>
 #include <contracts/iunit_context.hpp>
+#include <contracts/data/data_utils.hpp>
 
 namespace tracking
 {
@@ -43,7 +44,7 @@ namespace tracking
 			, public contracts::common::ILifecycle
 			, public IIdentification<std::string>
 			, public contracts::devices::access_device::IAccessCoordinator
-			, public std::enable_shared_from_this<contracts::devices::IDeviceObserver<ICommandResult>>
+			//, public std::enable_shared_from_this<contracts::devices::IDeviceObserver<ICommandResult>>
 		{
 
 		public:
@@ -85,7 +86,7 @@ namespace tracking
 					return;
 
 				engine_->add(device_name_);
-				engine_->subscribe(shared_from_this(), device_name_);
+				engine_->subscribe(this, device_name_);
 			}
 
 			void stop() override
@@ -132,6 +133,15 @@ namespace tracking
 			
 			DataTypes::VisitRecord* identify(const std::string& data) override
 			{
+				auto all_request = new DataTypes::GetPersonRequest();
+				all_request->set_card(data);
+
+				std::vector<DataTypes::Person> items;
+				context_->repository()->persons()->get(all_request, items);
+
+				auto person_find = items.size() > 0;
+				auto person      = items[0];
+
 				//TODO fix car find
 				DataTypes::Card* card = nullptr; //context_->repository()->cards()->get();
 				auto visit_record = new DataTypes::VisitRecord();
@@ -140,7 +150,7 @@ namespace tracking
 					visit_record->set_allocated_card(card);
 					auto person = new DataTypes::Key(card->owner_id());
 					visit_record->set_allocated_person_id(person);
-					visit_record->set_time(clock());
+					visit_record->set_allocated_time(contracts::data::get_current_time());
 				}
 
 				return visit_record;

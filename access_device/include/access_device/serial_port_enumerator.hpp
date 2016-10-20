@@ -4,9 +4,9 @@
 #include <threadable.hpp>
 #include <serial/serial.h>
 #include <thread>
-#include <idevice_enumerator.hpp>
 #include <iostream>
 #include <containers_utils.hpp>
+#include <contracts/devices/idevice_enumerator.hpp>
 
 namespace access_device
 {

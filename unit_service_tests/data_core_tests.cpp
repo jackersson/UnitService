@@ -1,11 +1,9 @@
 #include <gtest/gtest.h>
 #include <launcher.hpp>
 
-#include <boost/lexical_cast.hpp>
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/random_generator.hpp>
-#include <data_utils.hpp>
 #include <network_utils.hpp>
 #include <localstorage/locations_localstorage.hpp>
 
@@ -56,8 +54,7 @@ namespace unit_service_tests
 		EXPECT_EQ(3, observer.notified());	
 
 		local_storage.unsubscribe(&observer);
-		EXPECT_EQ(0, local_storage.count());
-		
+		EXPECT_EQ(0, local_storage.count());		
 	}
 	
 

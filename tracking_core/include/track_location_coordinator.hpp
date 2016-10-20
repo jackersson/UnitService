@@ -1,5 +1,6 @@
 #ifndef TrackLocationCoordinator_Included
 #define TrackLocationCoordinator_Included
+
 #include <vector>
 #include <datatypes/location.pb.h>
 #include <concurrent_containers.hpp>
@@ -8,26 +9,37 @@
 #include <iostream>
 
 #include <boost/uuid/uuid.hpp>
-#include <boost/uuid/uuid_generators.hpp>
-#include <boost/lexical_cast.hpp>
 
 #include "track_location.hpp"
 #include <contracts/locations/itrack_location_coordinator.hpp>
+#include <contracts/data/data_utils.hpp>
 
 namespace tracking
 {
 	namespace locations
-	{
-		
+	{		
 		class TrackLocationCoordinator : public contracts::locations::ITrackLocationsCoordinator
+			                             , public contracts::observers::IObserver
+		                               , public contracts::common::IModule
 		{
 		public:
 			explicit TrackLocationCoordinator(contracts::IUnitContextPtr context)
 				: context_(context)
+
+			{}
+
+			void on_data() override
 			{
-				auto locations = context_->repository()->locations()->local();
-				//locations->subscribe(
-				//	std::bind(&TrackLocationCoordinator::on_data_changed, this));
+				on_data_changed();
+			}
+
+			void init() override {
+				location_repository_ = context_->repository()->locations()->local();
+				location_repository_->local()->subscribe(this);
+			}
+
+			void de_init() override	{
+				location_repository_->local()->unsubscribe(this);
 			}
 
 			virtual ~TrackLocationCoordinator() {}
@@ -40,14 +52,19 @@ namespace tracking
 
 			bool grant_access(const DataTypes::Location& location) override
 			{
-				auto uuid = to_uuid(location.id());
+				boost::uuids::uuid uuid;
+				if ( !contracts::data::get_guid(location.id(), uuid) )
+				{
+					context_->logger()->error("Grant access failed. Location not found");
+					return false;
+				}
 				try
 				{
 					auto it = track_locations_.find(uuid);
 					it->access_coordinator().set_state(DataTypes::AccessState::Granted);
 				}
-				catch (std::exception&)
-				{
+				catch (std::exception& exception)	{
+					context_->logger()->error("Grant access failed. {0}", exception.what());
 					return false;
 				}
 				
@@ -56,25 +73,24 @@ namespace tracking
 
 		private:
 			void on_data_changed()
-			{
-			//	auto locations = context_->repository()->locations();
-			//	auto data = locations->local()->entities(); //TODO implement
-				//TODO check with current mac address
-				std::vector<DataTypes::Location> data;
-
-				for (auto location : data)
+			{	
+				auto& data = *location_repository_->local();
+				for (size_t i = 0; i < data.size() ; ++i)
 				{
-					auto guid = to_uuid(location.id());
+					auto location = data[i];
+					boost::uuids::uuid uid;
+					if (!contracts::data::get_guid(location.id(), uid))
+						continue;
 					
 					try {
-						auto existing = track_locations_.find(guid);
+						auto existing = track_locations_.find(uid);
 						existing->update(location);
 					}
 					catch (std::exception& exception)
 					{
 						std::cout << exception.what() << std::endl;
 						auto track_location = std::make_shared<TrackLocation>(location, context_);
-						track_locations_.insert(guid, track_location);
+						track_locations_.insert(uid, track_location);
 					}					
 				}
 
@@ -84,41 +100,19 @@ namespace tracking
 				{
 					auto track_location = item.second;
 					auto location = track_location->location();
-					if (contains(data, location))
+					if (data.contains(location.id()))
 					{
 						track_location->stop();
 						track_locations_.remove(item.first);
 					}
-					//TODO fix errors
-				  //else
-						//locations_.push_back(track_location);
+				  else
+						locations_.push_back(track_location);
 				}
 			}
-
-			static bool contains( const std::vector<DataTypes::Location>& container
-				                  , DataTypes::Location value)
-			{				
-				for (auto it : container)
-				{
-					if (it.id().guid() == value.id().guid())
-						return true;
-				}
-				return false;
-			}
-		
-
-			//TODO to utils 
-			boost::uuids::uuid to_uuid(const DataTypes::Key& key)
-			{
-				return boost::uuids::random_generator()();
-				//TODO check why its not working
-				//return boost::lexical_cast<boost::uuids::uuid>(key.guid());
-			}
-
+					
 			contracts::IUnitContextPtr context_;
-
+			contracts::data::LocationRepositoryPtr location_repository_;
 			std::vector<contracts::locations::ILocationPtr> locations_;
-
 
 			concurrent::containers::ConcurrentMap<boost::uuids::uuid, TrackLocationPtr> track_locations_;
 		};

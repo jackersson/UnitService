@@ -9,19 +9,20 @@ namespace tracking
 {
 	namespace locations
 	{
-		class TrackLocation : contracts::locations::ILocation
+		class TrackLocation : public contracts::locations::ILocation
 		{
 		public:
 			explicit TrackLocation(contracts::IUnitContextPtr context)
-				:context_(context)
-			{
-				//visit_records_ = context_->repository()->visit_records();
-			}
+				: context_(context)
+				, visit_records_repository_(context_->repository()->visit_records())
+			{}
 
 			virtual ~TrackLocation() {}
 
 			explicit TrackLocation(const DataTypes::Location& object
 				                   , contracts::IUnitContextPtr context)
+				: context_(context)
+				, visit_records_repository_(context_->repository()->visit_records())
 			{
 				update(object);
 			}
@@ -58,7 +59,7 @@ namespace tracking
 				object.set_state(state);
 
 				//TODO make in parallel
-				//visit_records_->add(object);
+				visit_records_repository_->add(&object);
 				//parallel
 				access_coordinator_->set_state(state);
 			}
@@ -89,8 +90,9 @@ namespace tracking
 		private:
 			std::shared_ptr<contracts::devices::access_device::IAccessCoordinator> access_coordinator_;
 			DataTypes::Location location_;
-			std::shared_ptr<contracts::data::IRepository<DataTypes::VisitRecord>> visit_records_;
 			contracts::IUnitContextPtr context_;
+			contracts::data::VisitRecordRepositoryPtr visit_records_repository_;
+
 		
 		};
 

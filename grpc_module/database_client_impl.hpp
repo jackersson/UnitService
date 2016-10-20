@@ -80,13 +80,12 @@ namespace grpc_services
 				return nullptr;
 
 			auto call = new AsyncGetRequestCall;
-			call->context.AddMetadata("guid", "01234");
 			call->reader = stub_->AsyncGet(&call->context, message, queue);
 			call->reader->Finish(&call->response, &call->status, reinterpret_cast<void*>(call));
 
 			try
 			{
-				auto result = utils::get_result(call->promise_);
+				auto result = utils::get_result(call->promise, std::chrono::milliseconds(300));
 				return result;
 			}
 			catch (std::exception&){
@@ -105,10 +104,17 @@ namespace grpc_services
 				return nullptr;
 
 			auto call = new AsyncCommitRequestCall;
-			call->reader = stub_->AsyncGet(&call->context, message, it->second.completion_queue.get());
+			call->reader = stub_->AsyncCommit(&call->context, message, it->second.completion_queue.get());
 			call->reader->Finish(&call->response, &call->status, reinterpret_cast<void*>(call));
 
-			return utils::get_result(call->promise);
+			try
+			{
+				auto result = utils::get_result(call->promise, std::chrono::milliseconds(300));
+				return result;
+			}
+			catch (std::exception&) {
+				return nullptr;
+			}
 		}
 
 

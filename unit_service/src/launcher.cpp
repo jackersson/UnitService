@@ -3,9 +3,6 @@
 
  const std::string Launcher::CONFIG_NAME = "config.bio";
 
-bool try_load_config    (UnitServiceConfiguration& configuration);
-void create_file        (const std::string& filename);
-void save_default_config(const std::string& filename);
 
  void Launcher::init()
  {
@@ -19,9 +16,8 @@ void save_default_config(const std::string& filename);
  }
 
  void Launcher::de_init()
- {
-	 //if ( unit_service_ != nullptr )
-	 //  unit_service_->de_init();
+ {	
+	 unit_service_.de_init();
  }
 
  //TODO refactor

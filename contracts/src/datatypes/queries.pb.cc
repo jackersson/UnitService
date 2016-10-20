@@ -250,40 +250,43 @@ void protobuf_AddDesc_datatypes_2fqueries_2eproto() {
   ::DataTypes::protobuf_AddDesc_datatypes_2fvisit_5frecord_2eproto();
   ::DataTypes::protobuf_AddDesc_datatypes_2fkey_2eproto();
   ::DataTypes::protobuf_AddDesc_datatypes_2fentity_2eproto();
+  ::DataTypes::protobuf_AddDesc_datatypes_2fdatetime_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\027datatypes/queries.proto\022\tDataTypes\032\034da"
     "tatypes/visit_record.proto\032\023datatypes/ke"
-    "y.proto\032\026datatypes/entity.proto\"@\n\013GetRe"
-    "sponse\022\"\n\005items\030\001 \001(\0132\023.DataTypes.Entiti"
-    "es\022\r\n\005count\030\002 \001(\003\"\203\002\n\nGetRequest\0225\n\016pers"
-    "on_request\030\001 \001(\0132\033.DataTypes.GetPersonRe"
-    "questH\000\0221\n\014card_request\030\002 \001(\0132\031.DataType"
-    "s.GetCardRequestH\000\0229\n\020location_request\030\003"
-    " \001(\0132\035.DataTypes.GetLocationRequestH\000\022@\n"
-    "\024visit_record_request\030\004 \001(\0132 .DataTypes."
-    "GetVisitRecordRequestH\000B\016\n\014request_type\""
-    "\272\001\n\020GetPersonRequest\022\023\n\013search_text\030\001 \001("
-    "\t\022\022\n\nfirst_name\030\002 \001(\t\022\021\n\tlast_name\030\003 \001(\t"
-    "\022\014\n\004card\030\004 \001(\t\022!\n\tlocations\030\005 \003(\0132\016.Data"
-    "Types.Key\022\035\n\004page\030\006 \001(\0132\017.DataTypes.Page"
-    "\022\032\n\002id\030\007 \001(\0132\016.DataTypes.Key\"\234\001\n\022GetLoca"
-    "tionRequest\022\023\n\013search_text\030\001 \001(\t\022\014\n\004name"
-    "\030\002 \001(\t\022\023\n\013mac_address\030\003 \001(\t\022\023\n\013device_na"
-    "me\030\004 \001(\t\022\035\n\004page\030\005 \001(\0132\017.DataTypes.Page\022"
-    "\032\n\002id\030\006 \001(\0132\016.DataTypes.Key\"\214\002\n\025GetVisit"
-    "RecordRequest\022\023\n\013search_text\030\001 \001(\t\022%\n\005st"
-    "ate\030\002 \001(\0162\026.DataTypes.AccessState\022!\n\tloc"
-    "ations\030\003 \003(\0132\016.DataTypes.Key\022\037\n\007persons\030"
-    "\004 \003(\0132\016.DataTypes.Key\022\025\n\rdatetime_from\030\005"
-    " \001(\003\022\023\n\013datetime_to\030\006 \001(\003\022\014\n\004card\030\007 \001(\t\022"
-    "\035\n\004page\030\010 \001(\0132\017.DataTypes.Page\022\032\n\002id\030\t \001"
-    "(\0132\016.DataTypes.Key\"#\n\004Page\022\r\n\005index\030\001 \001("
-    "\005\022\014\n\004size\030\002 \001(\005\"\177\n\016GetCardRequest\022\023\n\013sea"
-    "rch_text\030\001 \001(\t\022\031\n\021unique_identifier\030\002 \001("
-    "\t\022\036\n\006owners\030\003 \003(\0132\016.DataTypes.Key\022\035\n\004pag"
-    "e\030\004 \001(\0132\017.DataTypes.PageBL\n\007ex.grpcZ;git"
-    "hub.com/Enebra/ServiceCoordinator/grpc/d"
-    "atatypes/queries\242\002\003RTGb\006proto3", 1310);
+    "y.proto\032\026datatypes/entity.proto\032\030datatyp"
+    "es/datetime.proto\"@\n\013GetResponse\022\"\n\005item"
+    "s\030\001 \001(\0132\023.DataTypes.Entities\022\r\n\005count\030\002 "
+    "\001(\003\"\203\002\n\nGetRequest\0225\n\016person_request\030\001 \001"
+    "(\0132\033.DataTypes.GetPersonRequestH\000\0221\n\014car"
+    "d_request\030\002 \001(\0132\031.DataTypes.GetCardReque"
+    "stH\000\0229\n\020location_request\030\003 \001(\0132\035.DataTyp"
+    "es.GetLocationRequestH\000\022@\n\024visit_record_"
+    "request\030\004 \001(\0132 .DataTypes.GetVisitRecord"
+    "RequestH\000B\016\n\014request_type\"\272\001\n\020GetPersonR"
+    "equest\022\023\n\013search_text\030\001 \001(\t\022\022\n\nfirst_nam"
+    "e\030\002 \001(\t\022\021\n\tlast_name\030\003 \001(\t\022\014\n\004card\030\004 \001(\t"
+    "\022!\n\tlocations\030\005 \003(\0132\016.DataTypes.Key\022\035\n\004p"
+    "age\030\006 \001(\0132\017.DataTypes.Page\022\032\n\002id\030\007 \001(\0132\016"
+    ".DataTypes.Key\"\234\001\n\022GetLocationRequest\022\023\n"
+    "\013search_text\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\023\n\013mac_"
+    "address\030\003 \001(\t\022\023\n\013device_name\030\004 \001(\t\022\035\n\004pa"
+    "ge\030\005 \001(\0132\017.DataTypes.Page\022\032\n\002id\030\006 \001(\0132\016."
+    "DataTypes.Key\"\266\002\n\025GetVisitRecordRequest\022"
+    "\023\n\013search_text\030\001 \001(\t\022%\n\005state\030\002 \001(\0162\026.Da"
+    "taTypes.AccessState\022!\n\tlocations\030\003 \003(\0132\016"
+    ".DataTypes.Key\022\037\n\007persons\030\004 \003(\0132\016.DataTy"
+    "pes.Key\022*\n\rdatetime_from\030\005 \001(\0132\023.DataTyp"
+    "es.DateTime\022(\n\013datetime_to\030\006 \001(\0132\023.DataT"
+    "ypes.DateTime\022\014\n\004card\030\007 \001(\t\022\035\n\004page\030\010 \001("
+    "\0132\017.DataTypes.Page\022\032\n\002id\030\t \001(\0132\016.DataTyp"
+    "es.Key\"#\n\004Page\022\r\n\005index\030\001 \001(\005\022\014\n\004size\030\002 "
+    "\001(\005\"\177\n\016GetCardRequest\022\023\n\013search_text\030\001 \001"
+    "(\t\022\031\n\021unique_identifier\030\002 \001(\t\022\036\n\006owners\030"
+    "\003 \003(\0132\016.DataTypes.Key\022\035\n\004page\030\004 \001(\0132\017.Da"
+    "taTypes.PageBL\n\007ex.grpcZ;github.com/Eneb"
+    "ra/ServiceCoordinator/grpc/datatypes/que"
+    "ries\242\002\003RTGb\006proto3", 1378);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "datatypes/queries.proto", &protobuf_RegisterTypes);
   GetResponse::default_instance_ = new GetResponse();
@@ -2784,6 +2787,8 @@ GetVisitRecordRequest::GetVisitRecordRequest()
 
 void GetVisitRecordRequest::InitAsDefaultInstance() {
   _is_default_instance_ = true;
+  datetime_from_ = const_cast< ::DataTypes::DateTime*>(&::DataTypes::DateTime::default_instance());
+  datetime_to_ = const_cast< ::DataTypes::DateTime*>(&::DataTypes::DateTime::default_instance());
   page_ = const_cast< ::DataTypes::Page*>(&::DataTypes::Page::default_instance());
   id_ = const_cast< ::DataTypes::Key*>(&::DataTypes::Key::default_instance());
 }
@@ -2802,8 +2807,8 @@ void GetVisitRecordRequest::SharedCtor() {
   _cached_size_ = 0;
   search_text_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   state_ = 0;
-  datetime_from_ = GOOGLE_LONGLONG(0);
-  datetime_to_ = GOOGLE_LONGLONG(0);
+  datetime_from_ = NULL;
+  datetime_to_ = NULL;
   card_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   page_ = NULL;
   id_ = NULL;
@@ -2818,6 +2823,8 @@ void GetVisitRecordRequest::SharedDtor() {
   search_text_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   card_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (this != default_instance_) {
+    delete datetime_from_;
+    delete datetime_to_;
     delete page_;
     delete id_;
   }
@@ -2850,34 +2857,17 @@ GetVisitRecordRequest* GetVisitRecordRequest::New(::google::protobuf::Arena* are
 
 void GetVisitRecordRequest::Clear() {
 // @@protoc_insertion_point(message_clear_start:DataTypes.GetVisitRecordRequest)
-#if defined(__clang__)
-#define ZR_HELPER_(f) \
-  _Pragma("clang diagnostic push") \
-  _Pragma("clang diagnostic ignored \"-Winvalid-offsetof\"") \
-  __builtin_offsetof(GetVisitRecordRequest, f) \
-  _Pragma("clang diagnostic pop")
-#else
-#define ZR_HELPER_(f) reinterpret_cast<char*>(\
-  &reinterpret_cast<GetVisitRecordRequest*>(16)->f)
-#endif
-
-#define ZR_(first, last) do {\
-  ::memset(&first, 0,\
-           ZR_HELPER_(last) - ZR_HELPER_(first) + sizeof(last));\
-} while (0)
-
-  ZR_(datetime_from_, datetime_to_);
   search_text_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   state_ = 0;
+  if (GetArenaNoVirtual() == NULL && datetime_from_ != NULL) delete datetime_from_;
+  datetime_from_ = NULL;
+  if (GetArenaNoVirtual() == NULL && datetime_to_ != NULL) delete datetime_to_;
+  datetime_to_ = NULL;
   card_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (GetArenaNoVirtual() == NULL && page_ != NULL) delete page_;
   page_ = NULL;
   if (GetArenaNoVirtual() == NULL && id_ != NULL) delete id_;
   id_ = NULL;
-
-#undef ZR_HELPER_
-#undef ZR_
-
   locations_.Clear();
   persons_.Clear();
 }
@@ -2953,33 +2943,29 @@ bool GetVisitRecordRequest::MergePartialFromCodedStream(
         }
         if (input->ExpectTag(34)) goto parse_loop_persons;
         input->UnsafeDecrementRecursionDepth();
-        if (input->ExpectTag(40)) goto parse_datetime_from;
+        if (input->ExpectTag(42)) goto parse_datetime_from;
         break;
       }
 
-      // optional int64 datetime_from = 5;
+      // optional .DataTypes.DateTime datetime_from = 5;
       case 5: {
-        if (tag == 40) {
+        if (tag == 42) {
          parse_datetime_from:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
-                 input, &datetime_from_)));
-
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_datetime_from()));
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(48)) goto parse_datetime_to;
+        if (input->ExpectTag(50)) goto parse_datetime_to;
         break;
       }
 
-      // optional int64 datetime_to = 6;
+      // optional .DataTypes.DateTime datetime_to = 6;
       case 6: {
-        if (tag == 48) {
+        if (tag == 50) {
          parse_datetime_to:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
-                 input, &datetime_to_)));
-
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_datetime_to()));
         } else {
           goto handle_unusual;
         }
@@ -3082,14 +3068,16 @@ void GetVisitRecordRequest::SerializeWithCachedSizes(
       4, this->persons(i), output);
   }
 
-  // optional int64 datetime_from = 5;
-  if (this->datetime_from() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt64(5, this->datetime_from(), output);
+  // optional .DataTypes.DateTime datetime_from = 5;
+  if (this->has_datetime_from()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      5, *this->datetime_from_, output);
   }
 
-  // optional int64 datetime_to = 6;
-  if (this->datetime_to() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt64(6, this->datetime_to(), output);
+  // optional .DataTypes.DateTime datetime_to = 6;
+  if (this->has_datetime_to()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      6, *this->datetime_to_, output);
   }
 
   // optional string card = 7;
@@ -3151,14 +3139,18 @@ void GetVisitRecordRequest::SerializeWithCachedSizes(
         4, this->persons(i), target);
   }
 
-  // optional int64 datetime_from = 5;
-  if (this->datetime_from() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(5, this->datetime_from(), target);
+  // optional .DataTypes.DateTime datetime_from = 5;
+  if (this->has_datetime_from()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteMessageNoVirtualToArray(
+        5, *this->datetime_from_, target);
   }
 
-  // optional int64 datetime_to = 6;
-  if (this->datetime_to() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(6, this->datetime_to(), target);
+  // optional .DataTypes.DateTime datetime_to = 6;
+  if (this->has_datetime_to()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteMessageNoVirtualToArray(
+        6, *this->datetime_to_, target);
   }
 
   // optional string card = 7;
@@ -3207,18 +3199,18 @@ int GetVisitRecordRequest::ByteSize() const {
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->state());
   }
 
-  // optional int64 datetime_from = 5;
-  if (this->datetime_from() != 0) {
+  // optional .DataTypes.DateTime datetime_from = 5;
+  if (this->has_datetime_from()) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int64Size(
-        this->datetime_from());
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->datetime_from_);
   }
 
-  // optional int64 datetime_to = 6;
-  if (this->datetime_to() != 0) {
+  // optional .DataTypes.DateTime datetime_to = 6;
+  if (this->has_datetime_to()) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int64Size(
-        this->datetime_to());
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->datetime_to_);
   }
 
   // optional string card = 7;
@@ -3291,11 +3283,11 @@ void GetVisitRecordRequest::MergeFrom(const GetVisitRecordRequest& from) {
   if (from.state() != 0) {
     set_state(from.state());
   }
-  if (from.datetime_from() != 0) {
-    set_datetime_from(from.datetime_from());
+  if (from.has_datetime_from()) {
+    mutable_datetime_from()->::DataTypes::DateTime::MergeFrom(from.datetime_from());
   }
-  if (from.datetime_to() != 0) {
-    set_datetime_to(from.datetime_to());
+  if (from.has_datetime_to()) {
+    mutable_datetime_to()->::DataTypes::DateTime::MergeFrom(from.datetime_to());
   }
   if (from.card().size() > 0) {
 
@@ -3475,32 +3467,80 @@ GetVisitRecordRequest::persons() const {
   return persons_;
 }
 
-// optional int64 datetime_from = 5;
-void GetVisitRecordRequest::clear_datetime_from() {
-  datetime_from_ = GOOGLE_LONGLONG(0);
+// optional .DataTypes.DateTime datetime_from = 5;
+bool GetVisitRecordRequest::has_datetime_from() const {
+  return !_is_default_instance_ && datetime_from_ != NULL;
 }
- ::google::protobuf::int64 GetVisitRecordRequest::datetime_from() const {
+void GetVisitRecordRequest::clear_datetime_from() {
+  if (GetArenaNoVirtual() == NULL && datetime_from_ != NULL) delete datetime_from_;
+  datetime_from_ = NULL;
+}
+const ::DataTypes::DateTime& GetVisitRecordRequest::datetime_from() const {
   // @@protoc_insertion_point(field_get:DataTypes.GetVisitRecordRequest.datetime_from)
+  return datetime_from_ != NULL ? *datetime_from_ : *default_instance_->datetime_from_;
+}
+::DataTypes::DateTime* GetVisitRecordRequest::mutable_datetime_from() {
+  
+  if (datetime_from_ == NULL) {
+    datetime_from_ = new ::DataTypes::DateTime;
+  }
+  // @@protoc_insertion_point(field_mutable:DataTypes.GetVisitRecordRequest.datetime_from)
   return datetime_from_;
 }
- void GetVisitRecordRequest::set_datetime_from(::google::protobuf::int64 value) {
+::DataTypes::DateTime* GetVisitRecordRequest::release_datetime_from() {
+  // @@protoc_insertion_point(field_release:DataTypes.GetVisitRecordRequest.datetime_from)
   
-  datetime_from_ = value;
-  // @@protoc_insertion_point(field_set:DataTypes.GetVisitRecordRequest.datetime_from)
+  ::DataTypes::DateTime* temp = datetime_from_;
+  datetime_from_ = NULL;
+  return temp;
+}
+void GetVisitRecordRequest::set_allocated_datetime_from(::DataTypes::DateTime* datetime_from) {
+  delete datetime_from_;
+  datetime_from_ = datetime_from;
+  if (datetime_from) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.GetVisitRecordRequest.datetime_from)
 }
 
-// optional int64 datetime_to = 6;
-void GetVisitRecordRequest::clear_datetime_to() {
-  datetime_to_ = GOOGLE_LONGLONG(0);
+// optional .DataTypes.DateTime datetime_to = 6;
+bool GetVisitRecordRequest::has_datetime_to() const {
+  return !_is_default_instance_ && datetime_to_ != NULL;
 }
- ::google::protobuf::int64 GetVisitRecordRequest::datetime_to() const {
+void GetVisitRecordRequest::clear_datetime_to() {
+  if (GetArenaNoVirtual() == NULL && datetime_to_ != NULL) delete datetime_to_;
+  datetime_to_ = NULL;
+}
+const ::DataTypes::DateTime& GetVisitRecordRequest::datetime_to() const {
   // @@protoc_insertion_point(field_get:DataTypes.GetVisitRecordRequest.datetime_to)
+  return datetime_to_ != NULL ? *datetime_to_ : *default_instance_->datetime_to_;
+}
+::DataTypes::DateTime* GetVisitRecordRequest::mutable_datetime_to() {
+  
+  if (datetime_to_ == NULL) {
+    datetime_to_ = new ::DataTypes::DateTime;
+  }
+  // @@protoc_insertion_point(field_mutable:DataTypes.GetVisitRecordRequest.datetime_to)
   return datetime_to_;
 }
- void GetVisitRecordRequest::set_datetime_to(::google::protobuf::int64 value) {
+::DataTypes::DateTime* GetVisitRecordRequest::release_datetime_to() {
+  // @@protoc_insertion_point(field_release:DataTypes.GetVisitRecordRequest.datetime_to)
   
-  datetime_to_ = value;
-  // @@protoc_insertion_point(field_set:DataTypes.GetVisitRecordRequest.datetime_to)
+  ::DataTypes::DateTime* temp = datetime_to_;
+  datetime_to_ = NULL;
+  return temp;
+}
+void GetVisitRecordRequest::set_allocated_datetime_to(::DataTypes::DateTime* datetime_to) {
+  delete datetime_to_;
+  datetime_to_ = datetime_to;
+  if (datetime_to) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.GetVisitRecordRequest.datetime_to)
 }
 
 // optional string card = 7;

@@ -7,12 +7,28 @@
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/random_generator.hpp>
+#include <thread/lock_algorithms.hpp>
 
 namespace contracts
 {
 	namespace data
 	{
 		const int UUID_BYTES_SIZE = 16;
+
+		inline DataTypes::DateTime* get_current_time()
+		{
+			auto now = boost::posix_time::second_clock::local_time();
+
+			auto current_time = new DataTypes::DateTime();
+			current_time->set_year (now.date().year() );
+			current_time->set_month(now.date().month());
+			current_time->set_day  (now.date().day()  );
+
+			current_time->set_hours  (now.time_of_day().hours  ());
+			current_time->set_minutes(now.time_of_day().minutes());
+			current_time->set_seconds(now.time_of_day().seconds());
+			return current_time;
+		}
 
 
 		inline bool try_parse_guid(const std::string& value

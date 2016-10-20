@@ -2,9 +2,7 @@
 #define IRepository_Included
 
 #include <datatypes/data.pb.h>
-#include <services/database_service.pb.h>
 #include <contracts/common/ilifecycle.hpp>
-#include <functional>
 #include <contracts/observers/iobservable.hpp>
 #include <contracts/observers/observable..hpp>
 
@@ -29,6 +27,10 @@ namespace contracts
 			virtual bool remove(const DataTypes::Key& key) = 0;
 
 			virtual bool update(TEntity* entity) = 0;
+
+			//TODO maybe const
+			virtual bool contains(const DataTypes::Key& key) = 0;
+
 
 			/*
 			virtual void subscribe(std::function<void()> func)  = 0;			
@@ -61,6 +63,12 @@ namespace contracts
 		typedef
 			std::shared_ptr<IDataContext<DataTypes::Location>>	ILocationDataContextPtr;
 
+		typedef
+			std::shared_ptr<IDataContext<DataTypes::VisitRecord>> IVisitRecordsDataContextPtr;
+
+		typedef
+			std::shared_ptr<IDataContext<DataTypes::Person>> IPersonsDataContextPtr;
+
 		template <typename TEntity>
 		class IRepository : public IDataContext<TEntity>
 		{
@@ -70,14 +78,14 @@ namespace contracts
 			virtual std::shared_ptr<ILocalStorage<TEntity>> local() = 0;
 		};
 
+
 		typedef std::shared_ptr<IRepository<DataTypes::VisitRecord>>
 			VisitRecordRepositoryPtr;
 
 		typedef std::shared_ptr<IRepository<DataTypes::Location>>	LocationRepositoryPtr;
-		typedef std::shared_ptr<IRepository<DataTypes::Card>>	CardRepositoryPtr;
+		typedef std::shared_ptr<IRepository<DataTypes::Person>>	  PersonRepositoryPtr  ;
 
 		
-
 		class IRepositoryContainer : public common::IModule
 		{
 		public:
@@ -85,7 +93,7 @@ namespace contracts
 
 			virtual VisitRecordRepositoryPtr visit_records() = 0;
 			virtual LocationRepositoryPtr    locations()     = 0;
-			virtual	CardRepositoryPtr        cards()         = 0;
+			virtual	PersonRepositoryPtr      persons()       = 0;
 		};
 	}
 }

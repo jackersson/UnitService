@@ -138,6 +138,9 @@
     <ClCompile Include="src\datatypes\key.pb.cc">
       <Filter>Source Files\datatypes</Filter>
     </ClCompile>
+    <ClCompile Include="src\datatypes\datetime.pb.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\datatypes\biometrics.pb.h">
@@ -298,6 +301,9 @@
     </ClInclude>
     <ClInclude Include="include\contracts\data\data_utils.hpp">
       <Filter>Header Files\contracts\data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\datatypes\datetime.pb.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

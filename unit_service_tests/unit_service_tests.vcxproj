@@ -162,6 +162,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="repository_tests.cpp" />
     <ClCompile Include="rs232_controller_tests.cpp" />
+    <ClCompile Include="track_locations_tests.cpp" />
     <ClCompile Include="unit_service_tests.cpp" />
   </ItemGroup>
   <ItemGroup>

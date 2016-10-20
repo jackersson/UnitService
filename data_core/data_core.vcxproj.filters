@@ -41,8 +41,20 @@
     <ClInclude Include="include\localstorage\locations_localstorage.hpp">
       <Filter>includes\localstorage</Filter>
     </ClInclude>
-    <ClInclude Include="include\data_utils.hpp">
+    <ClInclude Include="include\data_api.hpp">
       <Filter>includes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\datacontext\visit_records_datacontext.hpp">
+      <Filter>includes\datacontext</Filter>
+    </ClInclude>
+    <ClInclude Include="include\repository\visit_records_repository.hpp">
+      <Filter>includes\repositories</Filter>
+    </ClInclude>
+    <ClInclude Include="include\datacontext\persons_data_context.hpp">
+      <Filter>includes\datacontext</Filter>
+    </ClInclude>
+    <ClInclude Include="include\repository\persons_repository.hpp">
+      <Filter>includes\repositories</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

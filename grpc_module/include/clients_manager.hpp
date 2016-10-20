@@ -51,24 +51,26 @@ namespace grpc_services
 	private:
 		void init()
 		{
-			auto coordinator_address = context_->configuration().coordinator_service_address();
-
-			/*
+			const auto& configuration = context_->configuration();
+		
+			
 			//database service 
 			//For test, Database service is going to be used
-			contracts::services::ServiceAddress address(coordinator_address);
+			contracts::services::ServiceAddress address(configuration.database_service_address());
 			database_client_ = std::make_shared<DatabaseClientImpl>(
 			                                   	ClientContext(address, context_));
-																					*/
-			//servers_.push_back(database_client_);
+																					
+			servers_.push_back(database_client_);
 
 
 			//Coordinator client 
-			contracts::services::ServiceAddress address(coordinator_address);
+			/*
+			contracts::services::ServiceAddress address(configuration.coordinator_service_address());
 			coordinator_client_ = std::make_shared<CoordinatorClientImpl>(
 				                                      ClientContext(address, context_));
 
 			servers_.push_back(coordinator_client_);
+			*/
 		}
 
 

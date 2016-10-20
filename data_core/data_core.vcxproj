@@ -69,6 +69,7 @@
     <Import Project="..\grpc_module\zlib_x32d.props" />
     <Import Project="..\access_device\access_device_x32d.props" />
     <Import Project="..\UnitService\boost_serial_32d.props" />
+    <Import Project="..\UnitService\spdlog.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -157,9 +158,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\datacontext\locations_data_context.hpp" />
-    <ClInclude Include="include\data_utils.hpp" />
+    <ClInclude Include="include\datacontext\persons_data_context.hpp" />
+    <ClInclude Include="include\datacontext\visit_records_datacontext.hpp" />
+    <ClInclude Include="include\data_api.hpp" />
     <ClInclude Include="include\localstorage\locations_localstorage.hpp" />
     <ClInclude Include="include\repository\location_repository.hpp" />
+    <ClInclude Include="include\repository\persons_repository.hpp" />
+    <ClInclude Include="include\repository\visit_records_repository.hpp" />
     <ClInclude Include="include\repository_container.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

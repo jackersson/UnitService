@@ -109,20 +109,22 @@ void protobuf_AddDesc_datatypes_2fvisit_5frecord_2eproto() {
 
   ::DataTypes::protobuf_AddDesc_datatypes_2fcard_2eproto();
   ::DataTypes::protobuf_AddDesc_datatypes_2fkey_2eproto();
+  ::DataTypes::protobuf_AddDesc_datatypes_2fdatetime_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\034datatypes/visit_record.proto\022\tDataType"
     "s\032\024datatypes/card.proto\032\023datatypes/key.p"
-    "roto\"\305\001\n\013VisitRecord\022\032\n\002id\030\001 \001(\0132\016.DataT"
-    "ypes.Key\022!\n\tperson_id\030\002 \001(\0132\016.DataTypes."
-    "Key\022#\n\013location_id\030\003 \001(\0132\016.DataTypes.Key"
-    "\022\014\n\004time\030\004 \001(\003\022\035\n\004card\030\005 \001(\0132\017.DataTypes"
-    ".Card\022%\n\005state\030\006 \001(\0162\026.DataTypes.AccessS"
-    "tate\"5\n\014VisitRecords\022%\n\005items\030\001 \003(\0132\026.Da"
-    "taTypes.VisitRecord*5\n\013AccessState\022\r\n\tNo"
-    "neState\020\000\022\013\n\007Granted\020\001\022\n\n\006Denied\020\002BP\n\007ex"
-    ".grpcZ\?github.com/Enebra/ServiceCoordina"
-    "tor/grpc/datatypes/visitrecord\242\002\003RTGb\006pr"
-    "oto3", 484);
+    "roto\032\030datatypes/datetime.proto\"\332\001\n\013Visit"
+    "Record\022\032\n\002id\030\001 \001(\0132\016.DataTypes.Key\022!\n\tpe"
+    "rson_id\030\002 \001(\0132\016.DataTypes.Key\022#\n\013locatio"
+    "n_id\030\003 \001(\0132\016.DataTypes.Key\022!\n\004time\030\004 \001(\013"
+    "2\023.DataTypes.DateTime\022\035\n\004card\030\005 \001(\0132\017.Da"
+    "taTypes.Card\022%\n\005state\030\006 \001(\0162\026.DataTypes."
+    "AccessState\"5\n\014VisitRecords\022%\n\005items\030\001 \003"
+    "(\0132\026.DataTypes.VisitRecord*5\n\013AccessStat"
+    "e\022\r\n\tNoneState\020\000\022\013\n\007Granted\020\001\022\n\n\006Denied\020"
+    "\002BP\n\007ex.grpcZ\?github.com/Enebra/ServiceC"
+    "oordinator/grpc/datatypes/visitrecord\242\002\003"
+    "RTGb\006proto3", 531);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "datatypes/visit_record.proto", &protobuf_RegisterTypes);
   VisitRecord::default_instance_ = new VisitRecord();
@@ -186,6 +188,7 @@ void VisitRecord::InitAsDefaultInstance() {
   id_ = const_cast< ::DataTypes::Key*>(&::DataTypes::Key::default_instance());
   person_id_ = const_cast< ::DataTypes::Key*>(&::DataTypes::Key::default_instance());
   location_id_ = const_cast< ::DataTypes::Key*>(&::DataTypes::Key::default_instance());
+  time_ = const_cast< ::DataTypes::DateTime*>(&::DataTypes::DateTime::default_instance());
   card_ = const_cast< ::DataTypes::Card*>(&::DataTypes::Card::default_instance());
 }
 
@@ -203,7 +206,7 @@ void VisitRecord::SharedCtor() {
   id_ = NULL;
   person_id_ = NULL;
   location_id_ = NULL;
-  time_ = GOOGLE_LONGLONG(0);
+  time_ = NULL;
   card_ = NULL;
   state_ = 0;
 }
@@ -218,6 +221,7 @@ void VisitRecord::SharedDtor() {
     delete id_;
     delete person_id_;
     delete location_id_;
+    delete time_;
     delete card_;
   }
 }
@@ -255,7 +259,8 @@ void VisitRecord::Clear() {
   person_id_ = NULL;
   if (GetArenaNoVirtual() == NULL && location_id_ != NULL) delete location_id_;
   location_id_ = NULL;
-  time_ = GOOGLE_LONGLONG(0);
+  if (GetArenaNoVirtual() == NULL && time_ != NULL) delete time_;
+  time_ = NULL;
   if (GetArenaNoVirtual() == NULL && card_ != NULL) delete card_;
   card_ = NULL;
   state_ = 0;
@@ -305,18 +310,16 @@ bool VisitRecord::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(32)) goto parse_time;
+        if (input->ExpectTag(34)) goto parse_time;
         break;
       }
 
-      // optional int64 time = 4;
+      // optional .DataTypes.DateTime time = 4;
       case 4: {
-        if (tag == 32) {
+        if (tag == 34) {
          parse_time:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
-                 input, &time_)));
-
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_time()));
         } else {
           goto handle_unusual;
         }
@@ -395,9 +398,10 @@ void VisitRecord::SerializeWithCachedSizes(
       3, *this->location_id_, output);
   }
 
-  // optional int64 time = 4;
-  if (this->time() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt64(4, this->time(), output);
+  // optional .DataTypes.DateTime time = 4;
+  if (this->has_time()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      4, *this->time_, output);
   }
 
   // optional .DataTypes.Card card = 5;
@@ -439,9 +443,11 @@ void VisitRecord::SerializeWithCachedSizes(
         3, *this->location_id_, target);
   }
 
-  // optional int64 time = 4;
-  if (this->time() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(4, this->time(), target);
+  // optional .DataTypes.DateTime time = 4;
+  if (this->has_time()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteMessageNoVirtualToArray(
+        4, *this->time_, target);
   }
 
   // optional .DataTypes.Card card = 5;
@@ -486,11 +492,11 @@ int VisitRecord::ByteSize() const {
         *this->location_id_);
   }
 
-  // optional int64 time = 4;
-  if (this->time() != 0) {
+  // optional .DataTypes.DateTime time = 4;
+  if (this->has_time()) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int64Size(
-        this->time());
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->time_);
   }
 
   // optional .DataTypes.Card card = 5;
@@ -539,8 +545,8 @@ void VisitRecord::MergeFrom(const VisitRecord& from) {
   if (from.has_location_id()) {
     mutable_location_id()->::DataTypes::Key::MergeFrom(from.location_id());
   }
-  if (from.time() != 0) {
-    set_time(from.time());
+  if (from.has_time()) {
+    mutable_time()->::DataTypes::DateTime::MergeFrom(from.time());
   }
   if (from.has_card()) {
     mutable_card()->::DataTypes::Card::MergeFrom(from.card());
@@ -709,18 +715,42 @@ void VisitRecord::set_allocated_location_id(::DataTypes::Key* location_id) {
   // @@protoc_insertion_point(field_set_allocated:DataTypes.VisitRecord.location_id)
 }
 
-// optional int64 time = 4;
-void VisitRecord::clear_time() {
-  time_ = GOOGLE_LONGLONG(0);
+// optional .DataTypes.DateTime time = 4;
+bool VisitRecord::has_time() const {
+  return !_is_default_instance_ && time_ != NULL;
 }
- ::google::protobuf::int64 VisitRecord::time() const {
+void VisitRecord::clear_time() {
+  if (GetArenaNoVirtual() == NULL && time_ != NULL) delete time_;
+  time_ = NULL;
+}
+const ::DataTypes::DateTime& VisitRecord::time() const {
   // @@protoc_insertion_point(field_get:DataTypes.VisitRecord.time)
+  return time_ != NULL ? *time_ : *default_instance_->time_;
+}
+::DataTypes::DateTime* VisitRecord::mutable_time() {
+  
+  if (time_ == NULL) {
+    time_ = new ::DataTypes::DateTime;
+  }
+  // @@protoc_insertion_point(field_mutable:DataTypes.VisitRecord.time)
   return time_;
 }
- void VisitRecord::set_time(::google::protobuf::int64 value) {
+::DataTypes::DateTime* VisitRecord::release_time() {
+  // @@protoc_insertion_point(field_release:DataTypes.VisitRecord.time)
   
-  time_ = value;
-  // @@protoc_insertion_point(field_set:DataTypes.VisitRecord.time)
+  ::DataTypes::DateTime* temp = time_;
+  time_ = NULL;
+  return temp;
+}
+void VisitRecord::set_allocated_time(::DataTypes::DateTime* time) {
+  delete time_;
+  time_ = time;
+  if (time) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.VisitRecord.time)
 }
 
 // optional .DataTypes.Card card = 5;

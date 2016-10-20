@@ -32,4 +32,9 @@ private:
 
 };
 
+
+bool try_load_config    (UnitServiceConfiguration& configuration);
+void create_file        (const std::string& filename);
+void save_default_config(const std::string& filename);
+
 #endif

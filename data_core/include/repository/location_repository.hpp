@@ -43,7 +43,6 @@ namespace data_core
 				return datacontext_->update(entity);
 			}
 
-			//TODO implement local storage
 			std::shared_ptr<contracts::data::ILocalStorage<DataTypes::Location>> 
 				local() override
 			{

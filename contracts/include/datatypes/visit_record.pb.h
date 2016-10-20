@@ -30,6 +30,7 @@
 #include <google/protobuf/unknown_field_set.h>
 #include "datatypes/card.pb.h"
 #include "datatypes/key.pb.h"
+#include "datatypes/datetime.pb.h"
 // @@protoc_insertion_point(includes)
 
 namespace DataTypes {
@@ -149,11 +150,14 @@ class VisitRecord : public ::google::protobuf::Message {
   ::DataTypes::Key* release_location_id();
   void set_allocated_location_id(::DataTypes::Key* location_id);
 
-  // optional int64 time = 4;
+  // optional .DataTypes.DateTime time = 4;
+  bool has_time() const;
   void clear_time();
   static const int kTimeFieldNumber = 4;
-  ::google::protobuf::int64 time() const;
-  void set_time(::google::protobuf::int64 value);
+  const ::DataTypes::DateTime& time() const;
+  ::DataTypes::DateTime* mutable_time();
+  ::DataTypes::DateTime* release_time();
+  void set_allocated_time(::DataTypes::DateTime* time);
 
   // optional .DataTypes.Card card = 5;
   bool has_card() const;
@@ -178,7 +182,7 @@ class VisitRecord : public ::google::protobuf::Message {
   ::DataTypes::Key* id_;
   ::DataTypes::Key* person_id_;
   ::DataTypes::Key* location_id_;
-  ::google::protobuf::int64 time_;
+  ::DataTypes::DateTime* time_;
   ::DataTypes::Card* card_;
   int state_;
   mutable int _cached_size_;
@@ -395,18 +399,42 @@ inline void VisitRecord::set_allocated_location_id(::DataTypes::Key* location_id
   // @@protoc_insertion_point(field_set_allocated:DataTypes.VisitRecord.location_id)
 }
 
-// optional int64 time = 4;
-inline void VisitRecord::clear_time() {
-  time_ = GOOGLE_LONGLONG(0);
+// optional .DataTypes.DateTime time = 4;
+inline bool VisitRecord::has_time() const {
+  return !_is_default_instance_ && time_ != NULL;
 }
-inline ::google::protobuf::int64 VisitRecord::time() const {
+inline void VisitRecord::clear_time() {
+  if (GetArenaNoVirtual() == NULL && time_ != NULL) delete time_;
+  time_ = NULL;
+}
+inline const ::DataTypes::DateTime& VisitRecord::time() const {
   // @@protoc_insertion_point(field_get:DataTypes.VisitRecord.time)
+  return time_ != NULL ? *time_ : *default_instance_->time_;
+}
+inline ::DataTypes::DateTime* VisitRecord::mutable_time() {
+  
+  if (time_ == NULL) {
+    time_ = new ::DataTypes::DateTime;
+  }
+  // @@protoc_insertion_point(field_mutable:DataTypes.VisitRecord.time)
   return time_;
 }
-inline void VisitRecord::set_time(::google::protobuf::int64 value) {
+inline ::DataTypes::DateTime* VisitRecord::release_time() {
+  // @@protoc_insertion_point(field_release:DataTypes.VisitRecord.time)
   
-  time_ = value;
-  // @@protoc_insertion_point(field_set:DataTypes.VisitRecord.time)
+  ::DataTypes::DateTime* temp = time_;
+  time_ = NULL;
+  return temp;
+}
+inline void VisitRecord::set_allocated_time(::DataTypes::DateTime* time) {
+  delete time_;
+  time_ = time;
+  if (time) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:DataTypes.VisitRecord.time)
 }
 
 // optional .DataTypes.Card card = 5;

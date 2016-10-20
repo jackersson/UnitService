@@ -246,7 +246,7 @@ namespace grpc_services
 			call->reader = stub_->AsyncGet(&call->context, message, queue);
 			call->reader->Finish(&call->response, &call->status, reinterpret_cast<void*>(call));
 
-			return utils::get_result(call->promise_);
+			return utils::get_result(call->promise);
 		}
 
 		std::shared_ptr<DataTypes::CommitResponse>

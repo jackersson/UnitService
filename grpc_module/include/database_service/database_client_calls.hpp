@@ -1,7 +1,8 @@
 #ifndef DatabaseClientCall_INCLUDED
 #define DatabaseClientCall_INCLUDED
 
-#include <datatypes/data.pb.h>
+#include <datatypes/queries.pb.h>
+#include <datatypes/commands.pb.h>
 #include <include/grpc++/impl/codegen/client_context.h>
 #include <future>
 
@@ -20,15 +21,15 @@ namespace grpc_services
 		{
 			if (response.type() != DataTypes::DataType::GetResponseType)
 			{
-				promise_.set_exception(std::make_exception_ptr("Invalid data type"));
+				promise.set_exception(std::make_exception_ptr("Invalid data type"));
 				return;
 			}
 			auto gr = std::make_shared<DataTypes::GetResponse>();
 			gr->ParseFromString(response.data());
-			promise_.set_value(gr);
+			promise.set_value(gr);
 		}
 
-		std::promise<std::shared_ptr<DataTypes::GetResponse>> promise_;
+		std::promise<std::shared_ptr<DataTypes::GetResponse>> promise;
 	
 		std::unique_ptr<grpc::ClientAsyncResponseReader<DataTypes::MessageBytes>> reader;
 	};

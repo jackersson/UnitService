@@ -65,11 +65,17 @@ public:
 	}
 
 
-	void set_facial_service_address(const std::string& value) {
+	const std::string& database_service_address() const override {
+		return "";
+	}
+
+	void set_facial_service_address(const std::string& value) const
+	{
 		facial_service_address_ = value;
 	}
 
-	void set_coordinator_service_address(const std::string& value) {
+	void set_coordinator_service_address(const std::string& value) const
+	{
 		coordinator_service_address_ = value;
 	}
 

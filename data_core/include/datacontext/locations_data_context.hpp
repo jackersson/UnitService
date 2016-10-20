@@ -4,6 +4,7 @@
 #include <contracts/data/irepository.hpp>
 #include <contracts/services/idatabase_api.hpp>
 #include <iostream>
+#include <data_api.hpp>
 
 namespace data_core
 {
@@ -14,10 +15,9 @@ namespace data_core
 		{
 			
 		public:
-			explicit LocationsDataContext(contracts::services::IDatabaseApiPtr api)
-				: api_(api)
-			{				
-			}
+			explicit LocationsDataContext(const DataApi& api)
+				: context_(api)
+			{}
 
 			bool get(void* request, std::vector<DataTypes::Location>& entities) override
 			{
@@ -30,17 +30,19 @@ namespace data_core
 			bool get( DataTypes::GetLocationRequest* request
 				      , std::vector<DataTypes::Location>& entities)
 			{				
-				DataTypes::GetRequest service_request;
-				//TODO check if type is good
+				if (request == nullptr)
+					request = new DataTypes::GetLocationRequest();
 
+				DataTypes::GetRequest service_request;				
 				service_request.set_allocated_location_request(request);
 				try
-				{
-					auto result = api_->get(service_request);
+				{					
+					auto result = context_.api()->get(service_request);
 					parse(result, entities);
 					return true;
 				}
 				catch (std::exception& )	{
+					//TODO handle exception
 					return false;
 				}				
 			}
@@ -86,7 +88,7 @@ namespace data_core
 				auto mutation = request.add_mutations();
 				mutation->set_allocated_insert(&service_entity);
 
-				auto result = api_->commit(request);
+				auto result = context_.api()->commit(request);
 
 				//TODO handle commite response
 				return false;
@@ -103,7 +105,8 @@ namespace data_core
 			}
 
 		private:
-			contracts::services::IDatabaseApiPtr api_;
+			DataApi context_;
+			//contracts::services::IDatabaseApiPtr api_;
 		};
 
 

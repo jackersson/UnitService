@@ -3,7 +3,6 @@
 
 #include <contracts/data/irepository.hpp>
 #include <mutex>
-#include <data_utils.hpp>
 #include <contracts/data/data_utils.hpp>
 
 namespace data_core
@@ -81,6 +80,12 @@ namespace data_core
 				return false;
 			}
 
+			bool contains(const DataTypes::Key& key)
+			{
+				auto it = find(key);
+				return it != entities_.end();
+			}
+
 		private:
 			std::vector<std::shared_ptr<DataTypes::Location>>::iterator
 		  	find(const DataTypes::Key& key)
@@ -93,11 +98,7 @@ namespace data_core
 				return it;					
 			}
 
-			bool contains(const DataTypes::Key& key)
-			{
-				auto it = find(key);
-				return it != entities_.end();
-			}
+			
 
 			void notify()
 			{
