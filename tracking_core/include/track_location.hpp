@@ -24,11 +24,13 @@ namespace tracking
 				: context_(context)
 				, visit_records_repository_(context_->repository()->visit_records())
 			{
-				update(object);
+				TrackLocation::update(object);
 			}
 
-			void update(const DataTypes::Location& object )
+			void update(const DataTypes::Location& object ) override
 			{
+				//access_coordinator_-
+				//TODO check if something changed with track location
 				TrackLocation::stop();
 				location_ = object;
 				TrackLocation::start();

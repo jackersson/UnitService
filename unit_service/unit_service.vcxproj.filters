@@ -41,5 +41,8 @@
     <ClInclude Include="include\unit_service_configuration.hpp">
       <Filter>includes</Filter>
     </ClInclude>
+    <ClInclude Include="include\track_locations_udapter.hpp">
+      <Filter>includes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

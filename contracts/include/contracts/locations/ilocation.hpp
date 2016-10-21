@@ -29,6 +29,10 @@ namespace contracts
 
 			virtual const DataTypes::Location& location() const = 0;
 
+			virtual boost::uuids::uuid id() const = 0;
+
+			virtual void update(const DataTypes::Location& locatiion) = 0;
+
 			virtual const
 				contracts::devices::access_device::IAccessCoordinator& 
 				  access_coordinator() const = 0;

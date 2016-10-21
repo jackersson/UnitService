@@ -157,7 +157,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\track_location.hpp" />
-    <ClInclude Include="include\track_location_coordinator.hpp" />
+    <ClInclude Include="include\track_locations_container.hpp" />
+    <ClInclude Include="include\track_locations_engine.hpp" />
     <ClInclude Include="include\units\access_device_unit.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

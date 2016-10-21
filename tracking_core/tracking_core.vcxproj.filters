@@ -26,11 +26,14 @@
     <ClInclude Include="include\track_location.hpp">
       <Filter>includes</Filter>
     </ClInclude>
-    <ClInclude Include="include\track_location_coordinator.hpp">
-      <Filter>includes</Filter>
-    </ClInclude>
     <ClInclude Include="include\units\access_device_unit.hpp">
       <Filter>includes\units</Filter>
+    </ClInclude>
+    <ClInclude Include="include\track_locations_engine.hpp">
+      <Filter>includes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\track_locations_container.hpp">
+      <Filter>includes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

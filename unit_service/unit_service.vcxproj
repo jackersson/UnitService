@@ -168,6 +168,7 @@
   <ItemGroup>
     <ClInclude Include="include\devices_container.hpp" />
     <ClInclude Include="include\launcher.hpp" />
+    <ClInclude Include="include\track_locations_udapter.hpp" />
     <ClInclude Include="include\unit_service.hpp" />
     <ClInclude Include="include\unit_service_configuration.hpp" />
   </ItemGroup>

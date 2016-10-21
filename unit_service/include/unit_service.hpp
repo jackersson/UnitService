@@ -45,7 +45,7 @@ public:
 		return *configuration_;
 	}
 
-	std::shared_ptr<contracts::locations::ITrackLocationsCoordinator>
+	std::shared_ptr<contracts::locations::ITrackLocationsEngine>
 		track_locations() override
 	{
 		return tracking_coordinator_;
@@ -56,7 +56,7 @@ private:
 
 	contracts::IUnitConfiguration* configuration_;
 
-	contracts::locations::ITrackLocationsCoordinatorPtr tracking_coordinator_;
+	contracts::locations::ITrackLocationsEnginePtr tracking_coordinator_;
 	std::shared_ptr<contracts::services::IServices>        services_;
 	std::shared_ptr<contracts::common::Logger>             logger_;
 	std::shared_ptr<contracts::devices::IDevicesContainer> devices_;

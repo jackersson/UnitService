@@ -24,6 +24,14 @@ namespace tracking
 			virtual void update(const std::string& device_name) = 0;
 		};
 
+		class IAccessDeviceUpdatable
+		{
+		public:
+			virtual ~IAccessDeviceUpdatable() {}
+
+			virtual void update(const DataTypes::AccessDevice& device) = 0;
+		};
+
 		template <typename T>
 		class IIdentification
 		{
@@ -40,11 +48,10 @@ namespace tracking
 		class AccessDeviceObserver :
 			  public contracts::observers::Observable<contracts::locations::ILocation>
 	    , public contracts::devices::IDeviceObserver<ICommandResult>
-			, public IDeviceUpdatable
+			, public IAccessDeviceUpdatable
 			, public contracts::common::ILifecycle
 			, public IIdentification<std::string>
 			, public contracts::devices::access_device::IAccessCoordinator
-			//, public std::enable_shared_from_this<contracts::devices::IDeviceObserver<ICommandResult>>
 		{
 
 		public:
@@ -56,12 +63,20 @@ namespace tracking
 				engine_ = context_->devices()->access_device_engine();
 			}
 
-			void update(const std::string& device_name) override
+			//TODO to utils
+			static bool equals( const DataTypes::AccessDevice& first
+			           , const DataTypes::AccessDevice& second)
 			{
-				//TODO check on empty
-				stop();
+				return first.name() == second.name();
+			}
 
-				device_name_ = device_name;
+			void update(const DataTypes::AccessDevice& device) override
+			{
+				if (equals(device_, device))
+					return;
+				stop();
+				device_ = device;
+				start();
 			}
 
 			void set_state(DataTypes::AccessState  state) const override
@@ -85,25 +100,26 @@ namespace tracking
 				if (!device_connected())
 					return;
 
-				engine_->add(device_name_);
-				engine_->subscribe(this, device_name_);
+				auto dev_name = device_.name();
+				engine_->add(dev_name);
+				engine_->subscribe(this, dev_name);
 			}
 
 			void stop() override
 			{
-				//engine_->unsubscribe(shared_from_this());
-				engine_->remove(device_name_);
+				engine_->unsubscribe(this);
+				engine_->remove(device_.name());
 			}
 
 			void grant() const
 			{
 				//TODO add timer to switch light back
-				engine_->execute(device_name_, contracts::devices::access_device::lGreenAccess);
+				engine_->execute(device_.name(), contracts::devices::access_device::lGreenAccess);
 			}
 
 			void deny() const
 			{
-				engine_->execute(device_name_, contracts::devices::access_device::lRedMain);
+				engine_->execute(device_.name(), contracts::devices::access_device::lRedMain);
 
 			}
 
@@ -148,14 +164,13 @@ namespace tracking
 				if (try_extract_card(data, card))
 				{
 					visit_record->set_allocated_card(card);
-					auto person = new DataTypes::Key(card->owner_id());
-					visit_record->set_allocated_person_id(person);
+					auto person_id = new DataTypes::Key(card->owner_id());
+					visit_record->set_allocated_person_id(person_id);
 					visit_record->set_allocated_time(contracts::data::get_current_time());
 				}
 
 				return visit_record;
-			}
-							
+			}							
 			
 			void on_error(const contracts::devices::DeviceException& exception) override
 			{			
@@ -191,7 +206,7 @@ namespace tracking
 			AccessDeviceObserver& operator=(const AccessDeviceObserver&) = delete;
 
 			bool device_connected() const	{
-				return engine_->device_enumerator().connected(device_name_);
+				return engine_->device_enumerator().connected(device_.name());
 			}
 
 			void check_buttons(const std::vector<unsigned char>& data) const
@@ -236,8 +251,8 @@ namespace tracking
 				return false;
 			}
 
-			std::string device_name_;
-
+			//std::string device_name_;
+			DataTypes::AccessDevice device_;
 			contracts::devices::access_device::IAccessDeviceEnginePtr engine_;
 			contracts::IUnitContextPtr context_;
 		

@@ -29,7 +29,7 @@ namespace contracts
 	public:
 		virtual ~IUnitContext() {}
 
-		virtual std::shared_ptr<locations::ITrackLocationsCoordinator>
+		virtual std::shared_ptr<locations::ITrackLocationsEngine>
 			                                                  track_locations() = 0;
 
 		virtual std::shared_ptr<devices::IDevicesContainer> devices        () = 0;
