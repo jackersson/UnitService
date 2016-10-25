@@ -15,6 +15,15 @@ namespace contracts
 	{
 		const int UUID_BYTES_SIZE = 16;
 
+
+
+		inline DataTypes::Key* get_key_from_card_number(const std::string& card_number)
+		{
+			auto key = new DataTypes::Key();
+			key->set_identifier(card_number);
+			return key;
+		}
+
 		inline DataTypes::DateTime* get_current_time()
 		{
 			auto now = boost::posix_time::second_clock::local_time();
@@ -29,6 +38,9 @@ namespace contracts
 			current_time->set_seconds(now.time_of_day().seconds());
 			return current_time;
 		}
+
+
+		
 
 
 		inline bool try_parse_guid(const std::string& value
@@ -83,7 +95,13 @@ namespace contracts
 
 			auto key_guid = key.guid();
 			memcpy(&guid, key_guid.data(), UUID_BYTES_SIZE);
-			return true;
+			return guid.is_nil();
+		}
+
+		inline bool guid_empty(const DataTypes::Key& key)
+		{
+			boost::uuids::uuid guid;
+			return get_guid(key, guid);
 		}
 
 		inline std::string to_string(const DataTypes::Key& key)
@@ -103,6 +121,7 @@ namespace contracts
 			return to_string(uid);
 		}
 
+		//TODO make new
 		inline DataTypes::Key get_random_key()
 		{
 			DataTypes::Key key;

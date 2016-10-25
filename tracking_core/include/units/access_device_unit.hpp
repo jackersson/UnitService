@@ -9,6 +9,7 @@
 #include <contracts/devices/access_device/iaccess_device_engine.hpp>
 #include <contracts/iunit_context.hpp>
 #include <contracts/data/data_utils.hpp>
+#include <future>
 
 namespace tracking
 {
@@ -23,15 +24,7 @@ namespace tracking
 
 			virtual void update(const std::string& device_name) = 0;
 		};
-
-		class IAccessDeviceUpdatable
-		{
-		public:
-			virtual ~IAccessDeviceUpdatable() {}
-
-			virtual void update(const DataTypes::AccessDevice& device) = 0;
-		};
-
+		
 		template <typename T>
 		class IIdentification
 		{
@@ -48,16 +41,16 @@ namespace tracking
 		class AccessDeviceObserver :
 			  public contracts::observers::Observable<contracts::locations::ILocation>
 	    , public contracts::devices::IDeviceObserver<ICommandResult>
-			, public IAccessDeviceUpdatable
-			, public contracts::common::ILifecycle
 			, public IIdentification<std::string>
 			, public contracts::devices::access_device::IAccessCoordinator
 		{
 
 		public:
-			virtual ~AccessDeviceObserver() {}
+			virtual ~AccessDeviceObserver()	{
+				AccessDeviceObserver::stop();
+			}
 
-			explicit AccessDeviceObserver	(contracts::IUnitContextPtr context)
+			explicit AccessDeviceObserver	(contracts::IUnitContext* context)
 				: context_(context)
 			{
 				engine_ = context_->devices()->access_device_engine();
@@ -97,10 +90,13 @@ namespace tracking
 
 			void start() override
 			{
-				if (!device_connected())
-					return;
-
 				auto dev_name = device_.name();
+				if (dev_name == "")
+				{
+					context_->logger()->error("Device name is not valid");
+					return;
+				}
+
 				engine_->add(dev_name);
 				engine_->subscribe(this, dev_name);
 			}
@@ -112,33 +108,29 @@ namespace tracking
 			}
 
 			void grant() const
-			{
-				//TODO add timer to switch light back
+			{				
 				engine_->execute(device_.name(), contracts::devices::access_device::lGreenAccess);
+
+				std::future<void> result(std::async([this]()
+				  { std::this_thread::sleep_for(ACCESS_DELAY);
+				    deny(); }
+				));
 			}
 
-			void deny() const
-			{
+			void deny() const	{
 				engine_->execute(device_.name(), contracts::devices::access_device::lRedMain);
-
 			}
 
 			DataTypes::VisitRecord* verify( DataTypes::VisitRecord& target
 				                            , const std::string& data) override
 			{				
-				//TODO fix car find
-				DataTypes::Card* card = nullptr; //context_->repository()->cards()->get();
-				auto entity_found = false;
-				if ( try_extract_card(data, card) )
-				{
-					target.set_allocated_card(card);
-					
-					//TODO
-					//entity_found = card->owner_id() > 0;
-				}
-
+				DataTypes::Card* card = nullptr;
+				auto person_found = try_extract_card(data, card);
+				target.set_allocated_card(card);
+			
+				//TODO maybe not needed
 				DataTypes::VisitRecord* visit_record = nullptr;
-				if (entity_found)
+				if (person_found)
 				{
 					auto key = new DataTypes::Key(card->owner_id());
 					visit_record = new DataTypes::VisitRecord();
@@ -149,43 +141,37 @@ namespace tracking
 			
 			DataTypes::VisitRecord* identify(const std::string& data) override
 			{
-				auto all_request = new DataTypes::GetPersonRequest();
-				all_request->set_card(data);
+				DataTypes::Card* card = nullptr;
+				auto person_found = try_extract_card(data, card);
 
-				std::vector<DataTypes::Person> items;
-				context_->repository()->persons()->get(all_request, items);
-
-				auto person_find = items.size() > 0;
-				auto person      = items[0];
-
-				//TODO fix car find
-				DataTypes::Card* card = nullptr; //context_->repository()->cards()->get();
 				auto visit_record = new DataTypes::VisitRecord();
-				if (try_extract_card(data, card))
-				{
-					visit_record->set_allocated_card(card);
-					auto person_id = new DataTypes::Key(card->owner_id());
-					visit_record->set_allocated_person_id(person_id);
-					visit_record->set_allocated_time(contracts::data::get_current_time());
-				}
+				visit_record->set_allocated_time(contracts::data::get_current_time());
+				visit_record->set_allocated_card(card);
+
+				if (person_found)
+					visit_record->set_allocated_person_id(new DataTypes::Key(card->owner_id()));
 
 				return visit_record;
 			}							
 			
 			void on_error(const contracts::devices::DeviceException& exception) override
 			{			
+				context_->logger()->error("Access device exception {0}", exception.what());
 				for (auto observer : observers_ )
 					observer->on_error(exception);
 			}
 
 			void on_state(const contracts::devices::IDeviceState& state) override
 			{
+				//context_->logger()->error("Access device state changed {0}", state.state());
 				for (auto observer : observers_)
 					observer->on_state(state);
 			}
 
 			void on_next(const ICommandResult& data) override
 			{
+				//context_->logger()->error( "Access device state changed {0}"
+					                  //     , data.module());
 				switch (data.module())
 				{
 				case contracts::devices::access_device::Buttons: 
@@ -194,7 +180,7 @@ namespace tracking
 				case contracts::devices::access_device::Dallas:
 					check_dallas_key(data.to_string());
 					break;
-									case contracts::devices::access_device::Lights: 
+				case contracts::devices::access_device::Lights: 
 				case contracts::devices::access_device::NoneModule:
 				default: break;
 				}
@@ -234,28 +220,31 @@ namespace tracking
 					observer->on_target_detected(visit_record);
 			}
 
-			bool try_extract_card(const std::string& data, DataTypes::Card* card)
+			bool try_extract_card(const std::string& data, DataTypes::Card* card) const
 			{
-				/*
+				auto card_identifier = contracts::data::get_key_from_card_number(data);
 				card = new DataTypes::Card();
-				auto key = new DataTypes::Key();
-				identifier.identifier = data;
-				card->set_allocated_unique_identifier(key);
-				DataTypes::Person entity = _entity_finder.FindPersonByCard(card);
+				card->set_allocated_unique_identifier(card_identifier);		
+				auto all_request = new DataTypes::GetPersonRequest();
+				all_request->set_card(data);
 
-				auto person_key = new DataTypes::Key(entity.id());
-				if (entity)
-					card->set_allocated_owner_id(person_key);
+				std::vector<DataTypes::Person> items;
+				context_->repository()->persons()->get(all_request, items);
 
-				return entity == null; */
-				return false;
+				auto person_find = items.size() > 0;
+				if (!person_find)
+					return false;
+				auto person = items[0];
+				card->set_allocated_owner_id(new DataTypes::Key(person.id()));
+
+				return true;
 			}
 
-			//std::string device_name_;
 			DataTypes::AccessDevice device_;
 			contracts::devices::access_device::IAccessDeviceEnginePtr engine_;
-			contracts::IUnitContextPtr context_;
+			contracts::IUnitContext* context_;
 		
+			const std::chrono::seconds ACCESS_DELAY = std::chrono::seconds(3);
 		};
 	}
 }

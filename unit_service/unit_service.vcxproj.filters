@@ -44,5 +44,20 @@
     <ClInclude Include="include\track_locations_udapter.hpp">
       <Filter>includes</Filter>
     </ClInclude>
+    <ClInclude Include="include\coordinator_connector.hpp">
+      <Filter>includes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\coordinator_heartbeat.hpp">
+      <Filter>includes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\repeatable_action.hpp">
+      <Filter>includes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\iconnection_state.hpp">
+      <Filter>includes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\coordinator_service.hpp">
+      <Filter>includes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -166,8 +166,13 @@
     <ClCompile Include="src\unit_service_configuration.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\coordinator_connector.hpp" />
+    <ClInclude Include="include\coordinator_heartbeat.hpp" />
+    <ClInclude Include="include\coordinator_service.hpp" />
     <ClInclude Include="include\devices_container.hpp" />
+    <ClInclude Include="include\iconnection_state.hpp" />
     <ClInclude Include="include\launcher.hpp" />
+    <ClInclude Include="include\repeatable_action.hpp" />
     <ClInclude Include="include\track_locations_udapter.hpp" />
     <ClInclude Include="include\unit_service.hpp" />
     <ClInclude Include="include\unit_service_configuration.hpp" />

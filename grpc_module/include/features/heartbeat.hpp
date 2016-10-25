@@ -59,7 +59,7 @@ namespace grpc_services
 				//service_->heart_beat(context_.message);
 			}
 
-
+			/*
 			//TODO to utils
 			static void fill_message( const std::string& guid
 				                      , DataTypes::ServiceType stype
@@ -70,7 +70,7 @@ namespace grpc_services
 				msg.set_allocated_id(key);
 				msg.set_service_type(stype);
 			}
-
+			*/
 
 		private:
 			HeartbeatContext context_;

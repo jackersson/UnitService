@@ -10,6 +10,7 @@
 #include <contracts/locations/itrack_location_coordinator.hpp>
 #include <contracts/data/data_utils.hpp>
 #include "track_locations_container.hpp"
+#include <network_utils.hpp>
 
 namespace tracking
 {
@@ -18,30 +19,41 @@ namespace tracking
 		class TrackLocationsEngine : public contracts::locations::ITrackLocationsEngine
 		{
 		public:
-			explicit TrackLocationsEngine(  contracts::IUnitContextPtr context)
+			explicit TrackLocationsEngine(  contracts::IUnitContext* context)
 				                            : context_(context)
-			{}
+			{
+				local_macaddress_ = utils::network::get_mac_address();
+			}
 
 			virtual ~TrackLocationsEngine() {}
 
+			void init() override
+			{
+				
+			}
+
+			void de_init() override
+			{
+				
+			}
+			
 			void update(const DataTypes::Location& location) override {
-				//TODO check if macaddress valid for this locations
-				upsert(location);
+				if ( mac_address_valid(location) )
+					upsert(location);
 			}
 
 			void update_with(const std::vector<DataTypes::Location>& locations) override
 			{
-				//TODO check if macaddress valid for this locations
 				std::set<boost::uuids::uuid> target_locations_set;
 				for (auto location : locations)
 				{
 					boost::uuids::uuid uid;
-					if (!contracts::data::get_guid(location.id(), uid))
+					if ( !contracts::data::get_guid(location.id(), uid)
+						 || !mac_address_valid(location))
 						continue;
 
-					target_locations_set.insert(uid);
-					if (contains(uid))
-						upsert(location, uid);
+					target_locations_set.insert(uid);				
+					upsert(location, uid);
 				}
 
 				std::vector<boost::uuids::uuid> to_remove;
@@ -50,7 +62,7 @@ namespace tracking
 			}
 
 			
-			bool contains(const DataTypes::Location& location)
+			bool contains(const DataTypes::Location& location) const override
 			{
 				boost::uuids::uuid uuid;
 				if (!contracts::data::get_guid(location.id(), uuid))
@@ -59,7 +71,7 @@ namespace tracking
 				return container_.contains(uuid);
 			}
 
-			bool contains(const boost::uuids::uuid& uuid)	{
+			bool contains(const boost::uuids::uuid& uuid) const 	{
 				return container_.contains(uuid);
 			}
 
@@ -142,8 +154,25 @@ namespace tracking
 					remove(item);
 			}
 
+			size_t size() const override
+			{
+				return container_.size();
+			}
+
 		private:
-			contracts::IUnitContextPtr context_;
+			bool mac_address_valid(const DataTypes::Location& location) const
+			{
+				if (location.unit_mac_address() != local_macaddress_)
+				{
+					context_->logger()->error("Location (id {0}) macaddress is not valid for unit service"
+						, contracts::data::to_string(location.id()));
+					return false;
+				}
+				return true;
+			}
+
+			std::string local_macaddress_;
+			contracts::IUnitContext* context_;
 			TrackLocationsContainer container_;	
 		};
 	}

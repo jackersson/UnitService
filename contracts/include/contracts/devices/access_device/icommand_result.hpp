@@ -1,7 +1,7 @@
 #ifndef ICommandResult_Included
 #define ICommandResult_Included
 #include <vector>
-
+#include <memory>
 #include "access_device_types.hpp"
 
 namespace contracts

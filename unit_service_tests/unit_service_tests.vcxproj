@@ -74,6 +74,8 @@
     <Import Project="..\grpc_module\openssl_x32d.props" />
     <Import Project="..\tracking_core\tracking_core_x32d.props" />
     <Import Project="..\grpc_module\zlib_x32d.props" />
+    <Import Project="..\directshow_device\directshow_lib.props" />
+    <Import Project="..\directshow_device\video_capture_x32d.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -104,6 +106,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -159,6 +162,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="data_core_tests.cpp" />
+    <ClCompile Include="directshow_device_tests.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="repository_tests.cpp" />
     <ClCompile Include="rs232_controller_tests.cpp" />
@@ -177,6 +181,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="testable_unit_context.hpp" />
     <ClInclude Include="test_command_context.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

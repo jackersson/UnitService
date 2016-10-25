@@ -19,11 +19,12 @@ namespace access_device
 			AccessDeviceEngine::init();
 		}
 
-		~AccessDeviceEngine() {}
+		~AccessDeviceEngine()	{
+			AccessDeviceEngine::de_init();
+		}
 
 		void stop_all() override
 		{
-			device_enumerator_.stop();
 			for ( auto it = devices_.begin(); it != devices_.end(); ++it)
 				it->second->stop();
 						
@@ -132,8 +133,6 @@ namespace access_device
 			catch (std::exception&) {
 				return false;
 			}		
-			
-			return false;
 
 		}
 

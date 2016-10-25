@@ -29,7 +29,7 @@ namespace contracts
 			public:
 				virtual ~IStreamData() {}
 
-				virtual bool try_get_data(StreamType type, IRawImage& raw) = 0;
+				virtual IRawImage* try_get_data(StreamType type) const = 0;
 			};
 		}
 	}

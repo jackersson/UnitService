@@ -6,7 +6,7 @@ namespace contracts
 {
 	namespace locations
 	{
-		class ITrackLocationsEngine
+		class ITrackLocationsEngine : public common::IModule
 		{
 		public:
 			virtual ~ITrackLocationsEngine() {}
@@ -17,6 +17,11 @@ namespace contracts
 
 			virtual void
 				update(const DataTypes::Location& location) = 0;
+
+			virtual bool contains(const DataTypes::Location& location) const = 0;
+
+			virtual size_t size() const = 0;
+		
 		};
 
 		typedef std::shared_ptr<ITrackLocationsEngine> ITrackLocationsEnginePtr;

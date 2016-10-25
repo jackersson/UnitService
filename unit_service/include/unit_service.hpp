@@ -5,6 +5,8 @@
 #include <contracts/iunit_context.hpp>
 #include <services_coordinator.hpp>
 #include <contracts/locations/itrack_location_coordinator.hpp>
+#include "coordinator_service.hpp"
+#include "track_locations_udapter.hpp"
 
 class UnitService : public contracts::common::IModule
 	                , public contracts::IUnitContext
@@ -52,15 +54,18 @@ public:
 	}
 
 private:
-	void connect();
-
 	contracts::IUnitConfiguration* configuration_;
 
-	contracts::locations::ITrackLocationsEnginePtr tracking_coordinator_;
-	std::shared_ptr<contracts::services::IServices>        services_;
-	std::shared_ptr<contracts::common::Logger>             logger_;
-	std::shared_ptr<contracts::devices::IDevicesContainer> devices_;
+	contracts::locations::ITrackLocationsEnginePtr         tracking_coordinator_;
+	std::shared_ptr<contracts::services::IServices>        services_  ;
+	std::shared_ptr<contracts::common::Logger>             logger_    ;
+	std::shared_ptr<contracts::devices::IDevicesContainer> devices_   ;
 	std::shared_ptr<contracts::data::IRepositoryContainer> repository_; //database service
+
+	std::unique_ptr<tracking::locations::TrackLocationsUpdater>
+		track_locations_updator_;
+
+	std::unique_ptr<CoordinatorService> coordinator_service_;
 
 	std::list<IModule*> modules_;
 };

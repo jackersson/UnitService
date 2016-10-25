@@ -62,6 +62,9 @@
     <Import Project="..\realsense_device\utils_x32d.props" />
     <Import Project="C:\dependencies\video_capture\build\v140\video_capture_x32d.props" />
     <Import Project="directshow_lib.props" />
+    <Import Project="..\UnitService\boost_serial_32d.props" />
+    <Import Project="..\grpc_module\protobuf_x32d.props" />
+    <Import Project="opencv_x32d.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -91,7 +94,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_CONSOLE;WIN32;_WINDOWS;_DEBUG;PA_WDMKS_NO_KSGUID_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CONSOLE;WIN32;_WINDOWS;_DEBUG;PA_WDMKS_NO_KSGUID_LIB;_WIN32_WINNT=0x0601;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
@@ -152,11 +155,16 @@
     <ClCompile Include="src\directshow_device_enumerator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\directshow_device_engine.hpp" />
     <ClInclude Include="include\directshow_device_enumerator.hpp" />
     <ClInclude Include="include\directshow_device_info.hpp" />
     <ClInclude Include="include\directshow_device_listener.hpp" />
     <ClInclude Include="include\platform.hpp" />
-    <ClInclude Include="src\directshow_device_engine.hpp" />
+    <ClInclude Include="include\raw_data.hpp" />
+    <ClInclude Include="include\std_threadable.hpp" />
+    <ClInclude Include="include\stream_data.hpp" />
+    <ClInclude Include="include\types.hpp" />
+    <ClInclude Include="include\video_source.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

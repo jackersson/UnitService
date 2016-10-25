@@ -13,13 +13,15 @@ namespace tracking
 			                          , public contracts::common::IModule
 		{
 		public:
-			explicit TrackLocationsUpdater(contracts::IUnitContextPtr context
-				, contracts::locations::ITrackLocationsEnginePtr track_locations)
-				: context_(context), track_locations_(track_locations)
-			{}
+			explicit TrackLocationsUpdater(contracts::IUnitContextPtr context)
+				: context_(context)
+			{
+				track_locations_ = context->track_locations();
+			}
 
 			virtual ~TrackLocationsUpdater() {}
 
+			//TODO make private
 			void on_data() override
 			{
 				auto& data = *location_repository_->local();

@@ -22,7 +22,7 @@ namespace contracts
 		public:
 			virtual ~ICoordinatorApi() {}
 
-			virtual void 
+			virtual bool 
 				connect_request    (const DataTypes::ConnectMsg& request) = 0;		
 														     
 		

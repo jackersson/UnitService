@@ -5,7 +5,9 @@
 #include <datatypes/commands.pb.h>
 #include <include/grpc++/impl/codegen/completion_queue.h>
 #include <future>
-#include <function.hpp>
+
+#include <grpc++/grpc++.h>
+#include <services/unit_service.grpc.pb.h>
 
 namespace grpc_services
 {
@@ -55,6 +57,29 @@ namespace grpc_services
 
 	namespace utils
 	{
+		inline void set_deadline(grpc::ClientContext& context, uint32_t seconds)
+		{
+			auto deadline =
+				std::chrono::system_clock::now() + std::chrono::seconds(seconds);
+			context.set_deadline(deadline);
+		}
+
+		inline
+		void set_metadata(grpc::ClientContext& context
+			, const std::vector<std::pair<std::string, std::string>>& metadata) 
+		{
+			for (auto item : metadata)
+				context.AddMetadata(item.first, item.second);
+		}
+
+		inline
+		void set_metadata(grpc::ClientContext& context
+			, const std::pair<std::string, std::string>& metadata) 	
+		{
+			context.AddMetadata(metadata.first, metadata.second);
+		}
+
+
 		inline void to_bytes( const DataTypes::GetRequest& request
 			                  , DataTypes::MessageBytes& message)
 		{

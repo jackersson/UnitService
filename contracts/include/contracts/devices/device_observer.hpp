@@ -27,7 +27,7 @@ namespace contracts
 		};
 
 		template <typename T>
-		class IDeviceObserver : public IDeviceStateObserver, common::IObject
+		class IDeviceObserver : public IDeviceStateObserver//, common::IObject
 		{
 		public:
 			virtual ~IDeviceObserver() {}

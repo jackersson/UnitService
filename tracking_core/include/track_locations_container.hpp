@@ -43,12 +43,12 @@ namespace tracking
 				return	track_locations_.find(uuid);
 			}
 
-			bool contains(contracts::locations::ILocationPtr location) {
+			bool contains(contracts::locations::ILocationPtr location) const {
 				auto uuid = location->id();
 				return track_locations_.contains(uuid);
 			}
 
-			bool contains(const boost::uuids::uuid& uuid)	{
+			bool contains(const boost::uuids::uuid& uuid) const	{
 				return track_locations_.contains(uuid);
 			}
 
@@ -68,13 +68,14 @@ namespace tracking
 				return difference.size() > 0;
 			}			
 
-			size_t size()	{
+			size_t size()	const {
 				return track_locations_.size();
 			}
 
 		private:		
 			std::set<boost::uuids::uuid> uuids_;
-			concurrent::containers::ConcurrentMap<boost::uuids::uuid
+			//TODO not mutable but const contains, find
+			mutable concurrent::containers::ConcurrentMap<boost::uuids::uuid
 				, contracts::locations::ILocationPtr> track_locations_;
 		};
 

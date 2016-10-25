@@ -47,45 +47,6 @@ namespace grpc_services
 			stub_ = Services::CoordinatorService::NewStub(channel_);			
 		}
 
-		void start_heartbeat()
-		{
-			if (heartbeat_impl_ != nullptr)
-				return;
-			logger_->info("{0} Try start hearbeat", class_name());
-			const auto& config = context_.unit_context()->configuration();
-			auto service_uuid = config.service_uuid();
-			features::HeartbeatContext context;
-			context.logger = logger_;
-		
-			features::Heartbeat::fill_message(service_uuid
-				, DataTypes::ServiceType::Unit_Service
-				, heart_beat_message_);
-
-			context.action = std::bind(&CoordinatorClientImpl::heart_beat
-				, this, heart_beat_message_);
-
-			context.can_perform = std::bind(&CoordinatorClientImpl::can_hearbeat
-				                              , this);
-
-			heartbeat_impl_ = std::make_unique<features::Heartbeat>(context);
-
-			heartbeat_impl_->start();
-		}
-
-	
-
-		bool can_hearbeat()
-		{
-			return true;
-		}
-
-		void stop_heartbeat()
-		{
-			if (heartbeat_impl_ != nullptr)
-			  heartbeat_impl_->stop();
-			logger_->info("{0} hearbeat stopped", class_name());
-		}
-
 		void init() override
 		{
 			connect();
@@ -106,14 +67,12 @@ namespace grpc_services
 			for (auto handler : handlers_)
 				thread_pool_.Add(handler.second.callback);
 
-			//start_heartbeat();
 			logger_->info("{0} connected to {1}", class_name()
 				            , context_.address().get());
 		}
 
 		void stop() override
-		{
-			stop_heartbeat();
+		{			
 			for (auto it : handlers_)
 				it.second.completion_queue->Shutdown();
 			handlers_.clear();
@@ -121,85 +80,35 @@ namespace grpc_services
 			logger_->info("{0} stopped", class_name());
 		}	
 
-		void connect_request(const DataTypes::ConnectMsg& request) override
+		bool connect_request(const DataTypes::ConnectMsg& request) override
 		{			
-			connect_message_.CopyFrom(request);
 			auto queue = utils::get_completion_queue<AsyncConnectCall>(handlers_);
 			if (queue == nullptr)
 				return;
 
 			auto call = new AsyncConnectCall;
-			set_deadline(call->context, 1); // TODO to consts
+			utils::set_deadline(call->context, REQUEST_DEADLINE);
 			call->reader = stub_->AsyncConnect(&call->context, request, queue);
 			call->reader->Finish(&call->response, &call->status, reinterpret_cast<void*>(call));
 						
 			try
 			{
-				auto result = utils::get_result(call->promise);
-				logger_->info("Connected to coordinator successfully. Result {0}", result);
-				start_heartbeat(); //TODO not here
-
-				need_connect_ = false;
-				if (connect_impl_ != nullptr)
-					connect_impl_->stop();
+				auto result = utils::get_result(call->promise);			
+				return result;
 			}
 			catch (std::exception& exception)	{
-				logger_->error("Coordinator client can't connect. {0}", exception.what());
-				try_connect();
+				logger_->error("Connect request exception : {0}", exception.what());		
+				return false;
 			}			
 		}
-
-		//TODO not here
-		void set_deadline( grpc::ClientContext& context, uint32_t seconds)
-		{
-			auto deadline =
-				std::chrono::system_clock::now() + std::chrono::seconds(seconds);
-			context.set_deadline(deadline);
-		}
-
-		//TODO not here
-		void set_metadata(grpc::ClientContext& context
-		   , const std::vector<std::pair<std::string, std::string>>& metadata ) const
-		{
-	  	for (auto item : metadata)
-			  context.AddMetadata(item.first, item.second);
-		}
-
-		void set_metadata(grpc::ClientContext& context
-		              	, const std::pair<std::string, std::string>& metadata) const
-		{
-			context.AddMetadata(metadata.first, metadata.second);
-		}
-
+			
 		//TODO not here
 		std::pair<std::string, std::string> get_service_id_metadata() const
 		{
 			auto guid = context_.unit_context()->configuration().service_uuid();
 			return std::pair<std::string, std::string>("id", guid);
 		}
-
-		void try_connect()
-		{
-			if (connect_impl_ != nullptr)
-				return;
-
-			features::HeartbeatContext context;
-			context.logger = logger_;
-
-			context.action = std::bind(&CoordinatorClientImpl::connect_request
-				                      , this, connect_message_);
-
-			context.can_perform = std::bind(&CoordinatorClientImpl::need_connect, this);
-
-			connect_impl_ = std::make_unique<features::Heartbeat>(context);
-			connect_impl_->start();
-		}
-
-		bool need_connect()
-		{
-			return need_connect_;
-		}
-
+	
 		void heart_beat(const DataTypes::HeartbeatMessage& request) const override
 		{
 			auto queue = utils::get_completion_queue<AsyncHeartbeatCall>(handlers_);
@@ -216,7 +125,6 @@ namespace grpc_services
 			catch (std::exception& exception) {
 				//TODO handle broken promise as no response from server
 				logger_->error("Coordinator client {0}", exception.what());
-				//connection_failed();
 			}		
 		}
 
@@ -227,7 +135,7 @@ namespace grpc_services
 				return;
 
 			auto call = new AsyncUpdateDevicesCall;
-			set_metadata(call->context, get_service_id_metadata());
+			utils::set_metadata(call->context, get_service_id_metadata());
 			call->reader = stub_->AsyncUpdateDevices(&call->context, request, queue);
 			call->reader->Finish(&call->response, &call->status, reinterpret_cast<void*>(call));
 		}
@@ -260,7 +168,7 @@ namespace grpc_services
 				return nullptr;
 
 			auto call = new AsyncCommitRequestCall;
-			set_metadata(call->context, get_service_id_metadata());
+			utils::set_metadata(call->context, get_service_id_metadata());
 			call->reader = stub_->AsyncGet(&call->context, message, it->second.completion_queue.get());
 			call->reader->Finish(&call->response, &call->status, reinterpret_cast<void*>(call));
 
@@ -293,9 +201,7 @@ namespace grpc_services
 				try
 				{
 					if (call->status.ok())					
-						call->process();					
-					//else
-						//logger_->error("{0} rpc failed", class_name());
+						call->process();							
 				}
 				catch (std::exception& ex) {
 					logger_->error(ex.what());
@@ -309,10 +215,7 @@ namespace grpc_services
 		}
 
 		bool active_;
-		bool need_connect_;
-
-		//TODO increase value
-		const uint16_t MAX_CONNECTION_FAILS_COUNT = 3;
+		bool need_connect_;	
 
 		std::unique_ptr<Services::CoordinatorService::Stub> stub_;
 		std::shared_ptr<grpc::Channel>                   channel_;
@@ -325,11 +228,7 @@ namespace grpc_services
 
 		std::shared_ptr<contracts::common::Logger> logger_;
 
-		std::unique_ptr<features::Heartbeat> heartbeat_impl_;
-		DataTypes::HeartbeatMessage heart_beat_message_;
-
-		std::unique_ptr<features::Heartbeat> connect_impl_;
-		DataTypes::ConnectMsg connect_message_;
+		const int REQUEST_DEADLINE = 1;
 
 		CoordinatorClientImpl(const CoordinatorClientImpl&) = delete;
 		CoordinatorClientImpl& operator=(const CoordinatorClientImpl&) = delete;
