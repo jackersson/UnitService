@@ -4,20 +4,13 @@
 #include <datatypes/queries.pb.h>
 #include <datatypes/commands.pb.h>
 #include <include/grpc++/impl/codegen/completion_queue.h>
-#include <future>
-
 #include <grpc++/grpc++.h>
 #include <services/unit_service.grpc.pb.h>
 
 namespace grpc_services
 {
-	typedef Services::UnitService::AsyncService AsyncService;
-	
+	typedef Services::UnitService::AsyncService AsyncService;	
 	typedef std::function<void()> RpcCallbackFunction;
-
-	//typedef std::pair<std::shared_ptr<grpc::CompletionQueue>
-		//, RpcCallbackFunction> CallHandler;
-//
 
 	template<typename TQueue>
 	struct RequestHandlerBase
@@ -105,27 +98,8 @@ namespace grpc_services
 			if (it == handlers.end())
 				return nullptr;
 			return it->second.completion_queue.get();
-		}
-		/*
-		template <typename T>
-		T get_result(std::promise<T>& promise
-			 , std::chrono::milliseconds time_duration = std::chrono::milliseconds(50))
-		{
-			auto future = promise.get_future();
-
-			auto try_count = 0;
-			while (future.wait_for(time_duration) == std::future_status::timeout
-				&& try_count < 10)			
-				try_count++;
-			auto failed = try_count >= 10;
-			if (failed)
-				throw std::exception("timeout exception");
-			
-			return future.get();
-		}
-		*/
+		}	
 	}
-
 }
 
 #endif

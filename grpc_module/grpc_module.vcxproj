@@ -159,7 +159,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\unit_service\check_device_request_handler.cpp" />
+    <ClCompile Include="src\unit_service\enroll_request_handler.cpp" />
+    <ClCompile Include="src\unit_service\get_card_request_handler.cpp" />
+    <ClCompile Include="src\unit_service\get_devices_request_handler.cpp" />
+    <ClCompile Include="src\unit_service\get_device_stream_request.cpp" />
+    <ClCompile Include="src\unit_service\get_location_stream_request.cpp" />
+    <ClCompile Include="src\unit_service\open_door_request_handler.cpp" />
+    <ClCompile Include="src\unit_service\update_location_request_handler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\clients_manager.hpp" />
@@ -169,7 +176,6 @@
     <ClInclude Include="include\database_service\database_client_calls.hpp" />
     <ClInclude Include="include\database_service\database_client_impl.hpp" />
     <ClInclude Include="include\facial_service\facial_client_impl.hpp" />
-    <ClInclude Include="include\features\heartbeat.hpp" />
     <ClInclude Include="include\request_handler.hpp" />
     <ClInclude Include="include\server_manager.hpp" />
     <ClInclude Include="include\server_context.hpp" />

@@ -27,19 +27,19 @@ public:
 	void init()    override;
 	void de_init() override;
 
-	std::shared_ptr<contracts::devices::IDevicesContainer> devices() override	{
-		return devices_;
+	contracts::devices::IDevicesContainer* devices() override	{
+		return devices_.get();
 	}
 
-	std::shared_ptr<contracts::data::IRepositoryContainer> repository() override {
-		return repository_;
+	contracts::data::AbstractRepositoryContainer* repository() override {
+		return repository_.get();
 	}
 
-	std::shared_ptr<contracts::services::IServices>        services() override {
-		return services_;
+	contracts::services::IServices*  services() override {
+		return services_.get();
 	}
 
-	std::shared_ptr<contracts::common::Logger>             logger() override{
+	contracts::common::LoggerPtr logger() override{
 		return logger_;
 	}
 
@@ -47,20 +47,19 @@ public:
 		return *configuration_;
 	}
 
-	std::shared_ptr<contracts::locations::ITrackLocationsEngine>
-		track_locations() override
+	contracts::locations::ITrackLocationsEngine* track_locations() override
 	{
-		return tracking_coordinator_;
+		return tracking_coordinator_.get();
 	}
 
 private:
 	contracts::IUnitConfiguration* configuration_;
 
-	contracts::locations::ITrackLocationsEnginePtr         tracking_coordinator_;
-	std::shared_ptr<contracts::services::IServices>        services_  ;
-	std::shared_ptr<contracts::common::Logger>             logger_    ;
-	std::shared_ptr<contracts::devices::IDevicesContainer> devices_   ;
-	std::shared_ptr<contracts::data::IRepositoryContainer> repository_; 
+	contracts::locations::ITrackLocationsEnginePtr                tracking_coordinator_;
+	std::unique_ptr<contracts::services::IServices>               services_  ;
+	contracts::common::LoggerPtr                                  logger_    ;
+	std::unique_ptr<contracts::devices::IDevicesContainer>        devices_   ;
+	std::unique_ptr<contracts::data::AbstractRepositoryContainer> repository_; 
 
 	std::unique_ptr<TrackLocationsUpdater>	track_locations_updator_;
 

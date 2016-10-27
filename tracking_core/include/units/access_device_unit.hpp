@@ -38,6 +38,15 @@ namespace tracking
 		typedef 
 			std::shared_ptr<contracts::devices::IDeviceObserver<ICommandResult>> IDeviceObserverPtr;
 
+
+		struct AccessDeviceUnitContext
+		{
+			contracts::devices::access_device::IAccessDeviceEngine* access_devices;
+			contracts::data::AbstractRepositoryContainer*           repository    ;
+			contracts::common::LoggerPtr                            logger        ;
+		};
+
+
 		class AccessDeviceObserver :
 			  public contracts::observers::Observable<contracts::locations::ILocation>
 	    , public contracts::devices::IDeviceObserver<ICommandResult>
@@ -50,10 +59,12 @@ namespace tracking
 				AccessDeviceObserver::stop();
 			}
 
-			explicit AccessDeviceObserver	(contracts::IUnitContext* context)
-				: context_(context)
-			{
-				engine_ = context_->devices()->access_device_engine();
+			explicit AccessDeviceObserver	(const AccessDeviceUnitContext& context)			
+			{	
+				//TODO handle nulls
+				access_devices_     = context.access_devices;
+				persons_repository_ = context.repository->get<DataTypes::Person>();
+				logger_             = context.logger;
 			}
 
 			//TODO to utils
@@ -93,23 +104,24 @@ namespace tracking
 				auto dev_name = device_.name();
 				if (dev_name == "")
 				{
-					context_->logger()->error("Device name is not valid");
+					logger_->error("Device name is not valid");
 					return;
 				}
 
-				engine_->add(dev_name);
-				engine_->subscribe(this, dev_name);
+				access_devices_->add(dev_name);
+				access_devices_->subscribe(this, dev_name);
 			}
 
 			void stop() override
 			{
-				engine_->unsubscribe(this);
-				engine_->remove(device_.name());
+				access_devices_->unsubscribe(this);
+				access_devices_->remove(device_.name());
 			}
 
 			void grant() const
 			{				
-				engine_->execute(device_.name(), contracts::devices::access_device::lGreenAccess);
+				access_devices_->execute( device_.name()
+					                      , contracts::devices::access_device::lGreenAccess);
 
 				std::future<void> result(std::async([this]()
 				  { std::this_thread::sleep_for(ACCESS_DELAY);
@@ -118,7 +130,8 @@ namespace tracking
 			}
 
 			void deny() const	{
-				engine_->execute(device_.name(), contracts::devices::access_device::lRedMain);
+				access_devices_->execute( device_.name()
+					                      , contracts::devices::access_device::lRedMain);
 			}
 
 			DataTypes::VisitRecord* verify( DataTypes::VisitRecord& target
@@ -156,7 +169,7 @@ namespace tracking
 			
 			void on_error(const contracts::devices::DeviceException& exception) override
 			{			
-				context_->logger()->error("Access device exception {0}", exception.what());
+				logger_->error("Access device exception {0}", exception.what());
 				for (auto observer : observers_ )
 					observer->on_error(exception);
 			}
@@ -192,7 +205,7 @@ namespace tracking
 			AccessDeviceObserver& operator=(const AccessDeviceObserver&) = delete;
 
 			bool device_connected() const	{
-				return engine_->device_enumerator().connected(device_.name());
+				return access_devices_->device_enumerator().connected(device_.name());
 			}
 
 			void check_buttons(const std::vector<unsigned char>& data) const
@@ -229,7 +242,7 @@ namespace tracking
 				all_request->set_card(data);
 
 				std::vector<DataTypes::Person> items;
-				context_->repository()->persons()->get(all_request, items);
+				persons_repository_->get(all_request, items);
 
 				auto person_find = items.size() > 0;
 				if (!person_find)
@@ -241,8 +254,9 @@ namespace tracking
 			}
 
 			DataTypes::AccessDevice device_;
-			contracts::devices::access_device::IAccessDeviceEnginePtr engine_;
-			contracts::IUnitContext* context_;
+			contracts::devices::access_device::IAccessDeviceEngine* access_devices_;
+			contracts::data::IRepository<DataTypes::Person>* persons_repository_;
+			contracts::common::LoggerPtr logger_;
 		
 			const std::chrono::seconds ACCESS_DELAY = std::chrono::seconds(3);
 		};

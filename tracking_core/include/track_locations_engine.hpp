@@ -21,11 +21,13 @@ namespace tracking
 		public:
 			explicit TrackLocationsEngine(  contracts::IUnitContext* context)
 				                            : context_(context)
-			{
+			{				
 				local_macaddress_ = utils::network::get_mac_address();
 			}
 
-			virtual ~TrackLocationsEngine() {}
+			virtual ~TrackLocationsEngine()	{
+				TrackLocationsEngine::de_init();
+			}
 
 			void init() override
 			{

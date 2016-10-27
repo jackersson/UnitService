@@ -29,14 +29,12 @@ namespace contracts
 	public:
 		virtual ~IUnitContext() {}
 
-		virtual std::shared_ptr<locations::ITrackLocationsEngine>
-			                                                  track_locations() = 0;
-
-		virtual std::shared_ptr<devices::IDevicesContainer> devices        () = 0;
-		virtual std::shared_ptr<data::AbstractRepositoryContainer> repository     () = 0;
-		virtual std::shared_ptr<services::IServices>        services       () = 0;
-		virtual std::shared_ptr<common::Logger>             logger         () = 0;
-		virtual const IUnitConfiguration&                   configuration  () = 0;
+		virtual locations::ITrackLocationsEngine*  track_locations() = 0;
+		virtual devices::IDevicesContainer*        devices        () = 0;
+		virtual data::AbstractRepositoryContainer* repository     () = 0;
+		virtual services::IServices*               services       () = 0;
+		virtual common::LoggerPtr                  logger         () = 0;
+		virtual const IUnitConfiguration&          configuration  () = 0;
 	};
 
 	typedef std::shared_ptr<IUnitContext> IUnitContextPtr;

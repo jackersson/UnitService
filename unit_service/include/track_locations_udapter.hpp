@@ -9,21 +9,29 @@ class TrackLocationsUpdater : public contracts::observers::IObserver
 	                          , public contracts::common::IModule
 {
 public:
-	explicit TrackLocationsUpdater(contracts::IUnitContext* context)
-		: context_(context)
-	{
-		track_locations_ = context->track_locations();
-	}
+	explicit TrackLocationsUpdater( contracts::IUnitContext* context)
+		                            : context_(context)
+		                            , location_repository_(nullptr)
+		                            , track_locations_(nullptr)
+	{}
 
-	virtual ~TrackLocationsUpdater() {}			
+	virtual ~TrackLocationsUpdater()	{
+		TrackLocationsUpdater::de_init();
+	}			
 
 	void init() override {
-		location_repository_ = context_->repository()->locations();
+		track_locations_     = context_->track_locations();
+		location_repository_ = context_->repository()->get<DataTypes::Location>();
 		location_repository_->local()->subscribe(this);
 	}
 
 	void de_init() override {
-		location_repository_->local()->unsubscribe(this);
+		if (location_repository_ == nullptr)
+			return;
+		auto local = location_repository_->local();
+		if (local == nullptr)
+			return;
+		local->unsubscribe(this);
 	}
 	
 	void on_data() override
@@ -37,8 +45,8 @@ public:
 
 private:
 	contracts::IUnitContext* context_;
-	contracts::data::LocationRepositoryPtr location_repository_;
-	contracts::locations::ITrackLocationsEnginePtr track_locations_;
+	contracts::data::IRepository<DataTypes::Location>* location_repository_;
+	contracts::locations::ITrackLocationsEngine* track_locations_;
 };
 
 

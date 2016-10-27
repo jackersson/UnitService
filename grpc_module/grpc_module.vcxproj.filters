@@ -25,13 +25,34 @@
     <Filter Include="includes\coordinator_service">
       <UniqueIdentifier>{63232fe6-c5fc-4569-84b0-28702867de5e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="includes\features">
-      <UniqueIdentifier>{a99b20d7-372f-4a04-9d23-5aed4fcd08f3}</UniqueIdentifier>
+    <Filter Include="Source Files\unit_service">
+      <UniqueIdentifier>{c547f375-9409-4593-b77d-44d7ecac350e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\unit_service\check_device_request_handler.cpp">
+      <Filter>Source Files\unit_service</Filter>
+    </ClCompile>
+    <ClCompile Include="src\unit_service\enroll_request_handler.cpp">
+      <Filter>Source Files\unit_service</Filter>
+    </ClCompile>
+    <ClCompile Include="src\unit_service\get_card_request_handler.cpp">
+      <Filter>Source Files\unit_service</Filter>
+    </ClCompile>
+    <ClCompile Include="src\unit_service\get_device_stream_request.cpp">
+      <Filter>Source Files\unit_service</Filter>
+    </ClCompile>
+    <ClCompile Include="src\unit_service\get_devices_request_handler.cpp">
+      <Filter>Source Files\unit_service</Filter>
+    </ClCompile>
+    <ClCompile Include="src\unit_service\get_location_stream_request.cpp">
+      <Filter>Source Files\unit_service</Filter>
+    </ClCompile>
+    <ClCompile Include="src\unit_service\open_door_request_handler.cpp">
+      <Filter>Source Files\unit_service</Filter>
+    </ClCompile>
+    <ClCompile Include="src\unit_service\update_location_request_handler.cpp">
+      <Filter>Source Files\unit_service</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -91,9 +112,6 @@
     </ClInclude>
     <ClInclude Include="include\unit_service\enroll_request_handler.hpp">
       <Filter>includes\unit_service</Filter>
-    </ClInclude>
-    <ClInclude Include="include\features\heartbeat.hpp">
-      <Filter>includes\features</Filter>
     </ClInclude>
     <ClInclude Include="include\grpc_service_utils.hpp">
       <Filter>includes</Filter>

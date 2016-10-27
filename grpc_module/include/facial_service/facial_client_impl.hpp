@@ -4,10 +4,7 @@
 #include <grpc++/grpc++.h>
 #include <contracts/services/iservice.hpp>
 #include "client_context.hpp"
-#include <src/cpp/server/dynamic_thread_pool.h>
 #include <services/coordinator_service.grpc.pb.h>
-
-#include <service_utils.hpp>
 
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>

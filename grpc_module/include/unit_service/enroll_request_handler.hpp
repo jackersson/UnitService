@@ -6,7 +6,7 @@
 #include <services/unit_service.grpc.pb.h>
 #include <request_handler.hpp>
 #include <contracts/iunit_context.hpp>
-#include <service_utils.hpp>
+#include "unit_service_impl.hpp"
 
 namespace grpc_services
 {
@@ -37,12 +37,7 @@ namespace grpc_services
 					, server_completion_queue_, this);
 			}
 
-			void ProcessRequest() override
-			{
-				DataTypes::Faces response;
-				//TODO implement
-				responder_.Finish(response, grpc::Status::OK, this);
-			}
+			void ProcessRequest() override;			
 
 		private:
 			DataTypes::Device  request_;

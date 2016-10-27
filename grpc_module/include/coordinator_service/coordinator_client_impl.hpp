@@ -226,7 +226,7 @@ namespace grpc_services
 		grpc::DynamicThreadPool thread_pool_;
 
 
-		std::shared_ptr<contracts::common::Logger> logger_;
+		contracts::common::LoggerPtr logger_;
 
 		const int REQUEST_DEADLINE = 1;
 

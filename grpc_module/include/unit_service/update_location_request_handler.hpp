@@ -6,7 +6,7 @@
 #include <services/unit_service.grpc.pb.h>
 #include <request_handler.hpp>
 #include <contracts/iunit_context.hpp>
-#include <service_utils.hpp>
+#include "unit_service_impl.hpp"
 
 namespace grpc_services
 {
@@ -37,16 +37,7 @@ namespace grpc_services
 					, server_completion_queue_, this);
 			}
 
-			void ProcessRequest() override
-			{
-				google::protobuf::Empty response;
-
-				//TODO update location in local storage and coordinator
-				context_->repository()->locations()->local()->update(&request_);
-
-				std::cout << "Coordinator wants update location" << std::endl;
-				responder_.Finish(response, grpc::Status::OK, this);
-			}
+			void ProcessRequest() override;		
 
 		private:
 			DataTypes::Location  request_;

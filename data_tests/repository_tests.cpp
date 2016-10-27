@@ -49,8 +49,7 @@ namespace repository_tests
 		
 		container.de_init();
 	}
-
-
+	
 	TEST(RepositoryTests, RepositoryContainerTest)
 	{
 		data_core::RepositoryContainer container;

@@ -5,13 +5,29 @@
 #include <access_device/access_device_engine.hpp>
 #include <directshow_device_engine.hpp>
 
+class AccessDevicesReservedEngine 
+	: public contracts::devices::access_device::IAccessDeviceEngine
+{
+public:
+	AccessDevicesReservedEngine(): impl_(nullptr)
+	{
+		
+	}
+
+
+
+private:
+	IAccessDeviceEngine*  impl_;
+	std::set<std::string> reserved_devices_;
+};
+
 
 class DevicesContainer : public contracts::devices::IDevicesContainer
 {
 public:
 	DevicesContainer() 
-		: access_device_engine_ (std::make_shared<access_device::AccessDeviceEngine>())
-		, direct_show_device_engine_(std::make_shared<directshow_device::DirectShowDeviceEngine>())
+		: access_device_engine_ (std::make_unique<access_device::AccessDeviceEngine>())
+		, direct_show_device_engine_(std::make_unique<directshow_device::DirectShowDeviceEngine>())
 	{	}
 
 	void init() override
@@ -26,10 +42,10 @@ public:
 		direct_show_device_engine_->init();
 	}
 
-	contracts::devices::access_device::IAccessDeviceEnginePtr
+	contracts::devices::access_device::IAccessDeviceEngine*
 		access_device_engine() override
 	{
-		return access_device_engine_;
+		return access_device_engine_.get();
 	}
 
 	void enumerate(DataTypes::Devices& devices) const override
@@ -63,8 +79,8 @@ private:
 		}
 	}
 	
-	std::shared_ptr<access_device::AccessDeviceEngine> access_device_engine_;
-	std::shared_ptr<directshow_device::DirectShowDeviceEngine>
+	std::unique_ptr<access_device::AccessDeviceEngine> access_device_engine_;
+	std::unique_ptr<directshow_device::DirectShowDeviceEngine>
 		                                          direct_show_device_engine_;
 };
 

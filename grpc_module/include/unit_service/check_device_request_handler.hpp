@@ -6,7 +6,7 @@
 #include <services/unit_service.grpc.pb.h>
 #include <request_handler.hpp>
 #include <contracts/iunit_context.hpp>
-#include <service_utils.hpp>
+#include "unit_service_impl.hpp"
 
 namespace grpc_services
 {
@@ -15,12 +15,12 @@ namespace grpc_services
 		class CheckDeviceRequestHandler : public RequestHandler<AsyncService>
 		{
 		public:
-			CheckDeviceRequestHandler(AsyncService* service
-				, grpc::ServerCompletionQueue* completion_queue
-				, contracts::IUnitContext* context)
-				: RequestHandler<AsyncService>(service, completion_queue)
-				, responder_(&server_context_)
-				, context_(context)
+			CheckDeviceRequestHandler( AsyncService* service
+				                       , grpc::ServerCompletionQueue* completion_queue
+				                       , contracts::IUnitContext* context)
+				                       : RequestHandler<AsyncService>(service, completion_queue)
+				                       , responder_(&server_context_)
+				                       , context_(context)
 			{
 				Proceed();
 			}
@@ -37,28 +37,7 @@ namespace grpc_services
 					, server_completion_queue_, this);
 			}
 
-			void ProcessRequest() override
-			{
-				DataTypes::CheckMsg response;
-				response.set_ok(true); //TODO notify when something wrong
-
-				auto access_device_engine = context_->devices()->access_device_engine();
-
-				//TODO refactor
-				//TODO check if device type == access device type
-				auto device_name = request_.device_name();
-				access_device_engine->add(device_name);
-				access_device_engine->execute(device_name
-					, contracts::devices::access_device::lights::lLight);
-
-				access_device_engine->execute(device_name
-					, contracts::devices::access_device::lights::lRedMain);
-
-				access_device_engine->remove(device_name);
-
-				std::cout << "Client wants check device" << std::endl;
-				responder_.Finish(response, grpc::Status::OK, this);
-			}
+			void ProcessRequest() override;	
 
 		private:
 			DataTypes::Device  request_;

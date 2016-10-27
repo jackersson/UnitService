@@ -21,9 +21,6 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="include\realsense_device_enumerator.hpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DA816F0A-3369-422D-947F-531824C47A2E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

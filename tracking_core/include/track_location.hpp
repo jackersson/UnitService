@@ -5,31 +5,34 @@
 #include <contracts/locations/ilocation.hpp>
 #include <contracts/iunit_context.hpp>
 #include <contracts/data/data_utils.hpp>
+#include "units/access_device_unit.hpp"
 
 namespace tracking
 {
 	namespace locations
 	{
+
 		class TrackLocation : public contracts::locations::ILocation
 		{
 		public:
-			explicit TrackLocation(contracts::IUnitContext* context)
-				: context_(context)
-				, visit_records_repository_(context_->repository()->visit_records())
-			{}
-
+			
+			explicit TrackLocation( contracts::IUnitContext* context)
+				                    : context_(context)
+			{
+				try_resolve_dependencies();
+			}
+		
 			virtual ~TrackLocation(){
 				TrackLocation::stop();
 			}
 
-			explicit TrackLocation(const DataTypes::Location& object
-				                   , contracts::IUnitContext* context)
-				: context_(context)
+			explicit TrackLocation( const DataTypes::Location& object
+				                    , contracts::IUnitContext* context)
+				                    : context_(context)
 			{
-				if (context_->repository() != nullptr)
-					visit_records_repository_ = context_->repository()->visit_records();
+				try_resolve_dependencies();
 				TrackLocation::update(object);
-			}
+			}		
 
 			void update(const DataTypes::Location& object ) override
 			{
@@ -87,6 +90,9 @@ namespace tracking
 			
 			void on_error(const contracts::devices::DeviceException& exception)  override
 			{
+				if (context_ == nullptr)
+					throw std::exception("Context can't be null");
+
 				context_->logger()->error("Track location device error {0}", exception.what());
 			}
 
@@ -95,24 +101,43 @@ namespace tracking
 				//context_->logger()->error("Track location device state {0}", state.state());
 			}
 
-			boost::uuids::uuid id() const override
-			{
+			boost::uuids::uuid id() const override{
 				return uuid_;
 			}
 
 		private:
+
+			void try_resolve_dependencies()
+			{
+				if (context_ != nullptr)
+				{
+					access_device_context_.logger         = context_->logger();
+					access_device_context_.repository     = context_->repository();
+					access_device_context_.access_devices = context_->devices()->access_device_engine();
+					access_coordinator_ 
+						= std::make_unique<units::AccessDeviceObserver>(access_device_context_);
+
+					auto repository = context_->repository();
+					if (repository != nullptr)
+						visit_records_repository_ = repository->get<DataTypes::VisitRecord>();
+					else
+						std::cout << "Repository is null" << std::endl;
+				}
+				else
+					std::cout << "Context is null" << std::endl;
+			}
+
 			TrackLocation(const TrackLocation& other) = delete;
 			TrackLocation& operator=(const TrackLocation&) = delete;
 
-		private:
-			std::shared_ptr<contracts::devices::access_device::IAccessCoordinator> access_coordinator_;
+			std::unique_ptr<contracts::devices::access_device::IAccessCoordinator> access_coordinator_;
 			
 			boost::uuids::uuid uuid_;
 			DataTypes::Location location_;
 			contracts::IUnitContext* context_;
-			contracts::data::VisitRecordRepositoryPtr visit_records_repository_;
+			contracts::data::IRepository<DataTypes::VisitRecord>* visit_records_repository_;
 
-		
+			units::AccessDeviceUnitContext access_device_context_;
 		};
 
 		typedef std::shared_ptr<TrackLocation> TrackLocationPtr;

@@ -141,7 +141,7 @@ namespace grpc_services
 		boost::thread_group threadpool;
 		boost::asio::io_service::work work;
 
-		std::shared_ptr<contracts::common::Logger> logger_;
+		contracts::common::LoggerPtr logger_;
 	};
 }
 

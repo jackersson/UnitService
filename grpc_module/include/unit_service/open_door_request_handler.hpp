@@ -1,13 +1,12 @@
 #ifndef OpenDoorRequestHandler_Included
 #define OpenDoorRequestHandler_Included
 
-#include <memory>
 #include <include/grpc++/impl/codegen/completion_queue.h>
 #include <services/unit_service.grpc.pb.h>
 #include <request_handler.hpp>
 #include <contracts/iunit_context.hpp>
-#include <service_utils.hpp>
 #include <grpc_service_utils.hpp>
+
 namespace grpc_services
 {
 	namespace unit_service
@@ -37,15 +36,7 @@ namespace grpc_services
 				, server_completion_queue_, this);
 		}
 
-		void ProcessRequest() override
-		{
-			google::protobuf::Empty response;
-			
-			context_->track_locations()->grant_access(request_);
-		
-			std::cout << "Client wants open door" << std::endl;
-			responder_.Finish(response, grpc::Status::OK, this);
-		}
+		void ProcessRequest() override;		
 
 		private:
 			DataTypes::Location  request_;

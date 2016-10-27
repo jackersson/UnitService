@@ -3,7 +3,7 @@
 
 namespace repository_tests
 {	
-
+	/*
 	DataTypes::Location 
 		get_any_location(contracts::data::LocationRepositoryPtr repository)
 	{		
@@ -111,5 +111,5 @@ namespace repository_tests
 
 		add_visit_record_check(repository, visit_record);
 	}
-
+	*/
 }

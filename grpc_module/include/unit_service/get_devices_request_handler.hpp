@@ -3,9 +3,9 @@
 #include <memory>
 #include <include/grpc++/impl/codegen/completion_queue.h>
 #include <services/unit_service.grpc.pb.h>
-#include "../request_handler.hpp"
+#include "request_handler.hpp"
 #include <contracts/iunit_context.hpp>
-#include <service_utils.hpp>
+#include "unit_service_impl.hpp"
 
 namespace grpc_services
 {
@@ -37,15 +37,7 @@ namespace grpc_services
 					, server_completion_queue_, this);			
 			}
 
-			void ProcessRequest() override
-			{
-				DataTypes::Devices response;
-
-				if (context_ != nullptr && context_->devices() != nullptr)
-				  context_->devices()->enumerate(response);
-
-				responder_.Finish(response, grpc::Status::OK, this);
-			}
+			void ProcessRequest() override;		
 
 		private:		
 			google::protobuf::Empty  request_;

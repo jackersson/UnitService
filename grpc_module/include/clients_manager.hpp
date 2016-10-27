@@ -5,7 +5,6 @@
 #include <memory>
 #include <contracts/services/iservice.hpp>
 #include "server_context.hpp"
-#include "../database_client_impl.hpp"
 #include "coordinator_service/coordinator_client_impl.hpp"
 #include "database_service/database_client_impl.hpp"
 
