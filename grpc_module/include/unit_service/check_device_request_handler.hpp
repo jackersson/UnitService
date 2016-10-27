@@ -45,6 +45,7 @@ namespace grpc_services
 				auto access_device_engine = context_->devices()->access_device_engine();
 
 				//TODO refactor
+				//TODO check if device type == access device type
 				auto device_name = request_.device_name();
 				access_device_engine->add(device_name);
 				access_device_engine->execute(device_name

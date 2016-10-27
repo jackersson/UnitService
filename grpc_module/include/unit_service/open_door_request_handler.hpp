@@ -7,7 +7,7 @@
 #include <request_handler.hpp>
 #include <contracts/iunit_context.hpp>
 #include <service_utils.hpp>
-
+#include <grpc_service_utils.hpp>
 namespace grpc_services
 {
 	namespace unit_service

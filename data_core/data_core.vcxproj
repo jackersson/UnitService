@@ -26,7 +26,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -160,6 +160,7 @@
     <ClInclude Include="include\datacontext\locations_data_context.hpp" />
     <ClInclude Include="include\datacontext\persons_data_context.hpp" />
     <ClInclude Include="include\datacontext\visit_records_datacontext.hpp" />
+    <ClInclude Include="include\datacontext_container.hpp" />
     <ClInclude Include="include\data_api.hpp" />
     <ClInclude Include="include\localstorage\locations_localstorage.hpp" />
     <ClInclude Include="include\repository\location_repository.hpp" />

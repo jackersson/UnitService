@@ -1,12 +1,9 @@
 #ifndef CoordinatorService_Included
 #define CoordinatorService_Included
 
-#include <contracts/devices/idevices_container.hpp>
-#include <access_device/access_device_engine.hpp>
 #include <contracts/iunit_context.hpp>
 #include "coordinator_connector.hpp"
 #include "coordinator_heartbeat.hpp"
-
 
 class CoordinatorService : public contracts::common::IModule 
 {

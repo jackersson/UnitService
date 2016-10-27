@@ -16,7 +16,7 @@ namespace track_locations_tests
 
 	void get_locations(std::vector<DataTypes::Location>& items, size_t count)
 	{
-		for (auto i = 0; i < count; i++)
+		for (size_t i = 0; i < count; i++)
 			items.push_back(get_location());		
 	}
 

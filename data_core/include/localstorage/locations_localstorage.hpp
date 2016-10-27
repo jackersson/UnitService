@@ -96,9 +96,7 @@ namespace data_core
 
 				auto it = std::find_if(entities_.begin(), entities_.end(), predicate);
 				return it;					
-			}
-
-			
+			}			
 
 			void notify()
 			{

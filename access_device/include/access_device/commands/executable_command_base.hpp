@@ -44,7 +44,7 @@ namespace access_device
 				auto command = create_command(response_);
 
 				if (empty(*command.get()))
-					return result_.data(command->data());
+					return result_.empty();
 
 				return !valid(*command.get())
 					? result_.not_valid()
@@ -86,9 +86,7 @@ namespace access_device
 			{
 				return command.empty();
 			}
-
-		
-
+			
 			virtual const Command& input() const = 0;
 
 			virtual ~ExecutableCommandBase() {}

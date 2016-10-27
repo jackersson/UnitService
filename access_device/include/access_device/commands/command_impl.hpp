@@ -63,7 +63,7 @@ namespace access_device
 			{
 				std::vector<unsigned char> bytes;
 				rs232::create_empty_command(bytes, id(), 0);
-				input_command_ = std::make_unique<Command>(bytes);
+				input_command_ = std::make_unique<Command>(bytes);		
 			}
 
 			//TODO maybe remove from here

@@ -1,7 +1,6 @@
 #ifndef CommandFactory_Included
 #define CommandFactory_Included
 
-#include <access_device/rs232/rs232_controller_utils.hpp>
 #include <vector>
 #include <map>
 #include <access_device/core/iexecutable_command.hpp>
@@ -14,55 +13,29 @@ namespace access_device
 		class CommandFactory 
 		{
 		public:
-			explicit CommandFactory(uint16_t device_number)	: device_number_(device_number)
-			{
-				register_command<LightCommandImpl> (std::make_shared<LightCommandImpl>());
-				register_command<ButtonCommandImpl>(std::make_shared<ButtonCommandImpl>());
-				register_command<DallasCommandImpl>(std::make_shared<DallasCommandImpl>());
-			}
+			explicit CommandFactory(uint16_t device_number);			
 
 			std::shared_ptr<core::ICommandContext>
-			get(rs232::port_command id, unsigned char data = 0)
-			{
-				auto it = commands_.find(id);
-				if (it != commands_.end())
-				{
-					apply_settings(*(it->second.get()), data);
-					return it->second;
-				}
-
-				return nullptr;
-			}
+				get(rs232::port_command id, unsigned char data = 0);			
 
 			template <typename T>
 			std::shared_ptr<core::ICommandContext>
 				get(unsigned char data = 0)
-			{
+			{				
+				//TODO should be smarter way.
+				//The problem: when data applied to one object it changes everywhere
+				//Possible solution: try to use pool of objects instead of single object
 				auto it = container_.find(typeid(T).name());
-				if (it != container_.end())
-				{
-					apply_settings(*(it->second.get()), data);
-					return it->second;
-				}
-
-				return nullptr;
+				std::shared_ptr<core::ICommandContext> command = nullptr;
+				if (it != container_.end())				
+					command = it->second;							
+				else				
+					command = std::make_shared<LightCommandImpl>();				
+				apply_settings(*command, data);
+				return command;
 			}
 
-			bool reset(TimeoutSerial& sp)
-			{
-				auto success = 0;
-				for ( auto it : commands_)
-				{
-					auto cmd = it.second;
-					apply_settings(*cmd.get());
-					const auto& result = cmd->execute(sp);
-
-					if (result->ok())
-						success++;
-				}
-
-				return success == commands_.size();
-			}
+			bool reset(TimeoutSerial& sp);			
 
 			void apply_settings( core::ICommandSettings& command
 				                 , unsigned char data = 0 ) const 

@@ -34,6 +34,12 @@
     <Filter Include="src\access_device\core">
       <UniqueIdentifier>{c31ee3f6-6a3e-4689-9620-0fec06df7b89}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\access_device\commands">
+      <UniqueIdentifier>{22a2a1a8-ccb4-476d-a345-77f914f7b7ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\access_device\common">
+      <UniqueIdentifier>{3ad543a0-c29d-461c-b5d9-526f71dc129f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -41,6 +47,15 @@
     </ClCompile>
     <ClCompile Include="src\access_device\core\timeout_serial.cpp">
       <Filter>src\access_device\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\access_device\access_device_listener.cpp">
+      <Filter>src\access_device</Filter>
+    </ClCompile>
+    <ClCompile Include="src\access_device\access_device_engine.cpp">
+      <Filter>src\access_device</Filter>
+    </ClCompile>
+    <ClCompile Include="src\access_device\commands\command_factory.cpp">
+      <Filter>src\access_device\commands</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

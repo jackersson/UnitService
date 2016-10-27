@@ -27,6 +27,12 @@
     <ClCompile Include="src\unit_service_configuration.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\coordinator_connector.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\coordinator_heartbeat.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\unit_service.hpp">

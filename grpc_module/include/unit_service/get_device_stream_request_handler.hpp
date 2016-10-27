@@ -12,8 +12,6 @@ namespace grpc_services
 {
 	namespace unit_service
 	{
-		
-
 		class GetDeviceStreamRequestHandler : public RequestHandler<AsyncService>
 		{
 		public:

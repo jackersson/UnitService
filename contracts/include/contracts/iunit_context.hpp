@@ -33,7 +33,7 @@ namespace contracts
 			                                                  track_locations() = 0;
 
 		virtual std::shared_ptr<devices::IDevicesContainer> devices        () = 0;
-		virtual std::shared_ptr<data::IRepositoryContainer> repository     () = 0;
+		virtual std::shared_ptr<data::AbstractRepositoryContainer> repository     () = 0;
 		virtual std::shared_ptr<services::IServices>        services       () = 0;
 		virtual std::shared_ptr<common::Logger>             logger         () = 0;
 		virtual const IUnitConfiguration&                   configuration  () = 0;

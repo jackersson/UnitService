@@ -60,10 +60,9 @@ private:
 	std::shared_ptr<contracts::services::IServices>        services_  ;
 	std::shared_ptr<contracts::common::Logger>             logger_    ;
 	std::shared_ptr<contracts::devices::IDevicesContainer> devices_   ;
-	std::shared_ptr<contracts::data::IRepositoryContainer> repository_; //database service
+	std::shared_ptr<contracts::data::IRepositoryContainer> repository_; 
 
-	std::unique_ptr<tracking::locations::TrackLocationsUpdater>
-		track_locations_updator_;
+	std::unique_ptr<TrackLocationsUpdater>	track_locations_updator_;
 
 	std::unique_ptr<CoordinatorService> coordinator_service_;
 

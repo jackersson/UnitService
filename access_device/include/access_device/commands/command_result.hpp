@@ -44,7 +44,7 @@ namespace access_device
 			{
 				std::stringstream ss;
 				for ( auto bt : data_)				
-					ss << bt;				
+					ss << static_cast<int>(bt);				
 				return ss.str();
 			}
 

@@ -32,7 +32,7 @@ namespace access_device
 				for (auto pi : serials)
 					serials_.push_back(pi.port);
 				update();
-				print();
+				//print();
 				std::this_thread::sleep_for(delay_);
 
 				if (cancelation_requested)

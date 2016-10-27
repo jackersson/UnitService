@@ -4,29 +4,34 @@
 #include <grpc++/grpc++.h>
 #include <contracts/services/iservice.hpp>
 #include <services/database_service.grpc.pb.h>
-#include "include/client_context.hpp"
+#include "client_context.hpp"
 #include <src/cpp/server/dynamic_thread_pool.h>
-#include "include/database_service/database_client_calls.hpp"
+#include "database_service/database_client_calls.hpp"
 #include <contracts/services/idatabase_api.hpp>
 #include <service_utils.hpp>
+#include <grpc_service_utils.hpp>
 
 using grpc::ServerBuilder;
 
 namespace grpc_services
 {
 	class DatabaseClientImpl : public contracts::services::IService
-		                       , public contracts::services::IDatabaseApi	                    
+		, public contracts::services::IDatabaseApi
 	{
 	public:
-		explicit DatabaseClientImpl(const ClientContext& context) 
+		explicit DatabaseClientImpl(const ClientContext& context)
 			: active_(false), context_(context)
 			, thread_pool_(0)
-		{	
-			logger_ = context.unit_context()->logger();
+		{
+			auto unit_context = context.unit_context();
+			if (unit_context != nullptr)
+				logger_ = unit_context->logger();
+			else
+				logger_ = std::shared_ptr<contracts::common::Logger>();
 			DatabaseClientImpl::init();
 		}
 
-		~DatabaseClientImpl()		{
+		~DatabaseClientImpl() {
 			DatabaseClientImpl::stop();
 			logger_->info("{0} destroyed", class_name());
 		}
@@ -37,9 +42,9 @@ namespace grpc_services
 			logger_->info("Try create channel {0}", address);
 
 			channel_ = CreateChannel(address, grpc::InsecureChannelCredentials());
-			stub_    = Services::DatabaseService::NewStub(channel_);
+			stub_ = Services::DatabaseService::NewStub(channel_);
 
-			add_call_handler<AsyncGetRequestCall>   ();
+			add_call_handler<AsyncGetRequestCall>();
 			add_call_handler<AsyncCommitRequestCall>();
 		}
 
@@ -47,19 +52,19 @@ namespace grpc_services
 		{
 			if (active_)
 				return;
-			
+
 			active_ = true;
 
 			for (auto handler : handlers_)
-				thread_pool_.Add(handler.second.callback);			
+				thread_pool_.Add(handler.second.callback);
 
 			logger_->info("{0} connected to {1}", class_name()
 				, context_.address().get());
 		}
 
 		void stop() override
-		{		
-		
+		{
+
 			for (auto it : handlers_)
 				it.second.completion_queue->Shutdown();
 			handlers_.clear();
@@ -73,9 +78,9 @@ namespace grpc_services
 			logger_->info("{0} Get request ", class_name());
 
 			DataTypes::MessageBytes message;
-			utils::to_bytes(request, message);
+			helpers::to_bytes(request, message);
 
-			auto queue = utils::get_completion_queue<AsyncGetRequestCall>(handlers_);
+			auto queue = helpers::get_completion_queue<AsyncGetRequestCall>(handlers_);
 			if (queue == nullptr)
 				return nullptr;
 
@@ -85,10 +90,10 @@ namespace grpc_services
 
 			try
 			{
-				auto result = utils::get_result(call->promise, std::chrono::milliseconds(300));
+				auto result = utils::service::get_result(call->promise, std::chrono::milliseconds(300));
 				return result;
 			}
-			catch (std::exception&){
+			catch (std::exception&) {
 				return nullptr;
 			}
 		}
@@ -97,7 +102,7 @@ namespace grpc_services
 			commit(const DataTypes::CommitRequest& request) override
 		{
 			DataTypes::MessageBytes message;
-			utils::to_bytes(request, message);
+			helpers::to_bytes(request, message);
 
 			auto it = handlers_.find(typeid(AsyncCommitRequestCall).name());
 			if (it == handlers_.end())
@@ -109,7 +114,7 @@ namespace grpc_services
 
 			try
 			{
-				auto result = utils::get_result(call->promise, std::chrono::milliseconds(300));
+				auto result = utils::service::get_result(call->promise, std::chrono::milliseconds(300));
 				return result;
 			}
 			catch (std::exception&) {
@@ -121,12 +126,12 @@ namespace grpc_services
 	private:
 		template<typename T>
 		void add_call_handler()
-		{						
+		{
 			auto cq = std::make_shared<grpc::CompletionQueue>();
 
-			auto callback = std::bind( &DatabaseClientImpl::async_complete_rpc<T>
-				                        , this, cq.get());
-			
+			auto callback = std::bind(&DatabaseClientImpl::async_complete_rpc<T>
+				, this, cq.get());
+
 			handlers_.insert(
 				std::pair<std::string, ClientRequestHandler>(
 					typeid(T).name(), ClientRequestHandler(cq, callback)));
@@ -137,9 +142,9 @@ namespace grpc_services
 		{
 			void* got_tag;
 			auto  ok = false;
-			
+
 			while (queue->Next(&got_tag, &ok))
-			{			
+			{
 				auto call = static_cast<T*>(got_tag);
 				try
 				{
@@ -148,7 +153,7 @@ namespace grpc_services
 					else
 						logger_->error("{0} rpc failed", class_name());
 				}
-				catch (std::exception& ex){
+				catch (std::exception& ex) {
 					logger_->error("{0} rpc failed. {1}", class_name(), ex.what());
 				}
 				delete call;
@@ -160,16 +165,16 @@ namespace grpc_services
 		}
 
 		bool active_;
-		std::unique_ptr<Services::DatabaseService::Stub> stub_       ;
-		std::shared_ptr<grpc::Channel>                   channel_    ;
-						
+		std::unique_ptr<Services::DatabaseService::Stub> stub_;
+		std::shared_ptr<grpc::Channel>                   channel_;
+
 		ClientContext context_;
 		ClientRequestHandlers handlers_;
 
 		std::shared_ptr<contracts::common::Logger> logger_;
 
 		grpc::DynamicThreadPool thread_pool_;
-		
+
 		DatabaseClientImpl(const DatabaseClientImpl&) = delete;
 		DatabaseClientImpl& operator=(const DatabaseClientImpl&) = delete;
 	};

@@ -2,7 +2,6 @@
 #define PersonsRepository_Included
 
 #include <contracts/data/irepository.hpp>
-#include <contracts/services/idatabase_api.hpp>
 
 namespace data_core
 {
@@ -13,7 +12,7 @@ namespace data_core
 		{
 		public:
 			explicit
-				PersonsRepository(contracts::data::IPersonsDataContextPtr datacontext)
+				PersonsRepository(IDataContext<DataTypes::Person>* datacontext)
 				: datacontext_(datacontext)
 			{}
 
@@ -47,9 +46,8 @@ namespace data_core
 				return nullptr;
 			}
 
-		private:
-			contracts::services::IDatabaseApiPtr api_;
-			contracts::data::IPersonsDataContextPtr datacontext_;
+		private:	
+			IDataContext<DataTypes::Person>*    datacontext_;
 		};
 
 

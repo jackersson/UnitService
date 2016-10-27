@@ -17,6 +17,12 @@ namespace contracts
 
 				virtual void execute( const std::string& device_name
 					                  , lights data = lNone) = 0;
+
+				virtual bool grant_access(const std::string& device_name) = 0;
+
+				virtual bool check(const std::string& device_name) = 0;
+
+				virtual std::string get_card(const std::string& device_name) = 0;
 			};
 
 			typedef std::shared_ptr<IAccessDeviceEngine> IAccessDeviceEnginePtr;

@@ -8,7 +8,7 @@
 namespace access_device_tests
 {
 	class TestCommandContext
-	{			
+	{
 	public:
 		explicit TestCommandContext(const std::string& device_name)
 			: serial_port_()
@@ -17,17 +17,17 @@ namespace access_device_tests
 			serial_port_.set_timeout(boost::posix_time::millisec(100));
 		}
 
-		~TestCommandContext()	{
+		~TestCommandContext() {
 			serial_port_.close();
 		}
 
-		contracts::devices::access_device::ICommandResultPtr 
+		contracts::devices::access_device::ICommandResultPtr
 			execute(access_device::core::ICommandContextPtr command)
 		{
 			return command->execute(serial_port_);
 		}
 
-		static void 
+		static void
 			check_result(contracts::devices::access_device::ICommandResultPtr result)
 		{
 			EXPECT_TRUE(std::string(result->exception().what()) == "Unknown exception");
@@ -38,7 +38,7 @@ namespace access_device_tests
 
 	private:
 		access_device::TimeoutSerial serial_port_;
-	};	
+	};
 }
 
 #endif

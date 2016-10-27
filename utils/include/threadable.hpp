@@ -10,8 +10,9 @@ namespace utils
 	class Threadable
 	{
 	public:
-		Threadable() : active_(false), cancelation_requested(false)
-			, work(io_service)
+		Threadable() : cancelation_requested(false)
+			           , work(io_service)
+			           , active_(false)
 		{
 			threads.create_thread(boost::bind(&boost::asio::io_service::run, &io_service));
 		}
@@ -23,16 +24,22 @@ namespace utils
 			if (active_)
 				return;
 
-			//thread_ = std::thread(&Threadable::thread_procedure, this);
 			io_service.post(boost::bind(thread_procedure, this));
 		}
 
 		virtual void stop()
 		{
-			cancelation_requested = true;
-			active_ = false;
-			io_service.stop();
-			threads.join_all();
+			try
+			{
+				cancelation_requested = true;
+				active_ = false;
+				io_service.stop();
+				threads.join_all();
+			}
+			catch (std::exception&)
+			{
+				//Not implemented
+			}
 		}
 
 		bool active() const {

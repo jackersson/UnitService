@@ -8,6 +8,7 @@
 #include <contracts/services/service_address.hpp>
 #include "unit_service/open_door_request_handler.hpp"
 #include <service_utils.hpp>
+#include <grpc_service_utils.hpp>
 
 #include <boost/asio/io_service.hpp>
 #include <boost/bind.hpp>

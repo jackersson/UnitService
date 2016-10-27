@@ -13,7 +13,7 @@ namespace data_core
 		{
 		public:
 			explicit
-				VisitRecordsRepository(contracts::data::IVisitRecordsDataContextPtr datacontext)
+				VisitRecordsRepository(IDataContext<DataTypes::VisitRecord>* datacontext)
 				: datacontext_(datacontext)
 			{}
 
@@ -48,8 +48,7 @@ namespace data_core
 			}
 
 		private:
-			contracts::services::IDatabaseApiPtr api_;
-			contracts::data::IVisitRecordsDataContextPtr datacontext_;
+			IDataContext<DataTypes::VisitRecord>* datacontext_;
 		};
 
 

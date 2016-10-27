@@ -22,7 +22,7 @@ void UnitService::init()
 	modules_.push_back(tracking_coordinator_.get());
 
 	track_locations_updator_
-		= std::make_unique<tracking::locations::TrackLocationsUpdater>(this);
+		= std::make_unique<TrackLocationsUpdater>(this);
 	modules_.push_back(track_locations_updator_.get());
 
 	coordinator_service_ = std::make_unique<CoordinatorService>(this);

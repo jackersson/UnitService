@@ -82,18 +82,18 @@ namespace grpc_services
 
 		bool connect_request(const DataTypes::ConnectMsg& request) override
 		{			
-			auto queue = utils::get_completion_queue<AsyncConnectCall>(handlers_);
+			auto queue = helpers::get_completion_queue<AsyncConnectCall>(handlers_);
 			if (queue == nullptr)
-				return;
+				return false;
 
 			auto call = new AsyncConnectCall;
-			utils::set_deadline(call->context, REQUEST_DEADLINE);
+			helpers::set_deadline(call->context, REQUEST_DEADLINE);
 			call->reader = stub_->AsyncConnect(&call->context, request, queue);
 			call->reader->Finish(&call->response, &call->status, reinterpret_cast<void*>(call));
 						
 			try
 			{
-				auto result = utils::get_result(call->promise);			
+				auto result = utils::service::get_result(call->promise);
 				return result;
 			}
 			catch (std::exception& exception)	{
@@ -111,7 +111,7 @@ namespace grpc_services
 	
 		void heart_beat(const DataTypes::HeartbeatMessage& request) const override
 		{
-			auto queue = utils::get_completion_queue<AsyncHeartbeatCall>(handlers_);
+			auto queue = helpers::get_completion_queue<AsyncHeartbeatCall>(handlers_);
 			if (queue == nullptr)
 				return;
 
@@ -120,7 +120,7 @@ namespace grpc_services
 			call->reader->Finish(&call->response, &call->status, reinterpret_cast<void*>(call));
 
 			try	{
-				utils::get_result(call->promise);				
+				utils::service::get_result(call->promise);
 			}
 			catch (std::exception& exception) {
 				//TODO handle broken promise as no response from server
@@ -130,12 +130,12 @@ namespace grpc_services
 
 		void update_devices(const DataTypes::DeviceUpdate& request) const override
 		{
-			auto queue = utils::get_completion_queue<AsyncUpdateDevicesCall>(handlers_);
+			auto queue = helpers::get_completion_queue<AsyncUpdateDevicesCall>(handlers_);
 			if (queue == nullptr)
 				return;
 
 			auto call = new AsyncUpdateDevicesCall;
-			utils::set_metadata(call->context, get_service_id_metadata());
+			helpers::set_metadata(call->context, get_service_id_metadata());
 			call->reader = stub_->AsyncUpdateDevices(&call->context, request, queue);
 			call->reader->Finish(&call->response, &call->status, reinterpret_cast<void*>(call));
 		}
@@ -144,9 +144,9 @@ namespace grpc_services
 			get(const DataTypes::GetRequest& request) override
 		{
 			DataTypes::MessageBytes message;
-			utils::to_bytes(request, message);
+			helpers::to_bytes(request, message);
 
-			auto queue = utils::get_completion_queue<AsyncGetRequestCall>(handlers_);
+			auto queue = helpers::get_completion_queue<AsyncGetRequestCall>(handlers_);
 			if (queue == nullptr)
 				return nullptr;
 
@@ -154,26 +154,26 @@ namespace grpc_services
 			call->reader = stub_->AsyncGet(&call->context, message, queue);
 			call->reader->Finish(&call->response, &call->status, reinterpret_cast<void*>(call));
 
-			return utils::get_result(call->promise);
+			return utils::service::get_result(call->promise);
 		}
 
 		std::shared_ptr<DataTypes::CommitResponse>
 			commit(const DataTypes::CommitRequest& request) override
 		{
 			DataTypes::MessageBytes message;
-			utils::to_bytes(request, message);
+			helpers::to_bytes(request, message);
 
 			auto it = handlers_.find(typeid(AsyncCommitRequestCall).name());
 			if (it == handlers_.end())
 				return nullptr;
 
 			auto call = new AsyncCommitRequestCall;
-			utils::set_metadata(call->context, get_service_id_metadata());
+			helpers::set_metadata(call->context, get_service_id_metadata());
 			call->reader = stub_->AsyncGet(&call->context, message, it->second.completion_queue.get());
 			call->reader->Finish(&call->response, &call->status, reinterpret_cast<void*>(call));
 
 			//TODO add try catch with timeout
-			return utils::get_result(call->promise);
+			return utils::service::get_result(call->promise);
 		}
 		
 	private:

@@ -58,8 +58,8 @@ namespace directshow_device
 
 		Capability get_capability() const
 		{
-			int width  = video_capture_->get(CV_CAP_PROP_FRAME_WIDTH);
-			int height = video_capture_->get(CV_CAP_PROP_FRAME_HEIGHT);
+			auto width  = video_capture_->get(CV_CAP_PROP_FRAME_WIDTH);
+			auto height = video_capture_->get(CV_CAP_PROP_FRAME_HEIGHT);
 
 			return Capability(width, height);
 		}

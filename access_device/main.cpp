@@ -2,15 +2,15 @@
 #include <numeric>
 #include <vector>
 #include <future>
-/*
+
 #include <serial/serial.h>
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
 #include <thread>
 #include "access_device/serial_port_enumerator.hpp"
 #include "access_device/access_device_engine.hpp"
-#include "include/access_device/core/timeout_serial.hpp"
-*/
+
+
 using namespace std;
 
 //boost::asio::io_service io;
@@ -37,7 +37,7 @@ void set(int i, promise<int>& promis)
 int get()
 {
 	auto pr = promise<int>();
-	set(5, pr);
+	//set(5, pr);
 
 	return	pr.get_future().get();		
 }

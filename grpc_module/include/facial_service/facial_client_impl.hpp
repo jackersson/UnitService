@@ -12,6 +12,8 @@
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 
+#include <grpc_service_utils.hpp>
+
 using grpc::ServerBuilder;
 
 namespace grpc_services

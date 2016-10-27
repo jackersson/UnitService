@@ -1,6 +1,7 @@
 {
-    "facial_service_address": "127.0.0.1:50051",
-    "coordinator_service_address": "127.0.0.1:65400",
-    "unit_service_port": "50053",
-    "service_uuid": "2efb5dd1-5970-49b0-9f46-ec866e9282c1"
+    "FacialServiceAddress": "127.0.0.1:50051",
+    "CoordinatorServiceAddress": "127.0.0.1:65400",
+    "DatabaseServiceAddress": "127.0.0.1:49095",
+    "UnitServicePort": "50053",
+    "ServiceId": "cd019f05-edf6-49cc-b517-123b7dcdf0cb"
 }

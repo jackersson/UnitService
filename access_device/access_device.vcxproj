@@ -26,7 +26,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -149,6 +149,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\access_device\access_device_engine.cpp" />
+    <ClCompile Include="src\access_device\access_device_listener.cpp" />
+    <ClCompile Include="src\access_device\commands\command_factory.cpp" />
     <ClCompile Include="src\access_device\core\timeout_serial.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -10,6 +10,7 @@
 
 namespace unit_service_tests
 {
+	/*
 	class LocalStorageObserver : public contracts::observers::IObserver
 	{
 	public:
@@ -80,8 +81,7 @@ namespace unit_service_tests
 
 		EXPECT_FALSE(false);
 	}
-
-	//TODO move from here
+	
 	TEST(GuidParserTests, GuidParserTests)
 	{		
 		DataTypes::Key key;
@@ -98,6 +98,7 @@ namespace unit_service_tests
 		auto uu2 = to_string(parsed_guid);
 		EXPECT_EQ  (uu1, uu2);
 	}
+	*/
 
 	//TODO move from here
 	TEST(MacAddressTests, MacAddressTests)

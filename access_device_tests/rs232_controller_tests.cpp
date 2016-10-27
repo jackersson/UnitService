@@ -12,7 +12,7 @@ namespace rs232_controller_tests
 {
 	void word_pair_check(port_command command)
 	{
-		auto pair   = uint_to_word_pair(command);
+		auto pair = uint_to_word_pair(command);
 		auto output = word_pair_to_byte(pair.first, pair.second);
 
 		EXPECT_EQ(command, output);
@@ -44,7 +44,7 @@ namespace rs232_controller_tests
 		EXPECT_TRUE(check_sum_valid(bytes));
 	}
 
-	void create_data_key_command_check( const std::vector<unsigned char>& key)
+	void create_data_key_command_check(const std::vector<unsigned char>& key)
 	{
 		std::vector<unsigned char> bytes;
 		create_data_key_command(bytes, key, Dallas, 0);
@@ -53,13 +53,13 @@ namespace rs232_controller_tests
 
 	//with controller
 	void light_command_check(access_device_tests::TestCommandContext& test_cmd
-		                      , access_device::core::ICommandContextPtr command
-		                      , uint32_t id
-	                        , bool with_data = true)
+		, access_device::core::ICommandContextPtr command
+		, uint32_t id
+		, bool with_data = true)
 	{
 		//Not need to set data when ask buttons
 		if (with_data)
-		  command->set_data(id);
+			command->set_data(id);
 		auto result = test_cmd.execute(command);
 		access_device_tests::TestCommandContext::check_result(result);
 
@@ -70,18 +70,18 @@ namespace rs232_controller_tests
 
 	enum FlagsTest
 	{
-		  UnsetFlags = 0
+		UnsetFlags = 0
 		, Flag1 = 1
 		, Flag2 = 2
 	};
 
 	enum FlagsWithShiftTest
 	{
-		  UnsetFlagsWithShift = 0
-		, FlagsWithShift1     = 1 << 1
-		, FlagsWithShift2     = 1 << 2
-		, FlagsWithShift3     = 1 << 4
-		, FlagsWithShift4     = 1 << 8
+		UnsetFlagsWithShift = 0
+		, FlagsWithShift1 = 1 << 1
+		, FlagsWithShift2 = 1 << 2
+		, FlagsWithShift3 = 1 << 4
+		, FlagsWithShift4 = 1 << 8
 	};
 
 	void check_flags()
@@ -91,7 +91,7 @@ namespace rs232_controller_tests
 		EXPECT_FALSE(utils::flags::has(val, Flag2));
 
 		utils::flags::set(val, Flag1);
-		EXPECT_TRUE (utils::flags::has(val, Flag1));
+		EXPECT_TRUE(utils::flags::has(val, Flag1));
 		EXPECT_FALSE(utils::flags::has(val, Flag2));
 
 		utils::flags::set(val, Flag2);
@@ -107,7 +107,7 @@ namespace rs232_controller_tests
 		EXPECT_FALSE(utils::flags::has(val, FlagsWithShift3));
 
 		utils::flags::set(val, FlagsWithShift1);
-		EXPECT_TRUE (utils::flags::has(val, FlagsWithShift1));
+		EXPECT_TRUE(utils::flags::has(val, FlagsWithShift1));
 		EXPECT_FALSE(utils::flags::has(val, FlagsWithShift2));
 		EXPECT_FALSE(utils::flags::has(val, FlagsWithShift3));
 
@@ -115,7 +115,7 @@ namespace rs232_controller_tests
 		EXPECT_TRUE(utils::flags::has(val, FlagsWithShift1));
 		EXPECT_TRUE(utils::flags::has(val, FlagsWithShift2));
 		EXPECT_FALSE(utils::flags::has(val, FlagsWithShift3));
-		
+
 		utils::flags::set(val, FlagsWithShift3);
 		EXPECT_TRUE(utils::flags::has(val, FlagsWithShift1));
 		EXPECT_TRUE(utils::flags::has(val, FlagsWithShift2));
@@ -133,8 +133,8 @@ namespace rs232_controller_tests
 
 	TEST(InvertBitsTest, InvertBitsTest)
 	{
-		invert_bits_check(239, 16 );
-		invert_bits_check(1  , 254);
+		invert_bits_check(239, 16);
+		invert_bits_check(1, 254);
 	}
 
 	TEST(BytePairTest, BytePairToShortConversionTest)
@@ -177,7 +177,7 @@ namespace rs232_controller_tests
 		std::vector<uint32_t> examples = { Pb1RedMain | Pb6Green
 			, 0, Pb1RedMain | Pb6Green | Pb8GreenAccess, 0 };
 
-		for ( auto num : examples)
+		for (auto num : examples)
 			light_command_check(cm_test, command, num);
 	}
 
@@ -205,19 +205,11 @@ namespace rs232_controller_tests
 		//Put dallas key to pass the following
 		auto result = cm_test.execute(command);
 		access_device_tests::TestCommandContext::check_result(result);
-		
+
 		EXPECT_EQ(DALLAS_KEY_SIZE, result->data().size());
 	}
 
-	TEST(AccessDeviceLifecycleTest, AccessDeviceLifecycleTest)
-	{
-		access_device::AccessDeviceEngine engine;
-		engine.add("COM3");
 
-		std::chrono::milliseconds delay_(60000);
-		std::this_thread::sleep_for(delay_);
-		engine.de_init();
-	}
 
 
 

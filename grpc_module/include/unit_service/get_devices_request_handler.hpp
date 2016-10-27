@@ -41,8 +41,8 @@ namespace grpc_services
 			{
 				DataTypes::Devices response;
 
-				//TODO test
-				context_->devices()->enumerate(response);
+				if (context_ != nullptr && context_->devices() != nullptr)
+				  context_->devices()->enumerate(response);
 
 				responder_.Finish(response, grpc::Status::OK, this);
 			}

@@ -5,6 +5,7 @@
 #include <contracts/common/ilifecycle.hpp>
 #include <contracts/observers/iobservable.hpp>
 #include <contracts/observers/observable..hpp>
+#include <any.hpp>
 
 namespace contracts
 {
@@ -59,7 +60,7 @@ namespace contracts
 			virtual bool update(TEntity* entity) = 0;
 		};
 
-
+		/*
 		typedef
 			std::shared_ptr<IDataContext<DataTypes::Location>>	ILocationDataContextPtr;
 
@@ -68,7 +69,7 @@ namespace contracts
 
 		typedef
 			std::shared_ptr<IDataContext<DataTypes::Person>> IPersonsDataContextPtr;
-
+			*/
 		template <typename TEntity>
 		class IRepository : public IDataContext<TEntity>
 		{
@@ -78,22 +79,50 @@ namespace contracts
 			virtual std::shared_ptr<ILocalStorage<TEntity>> local() = 0;
 		};
 
-
+		/*
 		typedef std::shared_ptr<IRepository<DataTypes::VisitRecord>>
 			VisitRecordRepositoryPtr;
 
 		typedef std::shared_ptr<IRepository<DataTypes::Location>>	LocationRepositoryPtr;
 		typedef std::shared_ptr<IRepository<DataTypes::Person>>	  PersonRepositoryPtr  ;
 
-		
-		class IRepositoryContainer : public common::IModule
+		*/
+		class AbstractRepositoryContainer : public common::IModule
 		{
 		public:
-			virtual ~IRepositoryContainer() {}
+			virtual ~AbstractRepositoryContainer() {}
 
-			virtual VisitRecordRepositoryPtr visit_records() = 0;
-			virtual LocationRepositoryPtr    locations()     = 0;
-			virtual	PersonRepositoryPtr      persons()       = 0;
+			template <typename T>
+			IRepository<T>* get()
+			{
+				auto key = typeid(T).hash_code();
+				if (container_.find(key) == container_.end())
+					return nullptr;
+				auto target = boost::any_cast<IRepository<T>*>(container_[key]);
+				return target;
+			}
+
+		protected:
+			std::map<size_t, boost::any> container_;
+
+		};
+
+		class AbstractDataContextContainer : public common::IModule
+		{
+		public:
+			virtual ~AbstractDataContextContainer() {}
+
+			template <typename T>	
+			IDataContext<T>* get()
+			{
+				auto key = typeid(T).hash_code();
+				if (container_.find(key) == container_.end())
+					return nullptr;
+				auto target = boost::any_cast<IDataContext<T>*>(container_[key]);
+				return target;
+			}
+		protected:
+			std::map<size_t, boost::any> container_;
 		};
 	}
 }

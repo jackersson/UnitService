@@ -7,6 +7,7 @@
 #include "server_context.hpp"
 #include "../database_client_impl.hpp"
 #include "coordinator_service/coordinator_client_impl.hpp"
+#include "database_service/database_client_impl.hpp"
 
 namespace grpc_services
 {
@@ -51,28 +52,26 @@ namespace grpc_services
 	private:
 		void init()
 		{
-			const auto& configuration = context_->configuration();
-		
+			const auto& configuration = context_->configuration();		
 			
 			//database service 
 			//For test, Database service is going to be used
-			contracts::services::ServiceAddress address(configuration.database_service_address());
+			contracts::services::ServiceAddress database_address
+			                          (configuration.database_service_address());
 			database_client_ = std::make_shared<DatabaseClientImpl>(
-			                                   	ClientContext(address, context_));
+			                               	ClientContext(database_address, context_));
 																					
 			servers_.push_back(database_client_);
 
 
-			//Coordinator client 
-			/*
-			contracts::services::ServiceAddress address(configuration.coordinator_service_address());
+			//Coordinator client 			
+			contracts::services::ServiceAddress coordinator_address
+			                              (configuration.coordinator_service_address());
 			coordinator_client_ = std::make_shared<CoordinatorClientImpl>(
-				                                      ClientContext(address, context_));
+				                              ClientContext(coordinator_address, context_));
 
-			servers_.push_back(coordinator_client_);
-			*/
+			servers_.push_back(coordinator_client_);			
 		}
-
 
 		ClientManager(const ClientManager&) = delete;
 		ClientManager& operator=(const ClientManager&) = delete;

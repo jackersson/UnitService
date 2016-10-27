@@ -2,7 +2,6 @@
 #define LocationsRepository_Included
 
 #include <contracts/data/irepository.hpp>
-#include <contracts/services/idatabase_api.hpp>
 #include <localstorage/locations_localstorage.hpp>
 
 namespace data_core
@@ -14,7 +13,7 @@ namespace data_core
 		{
 		public:
 			explicit 
-				LocationsRepository(contracts::data::ILocationDataContextPtr datacontext)
+				LocationsRepository(IDataContext<DataTypes::Location>* datacontext)
 				: datacontext_(datacontext)
 				, local_(std::make_shared<localstorage::LocationsLocalStorage>())
 			{}
@@ -43,6 +42,7 @@ namespace data_core
 				return datacontext_->update(entity);
 			}
 
+			//TODO move to pointer just
 			std::shared_ptr<contracts::data::ILocalStorage<DataTypes::Location>> 
 				local() override
 			{
@@ -50,8 +50,7 @@ namespace data_core
 			}
 
 		private:
-			contracts::services::IDatabaseApiPtr api_;
-			contracts::data::ILocationDataContextPtr datacontext_;
+			IDataContext<DataTypes::Location>* datacontext_;
 			std::shared_ptr<contracts::data::ILocalStorage<DataTypes::Location>> local_;
 		};
 

@@ -56,5 +56,8 @@
     <ClInclude Include="include\repository\persons_repository.hpp">
       <Filter>includes\repositories</Filter>
     </ClInclude>
+    <ClInclude Include="include\datacontext_container.hpp">
+      <Filter>includes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

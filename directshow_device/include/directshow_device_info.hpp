@@ -12,6 +12,11 @@ namespace directshow_device
 		Capability(): width_(0), height_(0)
 		{	}
 
+
+		Capability(double widht, double height) 
+			: width_(static_cast<int>(widht)), height_(static_cast<int>(height))
+		{	}
+
 		Capability(int widht, int height) : width_(widht), height_(height)
 		{	}
 

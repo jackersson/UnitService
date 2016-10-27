@@ -162,19 +162,19 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="database_client_impl.hpp" />
     <ClInclude Include="include\clients_manager.hpp" />
     <ClInclude Include="include\client_context.hpp" />
     <ClInclude Include="include\coordinator_service\coordinator_client_calls.hpp" />
     <ClInclude Include="include\coordinator_service\coordinator_client_impl.hpp" />
     <ClInclude Include="include\database_service\database_client_calls.hpp" />
+    <ClInclude Include="include\database_service\database_client_impl.hpp" />
     <ClInclude Include="include\facial_service\facial_client_impl.hpp" />
     <ClInclude Include="include\features\heartbeat.hpp" />
     <ClInclude Include="include\request_handler.hpp" />
     <ClInclude Include="include\server_manager.hpp" />
     <ClInclude Include="include\server_context.hpp" />
     <ClInclude Include="include\services_coordinator.hpp" />
-    <ClInclude Include="include\service_utils.hpp" />
+    <ClInclude Include="include\grpc_service_utils.hpp" />
     <ClInclude Include="include\unit_service\check_device_request_handler.hpp" />
     <ClInclude Include="include\unit_service\enroll_request_handler.hpp" />
     <ClInclude Include="include\unit_service\get_card_request_handler.hpp" />

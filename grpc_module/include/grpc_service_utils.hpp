@@ -1,5 +1,5 @@
-#ifndef ServiceUtils_INCLUDED
-#define ServiceUtils_INCLUDED
+#ifndef GrpcServiceUtils_INCLUDED
+#define GrpcServiceUtils_INCLUDED
 
 #include <datatypes/queries.pb.h>
 #include <datatypes/commands.pb.h>
@@ -55,7 +55,7 @@ namespace grpc_services
 	typedef std::list<ServerRequestHandler> ServerRequestHandlers;
 
 
-	namespace utils
+	namespace helpers
 	{
 		inline void set_deadline(grpc::ClientContext& context, uint32_t seconds)
 		{
@@ -106,7 +106,7 @@ namespace grpc_services
 				return nullptr;
 			return it->second.completion_queue.get();
 		}
-		
+		/*
 		template <typename T>
 		T get_result(std::promise<T>& promise
 			 , std::chrono::milliseconds time_duration = std::chrono::milliseconds(50))
@@ -123,6 +123,7 @@ namespace grpc_services
 			
 			return future.get();
 		}
+		*/
 	}
 
 }

@@ -29,14 +29,14 @@ namespace grpc_services
 			{
 				Proceed();
 			}
-
+			/*
 			size_t get_hash_code() const override
 			{
 				auto h1 = std::hash<std::string>()(typeid(GetCardRequestHandler).name());
 				auto h2 = std::hash<long>()(creation_time_);
 				return h1 ^ (h2 << 1);
 			}
-
+			*/
 			void CreateRequestHandler() override
 			{
 				new GetCardRequestHandler(service_, server_completion_queue_, context_);
