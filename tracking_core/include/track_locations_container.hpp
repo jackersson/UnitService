@@ -52,6 +52,22 @@ namespace tracking
 				return track_locations_.contains(uuid);
 			}
 
+			bool contains( const std::string& device_name
+				           , DataTypes::DeviceType dev_type) const
+			{
+				switch(dev_type)
+				{
+				case DataTypes::None_Type: break;
+				case DataTypes::CardReader: 
+					return (access_devices_.find(device_name) != access_devices_.end());
+				case DataTypes::Capture:
+					return (video_devices_.find(device_name) != video_devices_.end());
+				default: 
+					break;
+				}
+				return false;
+			}
+
 			void clear()
 			{
 				track_locations_.clear();
@@ -74,6 +90,10 @@ namespace tracking
 
 		private:		
 			std::set<boost::uuids::uuid> uuids_;
+
+			std::set<std::string> access_devices_;
+			std::set<std::string> video_devices_ ;
+
 			//TODO not mutable but const contains, find
 			mutable concurrent::containers::ConcurrentMap<boost::uuids::uuid
 				, contracts::locations::ILocationPtr> track_locations_;

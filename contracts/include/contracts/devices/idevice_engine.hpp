@@ -26,7 +26,7 @@ namespace contracts
 		
 		template <typename T>
 		class IDeviceEngine : public IDeviceContainer
-			                  , common::IModule
+			                  , public common::IModule
 		{
 		public:
 			virtual ~IDeviceEngine() {}		

@@ -8,7 +8,17 @@ namespace contracts
 {
 	namespace devices
 	{
+		class IDevicesSet
+		{
+		public:
+			virtual ~IDevicesSet() {}
+
+			virtual bool contains( const std::string& device_name
+				                   , DataTypes::DeviceType dev_type) const = 0;
+		};
+
 		class IDevicesContainer : public common::IModule
+			                      , public IDevicesSet
 		{
 		public:
 			virtual access_device::IAccessDeviceEngine* access_device_engine() = 0;

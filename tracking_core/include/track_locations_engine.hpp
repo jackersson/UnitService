@@ -16,7 +16,9 @@ namespace tracking
 {
 	namespace locations
 	{
-		class TrackLocationsEngine : public contracts::locations::ITrackLocationsEngine
+		class TrackLocationsEngine 
+			: public contracts::locations::ITrackLocationsEngine
+			, public contracts::devices::IDevicesSet
 		{
 		public:
 			explicit TrackLocationsEngine(  contracts::IUnitContext* context)
@@ -63,6 +65,12 @@ namespace tracking
 					remove_range(to_remove);
 			}
 
+
+			bool contains( const std::string& device_name
+				           , DataTypes::DeviceType dev_type) const override
+			{
+				return container_.contains(device_name, dev_type);
+			}
 			
 			bool contains(const DataTypes::Location& location) const override
 			{

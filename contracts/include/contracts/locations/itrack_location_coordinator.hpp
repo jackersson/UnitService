@@ -5,7 +5,7 @@
 namespace contracts
 {
 	namespace locations
-	{
+	{		
 		class ITrackLocationsEngine : public common::IModule
 		{
 		public:
@@ -19,6 +19,9 @@ namespace contracts
 				update(const DataTypes::Location& location) = 0;
 
 			virtual bool contains(const DataTypes::Location& location) const = 0;
+
+			virtual bool contains( const std::string& device_name
+				              , DataTypes::DeviceType dev_type) const = 0;
 
 			virtual size_t size() const = 0;
 		
