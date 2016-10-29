@@ -12,7 +12,7 @@
 
 #include <src/cpp/server/dynamic_thread_pool.h>
 #include <contracts/services/icoordinator_api.hpp>
-#include <features/heartbeat.hpp>
+
 
 using grpc::ServerBuilder;
 
