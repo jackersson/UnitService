@@ -9,7 +9,7 @@
 #include <directshow_device_info.hpp>
 #include <video_source.hpp>
 #include <contracts/devices/idevice_info.hpp>
-#include <contracts/observers/observable..hpp>
+#include <observers/observable.hpp>
 
 namespace directshow_device
 {

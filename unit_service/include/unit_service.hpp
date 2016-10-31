@@ -1,19 +1,18 @@
 #ifndef UnitService_Included
 #define UnitService_Included
 
-#include <contracts/common/ilifecycle.hpp>
 #include <contracts/iunit_context.hpp>
 #include <services_coordinator.hpp>
 #include <contracts/locations/itrack_location_coordinator.hpp>
 #include "coordinator_service.hpp"
 #include "track_locations_udapter.hpp"
+#include <common/ilifecycle.hpp>
 
 class UnitService : public contracts::common::IModule
 	                , public contracts::IUnitContext
 {
 public:
-	UnitService() : configuration_(nullptr)
-		            , logger_(std::make_shared<contracts::common::Logger>())
+	UnitService() : configuration_(nullptr)		            
 	{}
 	
 	~UnitService(){

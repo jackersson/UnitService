@@ -16,17 +16,14 @@
     <Filter Include="includes\unit_service">
       <UniqueIdentifier>{df05f8b3-9028-4b03-98c2-a173596779b6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="includes\facial_service">
-      <UniqueIdentifier>{ffee3599-dbe6-4b38-a30e-9fefa5f65b1c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="includes\database_service">
-      <UniqueIdentifier>{956e2992-3687-4fcf-86d3-5b126e050714}</UniqueIdentifier>
-    </Filter>
     <Filter Include="includes\coordinator_service">
       <UniqueIdentifier>{63232fe6-c5fc-4569-84b0-28702867de5e}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\unit_service">
       <UniqueIdentifier>{c547f375-9409-4593-b77d-44d7ecac350e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="includes\facial_service">
+      <UniqueIdentifier>{ffee3599-dbe6-4b38-a30e-9fefa5f65b1c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +51,9 @@
     <ClCompile Include="src\unit_service\update_location_request_handler.cpp">
       <Filter>Source Files\unit_service</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\unit_service\get_devices_request_handler.hpp">
@@ -71,9 +71,6 @@
     <ClInclude Include="include\client_context.hpp">
       <Filter>includes</Filter>
     </ClInclude>
-    <ClInclude Include="include\database_service\database_client_calls.hpp">
-      <Filter>includes\database_service</Filter>
-    </ClInclude>
     <ClInclude Include="include\unit_service\unit_service_impl.hpp">
       <Filter>includes\unit_service</Filter>
     </ClInclude>
@@ -85,15 +82,6 @@
     </ClInclude>
     <ClInclude Include="include\services_coordinator.hpp">
       <Filter>includes</Filter>
-    </ClInclude>
-    <ClInclude Include="include\coordinator_service\coordinator_client_impl.hpp">
-      <Filter>includes\coordinator_service</Filter>
-    </ClInclude>
-    <ClInclude Include="include\coordinator_service\coordinator_client_calls.hpp">
-      <Filter>includes\coordinator_service</Filter>
-    </ClInclude>
-    <ClInclude Include="include\facial_service\facial_client_impl.hpp">
-      <Filter>includes\facial_service</Filter>
     </ClInclude>
     <ClInclude Include="include\unit_service\get_device_stream_request_handler.hpp">
       <Filter>includes\unit_service</Filter>
@@ -113,11 +101,11 @@
     <ClInclude Include="include\unit_service\enroll_request_handler.hpp">
       <Filter>includes\unit_service</Filter>
     </ClInclude>
-    <ClInclude Include="include\grpc_service_utils.hpp">
-      <Filter>includes</Filter>
+    <ClInclude Include="include\facial_service\facial_client.hpp">
+      <Filter>includes\facial_service</Filter>
     </ClInclude>
-    <ClInclude Include="include\database_service\database_client_impl.hpp">
-      <Filter>includes\database_service</Filter>
+    <ClInclude Include="include\coordinator_service\coordinator_client.hpp">
+      <Filter>includes\coordinator_service</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

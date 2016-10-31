@@ -2,23 +2,24 @@
 #define CheckDeviceRequestHandler_Included
 
 #include <memory>
-#include <include/grpc++/impl/codegen/completion_queue.h>
-#include <services/unit_service.grpc.pb.h>
+//#include <include/grpc++/impl/codegen/completion_queue.h>
+//#include <services/unit_service.grpc.pb.h>
 #include <request_handler.hpp>
 #include <contracts/iunit_context.hpp>
-#include "unit_service_impl.hpp"
+#include <service_base.hpp>
 
 namespace grpc_services
 {
 	namespace unit_service
 	{
-		class CheckDeviceRequestHandler : public RequestHandler<AsyncService>
+		class CheckDeviceRequestHandler 
+			           : public RequestHandler<services_api::AsyncUnitService>
 		{
 		public:
-			CheckDeviceRequestHandler( AsyncService* service
+			CheckDeviceRequestHandler(services_api::AsyncUnitService* service
 				                       , grpc::ServerCompletionQueue* completion_queue
 				                       , contracts::IUnitContext* context)
-				                       : RequestHandler<AsyncService>(service, completion_queue)
+				                       : RequestHandler<services_api::AsyncUnitService>(service, completion_queue)
 				                       , responder_(&server_context_)
 				                       , context_(context)
 			{
@@ -35,6 +36,13 @@ namespace grpc_services
 				service_->RequestCheckDevice(&server_context_, &request_
 					, &responder_, server_completion_queue_
 					, server_completion_queue_, this);
+			}
+
+			static void Create(services_api::AsyncUnitService*            service
+				                , grpc::ServerCompletionQueue* completion_queue
+				                , contracts::IUnitContext*     context)
+			{
+				new CheckDeviceRequestHandler(service, completion_queue, context);
 			}
 
 			void ProcessRequest() override;	

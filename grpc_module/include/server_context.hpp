@@ -2,7 +2,7 @@
 #define ServerContext_INCLUDED
 
 #include <grpc++/grpc++.h>
-#include <contracts/services/service_address.hpp>
+#include <services/service_address.hpp>
 #include <contracts/iunit_context.hpp>
 
 namespace grpc_services

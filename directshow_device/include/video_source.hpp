@@ -6,7 +6,7 @@
 #include "std_threadable.hpp"
 #include "opencv2/opencv.hpp"
 #include "directshow_device_info.hpp"
-#include <contracts/observers/observable..hpp>
+#include <observers/observable.hpp>
 #include <types.hpp>
 #include "stream_data.hpp"
 

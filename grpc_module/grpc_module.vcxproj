@@ -28,7 +28,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -62,15 +62,17 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="protobuf_x32d.props" />
     <Import Project="grpc_x32d.props" />
-    <Import Project="..\realsense_device\contracts.props" />
     <Import Project="openssl_x32d.props" />
     <Import Project="zlib_x32d.props" />
     <Import Project="gflags_x32d.props" />
     <Import Project="gtest_x32d.props" />
-    <Import Project="grpc_module_x32d.props" />
-    <Import Project="..\realsense_device\utils_x32d.props" />
-    <Import Project="..\UnitService\boost_serial_32d.props" />
-    <Import Project="..\UnitService\spdlog.props" />
+    <Import Project="..\properties\bioskynet_contracts_x32d.props" />
+    <Import Project="..\properties\boost_32d.props" />
+    <Import Project="..\properties\messages_x32d.props" />
+    <Import Project="..\properties\services_api_x32d.props" />
+    <Import Project="..\contracts\contracts_x32d.props" />
+    <Import Project="..\properties\utils_x32d.props" />
+    <Import Project="..\properties\spdlog_x32d.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -104,7 +106,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\development\UnitService\UnitService\grpc_module\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)grpc_module\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -159,6 +161,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="src\unit_service\check_device_request_handler.cpp" />
     <ClCompile Include="src\unit_service\enroll_request_handler.cpp" />
     <ClCompile Include="src\unit_service\get_card_request_handler.cpp" />
@@ -171,16 +174,12 @@
   <ItemGroup>
     <ClInclude Include="include\clients_manager.hpp" />
     <ClInclude Include="include\client_context.hpp" />
-    <ClInclude Include="include\coordinator_service\coordinator_client_calls.hpp" />
-    <ClInclude Include="include\coordinator_service\coordinator_client_impl.hpp" />
-    <ClInclude Include="include\database_service\database_client_calls.hpp" />
-    <ClInclude Include="include\database_service\database_client_impl.hpp" />
-    <ClInclude Include="include\facial_service\facial_client_impl.hpp" />
+    <ClInclude Include="include\coordinator_service\coordinator_client.hpp" />
+    <ClInclude Include="include\facial_service\facial_client.hpp" />
     <ClInclude Include="include\request_handler.hpp" />
     <ClInclude Include="include\server_manager.hpp" />
     <ClInclude Include="include\server_context.hpp" />
     <ClInclude Include="include\services_coordinator.hpp" />
-    <ClInclude Include="include\grpc_service_utils.hpp" />
     <ClInclude Include="include\unit_service\check_device_request_handler.hpp" />
     <ClInclude Include="include\unit_service\enroll_request_handler.hpp" />
     <ClInclude Include="include\unit_service\get_card_request_handler.hpp" />

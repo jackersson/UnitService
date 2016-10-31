@@ -2,7 +2,7 @@
 #define ILocation_Included
 #include <contracts/devices/device_observer.hpp>
 #include <datatypes/visit_record.pb.h>
-#include <contracts/common/ilifecycle.hpp>
+#include <common/ilifecycle.hpp>
 #include <datatypes/location.pb.h>
 #include <contracts/devices/access_device/iaccess_coordinator.hpp>
 

@@ -1,9 +1,9 @@
 #ifndef ClientsManager_Included
 #define ClientsManager_Included
 
-#include <contracts/services/iserver_manager.hpp>
+#include <contracts/iservices.hpp>
 #include <memory>
-#include <contracts/services/iservice.hpp>
+#include <services/iservice.hpp>
 #include "server_context.hpp"
 #include "coordinator_service/coordinator_client_impl.hpp"
 #include "database_service/database_client_impl.hpp"

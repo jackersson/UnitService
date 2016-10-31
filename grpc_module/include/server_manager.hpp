@@ -1,17 +1,16 @@
 #ifndef ServerManager_Included
 #define ServerManager_Included
 
-#include <contracts/services/iserver_manager.hpp>
 #include <memory>
 #include <grpc++/grpc++.h>
-#include <contracts/services/iservice.hpp>
+#include <services/iservice.hpp>
 #include "server_context.hpp"
 #include "unit_service/unit_service_impl.hpp"
 #include <contracts/iunit_context.hpp>
 
 namespace grpc_services
 {
-	class ServerManager : public contracts::services::IServiceManager
+	class ServerManager : public contracts::services::IService
 	{
 	public:
 		explicit ServerManager(contracts::IUnitContext* context)

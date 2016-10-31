@@ -1,10 +1,10 @@
 #ifndef IUnitContainer_Included
 #define IUnitContainer_Included
 
-#include "data/irepository.hpp"
+#include <data/irepository.hpp>
 #include <contracts/devices/idevices_container.hpp>
-#include <contracts/services/iserver_manager.hpp>
-#include <contracts/common/logger.hpp>
+#include <contracts/iservices.hpp>
+#include <logging/logger.hpp>
 #include <contracts/locations/itrack_location_coordinator.hpp>
 
 namespace contracts
@@ -33,7 +33,7 @@ namespace contracts
 		virtual devices::IDevicesContainer*        devices        () = 0;
 		virtual data::AbstractRepositoryContainer* repository     () = 0;
 		virtual services::IServices*               services       () = 0;
-		virtual common::LoggerPtr                  logger         () = 0;
+		virtual logging::LoggerPtr                 logger         () = 0;
 		virtual const IUnitConfiguration&          configuration  () = 0;
 	};
 

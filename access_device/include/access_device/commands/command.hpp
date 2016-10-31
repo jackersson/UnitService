@@ -3,7 +3,7 @@
 
 #include <access_device/rs232/rs232_controller_utils.hpp>
 #include <vector>
-#include <contracts/common/iequatable.hpp>
+#include <common/iequatable.hpp>
 
 namespace access_device
 {

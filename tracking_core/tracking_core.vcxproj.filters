@@ -35,5 +35,11 @@
     <ClInclude Include="include\track_locations_container.hpp">
       <Filter>includes</Filter>
     </ClInclude>
+    <ClInclude Include="include\units\directshow_device_unit.hpp">
+      <Filter>includes\units</Filter>
+    </ClInclude>
+    <ClInclude Include="include\units\idevice_unit.hpp">
+      <Filter>includes\units</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

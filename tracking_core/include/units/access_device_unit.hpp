@@ -3,50 +3,26 @@
 
 #include <datatypes/location.pb.h>
 #include <contracts/locations/ilocation.hpp>
-#include <contracts/observers/observable..hpp>
+#include <observers/observable.hpp>
 #include <contracts/devices/access_device/icommand_result.hpp>
 #include <contracts/devices/access_device/iaccess_coordinator.hpp>
 #include <contracts/devices/access_device/iaccess_device_engine.hpp>
 #include <contracts/iunit_context.hpp>
-#include <contracts/data/data_utils.hpp>
+#include <data/data_utils.hpp>
 #include <future>
+#include "idevice_unit.hpp"
+#include <datatypes/queries.pb.h>
 
 namespace tracking
 {
 	namespace units
-	{
-		typedef contracts::devices::access_device::ICommandResult ICommandResult;
-
-		class IDeviceUpdatable
-		{
-		public :
-			virtual ~IDeviceUpdatable()	{}
-
-			virtual void update(const std::string& device_name) = 0;
-		};
-		
-		template <typename T>
-		class IIdentification
-		{
-		public:
-			virtual ~IIdentification() {}
-
-			virtual DataTypes::VisitRecord* verify  (DataTypes::VisitRecord& target, const T& data) = 0;
-			virtual DataTypes::VisitRecord* identify(const T& data) = 0;
-		};		
-
-		typedef 
-			std::shared_ptr<contracts::devices::IDeviceObserver<ICommandResult>> IDeviceObserverPtr;
-
-
+	{	
 		struct AccessDeviceUnitContext
 		{
-			contracts::devices::access_device::IAccessDeviceEngine* access_devices;
-			contracts::data::AbstractRepositoryContainer*           repository    ;
-			contracts::common::LoggerPtr                            logger        ;
+			contracts::devices::access_device::IAccessDeviceEngine* engine    ;
+			contracts::data::AbstractRepositoryContainer*           repository;
 		};
-
-
+		
 		class AccessDeviceObserver :
 			  public contracts::observers::Observable<contracts::locations::ILocation>
 	    , public contracts::devices::IDeviceObserver<ICommandResult>
@@ -61,10 +37,9 @@ namespace tracking
 
 			explicit AccessDeviceObserver	(const AccessDeviceUnitContext& context)			
 			{	
-				//TODO handle nulls
-				access_devices_     = context.access_devices;
+				//TODO handle nulls 
+				engine_             = context.engine;
 				persons_repository_ = context.repository->get<DataTypes::Person>();
-				logger_             = context.logger;
 			}
 
 			//TODO to utils
@@ -104,23 +79,23 @@ namespace tracking
 				auto dev_name = device_.name();
 				if (dev_name == "")
 				{
-					logger_->error("Device name is not valid");
+					logger_.error("Device name is not valid");
 					return;
 				}
 
-				access_devices_->add(dev_name);
-				access_devices_->subscribe(this, dev_name);
+				engine_->add(dev_name);
+				engine_->subscribe(this, dev_name);
 			}
 
 			void stop() override
 			{
-				access_devices_->unsubscribe(this);
-				access_devices_->remove(device_.name());
+				engine_->unsubscribe(this);
+				engine_->remove(device_.name());
 			}
 
 			void grant() const
 			{				
-				access_devices_->execute( device_.name()
+				engine_->execute( device_.name()
 					                      , contracts::devices::access_device::lGreenAccess);
 
 				std::future<void> result(std::async([this]()
@@ -130,26 +105,17 @@ namespace tracking
 			}
 
 			void deny() const	{
-				access_devices_->execute( device_.name()
+				engine_->execute( device_.name()
 					                      , contracts::devices::access_device::lRedMain);
 			}
 
-			DataTypes::VisitRecord* verify( DataTypes::VisitRecord& target
+			bool verify( DataTypes::VisitRecord& target
 				                            , const std::string& data) override
 			{				
 				DataTypes::Card* card = nullptr;
 				auto person_found = try_extract_card(data, card);
-				target.set_allocated_card(card);
-			
-				//TODO maybe not needed
-				DataTypes::VisitRecord* visit_record = nullptr;
-				if (person_found)
-				{
-					auto key = new DataTypes::Key(card->owner_id());
-					visit_record = new DataTypes::VisitRecord();
-					visit_record->set_allocated_person_id(key);
-				}
-				return visit_record;
+				target.set_allocated_card(card);				
+				return person_found;
 			}
 			
 			DataTypes::VisitRecord* identify(const std::string& data) override
@@ -169,7 +135,7 @@ namespace tracking
 			
 			void on_error(const contracts::devices::DeviceException& exception) override
 			{			
-				logger_->error("Access device exception {0}", exception.what());
+				logger_.error("Access device exception {0}", exception.what());
 				for (auto observer : observers_ )
 					observer->on_error(exception);
 			}
@@ -205,7 +171,7 @@ namespace tracking
 			AccessDeviceObserver& operator=(const AccessDeviceObserver&) = delete;
 
 			bool device_connected() const	{
-				return access_devices_->device_enumerator().connected(device_.name());
+				return engine_->device_enumerator().connected(device_.name());
 			}
 
 			void check_buttons(const std::vector<unsigned char>& data) const
@@ -254,9 +220,9 @@ namespace tracking
 			}
 
 			DataTypes::AccessDevice device_;
-			contracts::devices::access_device::IAccessDeviceEngine* access_devices_;
+			contracts::devices::access_device::IAccessDeviceEngine* engine_;
 			contracts::data::IRepository<DataTypes::Person>* persons_repository_;
-			contracts::common::LoggerPtr logger_;
+			contracts::logging::Logger logger_;
 		
 			const std::chrono::seconds ACCESS_DELAY = std::chrono::seconds(3);
 		};

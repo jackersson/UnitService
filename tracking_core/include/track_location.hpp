@@ -4,14 +4,14 @@
 #include <datatypes/location.pb.h>
 #include <contracts/locations/ilocation.hpp>
 #include <contracts/iunit_context.hpp>
-#include <contracts/data/data_utils.hpp>
+#include <data/data_utils.hpp>
 #include "units/access_device_unit.hpp"
+#include "units/directshow_device_unit.hpp"
 
 namespace tracking
 {
 	namespace locations
 	{
-
 		class TrackLocation : public contracts::locations::ILocation
 		{
 		public:
@@ -38,7 +38,8 @@ namespace tracking
 			{
 				boost::uuids::uuid uid;
 				location_ = object;
-				access_coordinator_->update(object.access_device());
+				access_coordinator_    ->update(object.access_device ());
+				directshow_device_unit_->update(object.capture_device());
 
 				contracts::data::get_guid(location_.id(), uid);
 				uuid_ = uid;
@@ -47,13 +48,15 @@ namespace tracking
 			void start() override 
 			{
 				//TODO put to list of ILifecycle
-				access_coordinator_->start();
+				directshow_device_unit_->start();
+				access_coordinator_    ->start();
 			}
 
 			void stop() override
 			{
 				//TODO put to list of ILifecycle
-				access_coordinator_->stop();
+				directshow_device_unit_->stop();
+				access_coordinator_    ->stop();
 			}
 
 			void on_target_detected() override {
@@ -69,6 +72,7 @@ namespace tracking
 					: DataTypes::AccessState::Denied;
 				object.set_state(state);
 
+				//TODO it should be pointer not reference
 #pragma omp sections
 				{
 					if (visit_records_repository_ != nullptr)
@@ -93,7 +97,7 @@ namespace tracking
 				if (context_ == nullptr)
 					throw std::exception("Context can't be null");
 
-				context_->logger()->error("Track location device error {0}", exception.what());
+				logger_.error("Track location device error {0}", exception.what());
 			}
 
 			void on_state(const contracts::devices::IDeviceState& state) override
@@ -111,20 +115,27 @@ namespace tracking
 			{
 				if (context_ != nullptr)
 				{
-					access_device_context_.logger         = context_->logger();
-					access_device_context_.repository     = context_->repository();
-					access_device_context_.access_devices = context_->devices()->access_device_engine();
+					auto repository = context_->repository();
+
+					units::AccessDeviceUnitContext access_device_context_;
+					access_device_context_.repository = repository;
+					access_device_context_.engine     = context_->devices()->access_device_engine();
 					access_coordinator_ 
 						= std::make_unique<units::AccessDeviceObserver>(access_device_context_);
 
-					auto repository = context_->repository();
+					units::DirectShowDeviceUnitContext directshow_device_context_;
+					directshow_device_context_.repository = repository;
+					directshow_device_context_.engine     = context_->devices()->directshow_device_engine();
+					directshow_device_unit_
+						= std::make_unique<units::DirectShowDeviceUnit>(directshow_device_context_);
+					
 					if (repository != nullptr)
 						visit_records_repository_ = repository->get<DataTypes::VisitRecord>();
 					else
-						std::cout << "Repository is null" << std::endl;
+						logger_.error("Repository is null");
 				}
 				else
-					std::cout << "Context is null" << std::endl;
+					logger_.error("Context is null");
 			}
 
 			TrackLocation(const TrackLocation& other) = delete;
@@ -132,12 +143,15 @@ namespace tracking
 
 			std::unique_ptr<contracts::devices::access_device::IAccessCoordinator> access_coordinator_;
 			
-			boost::uuids::uuid uuid_;
-			DataTypes::Location location_;
-			contracts::IUnitContext* context_;
+			std::unique_ptr<units::DirectShowDeviceUnit> directshow_device_unit_;
+
+			boost::uuids::uuid         uuid_    ;
+			DataTypes::Location        location_;
+			contracts::IUnitContext*   context_ ;
+			contracts::logging::Logger logger_  ;
+
 			contracts::data::IRepository<DataTypes::VisitRecord>* visit_records_repository_;
 
-			units::AccessDeviceUnitContext access_device_context_;
 		};
 
 		typedef std::shared_ptr<TrackLocation> TrackLocationPtr;

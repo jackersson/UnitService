@@ -4,6 +4,9 @@
 #include <contracts/iunit_context.hpp>
 #include "repeatable_action.hpp"
 #include "iconnection_state.hpp"
+#include <common/ilifecycle.hpp>
+#include <services/icoordinator_api.hpp>
+#include <chrono>
 
 
 class CoordinatorHeartbeat : public IRepeatableAction

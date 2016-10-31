@@ -8,7 +8,7 @@
 
 #include "track_location.hpp"
 #include <contracts/locations/itrack_location_coordinator.hpp>
-#include <contracts/data/data_utils.hpp>
+#include <data/data_utils.hpp>
 #include "track_locations_container.hpp"
 #include <network_utils.hpp>
 

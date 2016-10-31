@@ -7,7 +7,7 @@
 #include <access_device/core/iexecutable_command.hpp>
 #include <mutex>
 #include <contracts/devices/device_observer.hpp>
-#include <contracts/observers/observable..hpp>
+#include <observers/observable.hpp>
 #include "commands/command_factory.hpp"
 #include <datatypes/devices.pb.h>
 #include "common/access_device_state.hpp"
@@ -17,7 +17,6 @@ namespace access_device
 	typedef contracts::devices::access_device::ICommandResult ICommandResult;
 	typedef contracts::devices::IDeviceObserver<ICommandResult> IAccessDeviceObserver;
 	typedef std::shared_ptr<IAccessDeviceObserver> IAccessDeviceObserverPtr;
-	typedef std::pair<core::ICommandContextPtr, unsigned char> ExecutableDataCommand;
 
 	class AccessDeviceListener final : public utils::Threadable
 		                   , public contracts::observers::Observable<IAccessDeviceObserver>

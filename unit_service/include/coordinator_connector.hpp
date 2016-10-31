@@ -1,9 +1,12 @@
 #ifndef CoordinatorConnector_Included
 #define CoordinatorConnector_Included
 
+#include <services/icoordinator_api.hpp>
 #include <contracts/iunit_context.hpp>
 #include "repeatable_action.hpp"
 #include "iconnection_state.hpp"
+#include <common/ilifecycle.hpp>
+#include <chrono>
 
 class CoordinatorConnector : public IRepeatableAction
 	                         , public contracts::common::IModule

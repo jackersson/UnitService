@@ -1,7 +1,7 @@
 #ifndef IDeviceObserver_Included
 #define IDeviceObserver_Included
 
-#include <contracts/common/iequatable.hpp>
+#include <common/iequatable.hpp>
 #include <contracts/devices/device_exception.hpp>
 
 namespace contracts

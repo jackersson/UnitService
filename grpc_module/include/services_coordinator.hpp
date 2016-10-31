@@ -1,9 +1,8 @@
 #ifndef ServiceCoordinator_Incuded
 #define ServiceCoordinator_Incuded
 
-#include <grpc++/grpc++.h>
 #include <contracts/iunit_context.hpp>
-#include <contracts/services/iserver_manager.hpp>
+#include <contracts/iservices.hpp>
 #include "server_manager.hpp"
 #include "clients_manager.hpp"
 

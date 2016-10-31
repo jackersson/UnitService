@@ -1,8 +1,9 @@
 #ifndef IDeviceEngine_Included
 #define IDeviceEngine_Included
+
 #include "device_observer.hpp"
 #include <contracts/devices/idevice_enumerator.hpp>
-#include <contracts/common/ilifecycle.hpp>
+#include <common/ilifecycle.hpp>
 
 namespace contracts
 {

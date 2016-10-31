@@ -7,8 +7,6 @@ namespace contracts
 {
 	namespace devices
 	{
-	
-
 		namespace access_device
 		{
 			class IAccessDeviceUpdatable
@@ -17,6 +15,14 @@ namespace contracts
 				virtual ~IAccessDeviceUpdatable() {}
 
 				virtual void update(const DataTypes::AccessDevice& device) = 0;
+			};
+
+			class ICaptureDeviceUpdatable
+			{
+			public:
+				virtual ~ICaptureDeviceUpdatable() {}
+
+				virtual void update(const DataTypes::CaptureDevice& device) = 0;
 			};
 
 			class IAccessCoordinator: public IAccessDeviceUpdatable
