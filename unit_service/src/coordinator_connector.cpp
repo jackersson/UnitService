@@ -1,8 +1,8 @@
 #include <coordinator_connector.hpp>
 
-#include <contracts/services/service_address.hpp>
+#include <services/service_address.hpp>
 #include <network_utils.hpp>
-#include <contracts/data/data_utils.hpp>
+#include <data/data_utils.hpp>
 
 DataTypes::ConnectMsg CoordinatorConnector::connect_message_;
 
@@ -28,16 +28,16 @@ CoordinatorConnector::CoordinatorConnector(contracts::IUnitContext* context)
 	 }
 	 catch (std::exception& exception)
 	 {
-		 context_->logger()->info("Coordinator connection error {0}"
+		 logger_.info("Coordinator connection error {0}"
 			 , exception.what());
 	 }
 	 if (connected_)
 	 {
-		 context_->logger()->info("Connected to coordinator successfully");
+		 logger_.info("Connected to coordinator successfully");
 		 repeatable_action_->stop();
 	 }
 	 else
-		 context_->logger()->info("Coordinator client can't connect. {0}");
+		 logger_.info("Coordinator client can't connect. {0}");
  }
 
 
@@ -47,7 +47,8 @@ CoordinatorConnector::CoordinatorConnector(contracts::IUnitContext* context)
 		 return;
 
 	 generate_message(*context_);
-	 repeatable_action_ = std::make_unique<RepeatableAction>(this, DELAY);
+	 repeatable_action_ 
+		 = std::make_unique<utils::threading::RepeatableAction>(this, DELAY);
 	 repeatable_action_->start();
  }
 

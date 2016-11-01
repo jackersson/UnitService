@@ -29,7 +29,6 @@ public:
 private:
 	UnitServiceConfiguration configuration_;
 	UnitService unit_service_;
-
 };
 
 

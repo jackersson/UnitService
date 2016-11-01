@@ -4,34 +4,37 @@
 #include <contracts/iservices.hpp>
 #include <memory>
 #include <services/iservice.hpp>
-#include "server_context.hpp"
-#include "coordinator_service/coordinator_client_impl.hpp"
-#include "database_service/database_client_impl.hpp"
+#include "coordinator_service/coordinator_client.hpp"
+#include <database_service/database_client_impl.hpp>
+#include "facial_service/facial_client.hpp"
 
 namespace grpc_services
 {
 
-	class ClientManager : public contracts::services::IServiceManager
+	class ClientManager : public contracts::services::IService
 	                  	, public contracts::services::IClients
 	{
 	public:
 		explicit ClientManager(contracts::IUnitContext* context)
-			: context_(context)
+			: active_     (false)
+			, initialized_(false)
+			, context_(context)
 		{
-			init();
+			ClientManager::init();
 		}
 
 		virtual ~ClientManager() {
-			ClientManager::stop();
+			ClientManager::de_init();
 		}
 
 		void start() override {
-			for (auto it = servers_.begin(); it != servers_.end(); ++it)
-			{
-				auto client = it->get();
-				if ( client != nullptr)
-					client->start();
-			}
+			if (active_)
+				return;
+
+			for (auto it : servers_)			
+					it->start();
+
+			active_ = true;
 		}
 
 		void stop()  override {
@@ -40,47 +43,71 @@ namespace grpc_services
 			servers_.clear();
 		}
 
-		contracts::services::IDatabaseApiPtr database() override {
-			return database_client_;
+		contracts::services::IFacialServiceApi* facial_service() override	{
+			return facial_client_.get();
 		}
 
-		contracts::services::ICoordinatorApiPtr coordinator() override {
-			return coordinator_client_;
+		contracts::services::IDatabaseApi* database() override {
+			return database_client_.get();
 		}
 
-	private:
-		void init()
+		contracts::services::ICoordinatorApi* coordinator() override {
+			return coordinator_client_.get();
+		}
+		
+		void init() override
 		{
+			if (initialized_)
+				return;
 			const auto& configuration = context_->configuration();		
 			
 			//database service 
 			//For test, Database service is going to be used
-			contracts::services::ServiceAddress database_address
-			                          (configuration.database_service_address());
-			database_client_ = std::make_shared<DatabaseClientImpl>(
-			                               	ClientContext(database_address, context_));
+			std::string address = configuration.database_service_address();
+			contracts::services::ServiceAddress database_address(address);
+			database_client_ 
+				= std::make_unique<services_api::DatabaseClientImpl>(database_address);
 																					
-			servers_.push_back(database_client_);
+			servers_.push_back(database_client_.get());
 
 
 			//Coordinator client 			
-			contracts::services::ServiceAddress coordinator_address
-			                              (configuration.coordinator_service_address());
-			coordinator_client_ = std::make_shared<CoordinatorClientImpl>(
-				                              ClientContext(coordinator_address, context_));
+			address = configuration.coordinator_service_address();
+			contracts::services::ServiceAddress coordinator_address(address);
+			coordinator_client_ 
+				= std::make_unique<CoordinatorClient>(context_, coordinator_address);
+			servers_.push_back(coordinator_client_.get());			
+			
 
-			servers_.push_back(coordinator_client_);			
+			//Facial service client 	
+			address = configuration.facial_service_address();
+			contracts::services::ServiceAddress facial_service_address(address);
+			facial_client_
+				= std::make_unique<FacialClient>(facial_service_address);
+			servers_.push_back(facial_client_.get());
+
+			initialized_ = true;
 		}
+
+		void de_init() override
+		{
+			stop();
+		}
+
+	private:
+		bool active_     ;
+		bool initialized_;
 
 		ClientManager(const ClientManager&) = delete;
 		ClientManager& operator=(const ClientManager&) = delete;
 
 		contracts::IUnitContext* context_;
 
-		std::shared_ptr<DatabaseClientImpl>    database_client_   ;
-		std::shared_ptr<CoordinatorClientImpl> coordinator_client_;
+		std::unique_ptr<services_api::DatabaseClientImpl> database_client_   ;
+		std::unique_ptr<CoordinatorClient>                coordinator_client_;
+		std::unique_ptr<FacialClient>                     facial_client_     ;
 
-		std::vector<std::shared_ptr<contracts::services::IService>> servers_;
+		std::vector<contracts::services::IService*> servers_;
 	};
 
 	typedef std::shared_ptr<ClientManager> ClientManagerPtr;

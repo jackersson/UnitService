@@ -4,6 +4,9 @@
 #include <vector>
 #include <datatypes/location.pb.h>
 #include <contracts/iunit_context.hpp>
+#include <observers/iobservable.hpp>
+#include <data/irepository.hpp>
+#include <contracts/locations/itrack_location_coordinator.hpp>
 
 class TrackLocationsUpdater : public contracts::observers::IObserver
 	                          , public contracts::common::IModule

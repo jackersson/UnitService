@@ -11,6 +11,7 @@
 #include <data/data_utils.hpp>
 #include "track_locations_container.hpp"
 #include <network_utils.hpp>
+#include <contracts/devices/idevices_container.hpp>
 
 namespace tracking
 {
@@ -91,7 +92,7 @@ namespace tracking
 				boost::uuids::uuid uuid;
 				if (!contracts::data::get_guid(location.id(), uuid))
 				{
-					context_->logger()->error("Grant access failed. Location not found");
+					logger_.error("Grant access failed. Location not found");
 					return false;
 				}
 				try
@@ -100,7 +101,7 @@ namespace tracking
 					it->access_coordinator().set_state(DataTypes::AccessState::Granted);
 				}
 				catch (std::exception& exception) {
-					context_->logger()->error("Grant access failed. {0}", exception.what());
+					logger_.error("Grant access failed. {0}", exception.what());
 					return false;
 				}
 				return true;
@@ -112,7 +113,7 @@ namespace tracking
 				boost::uuids::uuid uid;
 				if (!contracts::data::get_guid(location.id(), uid))
 				{
-					context_->logger()->error("Error while add location. Uid not valid");
+					logger_.error("Error while add location. Uid not valid");
 					return;
 				}
 
@@ -139,7 +140,7 @@ namespace tracking
 				boost::uuids::uuid uid;
 				if (!contracts::data::get_guid(location.id(), uid))
 				{
-					context_->logger()->error("Error while remove track location. Uid not valid");
+					logger_.error("Error while remove track location. Uid not valid");
 					return;
 				}
 
@@ -154,7 +155,7 @@ namespace tracking
 					container_.remove(uuid);
 				}
 				catch (std::exception& exception) {
-					context_->logger()->error("{0}", exception.what());
+					logger_.error("{0}", exception.what());
 				}
 			}
 
@@ -174,16 +175,19 @@ namespace tracking
 			{
 				if (location.unit_mac_address() != local_macaddress_)
 				{
-					context_->logger()->error("Location (id {0}) macaddress is not valid for unit service"
+					logger_.error("Location (id {0}) macaddress is not valid for unit service"
 						, contracts::data::to_string(location.id()));
 					return false;
 				}
 				return true;
 			}
 
+
 			std::string local_macaddress_;
 			contracts::IUnitContext* context_;
-			TrackLocationsContainer container_;	
+			TrackLocationsContainer container_;
+
+			mutable contracts::logging::Logger logger_;
 		};
 	}
 }

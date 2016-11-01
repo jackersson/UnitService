@@ -6,7 +6,7 @@ namespace grpc_services
 	{
 		void CheckDeviceRequestHandler::ProcessRequest()
 		{
-			context_->logger()->info("Check device request");
+			logger_.info("Check device request");
 			DataTypes::CheckMsg response;
 
 			if (request_.device_type() == DataTypes::DeviceType::CardReader)
@@ -25,7 +25,7 @@ namespace grpc_services
 			else
 				response.set_message("Device type not valid. Should be Access Device");
 
-			context_->logger()->info("Check device request done {0}", response.ok());
+			logger_.info("Check device request done {0}", response.ok());
 			responder_.Finish(response, grpc::Status::OK, this);
 		}
 	}

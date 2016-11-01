@@ -8,7 +8,7 @@
       <AdditionalIncludeDirectories>C:\dependencies\BioSkyNet.Common.Cpp\BioSkyNet.Common.Cpp\bioskynet_contracts\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\dependencies\BioSkyNet.Common.Cpp\BioSkyNet.Common.Cpp\bioskynet_contracts\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\dependencies\BioSkyNet.Common.Cpp\BioSkyNet.Common.Cpp\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>bioskynet_contracts.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

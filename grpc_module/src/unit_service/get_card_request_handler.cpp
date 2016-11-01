@@ -7,7 +7,7 @@ namespace grpc_services
 	{
 		void GetCardRequestHandler::ProcessRequest()
 		{
-			context_->logger()->info("Get card request");
+			logger_.info("Get card request");
 			DataTypes::CardMsg response;
 
 			if (request_.device_type() == DataTypes::DeviceType::CardReader)
@@ -21,7 +21,7 @@ namespace grpc_services
 				catch (std::exception&) {}
 			}
 
-			context_->logger()->info("Get card request done {0}", response.card_num());
+			logger_.info("Get card request done {0}", response.card_num());
 			responder_.Finish(response, grpc::Status::OK, this);
 		}
 	}

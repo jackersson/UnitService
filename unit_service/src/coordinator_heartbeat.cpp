@@ -1,6 +1,6 @@
 #include "coordinator_heartbeat.hpp"
 #include <network_utils.hpp>
-#include <contracts/data/data_utils.hpp>
+#include <data/data_utils.hpp>
 
 DataTypes::HeartbeatMessage CoordinatorHeartbeat::message_;
 
@@ -15,7 +15,7 @@ CoordinatorHeartbeat::CoordinatorHeartbeat( contracts::IUnitContext* context
 			return;
 		auto clients = services->clients();
 		if (clients != nullptr)
-			coordinator_ = clients->coordinator().get();
+			coordinator_ = clients->coordinator();
 	}
 
 
@@ -24,20 +24,21 @@ CoordinatorHeartbeat::CoordinatorHeartbeat( contracts::IUnitContext* context
 			return;
 
 		coordinator_->heart_beat(message_);
-		context_->logger()->info("Hearbeat");
+		logger_.info("Hearbeat");
 	}
 
 	void CoordinatorHeartbeat::init() 	{
 		generate_message(*context_);
 
-		repeatable_action_ = std::make_unique<RepeatableAction>(this, DELAY);
+		repeatable_action_
+			= std::make_unique<utils::threading::RepeatableAction>(this, DELAY);
 		repeatable_action_->start();
 	}
 
 	void CoordinatorHeartbeat::de_init() 
 	{
 		repeatable_action_->stop();
-		context_->logger()->info("Hearbeat stopped");
+		logger_.info("Hearbeat stopped");
 	}
 
 	void CoordinatorHeartbeat::generate_message(contracts::IUnitContext& context)

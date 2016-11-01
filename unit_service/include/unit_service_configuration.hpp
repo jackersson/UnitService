@@ -3,6 +3,9 @@
 
 #include <string>
 #include <contracts/iunit_context.hpp>
+#include <map>
+#include <contracts/iunit_configuration.hpp>
+#include <common/logger.hpp>
 
 enum ServiceParametrs
 {
@@ -98,6 +101,8 @@ private:
 
 	
 	static std::map<ServiceParametrs, std::string> parametrs_;
+
+	mutable contracts::logging::Logger logger_;
 
 
 };

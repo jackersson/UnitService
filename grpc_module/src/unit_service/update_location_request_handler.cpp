@@ -11,7 +11,7 @@ namespace grpc_services
 			//TODO update location in local storage and coordinator
 			context_->repository()->get<DataTypes::Location>()->local()->update(&request_);
 
-			std::cout << "Coordinator wants update location" << std::endl;
+			logger_.info("Coordinator wants update location");
 			responder_.Finish(response, grpc::Status::OK, this);
 		}
 	}

@@ -78,7 +78,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)$(Configuration)</OutDir>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -168,6 +168,7 @@
     <ClInclude Include="include\contracts\devices\video_device\istream_data.hpp" />
     <ClInclude Include="include\contracts\devices\video_device\ivideo_engine.hpp" />
     <ClInclude Include="include\contracts\iservices.hpp" />
+    <ClInclude Include="include\contracts\iunit_configuration.hpp" />
     <ClInclude Include="include\contracts\iunit_context.hpp" />
     <ClInclude Include="include\contracts\locations\ilocation.hpp" />
     <ClInclude Include="include\contracts\locations\itrack_location_coordinator.hpp" />

@@ -59,23 +59,14 @@
     <ClInclude Include="include\unit_service\get_devices_request_handler.hpp">
       <Filter>includes\unit_service</Filter>
     </ClInclude>
-    <ClInclude Include="include\request_handler.hpp">
-      <Filter>includes</Filter>
-    </ClInclude>
     <ClInclude Include="include\server_manager.hpp">
       <Filter>includes</Filter>
     </ClInclude>
     <ClInclude Include="include\unit_service\open_door_request_handler.hpp">
       <Filter>includes\unit_service</Filter>
     </ClInclude>
-    <ClInclude Include="include\client_context.hpp">
-      <Filter>includes</Filter>
-    </ClInclude>
     <ClInclude Include="include\unit_service\unit_service_impl.hpp">
       <Filter>includes\unit_service</Filter>
-    </ClInclude>
-    <ClInclude Include="include\server_context.hpp">
-      <Filter>includes</Filter>
     </ClInclude>
     <ClInclude Include="include\clients_manager.hpp">
       <Filter>includes</Filter>

@@ -36,7 +36,9 @@
 		 create_file(path);
 		 save_default_config(path);
 
-		 std::cout << "New config file created. Setup config in " << current_path << std::endl;
+		 contracts::logging::Logger logger_;
+		 logger_.info( "New config file created. Setup config in {0} "
+			           , path);
 		 return false;
 	 }
 

@@ -1,7 +1,6 @@
 #ifndef IConnectionState_Included
 #define IConnectionState_Included
 
-//TODO maybe to contracts
 class IConnectionState
 {
 public:

@@ -7,7 +7,6 @@
 #include <observers/observable.hpp>
 #include <contracts/devices/access_device/iaccess_coordinator.hpp>
 #include <contracts/devices/access_device/iaccess_device_engine.hpp>
-#include <contracts/iunit_context.hpp>
 #include <data/data_utils.hpp>
 #include <future>
 

@@ -108,10 +108,13 @@
     <ClInclude Include="include\contracts\devices\idevices_container.hpp">
       <Filter>Header Files\contracts\devices</Filter>
     </ClInclude>
-    <ClInclude Include="include\contracts\iunit_context.hpp">
+    <ClInclude Include="include\contracts\iservices.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\contracts\iunit_configuration.hpp">
       <Filter>Header Files\contracts</Filter>
     </ClInclude>
-    <ClInclude Include="include\contracts\iservices.hpp">
+    <ClInclude Include="include\contracts\iunit_context.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

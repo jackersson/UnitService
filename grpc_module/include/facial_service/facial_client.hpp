@@ -1,7 +1,6 @@
 #ifndef FacialClient_INCLUDED
 #define FacialClient_INCLUDED
 
-#include <grpc++/grpc++.h>
 #include <facial_service/client/facial_client_impl.hpp>
 #include <services/service_address.hpp>
 
@@ -15,10 +14,15 @@ namespace grpc_services
 		{
 		}
 
-		void do_set_call_options(services_api::IAsyncCall* call) override
+		void do_set_call_options(services_api::IAsyncCall* call) const override
 		{
-			call->deadline = 2;
-			//test
+			//TODO think about smarter solution
+			if ( call->identifier() 
+				   == typeid(services_api::AsyncFaceProcessCall).name())
+			{
+				call->deadline = 2;
+			}
+		
 		}
 
 	private:

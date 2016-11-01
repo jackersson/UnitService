@@ -4,11 +4,13 @@
 #include <services/icoordinator_api.hpp>
 #include <contracts/iunit_context.hpp>
 #include "repeatable_action.hpp"
-#include "iconnection_state.hpp"
 #include <common/ilifecycle.hpp>
 #include <chrono>
+#include <common/logger.hpp>
+#include "iconnection_state.hpp"
 
-class CoordinatorConnector : public IRepeatableAction
+
+class CoordinatorConnector : public utils::threading::IRepeatableAction
 	                         , public contracts::common::IModule
 	                         , public IConnectionState
 {
@@ -37,15 +39,15 @@ private:
 	static void generate_message(contracts::IUnitContext& context);
 
 	bool connected_;
-	contracts::services::ICoordinatorApiPtr coordinator_;
+	contracts::services::ICoordinatorApi* coordinator_;
 	contracts::IUnitContext* context_;
 
-	std::unique_ptr<RepeatableAction> repeatable_action_;
+	std::unique_ptr<utils::threading::RepeatableAction> repeatable_action_;
 
 	const std::chrono::seconds DELAY = std::chrono::seconds(3);
 	static DataTypes::ConnectMsg connect_message_;
 
-
+	contracts::logging::Logger logger_;
 };
 
 #endif

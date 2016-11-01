@@ -7,11 +7,12 @@
 #include <contracts/devices/access_device/icommand_result.hpp>
 #include <contracts/devices/access_device/iaccess_coordinator.hpp>
 #include <contracts/devices/access_device/iaccess_device_engine.hpp>
-#include <contracts/iunit_context.hpp>
 #include <data/data_utils.hpp>
 #include <future>
 #include "idevice_unit.hpp"
 #include <datatypes/queries.pb.h>
+#include <common/logger.hpp>
+#include <data/irepository.hpp>
 
 namespace tracking
 {

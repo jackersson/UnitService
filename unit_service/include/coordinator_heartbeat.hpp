@@ -7,9 +7,10 @@
 #include <common/ilifecycle.hpp>
 #include <services/icoordinator_api.hpp>
 #include <chrono>
+#include <common/logger.hpp>
 
 
-class CoordinatorHeartbeat : public IRepeatableAction
+class CoordinatorHeartbeat : public utils::threading::IRepeatableAction
 	                         , public contracts::common::IModule
 {
 public:
@@ -39,8 +40,11 @@ private:
 	IConnectionState* coordinator_connection_;
 	const std::chrono::seconds DELAY = std::chrono::seconds(3);
 
-	std::unique_ptr<RepeatableAction> repeatable_action_;
+	std::unique_ptr<utils::threading::RepeatableAction> repeatable_action_;
 	static DataTypes::HeartbeatMessage message_;
+
+	contracts::logging::Logger logger_;
+
 };
 
 #endif

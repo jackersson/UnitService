@@ -10,7 +10,7 @@ namespace grpc_services
 
 			context_->track_locations()->grant_access(request_);
 
-			std::cout << "Client wants open door" << std::endl;
+			logger_.info("Client wants open door");
 			responder_.Finish(response, grpc::Status::OK, this);
 		}
 	}

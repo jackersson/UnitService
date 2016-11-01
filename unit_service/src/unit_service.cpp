@@ -5,7 +5,7 @@
 
 void UnitService::init() 
 {
-	logger()->info("Unit service start init");
+	logger_.info("Unit service start init");
 	
 	devices_ = std::make_unique<DevicesContainer>();
 	modules_.push_back(devices_.get());
@@ -13,7 +13,8 @@ void UnitService::init()
 	services_ = std::make_unique<grpc_services::ServicesCoordinator>(this);
 	modules_.push_back(services_.get());
 		
-	repository_ = std::make_unique<data_core::RepositoryContainer>(this);
+	auto database_api = services_->clients()->database();
+	repository_ = std::make_unique<data_core::RepositoryContainer>(database_api);
 	modules_.push_back(repository_.get());
 		
 	tracking_coordinator_
@@ -33,7 +34,7 @@ void UnitService::init()
 			module->init();
 	}
 
-	logger()->info("Unit service init done");
+	logger_.info("Unit service init done");
 }
 
 void UnitService::de_init() 

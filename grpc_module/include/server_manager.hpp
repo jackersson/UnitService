@@ -4,7 +4,6 @@
 #include <memory>
 #include <grpc++/grpc++.h>
 #include <services/iservice.hpp>
-#include "server_context.hpp"
 #include "unit_service/unit_service_impl.hpp"
 #include <contracts/iunit_context.hpp>
 
@@ -14,14 +13,15 @@ namespace grpc_services
 	{
 	public:
 		explicit ServerManager(contracts::IUnitContext* context)
-			: context_(context)
-			, active_(false)
+			: active_(false)
+			, initialized_(false)
+			, context_(context)
 		{
-			init();
+			ServerManager::init();
 		}
 		
 		virtual ~ServerManager() {
-			ServerManager::stop();
+			ServerManager::de_init();
 		}
 
 		void start() override {
@@ -29,8 +29,8 @@ namespace grpc_services
 				return;
 
 			active_ = true;
-			for (auto it = servers_.begin(); it != servers_.end(); ++it)
-				it->get()->start();
+			for (auto it : servers_)
+				it->start();
 		}
 
 		void stop()  override {
@@ -44,30 +44,41 @@ namespace grpc_services
 			servers_.clear();
 		}
 		
-	private:
-		void init()
+		void init() override
 		{
-			auto builder = std::make_shared<ServerBuilder>();		
+			if (initialized_)
+				return;
+
+			ServerBuilder builder;
 			auto port    = context_->configuration().unit_service_port();
 			
 			//Unit service
 			contracts::services::ServiceAddress sa("0.0.0.0", port);
-			auto unit_service = std::make_shared<UnitServiceImpl>(
-				ServerContext(sa, builder, context_));
-			servers_.push_back(unit_service);
-			
-			server_ = builder->BuildAndStart();
+			unit_service_ = std::make_unique<unit_service::UnitServiceImpl>(
+				sa, &builder, context_);
+			servers_.push_back(unit_service_.get());
+
+			server_ = builder.BuildAndStart();
+			initialized_ = true;
+		}
+
+		void de_init() override
+		{
+			stop();
 		}
 
 		bool active_;
+		bool initialized_;
 
 		ServerManager(const ServerManager&) = delete;
 		ServerManager& operator=(const ServerManager&) = delete;
 
 		contracts::IUnitContext* context_;
 
+		std::unique_ptr<unit_service::UnitServiceImpl> unit_service_;
+
 		std::unique_ptr<grpc::Server>        server_;
-		std::vector<std::shared_ptr<contracts::services::IService>> servers_;
+		std::vector<IService*> servers_;
 
 	};
 

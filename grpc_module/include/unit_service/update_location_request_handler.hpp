@@ -2,7 +2,7 @@
 #define UpdateLocationRequestHandler_Included
 
 #include <memory>
-#include <request_handler.hpp>
+#include <helpers/request_handler.hpp>
 #include <contracts/iunit_context.hpp>
 #include <service_base.hpp>
 
@@ -37,9 +37,9 @@ namespace grpc_services
 
 			void ProcessRequest() override;	
 
-			static void Create(services_api::AsyncUnitService*            service
-				                , grpc::ServerCompletionQueue* completion_queue
-				                , contracts::IUnitContext*     context)
+			static void Create(services_api::AsyncUnitService* service
+				                , grpc::ServerCompletionQueue*   completion_queue
+				                , contracts::IUnitContext*       context)
 			{
 				new UpdateLocationRequestHandler(service, completion_queue, context);
 			}

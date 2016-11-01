@@ -2,9 +2,8 @@
 #define CheckDeviceRequestHandler_Included
 
 #include <memory>
-//#include <include/grpc++/impl/codegen/completion_queue.h>
-//#include <services/unit_service.grpc.pb.h>
-#include <request_handler.hpp>
+
+#include <helpers/request_handler.hpp>
 #include <contracts/iunit_context.hpp>
 #include <service_base.hpp>
 

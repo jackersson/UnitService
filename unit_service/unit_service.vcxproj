@@ -67,7 +67,6 @@
     <Import Project="..\grpc_module\zlib_x32d.props" />
     <Import Project="..\tracking_core\tracking_core_x32d.props" />
     <Import Project="..\grpc_module\grpc_module_x32d.props" />
-    <Import Project="..\data_core\data_core_x32d.props" />
     <Import Project="unit_service_x32.props" />
     <Import Project="..\directshow_device\directshow_lib.props" />
     <Import Project="..\directshow_device\opencv_x32d.props" />
@@ -77,6 +76,10 @@
     <Import Project="..\properties\boost_32d.props" />
     <Import Project="..\properties\messages_x32d.props" />
     <Import Project="..\properties\utils_x32d.props" />
+    <Import Project="..\properties\data_core_32d.props" />
+    <Import Project="..\properties\spdlog_x32d.props" />
+    <Import Project="..\properties\services_api_x32d.props" />
+    <Import Project="..\properties\serial_port_x32d.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -176,9 +179,9 @@
     <ClInclude Include="include\coordinator_heartbeat.hpp" />
     <ClInclude Include="include\coordinator_service.hpp" />
     <ClInclude Include="include\devices_container.hpp" />
+    <ClInclude Include="include\directshow_reserved_engine.hpp" />
     <ClInclude Include="include\iconnection_state.hpp" />
     <ClInclude Include="include\launcher.hpp" />
-    <ClInclude Include="include\repeatable_action.hpp" />
     <ClInclude Include="include\track_locations_udapter.hpp" />
     <ClInclude Include="include\unit_service.hpp" />
     <ClInclude Include="include\unit_service_configuration.hpp" />

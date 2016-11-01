@@ -16,15 +16,16 @@ namespace contracts
 		public:
 			virtual ~IClients() {}
 
-			virtual IFileStorageApiPtr   file_storage()   = 0;
-			virtual IDatabaseApiPtr      database()       = 0;
-			virtual ICoordinatorApiPtr   coordinator()    = 0;
-			virtual IFacialServiceApiPtr facial_service() = 0;
+			//virtual IFileStorageApiPtr   file_storage()   = 0;
+			virtual IDatabaseApi*      database()       = 0;
+			virtual ICoordinatorApi*   coordinator()    = 0;
+			virtual IFacialServiceApi* facial_service() = 0;
 		};
 
 		typedef std::shared_ptr<IClients> IClientsPtr;
 
 		class IServices : public common::IModule
+			              //, public common::ILifecycle
 		{
 		public:
 

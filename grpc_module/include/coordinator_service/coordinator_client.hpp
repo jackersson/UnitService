@@ -1,222 +1,71 @@
-#ifndef CoordinatorClientImpl_INCLUDED
-#define CoordinatorClientImpl_INCLUDED
+#ifndef CoordinatorClient_INCLUDED
+#define CoordinatorClient_INCLUDED
 
-#include <grpc++/grpc++.h>
+#include <services/service_address.hpp>
+#include <coordinator_service/coordinator_client_impl.hpp>
+#include <network_utils.hpp>
+#include <contracts/iunit_context.hpp>
 
 namespace grpc_services
 {
-	class CoordinatorClient : public CoordinatorClientImpl		                         
+	class CoordinatorClient : public services_api::CoordinatorClientImpl
 	{
 	public:
-		explicit CoordinatorClient()
-			: active_(false), context_(context)
-			, thread_pool_(0)
-			, need_connect_(true)
+		explicit CoordinatorClient( contracts::IUnitContext* context
+			                        , contracts::services::IServiceAddress& address)
+		                         	: services_api::CoordinatorClientImpl(address)
+			                        , context_(context)
 		{
-			logger_ = context.unit_context()->logger();
-			CoordinatorClientImpl::init();
 		}
 
-		~CoordinatorClientImpl(){
-			CoordinatorClientImpl::stop();
-			logger_->info("{0} destroyed", class_name());
-		}
-
-		void connect()
+		void do_set_call_options(services_api::IAsyncCall* call) const override
 		{
-			auto address = context_.address().get();
-			logger_->info("Try create channel {0}", address);
-
-			
-			channel_ = CreateChannel(address, grpc::InsecureChannelCredentials());
-			stub_ = Services::CoordinatorService::NewStub(channel_);			
-		}
-
-		void init() override
-		{
-			connect();
-				
-			add_call_handler<AsyncConnectCall>();
-			add_call_handler<AsyncHeartbeatCall>();
-			add_call_handler<AsyncUpdateDevicesCall>();
-			add_call_handler<AsyncGetRequestCall>();
-			add_call_handler<AsyncCommitRequestCall>();
-		}
-
-		void start() override
-		{
-			if (active_)
-				return;
-
-			active_ = true;
-			for (auto handler : handlers_)
-				thread_pool_.Add(handler.second.callback);
-
-			logger_->info("{0} connected to {1}", class_name()
-				            , context_.address().get());
-		}
-
-		void stop() override
-		{			
-			for (auto it : handlers_)
-				it.second.completion_queue->Shutdown();
-			handlers_.clear();
-
-			logger_->info("{0} stopped", class_name());
-		}	
-
-		bool connect_request(const DataTypes::ConnectMsg& request) override
-		{			
-			auto queue = helpers::get_completion_queue<AsyncConnectCall>(handlers_);
-			if (queue == nullptr)
-				return false;
-
-			auto call = new AsyncConnectCall;
-			helpers::set_deadline(call->context, REQUEST_DEADLINE);
-			call->reader = stub_->AsyncConnect(&call->context, request, queue);
-			call->reader->Finish(&call->response, &call->status, reinterpret_cast<void*>(call));
-						
-			try
+			//TODO think about smarter solution
+			if (call->identifier()
+			   	== typeid(services_api::AsyncConnectCall).name())
 			{
-				auto result = utils::service::get_result(call->promise);
-				return result;
+				call->deadline = CONNECT_REQUEST_DEADLINE;
+				set_connect_msg_metadata(call->metadata);
 			}
-			catch (std::exception& exception)	{
-				logger_->error("Connect request exception : {0}", exception.what());		
-				return false;
-			}			
+
 		}
-			
-		//TODO not here
-		std::pair<std::string, std::string> get_service_id_metadata() const
+
+		//TODO to utils
+		void set_connect_msg_metadata
+		     (std::vector<std::pair<std::string, std::string>>& metadata) const
 		{
-			auto guid = context_.unit_context()->configuration().service_uuid();
-			return std::pair<std::string, std::string>("id", guid);
+			metadata.push_back(get_metadata_service_id());
+			metadata.push_back(get_metadata_macaddress());
+			metadata.push_back(get_metadata_ip        ());
 		}
-	
-		void heart_beat(const DataTypes::HeartbeatMessage& request) const override
+		//TODO to utils
+		std::pair<std::string, std::string>
+			get_metadata_macaddress() const
 		{
-			auto queue = helpers::get_completion_queue<AsyncHeartbeatCall>(handlers_);
-			if (queue == nullptr)
-				return;
-
-			auto call = new AsyncHeartbeatCall;
-			call->reader = stub_->AsyncHeartbeat(&call->context, request, queue);
-			call->reader->Finish(&call->response, &call->status, reinterpret_cast<void*>(call));
-
-			try	{
-				utils::service::get_result(call->promise);
-			}
-			catch (std::exception& exception) {
-				//TODO handle broken promise as no response from server
-				logger_->error("Coordinator client {0}", exception.what());
-			}		
+			static auto mac_address = utils::network::get_mac_address();
+			return std::pair<std::string, std::string>("mac", mac_address);
 		}
-
-		void update_devices(const DataTypes::DeviceUpdate& request) const override
+		//TODO to utils
+		std::pair<std::string, std::string>
+			get_metadata_service_id() const
 		{
-			auto queue = helpers::get_completion_queue<AsyncUpdateDevicesCall>(handlers_);
-			if (queue == nullptr)
-				return;
-
-			auto call = new AsyncUpdateDevicesCall;
-			helpers::set_metadata(call->context, get_service_id_metadata());
-			call->reader = stub_->AsyncUpdateDevices(&call->context, request, queue);
-			call->reader->Finish(&call->response, &call->status, reinterpret_cast<void*>(call));
+			static auto id = context_->configuration().service_uuid();
+			return std::pair<std::string, std::string>("id", id);
 		}
-
-		std::shared_ptr<DataTypes::GetResponse>
-			get(const DataTypes::GetRequest& request) override
+		//TODO to utils
+		std::pair<std::string, std::string>
+			get_metadata_ip() const
 		{
-			DataTypes::MessageBytes message;
-			helpers::to_bytes(request, message);
-
-			auto queue = helpers::get_completion_queue<AsyncGetRequestCall>(handlers_);
-			if (queue == nullptr)
-				return nullptr;
-
-			auto call = new AsyncGetRequestCall;
-			call->reader = stub_->AsyncGet(&call->context, message, queue);
-			call->reader->Finish(&call->response, &call->status, reinterpret_cast<void*>(call));
-
-			return utils::service::get_result(call->promise);
+			static auto ip_address = utils::network::get_local_ip();
+			return std::pair<std::string, std::string>("ip", ip_address);
 		}
 
-		std::shared_ptr<DataTypes::CommitResponse>
-			commit(const DataTypes::CommitRequest& request) override
-		{
-			DataTypes::MessageBytes message;
-			helpers::to_bytes(request, message);
-
-			auto it = handlers_.find(typeid(AsyncCommitRequestCall).name());
-			if (it == handlers_.end())
-				return nullptr;
-
-			auto call = new AsyncCommitRequestCall;
-			helpers::set_metadata(call->context, get_service_id_metadata());
-			call->reader = stub_->AsyncGet(&call->context, message, it->second.completion_queue.get());
-			call->reader->Finish(&call->response, &call->status, reinterpret_cast<void*>(call));
-
-			//TODO add try catch with timeout
-			return utils::service::get_result(call->promise);
-		}
-		
 	private:
-		template<typename T>
-		void add_call_handler()
-		{
-			auto cq = std::make_shared<grpc::CompletionQueue>();
+		CoordinatorClient(const CoordinatorClient&) = delete;
+		CoordinatorClient& operator=(const CoordinatorClient&) = delete;
 
-			auto callback = std::bind(&CoordinatorClientImpl::async_complete_rpc<T>
-				, this, cq.get());
-			handlers_.insert(
-				std::pair<std::string, ClientRequestHandler>(
-					typeid(T).name(), ClientRequestHandler(cq, callback)));
-		}
-
-		template <typename T>
-		void async_complete_rpc(grpc::CompletionQueue* queue) const
-		{
-			void* got_tag;
-			auto  ok = false;
-
-			while (queue->Next(&got_tag, &ok))
-			{
-				auto call = static_cast<T*>(got_tag);
-				try
-				{
-					if (call->status.ok())					
-						call->process();							
-				}
-				catch (std::exception& ex) {
-					logger_->error(ex.what());
-				}
-				delete call;
-			}
-		}
-
-		std::string class_name() const {
-			return typeid(CoordinatorClientImpl).name();
-		}
-
-		bool active_;
-		bool need_connect_;	
-
-		std::unique_ptr<Services::CoordinatorService::Stub> stub_;
-		std::shared_ptr<grpc::Channel>                   channel_;
-
-		ClientContext context_;
-		ClientRequestHandlers handlers_;
-
-		grpc::DynamicThreadPool thread_pool_;
-
-
-		contracts::common::LoggerPtr logger_;
-
-		const int REQUEST_DEADLINE = 1;
-
-		CoordinatorClientImpl(const CoordinatorClientImpl&) = delete;
-		CoordinatorClientImpl& operator=(const CoordinatorClientImpl&) = delete;
+		contracts::IUnitContext* context_;
+		const int CONNECT_REQUEST_DEADLINE = 2;
 	};
 }
 

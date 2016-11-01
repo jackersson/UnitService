@@ -2,9 +2,7 @@
 #include <string>
 #include <property_tree/ptree_fwd.hpp>
 #include <property_tree/json_parser.hpp>
-#include <iostream>
-#include <contracts/iunit_context.hpp>
-#include <contracts/data/data_utils.hpp>
+#include <data/data_utils.hpp>
 
 typedef std::pair<ServiceParametrs, std::string> ServiceParametr;
 
@@ -20,10 +18,10 @@ std::map<ServiceParametrs, std::string> UnitServiceConfiguration::parametrs_ =
 UnitServiceConfiguration UnitServiceConfiguration::default_configuration()
 {
 	UnitServiceConfiguration config;
-	config.set_facial_service_address("127.0.0.1:50051");
+	config.set_facial_service_address     ("127.0.0.1:50051");
 	config.set_coordinator_service_address("127.0.0.1:49095");
-	config.set_database_service_address("127.0.0.1:49065");
-	config.set_unit_service_port(50053);
+	config.set_database_service_address   ("127.0.0.1:49065");
+	config.set_unit_service_port          (50053            );
 	config.set_service_uuid(contracts::data::get_random_guid());
 	return config;
 }
@@ -51,8 +49,9 @@ bool UnitServiceConfiguration::load(const std::string &filename)
 			= pt.get<std::string>(parametrs_[ServiceId]);
 		return true;
 	}
-	catch (std::exception&) {
-		std::cout << "Loading config file failed. File not found " << filename << std::endl;
+	catch (std::exception& ex) {
+		logger_.error( "Loading config file failed. File not found {0}. Error {1}"
+			           , filename, ex.what());
 		return false;
 	}
 }
@@ -73,8 +72,9 @@ bool UnitServiceConfiguration::save(const std::string &filename) const
 		write_json(filename, pt);
 		return true;
 	}
-	catch (std::exception&) {
-		std::cout << "Saving to config failed. File not found " << filename << std::endl;
+	catch (std::exception& ex) {
+		logger_.error("Saving to config failed. File not found {0}. Error {1}"
+			            ,filename, ex.what());
 		return false;
 	}
 }

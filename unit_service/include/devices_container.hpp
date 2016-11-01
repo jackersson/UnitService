@@ -5,44 +5,43 @@
 #include <access_device/access_device_engine.hpp>
 #include <directshow_device_engine.hpp>
 #include "access_devices_reserved_engine.hpp"
-
+#include "directshow_reserved_engine.hpp"
 
 class DevicesContainer : public contracts::devices::IDevicesContainer	                    
 {
 public:
 	DevicesContainer() 
-		: access_device_engine_ (std::make_unique<access_device::AccessDeviceEngine>())
-		, direct_show_device_engine_(std::make_unique<directshow_device::DirectShowDeviceEngine>())
+		: access_engine_    (std::make_unique<access_device::AccessDeviceEngine>())
+		, directshow_engine_(std::make_unique<directshow_device::DirectShowDeviceEngine>())
 	{	}
 
 	explicit 
 		DevicesContainer(IDevicesSet* reserved_devices)
-		: access_device_engine_(std::make_unique<AccessDevicesReservedEngine>(reserved_devices))
-		, direct_show_device_engine_(std::make_unique<directshow_device::DirectShowDeviceEngine>())
-
+		: access_engine_    (std::make_unique<AccessDevicesReservedEngine>(reserved_devices))
+		, directshow_engine_(std::make_unique<DirectShowReservedEngine>(reserved_devices))
 	{	}
 
 	void init() override
 	{
-		access_device_engine_->init();
-		direct_show_device_engine_->init();
+		access_engine_->init();
+		directshow_engine_->init();
 	}
 
 	void de_init() override
 	{
-		access_device_engine_->de_init();
-		direct_show_device_engine_->init();
+		access_engine_->de_init();
+		directshow_engine_->init();
 	}
 
 	contracts::devices::access_device::IAccessDeviceEngine*
 		access_device_engine() override {
-		return access_device_engine_.get();
+		return access_engine_.get();
 	}
 
 	contracts::devices::video_device::IVideoEngine*
 		directshow_device_engine() override
 	{
-		return direct_show_device_engine_.get();
+		return directshow_engine_.get();
 	}
 		
 	void enumerate(DataTypes::Devices& devices) const override
@@ -51,16 +50,22 @@ public:
 		fill_video_devices (devices);		
 	}
 
+	bool contains( const std::string& device_name
+		           , DataTypes::DeviceType dev_type) const override
+	{	
+		throw std::exception("Device container contains - not implemented");
+	}
+
 private:
 	void fill_access_devices(DataTypes::Devices& devices) const
 	{	
-		auto items = access_device_engine_->device_enumerator().devices();
+		auto items = access_engine_->device_enumerator().devices();
 		fill_devices(devices, items, DataTypes::DeviceType::CardReader);	
 	}
 
 	void fill_video_devices(DataTypes::Devices& devices) const
 	{
-		auto items = direct_show_device_engine_->device_enumerator().devices();
+		auto items = directshow_engine_->device_enumerator().devices();
 		fill_devices(devices, items, DataTypes::DeviceType::Capture);	
 	}
 
@@ -77,12 +82,10 @@ private:
 	}
 	
 	std::unique_ptr<contracts::devices::access_device::IAccessDeviceEngine>
-		                                                      access_device_engine_;
+		                                              access_engine_;
 
-
-	//TODO make interface
-	std::unique_ptr<directshow_device::DirectShowDeviceEngine>
-		                                          direct_show_device_engine_;
+	std::unique_ptr<contracts::devices::video_device::IVideoEngine>
+		                                          directshow_engine_;
 
 };
 

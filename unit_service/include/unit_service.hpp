@@ -7,6 +7,7 @@
 #include "coordinator_service.hpp"
 #include "track_locations_udapter.hpp"
 #include <common/ilifecycle.hpp>
+#include <common/logger.hpp>
 
 class UnitService : public contracts::common::IModule
 	                , public contracts::IUnitContext
@@ -37,11 +38,7 @@ public:
 	contracts::services::IServices*  services() override {
 		return services_.get();
 	}
-
-	contracts::common::LoggerPtr logger() override{
-		return logger_;
-	}
-
+	
 	const contracts::IUnitConfiguration&       configuration() override	{
 		return *configuration_;
 	}
@@ -56,7 +53,6 @@ private:
 
 	contracts::locations::ITrackLocationsEnginePtr                tracking_coordinator_;
 	std::unique_ptr<contracts::services::IServices>               services_  ;
-	contracts::common::LoggerPtr                                  logger_    ;
 	std::unique_ptr<contracts::devices::IDevicesContainer>        devices_   ;
 	std::unique_ptr<contracts::data::AbstractRepositoryContainer> repository_; 
 
@@ -65,6 +61,8 @@ private:
 	std::unique_ptr<CoordinatorService> coordinator_service_;
 
 	std::list<IModule*> modules_;
+
+	contracts::logging::Logger logger_;
 };
 
 #endif
