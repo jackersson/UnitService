@@ -60,6 +60,11 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\access_device\access_device_x32d.props" />
     <Import Project="..\unit_service_tests\gtest_x32_d.props" />
+    <Import Project="..\properties\bioskynet_contracts_x32d.props" />
+    <Import Project="..\properties\utils_x32d.props" />
+    <Import Project="..\properties\serial_port_x32d.props" />
+    <Import Project="..\properties\boost_32d.props" />
+    <Import Project="..\contracts\contracts_x32d.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />

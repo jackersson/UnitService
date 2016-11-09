@@ -58,8 +58,7 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\grpc_module\gtest_x32d.props" />   
-    <Import Project="..\data_core\data_core_x32d.props" />
+    <Import Project="..\grpc_module\gtest_x32d.props" />
     <Import Project="..\grpc_module\gflags_x32d.props" />
     <Import Project="..\grpc_module\grpc_module_x32d.props" />
     <Import Project="..\grpc_module\grpc_x32d.props" />
@@ -150,8 +149,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="data_utils_tests.cpp" />
-    <ClCompile Include="local_storage_tests.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="repository_tests.cpp" />
   </ItemGroup>

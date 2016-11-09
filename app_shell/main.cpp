@@ -13,7 +13,6 @@ void init()
 
 int main()
 {
-
 	init();
 
 	std::cout << "Unit service exit. Good-bye)" << std::endl;

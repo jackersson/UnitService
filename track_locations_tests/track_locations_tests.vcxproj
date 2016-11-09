@@ -67,8 +67,7 @@
     <Import Project="..\grpc_module\grpc_module_x32d.props" />
     <Import Project="..\grpc_module\grpc_x32d.props" />
     <Import Project="..\grpc_module\openssl_x32d.props" />
-    <Import Project="..\grpc_module\zlib_x32d.props" />
-    <Import Project="..\data_core\data_core_x32d.props" />
+    <Import Project="..\grpc_module\zlib_x32d.props" /> 
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />

@@ -61,8 +61,7 @@
     <Import Project="gtest_x32_d.props" />
     <Import Project="..\access_device\access_device_x32d.props" />
     <Import Project="..\grpc_module\protobuf_x32d.props" />
-    <Import Project="..\unit_service\unit_service_x32.props" />
-    <Import Project="..\data_core\data_core_x32d.props" />
+    <Import Project="..\unit_service\unit_service_x32.props" /> 
     <Import Project="..\grpc_module\grpc_module_x32d.props" />
     <Import Project="..\grpc_module\gflags_x32d.props" />
     <Import Project="..\grpc_module\grpc_x32d.props" />
