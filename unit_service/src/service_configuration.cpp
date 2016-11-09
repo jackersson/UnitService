@@ -1,4 +1,4 @@
-#include <unit_service_configuration.hpp>
+#include <service_configuration.hpp>
 #include <string>
 #include <property_tree/ptree_fwd.hpp>
 #include <property_tree/json_parser.hpp>
@@ -6,7 +6,7 @@
 
 typedef std::pair<ServiceParametrs, std::string> ServiceParametr;
 
-std::map<ServiceParametrs, std::string> UnitServiceConfiguration::parametrs_ =
+std::map<ServiceParametrs, std::string> ServiceConfiguration::parametrs_ =
 {
 	  ServiceParametr(FacialServiceAddress     , "FacialServiceAddress"     )
 	, ServiceParametr(CoordinatorServiceAddress, "CoordinatorServiceAddress")
@@ -15,9 +15,9 @@ std::map<ServiceParametrs, std::string> UnitServiceConfiguration::parametrs_ =
 	, ServiceParametr(DatabaseServiceAddress   , "DatabaseServiceAddress"   )
 };
 
-UnitServiceConfiguration UnitServiceConfiguration::default_configuration()
+ServiceConfiguration ServiceConfiguration::default_configuration()
 {
-	UnitServiceConfiguration config;
+	ServiceConfiguration config;
 	config.set_facial_service_address     ("127.0.0.1:50051");
 	config.set_coordinator_service_address("127.0.0.1:49095");
 	config.set_database_service_address   ("127.0.0.1:49065");
@@ -26,7 +26,7 @@ UnitServiceConfiguration UnitServiceConfiguration::default_configuration()
 	return config;
 }
 
-bool UnitServiceConfiguration::load(const std::string &filename)
+bool ServiceConfiguration::load(const std::string &filename)
 {
 	using boost::property_tree::ptree;
 	ptree pt;
@@ -56,7 +56,7 @@ bool UnitServiceConfiguration::load(const std::string &filename)
 	}
 }
 
-bool UnitServiceConfiguration::save(const std::string &filename) const
+bool ServiceConfiguration::save(const std::string &filename) const
 {
 	using boost::property_tree::ptree;
 	ptree pt;

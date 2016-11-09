@@ -21,39 +21,21 @@
     <ClCompile Include="src\launcher.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\unit_service.cpp">
+    <ClCompile Include="src\coordinator_service.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\unit_service_configuration.cpp">
+    <ClCompile Include="src\service_configuration.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\coordinator_connector.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\coordinator_heartbeat.cpp">
+    <ClCompile Include="src\service_context.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\unit_service.hpp">
-      <Filter>includes</Filter>
-    </ClInclude>
     <ClInclude Include="include\devices_container.hpp">
       <Filter>includes</Filter>
     </ClInclude>
     <ClInclude Include="include\launcher.hpp">
-      <Filter>includes</Filter>
-    </ClInclude>
-    <ClInclude Include="include\unit_service_configuration.hpp">
-      <Filter>includes</Filter>
-    </ClInclude>
-    <ClInclude Include="include\track_locations_udapter.hpp">
-      <Filter>includes</Filter>
-    </ClInclude>
-    <ClInclude Include="include\coordinator_connector.hpp">
-      <Filter>includes</Filter>
-    </ClInclude>
-    <ClInclude Include="include\coordinator_heartbeat.hpp">
       <Filter>includes</Filter>
     </ClInclude>
     <ClInclude Include="include\coordinator_service.hpp">
@@ -65,7 +47,10 @@
     <ClInclude Include="include\directshow_reserved_engine.hpp">
       <Filter>includes</Filter>
     </ClInclude>
-    <ClInclude Include="include\iconnection_state.hpp">
+    <ClInclude Include="include\service_context.hpp">
+      <Filter>includes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\service_configuration.hpp">
       <Filter>includes</Filter>
     </ClInclude>
   </ItemGroup>

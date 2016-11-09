@@ -28,7 +28,7 @@ namespace directshow_device
 			video_capture_->open(device_id);
 			if (!video_capture_->isOpened())
 				on_error(contracts::devices::DeviceException("Can't open device"
-					                                          , DataTypes::DeviceType::Capture));
+					                                          , data_model::DeviceType::Capture));
 			else 
 				capture_error_fault_ = 0;
 
@@ -97,7 +97,7 @@ namespace directshow_device
 				else
 				{					
 					on_error( contracts::devices::DeviceException("Capture error"
-							    , DataTypes::DeviceType::Capture));
+							    , data_model::DeviceType::Capture));
 					capture_error_fault_++;
 				}
 				if (cancelation_requested)

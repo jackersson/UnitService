@@ -5,14 +5,14 @@
 #include <grpc++/grpc++.h>
 #include <services/iservice.hpp>
 #include "unit_service/unit_service_impl.hpp"
-#include <contracts/iunit_context.hpp>
+#include <contracts/iservice_context.hpp>
 
 namespace grpc_services
 {
 	class ServerManager : public contracts::services::IService
 	{
 	public:
-		explicit ServerManager(contracts::IUnitContext* context)
+		explicit ServerManager(contracts::IServiceContext* context)
 			: active_(false)
 			, initialized_(false)
 			, context_(context)
@@ -49,7 +49,7 @@ namespace grpc_services
 			if (initialized_)
 				return;
 
-			ServerBuilder builder;
+			grpc::ServerBuilder builder;
 			auto port    = context_->configuration().unit_service_port();
 			
 			//Unit service
@@ -73,7 +73,7 @@ namespace grpc_services
 		ServerManager(const ServerManager&) = delete;
 		ServerManager& operator=(const ServerManager&) = delete;
 
-		contracts::IUnitContext* context_;
+		contracts::IServiceContext* context_;
 
 		std::unique_ptr<unit_service::UnitServiceImpl> unit_service_;
 

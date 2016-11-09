@@ -2,18 +2,18 @@
 #define CoordinatorClient_INCLUDED
 
 #include <services/service_address.hpp>
-#include <coordinator_service/coordinator_client_impl.hpp>
+#include <coordinator_service/coordinator_client_data_api.hpp>
 #include <network_utils.hpp>
-#include <contracts/iunit_context.hpp>
+#include <contracts/iservice_context.hpp>
 
 namespace grpc_services
 {
-	class CoordinatorClient : public services_api::CoordinatorClientImpl
+	class CoordinatorClient : public services_api::CoordinatorClientDataApi
 	{
 	public:
-		explicit CoordinatorClient( contracts::IUnitContext* context
+		explicit CoordinatorClient( contracts::IServiceContext* context
 			                        , contracts::services::IServiceAddress& address)
-		                         	: services_api::CoordinatorClientImpl(address)
+		                         	: CoordinatorClientDataApi(address)
 			                        , context_(context)
 		{
 		}
@@ -27,7 +27,6 @@ namespace grpc_services
 				call->deadline = CONNECT_REQUEST_DEADLINE;
 				set_connect_msg_metadata(call->metadata);
 			}
-
 		}
 
 		//TODO to utils
@@ -64,7 +63,7 @@ namespace grpc_services
 		CoordinatorClient(const CoordinatorClient&) = delete;
 		CoordinatorClient& operator=(const CoordinatorClient&) = delete;
 
-		contracts::IUnitContext* context_;
+		contracts::IServiceContext* context_;
 		const int CONNECT_REQUEST_DEADLINE = 2;
 	};
 }

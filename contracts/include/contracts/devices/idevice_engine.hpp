@@ -16,9 +16,8 @@ namespace contracts
 
 			virtual void stop_all() = 0;
 
-			virtual void add(const std::string& device_name) = 0;
-
-			virtual void remove(const std::string& device_name) = 0;
+			virtual void add      (const std::string& device_name) = 0;												    
+			virtual void remove   (const std::string& device_name) = 0;
 			virtual bool is_active(const std::string& device_name) = 0;
 
 			virtual const devices::IDeviceEnumerator& device_enumerator() const = 0;

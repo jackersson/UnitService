@@ -1,18 +1,13 @@
 #ifndef DirectShowDeviceUnit_Included
 #define DirectShowDeviceUnit_Included
 
-#include <datatypes/location.pb.h>
-#include <datatypes/devices.pb.h>
 #include <contracts/locations/ilocation.hpp>
 #include <observers/observable.hpp>
 #include <contracts/devices/access_device/iaccess_coordinator.hpp>
 #include <contracts/devices/access_device/iaccess_device_engine.hpp>
-#include <data/data_utils.hpp>
-#include <future>
-
 #include "idevice_unit.hpp"
 #include <contracts/devices/video_device/ivideo_engine.hpp>
-#include <datatypes/queries.pb.h>
+
 
 namespace tracking
 {
@@ -61,19 +56,12 @@ namespace tracking
 			explicit DirectShowDeviceUnit(const DirectShowDeviceUnitContext& context)			
 			{
 				engine_             = context.engine;
-				persons_repository_ = context.repository->get<DataTypes::Person>();
-			}
+				persons_repository_ = context.repository->get<data_model::Person>();
+			}			
 
-			//TODO to utils
-			static bool equals( const DataTypes::CaptureDevice& first
-				                , const DataTypes::CaptureDevice& second)
+			void update(const data_model::CaptureDevice& device) override
 			{
-				return first.name() == second.name();
-			}
-
-			void update(const DataTypes::CaptureDevice& device) override
-			{
-				if (equals(device_, device))
+				if (device_ == device)
 					return;
 				stop();
 				device_ = device;
@@ -82,7 +70,7 @@ namespace tracking
 					
 			void start() override
 			{
-				auto dev_name = device_.name();
+				auto dev_name = device_.name;
 				if (dev_name == "")
 				{
 					logger_.error("Device name is not valid");
@@ -96,26 +84,22 @@ namespace tracking
 			void stop() override
 			{
 				engine_->unsubscribe(this);
-				engine_->remove(device_.name());
+				engine_->remove(device_.name);
 			}
 					
 
-			bool verify( DataTypes::VisitRecord& target
+			bool verify( data_model::VisitRecord& target
 			           , const contracts::devices::video_device::IRawImage& data) override
-			{
-				/*				
-				DataTypes::Card* card = nullptr;
-				auto person_found = try_extract_card(data, card);
-				target.set_allocated_card(card);
-				*/
+			{							
+				data_model::FaceCharacteristics face;// = try_extract_card(data, card);
+				target.set_face(face);				
 				return true;
 			}
 
-			//TODO
-			DataTypes::VisitRecord* 
+			std::shared_ptr<data_model::VisitRecord> 
 				identify(const contracts::devices::video_device::IRawImage& data) override
 			{
-				std::vector<DataTypes::FaceCharacteristic> faces;
+				std::vector<data_model::FaceCharacteristics> faces;
 				auto person_found = false;// try_extract_card(data, faces);
 				
 				if (!person_found)
@@ -123,14 +107,14 @@ namespace tracking
 
 				auto face = faces[0];
 				//TODO maybe need more faces
-				
-				auto visit_record = new DataTypes::VisitRecord();
-				visit_record->set_allocated_time(contracts::data::get_current_time());
-				visit_record->set_allocated_face(new DataTypes::FaceCharacteristic(face));
+
+				auto visit_record = std::make_shared<data_model::VisitRecord >();
+				visit_record->set_now();
+				visit_record->set_face(face);
 
 				if (person_found)
-					visit_record->set_allocated_person_id(new DataTypes::Key(face.person_id()));
-			
+					visit_record->set_person_id(face.person_id());			
+		
 				return visit_record;
 			}
 
@@ -160,19 +144,19 @@ namespace tracking
 			DirectShowDeviceUnit& operator=(const DirectShowDeviceUnit&) = delete;
 
 			bool device_connected() const {
-				return engine_->device_enumerator().connected(device_.name());
+				return engine_->device_enumerator().connected(device_.name);
 			}
 		
-			void on_target_detected(DataTypes::VisitRecord& visit_record)
+			void on_target_detected(data_model::VisitRecord& visit_record)
 			{
 				for (auto observer : observers_)
 					observer->on_target_detected(visit_record);
 			}		
 
-			DataTypes::CaptureDevice device_    ;  
+			data_model::CaptureDevice device_    ;
 			//IFaceRecognitionEngine*  face_engine_;
 			contracts::devices::video_device::IVideoEngine*  engine_;
-			contracts::data::IRepository<DataTypes::Person>* persons_repository_;
+			contracts::data::IRepository<data_model::Person>* persons_repository_;
 
 			contracts::logging::Logger logger_;
 		};

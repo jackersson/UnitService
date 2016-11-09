@@ -5,17 +5,16 @@
 #include <memory>
 #include <services/iservice.hpp>
 #include "coordinator_service/coordinator_client.hpp"
-#include <database_service/database_client_impl.hpp>
+#include "database_service/database_client_data_api.hpp"
 #include "facial_service/facial_client.hpp"
+#include "database_service/datacontext/datacontext_container.hpp"
 
 namespace grpc_services
 {
-
-	class ClientManager : public contracts::services::IService
-	                  	, public contracts::services::IClients
+	class ClientManager : public contracts::services::IServices	                  
 	{
 	public:
-		explicit ClientManager(contracts::IUnitContext* context)
+		explicit ClientManager(contracts::IServiceContext* context)
 			: active_     (false)
 			, initialized_(false)
 			, context_(context)
@@ -47,8 +46,8 @@ namespace grpc_services
 			return facial_client_.get();
 		}
 
-		contracts::services::IDatabaseApi* database() override {
-			return database_client_.get();
+		contracts::data::AbstractDataContextContainer* database() override {
+			return database_context_.get();
 		}
 
 		contracts::services::ICoordinatorApi* coordinator() override {
@@ -66,9 +65,13 @@ namespace grpc_services
 			std::string address = configuration.database_service_address();
 			contracts::services::ServiceAddress database_address(address);
 			database_client_ 
-				= std::make_unique<services_api::DatabaseClientImpl>(database_address);
+				= std::make_unique<services_api::DatabaseClientDataApi>(database_address);
 																					
 			servers_.push_back(database_client_.get());
+
+			database_context_
+				= std::make_unique<services_api::datacontext::DataContextContainer>
+				(database_client_.get());
 
 
 			//Coordinator client 			
@@ -86,6 +89,8 @@ namespace grpc_services
 				= std::make_unique<FacialClient>(facial_service_address);
 			servers_.push_back(facial_client_.get());
 
+			
+
 			initialized_ = true;
 		}
 
@@ -101,13 +106,15 @@ namespace grpc_services
 		ClientManager(const ClientManager&) = delete;
 		ClientManager& operator=(const ClientManager&) = delete;
 
-		contracts::IUnitContext* context_;
+		contracts::IServiceContext* context_;
 
-		std::unique_ptr<services_api::DatabaseClientImpl> database_client_   ;
+		std::unique_ptr<services_api::DatabaseClientDataApi> database_client_;
 		std::unique_ptr<CoordinatorClient>                coordinator_client_;
 		std::unique_ptr<FacialClient>                     facial_client_     ;
+		std::unique_ptr<contracts::data::AbstractDataContextContainer>
+			database_context_;
 
-		std::vector<contracts::services::IService*> servers_;
+		std::vector<IService*> servers_;
 	};
 
 	typedef std::shared_ptr<ClientManager> ClientManagerPtr;

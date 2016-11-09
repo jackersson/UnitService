@@ -1,10 +1,12 @@
 #ifndef ILocation_Included
 #define ILocation_Included
+
 #include <contracts/devices/device_observer.hpp>
-#include <datatypes/visit_record.pb.h>
 #include <common/ilifecycle.hpp>
-#include <datatypes/location.pb.h>
 #include <contracts/devices/access_device/iaccess_coordinator.hpp>
+#include <data/models/location.hpp>
+#include <data/models/visit_record.hpp>
+#include <memory>
 
 namespace contracts
 {
@@ -21,20 +23,18 @@ namespace contracts
 		};
 
 		class ILocation : public devices::IDeviceStateObserver
-			              , public ITargetDetectionObserver<DataTypes::VisitRecord>
+			              , public ITargetDetectionObserver<data_model::VisitRecord>
 			              , public common::ILifecycle
 		{
 		public:
 			virtual ~ILocation() {}
 
-			virtual const DataTypes::Location& location() const = 0;
+			virtual const data_model::Location& location() const = 0;
 
-			virtual boost::uuids::uuid id() const = 0;
-
-			virtual void update(const DataTypes::Location& locatiion) = 0;
+			virtual void update(const data_model::Location& locatiion) = 0;
 
 			virtual const
-				contracts::devices::access_device::IAccessCoordinator& 
+				devices::access_device::IAccessCoordinator& 
 				  access_coordinator() const = 0;
 		};
 

@@ -55,7 +55,7 @@ namespace access_device
 		}
 		else
 		{
-			on_state(DataTypes::DeviceState::Active);
+			on_state(data_model::DeviceState::Active);
 			unlock();
 		}
 	}
@@ -93,7 +93,7 @@ namespace access_device
 
 			execute<commands::LightCommandImpl>(contracts::devices::access_device::lights::lRedMain);
 
-			on_state(DataTypes::DeviceState::Active);
+			on_state(data_model::DeviceState::Active);
 
 			need_to_recover_ = false;
 		}

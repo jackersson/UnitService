@@ -1,9 +1,8 @@
 #ifndef IDeviceObserver_Included
 #define IDeviceObserver_Included
 
-#include <common/iequatable.hpp>
 #include <contracts/devices/device_exception.hpp>
-
+#include <data/models/devices.hpp>
 namespace contracts
 {
 	namespace devices
@@ -13,8 +12,8 @@ namespace contracts
 		public:
 			virtual ~IDeviceState() {}
 
-			virtual DataTypes::DeviceState state() const = 0;
-			virtual DataTypes::DeviceType  type () const = 0;
+			virtual data_model::DeviceState state() const = 0;
+			virtual data_model::DeviceType  type () const = 0;
 		};
 
 		class IDeviceStateObserver
@@ -27,7 +26,7 @@ namespace contracts
 		};
 
 		template <typename T>
-		class IDeviceObserver : public IDeviceStateObserver//, common::IObject
+		class IDeviceObserver : public IDeviceStateObserver
 		{
 		public:
 			virtual ~IDeviceObserver() {}

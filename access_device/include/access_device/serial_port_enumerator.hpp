@@ -5,7 +5,6 @@
 #include <serial/serial.h>
 #include <thread>
 #include <iostream>
-#include <containers_utils.hpp>
 #include <contracts/devices/idevice_enumerator.hpp>
 
 namespace access_device
@@ -15,7 +14,8 @@ namespace access_device
 	{
 	public:
 		bool connected(const std::string& device_name) const override {
-			return utils::containers::contains<std::string>(devices_, device_name);
+			return find(devices_.begin(), devices_.end(), device_name) 
+				!= devices_.end();			
 		}
 
 		std::vector<std::string> devices() const override {
@@ -56,7 +56,8 @@ namespace access_device
 			{
 
 				auto predicate = [this](const std::string& device_name)	{
-					return utils::containers::contains(serials_, device_name);
+					return find(serials_.begin(), serials_.end(), device_name)
+						!= serials_.end();
 				};
 				
 			  devices_.erase(std::remove_if( devices_.begin(),devices_.end(), predicate)
@@ -65,7 +66,7 @@ namespace access_device
 
 			for (auto device_name : serials_)
 			{
-				if (!utils::containers::contains(devices_, device_name))
+				if (!connected(device_name))
 					devices_.push_back(device_name);
 			}			
 		}

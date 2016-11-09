@@ -1,14 +1,14 @@
-#ifndef IUnitConiguration_Included
-#define IUnitConiguration_Included
+#ifndef IServiceConfiguration_Included
+#define IServiceConfiguration_Included
 
 #include <data/irepository.hpp>
 
 namespace contracts
 {
-	class IUnitConfiguration
+	class IServiceConfiguration
 	{
 	public:
-		virtual ~IUnitConfiguration() {}
+		virtual ~IServiceConfiguration() {}
 
 		virtual const std::string& facial_service_address() const = 0;
 		virtual const std::string& coordinator_service_address() const = 0;

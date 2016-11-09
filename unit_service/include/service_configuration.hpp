@@ -1,10 +1,9 @@
-#ifndef UnitServiceConfiguration_Included
-#define UnitServiceConfiguration_Included
+#ifndef ServiceConfiguration_Included
+#define ServiceConfiguration_Included
 
 #include <string>
-#include <contracts/iunit_context.hpp>
 #include <map>
-#include <contracts/iunit_configuration.hpp>
+#include <contracts/iservice_configuration.hpp>
 #include <common/logger.hpp>
 
 enum ServiceParametrs
@@ -17,11 +16,12 @@ enum ServiceParametrs
 	, DatabaseServiceAddress //TODO remove
 };
 
-class UnitServiceConfiguration : public contracts::IUnitConfiguration
+class ServiceConfiguration : public contracts::IServiceConfiguration
+                           , public contracts::common::IFileIO
 {
 	
 public:	
-	UnitServiceConfiguration()
+	ServiceConfiguration()
 		: facial_service_address_     ("")
 		, coordinator_service_address_("")
 		, database_service_address_   ("")
@@ -29,7 +29,7 @@ public:
 		, service_uuid_      ("")
 	{}
 
-	UnitServiceConfiguration(const UnitServiceConfiguration &obj)
+	ServiceConfiguration(const ServiceConfiguration &obj)
 		: facial_service_address_     (obj.facial_service_address_)
 		, coordinator_service_address_(obj.coordinator_service_address_)
 		, database_service_address_   (obj.database_service_address_)
@@ -87,10 +87,10 @@ public:
 			     && database_service_address_    == "";
 	}
 
-	static UnitServiceConfiguration default_configuration();
+	static ServiceConfiguration default_configuration();
 
-	bool save(const std::string &filename) const;
-	bool load(const std::string &filename);	
+	bool save(const std::string &filename) const override;
+	bool load(const std::string &filename) override;	
 
 private:
 	std::string facial_service_address_     ;

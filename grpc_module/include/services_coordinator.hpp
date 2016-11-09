@@ -1,7 +1,7 @@
 #ifndef ServiceCoordinator_Incuded
 #define ServiceCoordinator_Incuded
 
-#include <contracts/iunit_context.hpp>
+#include <contracts/iservice_context.hpp>
 #include <contracts/iservices.hpp>
 #include "server_manager.hpp"
 #include "clients_manager.hpp"
@@ -11,7 +11,7 @@ namespace grpc_services
 	class ServicesCoordinator : public contracts::services::IServices
 	{
 	public:
-		explicit ServicesCoordinator(contracts::IUnitContext* context)			
+		explicit ServicesCoordinator(contracts::IServiceContext* context)			
 			: context_(context)
 		{
 			servers_ = std::make_shared<ServerManager>(context_);
@@ -21,6 +21,10 @@ namespace grpc_services
 		~ServicesCoordinator(){
 			ServicesCoordinator::de_init();
 		}
+
+		//TODO not need
+		void start() override{}
+		void stop() override{}
 
 		void init() override
 		{
@@ -34,12 +38,22 @@ namespace grpc_services
 			servers_->stop();
 		}
 
-		contracts::services::IClientsPtr clients() override	{
-			return clients_;
+
+		contracts::data::AbstractDataContextContainer* database() override {
+			return clients_->database();
 		}
 
+		contracts::services::IFacialServiceApi* facial_service() override {
+			return clients_->facial_service();
+		}
+
+		contracts::services::ICoordinatorApi* coordinator() override {
+			return clients_->coordinator();
+		}
+
+
 	private:
-		contracts::IUnitContext* context_;
+		contracts::IServiceContext* context_;
 		ServerManagerPtr servers_;
 		ClientManagerPtr clients_;
 	};

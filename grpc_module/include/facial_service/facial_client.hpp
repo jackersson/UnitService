@@ -1,16 +1,16 @@
 #ifndef FacialClient_INCLUDED
 #define FacialClient_INCLUDED
 
-#include <facial_service/client/facial_client_impl.hpp>
+#include <facial_service/client/facial_client_data_api.hpp>
 #include <services/service_address.hpp>
 
 namespace grpc_services
 {
-	class FacialClient : public services_api::FacialClientImpl
+	class FacialClient : public services_api::FacialClientDataApi
 	{
 	public:
 		explicit FacialClient(contracts::services::IServiceAddress& address)
-		                    	: services_api::FacialClientImpl(address)
+		                    	: FacialClientDataApi(address)
 		{
 		}
 
@@ -20,14 +20,15 @@ namespace grpc_services
 			if ( call->identifier() 
 				   == typeid(services_api::AsyncFaceProcessCall).name())
 			{
-				call->deadline = 2;
-			}
-		
+				call->deadline = CONNECT_REQUEST_DEADLINE;
+			}		
 		}
 
 	private:
 		FacialClient(const FacialClient&) = delete;
 		FacialClient& operator=(const FacialClient&) = delete;
+
+		const int CONNECT_REQUEST_DEADLINE = 2;
 	};
 }
 

@@ -11,20 +11,19 @@ namespace contracts
 		public:
 			virtual ~ITrackLocationsEngine() {}
 
-			virtual bool grant_access(const DataTypes::Location& location) = 0;
+			virtual bool grant_access(const data_model::Location& location) = 0;
 			virtual void
-				update_with(const std::vector<DataTypes::Location>& locations) = 0;
+				update_with(const std::vector<data_model::Location>& locations) = 0;
 
 			virtual void
-				update(const DataTypes::Location& location) = 0;
+				update(const data_model::Location& location) = 0;
 
-			virtual bool contains(const DataTypes::Location& location) const = 0;
+			virtual bool contains(const data_model::Location& location) const = 0;
 
 			virtual bool contains( const std::string& device_name
-				              , DataTypes::DeviceType dev_type) const = 0;
+				                  , data_model::DeviceType dev_type) const = 0;
 
-			virtual size_t size() const = 0;
-		
+			virtual size_t size() const = 0;		
 		};
 
 		typedef std::shared_ptr<ITrackLocationsEngine> ITrackLocationsEnginePtr;

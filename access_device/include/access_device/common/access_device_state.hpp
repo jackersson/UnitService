@@ -1,7 +1,7 @@
 #ifndef AccessDeviceState_Included
 #define AccessDeviceState_Included
+
 #include <contracts/devices/device_observer.hpp>
-#include <datatypes/devices.pb.h>
 
 namespace access_device
 {
@@ -10,24 +10,24 @@ namespace access_device
 		class AccessDeviceState : public contracts::devices::IDeviceState
 		{
 		public:
-			explicit AccessDeviceState(DataTypes::DeviceState state)	
-				: dev_type_(DataTypes::DeviceType::CardReader)
+			explicit AccessDeviceState(data_model::DeviceState state)	
+				: dev_type_(data_model::DeviceType::CardReader)
 				, state_(state)
 			{}
 
-			DataTypes::DeviceType  type() const override
+			data_model::DeviceType  type() const override
 			{
 				return dev_type_;
 			}
 
-			DataTypes::DeviceState state()  const override
+			data_model::DeviceState state()  const override
 			{
 				return state_;
 			}
 
 		private:
-			DataTypes::DeviceType  dev_type_;
-			DataTypes::DeviceState state_   ;
+			data_model::DeviceType  dev_type_;
+			data_model::DeviceState state_   ;
 		};
 	}
 }

@@ -1,10 +1,8 @@
 #ifndef TrackLocation_Included
 #define TrackLocation_Included
 
-#include <datatypes/location.pb.h>
 #include <contracts/locations/ilocation.hpp>
-#include <contracts/iunit_context.hpp>
-#include <data/data_utils.hpp>
+#include <contracts/iservice_context.hpp>
 #include "units/access_device_unit.hpp"
 #include "units/directshow_device_unit.hpp"
 
@@ -16,7 +14,7 @@ namespace tracking
 		{
 		public:
 			
-			explicit TrackLocation( contracts::IUnitContext* context)
+			explicit TrackLocation( contracts::IServiceContext* context)
 				                    : context_(context)
 			{
 				try_resolve_dependencies();
@@ -26,23 +24,19 @@ namespace tracking
 				TrackLocation::stop();
 			}
 
-			explicit TrackLocation( const DataTypes::Location& object
-				                    , contracts::IUnitContext* context)
+			explicit TrackLocation( const data_model::Location& object
+				                    , contracts::IServiceContext* context)
 				                    : context_(context)
 			{
 				try_resolve_dependencies();
 				TrackLocation::update(object);
 			}		
 
-			void update(const DataTypes::Location& object ) override
+			void update(const data_model::Location& val ) override
 			{
-				boost::uuids::uuid uid;
-				location_ = object;
-				access_coordinator_    ->update(object.access_device ());
-				directshow_device_unit_->update(object.capture_device());
-
-				contracts::data::get_guid(location_.id(), uid);
-				uuid_ = uid;
+				location_ = val;
+				access_coordinator_    ->update(val.access_device ());
+				directshow_device_unit_->update(val.capture_device());
 			}
 
 			void start() override 
@@ -63,27 +57,25 @@ namespace tracking
 				throw std::exception("Not implemented exception");
 			}
 
-			void on_target_detected(DataTypes::VisitRecord& object) override
+			void on_target_detected(data_model::VisitRecord& object) override
 			{
-				auto location_id = new DataTypes::Key(location_.id());
-				object.set_allocated_location_id(location_id);
-				auto state = !contracts::data::guid_empty(object.person_id()) 
-					? DataTypes::AccessState::Granted
-					: DataTypes::AccessState::Denied;
-				object.set_state(state);
+				object.set_location_id(location_.id());				
+				auto state = object.person_id().is_empty() 
+					? data_model::AccessState::Granted
+					: data_model::AccessState::Denied;
+				object.set_access_state(state);
 
-				//TODO it should be pointer not reference
 #pragma omp sections
 				{
 					if (visit_records_repository_ != nullptr)
-						visit_records_repository_->add(&object);
+						visit_records_repository_->add(object);
 #pragma omp section
 					if (visit_records_repository_ != nullptr)
 						access_coordinator_->set_state(state);
 				}
 			}
 			
-			const DataTypes::Location& location() const override	{
+			const data_model::Location& location() const override	{
 				return location_;
 			}
 
@@ -103,10 +95,6 @@ namespace tracking
 			void on_state(const contracts::devices::IDeviceState& state) override
 			{
 				//context_->logger()->error("Track location device state {0}", state.state());
-			}
-
-			boost::uuids::uuid id() const override{
-				return uuid_;
 			}
 
 		private:
@@ -130,7 +118,7 @@ namespace tracking
 						= std::make_unique<units::DirectShowDeviceUnit>(directshow_device_context_);
 					
 					if (repository != nullptr)
-						visit_records_repository_ = repository->get<DataTypes::VisitRecord>();
+						visit_records_repository_ = repository->get<data_model::VisitRecord>();
 					else
 						logger_.error("Repository is null");
 				}
@@ -145,13 +133,11 @@ namespace tracking
 			
 			std::unique_ptr<units::DirectShowDeviceUnit> directshow_device_unit_;
 
-			boost::uuids::uuid         uuid_    ;
-			DataTypes::Location        location_;
-			contracts::IUnitContext*   context_ ;
-			contracts::logging::Logger logger_  ;
+			data_model::Location        location_;
+			contracts::IServiceContext* context_ ;
+			contracts::logging::Logger  logger_  ;
 
-			contracts::data::IRepository<DataTypes::VisitRecord>* visit_records_repository_;
-
+			contracts::data::IRepository<data_model::VisitRecord>* visit_records_repository_;
 		};
 
 		typedef std::shared_ptr<TrackLocation> TrackLocationPtr;

@@ -4,8 +4,8 @@
 #include <memory>
 
 #include <helpers/request_handler.hpp>
-#include <contracts/iunit_context.hpp>
-#include <service_base.hpp>
+#include <contracts/iservice_context.hpp>
+#include <async_service_base.hpp>
 
 namespace grpc_services
 {
@@ -17,7 +17,7 @@ namespace grpc_services
 		public:
 			CheckDeviceRequestHandler(services_api::AsyncUnitService* service
 				                       , grpc::ServerCompletionQueue* completion_queue
-				                       , contracts::IUnitContext* context)
+				                       , contracts::IServiceContext* context)
 				                       : RequestHandler<services_api::AsyncUnitService>(service, completion_queue)
 				                       , responder_(&server_context_)
 				                       , context_(context)
@@ -39,7 +39,7 @@ namespace grpc_services
 
 			static void Create(services_api::AsyncUnitService*            service
 				                , grpc::ServerCompletionQueue* completion_queue
-				                , contracts::IUnitContext*     context)
+				                , contracts::IServiceContext*     context)
 			{
 				new CheckDeviceRequestHandler(service, completion_queue, context);
 			}
@@ -49,7 +49,7 @@ namespace grpc_services
 		private:
 			DataTypes::Device  request_;
 			grpc::ServerAsyncResponseWriter<DataTypes::CheckMsg> responder_;
-			contracts::IUnitContext* context_;
+			contracts::IServiceContext* context_;
 		};
 	}
 }

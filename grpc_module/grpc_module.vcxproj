@@ -68,7 +68,7 @@
     <Import Project="..\properties\services_api_x32d.props" />
     <Import Project="..\properties\utils_x32d.props" />
     <Import Project="..\properties\spdlog_x32d.props" />
-    <Import Project="..\contracts\contracts_x32.props" />
+    <Import Project="..\contracts\contracts_x32d.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />

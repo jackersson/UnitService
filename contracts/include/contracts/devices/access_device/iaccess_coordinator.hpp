@@ -1,7 +1,8 @@
 #ifndef IAccessCoordinator_Included
 #define IAccessCoordinator_Included
 
-#include <datatypes/visit_record.pb.h>
+#include <data/models/devices.hpp>
+#include <data/models/visit_record.hpp>
 
 namespace contracts
 {
@@ -14,7 +15,7 @@ namespace contracts
 			public:
 				virtual ~IAccessDeviceUpdatable() {}
 
-				virtual void update(const DataTypes::AccessDevice& device) = 0;
+				virtual void update(const data_model::AccessDevice& device) = 0;
 			};
 
 			class ICaptureDeviceUpdatable
@@ -22,7 +23,7 @@ namespace contracts
 			public:
 				virtual ~ICaptureDeviceUpdatable() {}
 
-				virtual void update(const DataTypes::CaptureDevice& device) = 0;
+				virtual void update(const data_model::CaptureDevice& device) = 0;
 			};
 
 			class IAccessCoordinator: public IAccessDeviceUpdatable
@@ -31,7 +32,7 @@ namespace contracts
 			public:
 				virtual ~IAccessCoordinator() {}
 		
-				virtual void set_state(DataTypes::AccessState  state) const = 0;
+				virtual void set_state(data_model::AccessState  state) const = 0;
 			};
 
 		}

@@ -58,14 +58,7 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="tracking_core_x32d.props" />
-    <Import Project="..\grpc_module\protobuf_x32d.props" />
-    <Import Project="..\grpc_module\grpc_module_x32d.props" />
-    <Import Project="..\grpc_module\gflags_x32d.props" />
-    <Import Project="..\grpc_module\grpc_x32d.props" />
-    <Import Project="..\grpc_module\gtest_x32d.props" />
     <Import Project="..\properties\bioskynet_contracts_x32d.props" />
-    <Import Project="..\properties\messages_x32d.props" />
     <Import Project="..\contracts\contracts_x32d.props" />
     <Import Project="..\properties\utils_x32d.props" />
     <Import Project="..\properties\boost_32d.props" />
@@ -101,6 +94,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <OpenMPSupport>true</OpenMPSupport>
+      <AdditionalIncludeDirectories>$(SolutionDir)$(ProjectName)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

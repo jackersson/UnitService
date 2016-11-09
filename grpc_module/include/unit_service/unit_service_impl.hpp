@@ -12,10 +12,8 @@
 #include "open_door_request_handler.hpp"
 #include "update_location_request_handler.hpp"
 
-#include <contracts/iunit_context.hpp>
-#include <service_base.hpp>
-
-using grpc::ServerBuilder;
+#include <contracts/iservice_context.hpp>
+#include <async_service_base.hpp>
 
 namespace grpc_services
 {
@@ -26,8 +24,8 @@ namespace grpc_services
 		{
 		public:
 			explicit UnitServiceImpl( contracts::services::IServiceAddress& address
-				                      , ServerBuilder*           server_builder
-		  	                      , contracts::IUnitContext* unit_context  )
+				                      , grpc::ServerBuilder*        server_builder
+		  	                      , contracts::IServiceContext* unit_context  )
 				                      : AsyncServiceBase(address, server_builder)
 				                      , unit_context_(unit_context)
 			{
@@ -66,8 +64,13 @@ namespace grpc_services
 			template <typename T>
 			void add_handler_creator()
 			{
-				auto func = std::bind( T::Create            , &service_
-					                   , std::placeholders::_1, unit_context_ );
+				services_api::CreateRequestHandlerFunc func 
+					= [this](grpc::ServerCompletionQueue* queue)
+				{
+					T::Create(&service_, queue, unit_context_);
+				};
+				//auto func = std::bind( T::Create            , &service_
+					  //                 , std::placeholders::_1, unit_context_ );
 				add_handler_factory_method<T>(func);				
 			}
 		
@@ -75,7 +78,7 @@ namespace grpc_services
 				return typeid(UnitServiceImpl).name();
 			}
 
-			contracts::IUnitContext* unit_context_;
+			contracts::IServiceContext* unit_context_;
 
 			UnitServiceImpl(const UnitServiceImpl&) = delete;
 			UnitServiceImpl& operator=(const UnitServiceImpl&) = delete;

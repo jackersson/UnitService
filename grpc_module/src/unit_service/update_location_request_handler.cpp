@@ -1,4 +1,5 @@
 #include <unit_service/update_location_request_handler.hpp>
+#include <helpers/request_adapters.hpp>
 
 namespace grpc_services
 {
@@ -8,8 +9,8 @@ namespace grpc_services
 		{
 			google::protobuf::Empty response;
 
-			//TODO update location in local storage and coordinator
-			context_->repository()->get<DataTypes::Location>()->local()->update(&request_);
+			auto location = services_api::helpers::to_data_location(request_);
+			context_->track_locations()->update(location);
 
 			logger_.info("Coordinator wants update location");
 			responder_.Finish(response, grpc::Status::OK, this);

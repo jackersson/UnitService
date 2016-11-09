@@ -1,17 +1,12 @@
 #ifndef TrackLocationsEngine_Included
 #define TrackLocationsEngine_Included
 
-#include <datatypes/location.pb.h>
-#include <contracts/iunit_context.hpp>
-
-#include <boost/uuid/uuid.hpp>
-
 #include "track_location.hpp"
 #include <contracts/locations/itrack_location_coordinator.hpp>
-#include <data/data_utils.hpp>
 #include "track_locations_container.hpp"
 #include <network_utils.hpp>
 #include <contracts/devices/idevices_container.hpp>
+#include <boost/uuid/uuid_io.hpp>
 
 namespace tracking
 {
@@ -22,7 +17,7 @@ namespace tracking
 			, public contracts::devices::IDevicesSet
 		{
 		public:
-			explicit TrackLocationsEngine(  contracts::IUnitContext* context)
+			explicit TrackLocationsEngine(  contracts::IServiceContext* context)
 				                            : context_(context)
 			{				
 				local_macaddress_ = utils::network::get_mac_address();
@@ -42,63 +37,59 @@ namespace tracking
 				
 			}
 			
-			void update(const DataTypes::Location& location) override {
+			void update(const data_model::Location& location) override {
 				if ( mac_address_valid(location) )
 					upsert(location);
 			}
 
-			void update_with(const std::vector<DataTypes::Location>& locations) override
+			void update_with(const std::vector<data_model::Location>& locations) override
 			{
-				std::set<boost::uuids::uuid> target_locations_set;
+				std::set<data_model::Key> target_locations_set;
 				for (auto location : locations)
 				{
-					boost::uuids::uuid uid;
-					if ( !contracts::data::get_guid(location.id(), uid)
-						 || !mac_address_valid(location))
+					if ( !location.id().is_empty() 
+						|| !mac_address_valid(location))
 						continue;
 
-					target_locations_set.insert(uid);				
-					upsert(location, uid);
+					target_locations_set.insert(location.id());
+					upsert(location);
 				}
 
-				std::vector<boost::uuids::uuid> to_remove;
+				std::vector<data_model::Key> to_remove;
 				if (container_.get_difference(target_locations_set, to_remove))
 					remove_range(to_remove);
 			}
 
 
 			bool contains( const std::string& device_name
-				           , DataTypes::DeviceType dev_type) const override
+				           , data_model::DeviceType dev_type) const override
 			{
 				return container_.contains(device_name, dev_type);
 			}
 			
-			bool contains(const DataTypes::Location& location) const override
+			bool contains(const data_model::Location& location) const override
 			{
-				boost::uuids::uuid uuid;
-				if (!contracts::data::get_guid(location.id(), uuid))
-					return false;
+				if (location.id().is_empty())
+					return false;	
 
+				return container_.contains(location.id());
+			}
+
+			bool contains(const data_model::Key& uuid) const 	{
 				return container_.contains(uuid);
 			}
 
-			bool contains(const boost::uuids::uuid& uuid) const 	{
-				return container_.contains(uuid);
-			}
-
-			bool grant_access(const DataTypes::Location& location) override
+			bool grant_access(const data_model::Location& location) override
 			{
-				//TODO refactor
-				boost::uuids::uuid uuid;
-				if (!contracts::data::get_guid(location.id(), uuid))
+				if (location.id().is_empty())
 				{
 					logger_.error("Grant access failed. Location not found");
 					return false;
 				}
 				try
 				{
-					auto it = container_.find(uuid);
-					it->access_coordinator().set_state(DataTypes::AccessState::Granted);
+					auto it = container_.find(location.id());
+					it->access_coordinator().set_state(data_model::AccessState::Granted);
 				}
 				catch (std::exception& exception) {
 					logger_.error("Grant access failed. {0}", exception.what());
@@ -106,26 +97,17 @@ namespace tracking
 				}
 				return true;
 			}
-
-
-			void upsert(const DataTypes::Location& location)
+			
+			void upsert( const data_model::Location& location  )
 			{
-				boost::uuids::uuid uid;
-				if (!contracts::data::get_guid(location.id(), uid))
+				if (location.id().is_empty())
 				{
 					logger_.error("Error while add location. Uid not valid");
 					return;
 				}
 
-				upsert(location, uid);
-			}
-
-			void upsert( const DataTypes::Location& location
-				         , const boost::uuids::uuid& uid)
-			{
-
 				try {
-					auto existing = container_.find(uid);
+					auto existing = container_.find(location.id());
 					existing->update(location);
 				}
 				catch (std::exception&)
@@ -135,19 +117,18 @@ namespace tracking
 				}
 			}
 
-			void remove(const DataTypes::Location& location)
+			void remove(const data_model::Location& location)
 			{
-				boost::uuids::uuid uid;
-				if (!contracts::data::get_guid(location.id(), uid))
+				if (location.id().is_empty())
 				{
 					logger_.error("Error while remove track location. Uid not valid");
 					return;
 				}
 
-				remove(uid);
+				remove(location.id());
 			}
 
-			void remove(boost::uuids::uuid& uuid)
+			void remove(const data_model::Key& uuid)
 			{
 				try {
 					auto existing = container_.find(uuid);
@@ -159,7 +140,7 @@ namespace tracking
 				}
 			}
 
-			void remove_range(std::vector<boost::uuids::uuid>& uuids)
+			void remove_range(std::vector<data_model::Key>& uuids)
 			{
 				for (auto item : uuids)
 					remove(item);
@@ -171,21 +152,20 @@ namespace tracking
 			}
 
 		private:
-			bool mac_address_valid(const DataTypes::Location& location) const
+			bool mac_address_valid(const data_model::Location& location) const
 			{
 				if (location.unit_mac_address() != local_macaddress_)
 				{
-					logger_.error("Location (id {0}) macaddress is not valid for unit service"
-						, contracts::data::to_string(location.id()));
+					logger_.error( "Location (id {0}) macaddress is not valid for unit service"
+					            	, to_string(location.id().guid()));
 					return false;
 				}
 				return true;
 			}
-
-
-			std::string local_macaddress_;
-			contracts::IUnitContext* context_;
-			TrackLocationsContainer container_;
+			
+			std::string                 local_macaddress_;
+			contracts::IServiceContext* context_         ;
+			TrackLocationsContainer     container_       ;
 
 			mutable contracts::logging::Logger logger_;
 		};

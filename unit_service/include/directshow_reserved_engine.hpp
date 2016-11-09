@@ -2,7 +2,6 @@
 #define DirectShowReservedEngine_Included
 
 #include <contracts/devices/idevices_container.hpp>
-#include <datatypes/devices.pb.h>
 #include <directshow_device_engine.hpp>
 
 class DirectShowReservedEngine
@@ -27,7 +26,7 @@ public:
 	void remove(const std::string& device_name) override {
 		if (reserved_devices_ == nullptr
 			|| !reserved_devices_->contains(device_name
-				, DataTypes::DeviceType::CardReader))
+				, data_model::DeviceType::CardReader))
 			return impl_->remove(device_name);
 	}
 

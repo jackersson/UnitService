@@ -1,7 +1,6 @@
 #ifndef IDeviceUnit_Included
 #define IDeviceUnit_Included
 
-#include <datatypes/location.pb.h>
 #include <contracts/locations/ilocation.hpp>
 #include <contracts/devices/access_device/icommand_result.hpp>
 #include <contracts/devices/video_device/istream_data.hpp>
@@ -27,9 +26,10 @@ namespace tracking
 		public:
 			virtual ~IIdentification() {}
 
-			virtual bool verify(DataTypes::VisitRecord& target, const T& data) = 0;
+			virtual bool verify(data_model::VisitRecord& target, const T& data) = 0;
 
-			virtual DataTypes::VisitRecord* identify(const T& data) = 0;
+			virtual std::shared_ptr<data_model::VisitRecord>
+				      identify(const T& data) = 0;
 		};
 
 		typedef

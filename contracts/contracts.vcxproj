@@ -59,9 +59,6 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\properties\bioskynet_contracts_x32d.props" />
-    <Import Project="..\properties\messages_x32d.props" />
-    <Import Project="..\properties\grpc_x32d.props" />
-    <Import Project="..\properties\protobuf_x32d.props" />
     <Import Project="..\properties\spdlog_x32d.props" />
     <Import Project="..\properties\utils_x32d.props" />
     <Import Project="..\properties\boost_32d.props" />
@@ -168,8 +165,8 @@
     <ClInclude Include="include\contracts\devices\video_device\istream_data.hpp" />
     <ClInclude Include="include\contracts\devices\video_device\ivideo_engine.hpp" />
     <ClInclude Include="include\contracts\iservices.hpp" />
-    <ClInclude Include="include\contracts\iunit_configuration.hpp" />
-    <ClInclude Include="include\contracts\iunit_context.hpp" />
+    <ClInclude Include="include\contracts\iservice_configuration.hpp" />
+    <ClInclude Include="include\contracts\iservice_context.hpp" />
     <ClInclude Include="include\contracts\locations\ilocation.hpp" />
     <ClInclude Include="include\contracts\locations\itrack_location_coordinator.hpp" />
     <ClInclude Include="include\contracts\video\iplayer.hpp" />

@@ -2,7 +2,6 @@
 #include <iostream>
 #include "launcher.hpp"
 
-
 void init()
 {
 	Launcher launcher;
@@ -10,10 +9,8 @@ void init()
 	std::cin.get();
 }
 
-
 int main()
 {
-
 	init();
 	
 	std::cin.get();

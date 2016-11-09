@@ -9,7 +9,6 @@
 #include <contracts/devices/device_observer.hpp>
 #include <observers/observable.hpp>
 #include "commands/command_factory.hpp"
-#include <datatypes/devices.pb.h>
 #include "common/access_device_state.hpp"
 
 namespace access_device
@@ -77,14 +76,14 @@ namespace access_device
 		on_error(const std::exception& exception)  
 	  {
 		  contracts::devices::DeviceException 
-				device_exception(exception.what(), DataTypes::DeviceType::CardReader);
+				device_exception(exception.what(), data_model::DeviceType::CardReader);
 
 			for (auto observer : observers_)
 				observer->on_error(device_exception);
 	  }
 
 		void 
-		on_state(DataTypes::DeviceState state) 
+		on_state(data_model::DeviceState state)
 	  {
 			common::AccessDeviceState ac_state(state);
 			for (auto observer : observers_)

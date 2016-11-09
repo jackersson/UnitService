@@ -1,7 +1,11 @@
 #include "launcher.hpp"
 #include <boost/filesystem.hpp>
+#include <sstream>
+#include <common/ifile_io.hpp>
+#include <service_utils.hpp>
+#include <common/logger.hpp>
 
- const std::string Launcher::CONFIG_NAME = "config.bio";
+const std::string Launcher::CONFIG_NAME = "config.bio";
 
 
  void Launcher::init()
@@ -11,17 +15,16 @@
 	 if (!ok)
 		 return;
 
-	 unit_service_.set_configuration(&configuration_);
-	 unit_service_.init();
+	 service_context_.set_configuration(&configuration_);
+	 service_context_.init();
  }
 
- void Launcher::de_init()
- {	
-	 unit_service_.de_init();
+ void Launcher::de_init() {	
+	 service_context_.de_init();
  }
 
- //TODO refactor
- bool try_load_config(UnitServiceConfiguration& configuration)
+ //TODO to common
+ bool try_load_config(contracts::common::IFileIO& configuration)
  {
 	 std::string path;
 
@@ -33,29 +36,18 @@
 	 path = current_path.string();
 	 if (!exists(current_path))
 	 {
-		 create_file(path);
-		 save_default_config(path);
+		 utils::service::create_file(path);
+		 configuration.save(path);
 
 		 contracts::logging::Logger logger_;
-		 logger_.info( "New config file created. Setup config in {0} "
-			           , path);
+		 logger_.info("New config file created. Setup config in {0} "
+			 , path);
 		 return false;
 	 }
 
 	 auto ok = configuration.load(path);
 	 if (!ok)
-		 save_default_config(path);
+		 configuration.save(path);
 
 	 return true;
- }
-
- void save_default_config(const std::string& filename)
- {
-	 UnitServiceConfiguration::default_configuration().save(filename);
- }
-
- void create_file(const std::string& filename)
- {
-	 std::fstream outfile(filename, std::fstream::out);
-	 outfile.close();
  }

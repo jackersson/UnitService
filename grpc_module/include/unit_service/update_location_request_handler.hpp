@@ -3,8 +3,8 @@
 
 #include <memory>
 #include <helpers/request_handler.hpp>
-#include <contracts/iunit_context.hpp>
-#include <service_base.hpp>
+#include <contracts/iservice_context.hpp>
+#include <async_service_base.hpp>
 
 namespace grpc_services
 {
@@ -15,7 +15,7 @@ namespace grpc_services
 		public:
 			UpdateLocationRequestHandler(services_api::AsyncUnitService* service
 				, grpc::ServerCompletionQueue* completion_queue
-				, contracts::IUnitContext* context)
+				, contracts::IServiceContext* context)
 				: RequestHandler<services_api::AsyncUnitService>(service, completion_queue)
 				, responder_(&server_context_)
 				, context_(context)
@@ -39,7 +39,7 @@ namespace grpc_services
 
 			static void Create(services_api::AsyncUnitService* service
 				                , grpc::ServerCompletionQueue*   completion_queue
-				                , contracts::IUnitContext*       context)
+				                , contracts::IServiceContext*       context)
 			{
 				new UpdateLocationRequestHandler(service, completion_queue, context);
 			}
@@ -47,7 +47,7 @@ namespace grpc_services
 		private:
 			DataTypes::Location  request_;
 			grpc::ServerAsyncResponseWriter<google::protobuf::Empty> responder_;
-			contracts::IUnitContext* context_;
+			contracts::IServiceContext* context_;
 		};
 	}
 }

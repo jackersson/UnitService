@@ -3,7 +3,6 @@
 #include <thread>
 #include <iostream>
 #include <algorithm>
-#include <containers_utils.hpp>
 #include <platform.hpp>
 
 namespace directshow_device
@@ -23,7 +22,7 @@ namespace directshow_device
 	}
 
 	bool DirectshowDeviceEnumerator::connected(const std::string& device_name) const  {
-		return utils::containers::contains<std::string>(devices_, device_name);
+		return find(devices_.begin(), devices_.end(), device_name) != devices_.end();
 	}
 
 	std::vector<std::string> DirectshowDeviceEnumerator::devices() const {
@@ -80,7 +79,7 @@ namespace directshow_device
 		for (auto device_name : actual_)
 		{
 			auto dev_name = device_name.name();
-			if (!utils::containers::contains(devices_, dev_name))
+			if (!connected(dev_name))
 				devices_.push_back(dev_name);
 		}
 	}

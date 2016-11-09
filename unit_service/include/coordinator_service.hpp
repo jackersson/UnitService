@@ -1,42 +1,32 @@
 #ifndef CoordinatorService_Included
 #define CoordinatorService_Included
 
-#include <contracts/iunit_context.hpp>
-#include "coordinator_connector.hpp"
-#include "coordinator_heartbeat.hpp"
+#include <contracts/iservice_context.hpp>
+#include "coordinator_service_connector.hpp"
+#include "coordinator_service_heartbeat.hpp"
 
 class CoordinatorService : public contracts::common::IModule 
+	                       , public contracts::services::ICoordinatorMessages
+	
 {
 public:
-	explicit CoordinatorService( contracts::IUnitContext* context)
-		                         : context_(context)
-	{
-		connector_ = std::make_unique<CoordinatorConnector>(context);
-		heartbeat_ = std::make_unique<CoordinatorHeartbeat>(context, connector_.get());
-	}
+	explicit CoordinatorService(contracts::IServiceContext* context);
 
-	~CoordinatorService()
-	{
+	~CoordinatorService(){
 		CoordinatorService::de_init();
 	}
 
-	void init() override
-	{
-		connector_->init();
-		heartbeat_->init();
-	}
+	void init   () override;
+	void de_init() override;
 
-	void de_init() override
-	{
-		connector_->de_init();
-		heartbeat_->de_init();
-	}
+	data_model::ConnectMsg       connect_msg  () const override;
+	data_model::HeartbeatMessage heartbeat_msg() const override;
 
 private:
-	contracts::IUnitContext* context_;
+	contracts::IServiceContext* context_;
 
-	std::unique_ptr<CoordinatorConnector> connector_;
-	std::unique_ptr<CoordinatorHeartbeat> heartbeat_;
+	std::unique_ptr<services::helpers::CoordinatorConnector> connector_;
+	std::unique_ptr<services::helpers::CoordinatorHeartbeat> heartbeat_;
 };
 
 #endif

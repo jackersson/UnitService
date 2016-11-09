@@ -2,8 +2,8 @@
 #define Launcher_Included
 #include <string>
 
-#include "unit_service_configuration.hpp"
-#include "unit_service.hpp"
+#include "service_configuration.hpp"
+#include "service_context.hpp"
 
 class Launcher : contracts::common::IModule
 {
@@ -16,24 +16,23 @@ public:
 
 	void de_init() override;
 
-	const UnitServiceConfiguration& configuration() const	{
+	const ServiceConfiguration& configuration() const	{
 		return configuration_;
 	}
 
-	UnitService& context() {
-		return unit_service_;
+	ServiceContext& context() {
+		return service_context_;
 	}
 
 	static const std::string CONFIG_NAME; //= "config.bio";
 
 private:
-	UnitServiceConfiguration configuration_;
-	UnitService unit_service_;
+	ServiceConfiguration configuration_  ;
+	ServiceContext       service_context_;
 };
 
 
-bool try_load_config    (UnitServiceConfiguration& configuration);
-void create_file        (const std::string& filename);
-void save_default_config(const std::string& filename);
+bool try_load_config    (contracts::common::IFileIO& configuration);
+
 
 #endif

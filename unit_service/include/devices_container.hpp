@@ -44,41 +44,37 @@ public:
 		return directshow_engine_.get();
 	}
 		
-	void enumerate(DataTypes::Devices& devices) const override
+	void enumerate(data_model::Devices& devices) const override
 	{
 		fill_access_devices(devices);
 		fill_video_devices (devices);		
 	}
 
 	bool contains( const std::string& device_name
-		           , DataTypes::DeviceType dev_type) const override
+		           , data_model::DeviceType dev_type) const override
 	{	
 		throw std::exception("Device container contains - not implemented");
 	}
 
 private:
-	void fill_access_devices(DataTypes::Devices& devices) const
+	void fill_access_devices(data_model::Devices& devices) const
 	{	
 		auto items = access_engine_->device_enumerator().devices();
-		fill_devices(devices, items, DataTypes::DeviceType::CardReader);	
+		fill_devices(devices, items, data_model::DeviceType::CardReader);
 	}
 
-	void fill_video_devices(DataTypes::Devices& devices) const
+	void fill_video_devices(data_model::Devices& devices) const
 	{
 		auto items = directshow_engine_->device_enumerator().devices();
-		fill_devices(devices, items, DataTypes::DeviceType::Capture);	
+		fill_devices(devices, items, data_model::DeviceType::Capture);	
 	}
 
-	static void fill_devices( DataTypes::Devices& devices
+	static void fill_devices( data_model::Devices& devices
 		                      , const std::vector<std::string>& items
-		                      , DataTypes::DeviceType device_type)
+		                      , data_model::DeviceType device_type)
 	{
-		for (auto item : items)
-		{
-			auto dev = devices.add_devices();
-			dev->set_device_name(item);
-			dev->set_device_type(device_type);
-		}
+		for (auto& item : items)
+			devices.add(data_model::Device(item, device_type));			
 	}
 	
 	std::unique_ptr<contracts::devices::access_device::IAccessDeviceEngine>
