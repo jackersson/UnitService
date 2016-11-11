@@ -1,11 +1,10 @@
 #ifndef TestableDatabaseImpl_Included
 #define TestableDatabaseImpl_Included
 
-#include <contracts/services/service_address.hpp>
-#include <client_context.hpp>
-#include <database_service/database_client_impl.hpp>
-#include <data_api.hpp>
+#include <services/service_address.hpp>
+#include <database_service/database_client_data_api.hpp>
 #include <repository_container.hpp>
+#include <database_service/datacontext/datacontext_container.hpp>
 
 namespace data_tests
 {
@@ -15,23 +14,18 @@ namespace data_tests
 		explicit TestableDatabaseImpl(const std::string& address)	
 		{		
 			contracts::services::ServiceAddress database_address(address);
-			grpc_services::ClientContext client_context(database_address, nullptr);
-
-			impl_ = std::make_unique<grpc_services::DatabaseClientImpl>(client_context);
+		
+			impl_ 
+				= std::make_unique<services_api::DatabaseClientDataApi>(database_address);
 			impl_->start();
 
-			api_.set_api(impl_.get());
-
-			datacontext_ = std::make_unique<data_core::DataContextContainer>(api_);
+			datacontext_ 
+				= std::make_unique<services_api::datacontext::DataContextContainer>(impl_.get());
 			datacontext_->init();
 
 			repositories_ 
 				= std::make_unique<data_core::RepositoryContainer>(datacontext_.get());
 			repositories_->init();
-		}
-
-		~TestableDatabaseImpl() {
-			stop();
 		}
 
 		template <typename T>
@@ -44,8 +38,7 @@ namespace data_tests
 		}
 
 	private:
-		std::unique_ptr<grpc_services::DatabaseClientImpl> impl_;
-		data_core::DataApi api_;
+		std::unique_ptr<services_api::DatabaseClientDataApi> impl_;
 		std::unique_ptr<contracts::data::AbstractDataContextContainer> datacontext_;
 		std::unique_ptr<contracts::data::AbstractRepositoryContainer> repositories_;
 	};

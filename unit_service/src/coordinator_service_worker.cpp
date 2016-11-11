@@ -1,11 +1,12 @@
-#include "coordinator_service.hpp"
+#include "coordinator_service_worker.hpp"
 #include <coordinator_utils.hpp>
 #include <contracts/iservice_context.hpp>
 
 using services::helpers::CoordinatorConnector;
 using services::helpers::CoordinatorHeartbeat;
 
-CoordinatorService::CoordinatorService(contracts::IServiceContext* context)
+CoordinatorServiceWorker::CoordinatorServiceWorker(
+	                           contracts::IServiceContext* context)
 	: context_(context)
 {
 	auto coordinator = context->services()->coordinator();
@@ -17,20 +18,19 @@ CoordinatorService::CoordinatorService(contracts::IServiceContext* context)
 			                                      , *this);
 }
 
-void CoordinatorService::init()
+void CoordinatorServiceWorker::init()
 {
 	connector_->init();
 	heartbeat_->init();
 }
 
-void CoordinatorService::de_init()
+void CoordinatorServiceWorker::de_init()
 {
 	connector_->de_init();
 	heartbeat_->de_init();
 }
 
-
-data_model::ConnectMsg CoordinatorService::connect_msg() const
+data_model::ConnectMsg CoordinatorServiceWorker::connect_msg() const
 {
 	return services::helpers::generate_connect_msg(
 	  	context_->configuration().unit_service_port()
@@ -38,7 +38,7 @@ data_model::ConnectMsg CoordinatorService::connect_msg() const
 		, data_model::ServiceType::UnitService);
 }
 
-data_model::HeartbeatMessage CoordinatorService::heartbeat_msg() const
+data_model::HeartbeatMessage CoordinatorServiceWorker::heartbeat_msg() const
 {
 	return services::helpers::generate_heartbeat_msg(
 	  	context_->configuration().service_uuid()

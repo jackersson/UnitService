@@ -26,5 +26,11 @@
     <ClInclude Include="testable_unit_context.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="testable_track_location.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="testable_repository_container.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

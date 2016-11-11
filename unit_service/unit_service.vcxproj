@@ -168,14 +168,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\coordinator_service.cpp" />
+    <ClCompile Include="src\coordinator_service_worker.cpp" />
     <ClCompile Include="src\launcher.cpp" />
     <ClCompile Include="src\service_context.cpp" />
     <ClCompile Include="src\service_configuration.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\access_devices_reserved_engine.hpp" />
-    <ClInclude Include="include\coordinator_service.hpp" />
+    <ClInclude Include="include\coordinator_service_worker.hpp" />
     <ClInclude Include="include\devices_container.hpp" />
     <ClInclude Include="include\directshow_reserved_engine.hpp" />
     <ClInclude Include="include\launcher.hpp" />

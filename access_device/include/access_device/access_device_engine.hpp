@@ -22,11 +22,7 @@ namespace access_device
 		~AccessDeviceEngine()	{
 			AccessDeviceEngine::de_init();
 		}
-
-		bool        grant_access(const std::string& device_name) override;
-		bool        check       (const std::string& device_name) override;
-		std::string get_card    (const std::string& device_name) override;
-
+	
 		void stop_all() override
 		{
 			for ( auto it = devices_.begin(); it != devices_.end(); ++it)

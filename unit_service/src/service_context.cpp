@@ -22,7 +22,7 @@ void ServiceContext::init()
   	= std::make_shared<tracking::locations::TrackLocationsEngine>(this);
 	modules_.push_back(tracking_coordinator_.get());	
 
-	coordinator_service_ = std::make_unique<CoordinatorService>(this);
+	coordinator_service_ = std::make_unique<CoordinatorServiceWorker>(this);
 	modules_.push_back(coordinator_service_.get());
 
 	for (auto module : modules_)

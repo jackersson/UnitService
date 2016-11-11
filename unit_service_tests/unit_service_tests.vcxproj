@@ -61,7 +61,7 @@
     <Import Project="gtest_x32_d.props" />
     <Import Project="..\access_device\access_device_x32d.props" />
     <Import Project="..\grpc_module\protobuf_x32d.props" />
-    <Import Project="..\unit_service\unit_service_x32.props" /> 
+    <Import Project="..\unit_service\unit_service_x32.props" />
     <Import Project="..\grpc_module\grpc_module_x32d.props" />
     <Import Project="..\grpc_module\gflags_x32d.props" />
     <Import Project="..\grpc_module\grpc_x32d.props" />
@@ -71,15 +71,30 @@
     <Import Project="..\directshow_device\directshow_lib.props" />
     <Import Project="..\directshow_device\video_capture_x32d.props" />
     <Import Project="..\directshow_device\opencv_x32d.props" />
+    <Import Project="..\properties\bioskynet_contracts_x32d.props" />
+    <Import Project="..\contracts\contracts_x32d.props" />
+    <Import Project="..\properties\boost_32d.props" />
+    <Import Project="..\properties\utils_x32d.props" />
+    <Import Project="..\properties\serial_port_x32d.props" />
+    <Import Project="..\properties\spdlog_x32d.props" />
+    <Import Project="..\properties\messages_x32d.props" />
+    <Import Project="..\properties\services_api_x32d.props" />
+    <Import Project="..\properties\services_common_x32d.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\properties\services_api_x32d.props" />
+    <Import Project="..\properties\services_common_x32d.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\properties\services_api_x32d.props" />
+    <Import Project="..\properties\services_common_x32d.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\properties\services_api_x32d.props" />
+    <Import Project="..\properties\services_common_x32d.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -159,7 +174,6 @@
     <ClCompile Include="data_core_tests.cpp" />
     <ClCompile Include="directshow_device_tests.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="repository_tests.cpp" />
     <ClCompile Include="track_locations_tests.cpp" />
     <ClCompile Include="unit_service_api_tests.cpp" />
     <ClCompile Include="unit_service_tests.cpp" />

@@ -3,7 +3,7 @@
 
 #include <contracts/iservice_context.hpp>
 #include <contracts/locations/itrack_location_coordinator.hpp>
-#include "coordinator_service.hpp"
+#include "coordinator_service_worker.hpp"
 #include <common/ilifecycle.hpp>
 #include <common/logger.hpp>
 
@@ -54,7 +54,7 @@ private:
 	std::unique_ptr<contracts::devices::IDevicesContainer>        devices_   ;
 	std::unique_ptr<contracts::data::AbstractRepositoryContainer> repository_; 
 	
-	std::unique_ptr<CoordinatorService> coordinator_service_;
+	std::unique_ptr<CoordinatorServiceWorker> coordinator_service_;
 
 	std::list<IModule*> modules_;
 

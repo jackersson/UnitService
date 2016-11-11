@@ -14,19 +14,7 @@ public:
 		: impl_(std::make_unique<access_device::AccessDeviceEngine>())
 		, reserved_devices_(reserved_devices)
 	{	
-	}
-
-	bool grant_access(const std::string& device_name) override {
-		return impl_->grant_access(device_name);
-	}
-
-	bool check(const std::string& device_name) override {
-		return impl_->check(device_name);
-	}
-
-	std::string get_card(const std::string& device_name) override {
-		return impl_->get_card(device_name);
-	}
+	}	
 
 	void stop_all() override {
 		return impl_->stop_all();

@@ -1,21 +1,27 @@
 #include <gtest/gtest.h>
 #include <track_locations_engine.hpp>
 #include <units/access_device_unit.hpp>
+#include "testable_unit_context.hpp"
+#include "testable_track_location.hpp"
+
+using namespace data_model;
+using namespace tracking::locations;
 
 namespace track_locations_tests
 {
-	DataTypes::Location get_location();
-	void get_locations(std::vector<DataTypes::Location>& items, size_t count);	
-	
+	Location get_location ();
+	void     get_locations(std::vector<Location>& items, size_t count);
+	Location get_location_with_device();
+
 	TEST(TrackLocationTests, TrackLocationsContainerTest)
 	{		
-		tracking::locations::TrackLocationsEngine engine(nullptr);
+		TrackLocationsEngine engine(nullptr);
 		engine.init();
 
 		EXPECT_EQ(0, engine.size());
 
 		auto items_count = 2;
-		std::vector<DataTypes::Location> locations;
+		std::vector<Location> locations;
 		get_locations(locations, items_count);
 
 		//accepts vector and initialize it
@@ -45,44 +51,84 @@ namespace track_locations_tests
 		EXPECT_FALSE(false);
 	}
 
-	//TODO connect to controller and watch buttons
+	//Connect to controller and watch lights
 	TEST(TrackLocationTests, AccessDeviceUnitTest)
 	{
 		auto device_name = "COM3";
 
-		tracking::units::AccessDeviceUnitContext context;
-		tracking::units::AccessDeviceObserver unit(context);
-		DataTypes::AccessDevice ac;
-		ac.set_name(device_name);
+		access_device::AccessDeviceEngine engine;
+		engine.init();
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+		
+		tracking::units::AccessDeviceObserver  unit(&engine);
+
+		AccessDevice ac(device_name);
 
 		unit.update(ac);
 		std::this_thread::sleep_for(std::chrono::seconds(1));
 		unit.grant();
 		std::this_thread::sleep_for(std::chrono::seconds(5));
 
-		unit.stop();
+		unit  .stop();
+		engine.de_init();	
 	}
 
-	TEST(TrackLocationTests, TrackLocationTest)
+	//API call to update location in container
+	TEST(TrackLocationTests, TrackLocationContainerUpdateTest)
 	{
+		TrackLocationsContainer container;
 
+		auto location_prev = get_location();
+
+		auto track_location =	std::make_shared<TestableTrackLocation>();
+		track_location->update(location_prev);
+		container.add(track_location);
+
+		auto location_new = get_location();
+		location_new.set_name("NewTestable");
+		location_new.set_unit_mac_address(location_prev.unit_mac_address());
+		location_new.set_id(location_prev.id());
+
+		track_location->update(location_new);
+
+		EXPECT_EQ(location_new, track_location->location());
 	}
 
-	DataTypes::Location get_location()
+	TEST(TrackLocationTests, TrackLocationLifecycleTest)
 	{
-		DataTypes::Location loc;
+		TestableUnitContext context;
+		context.init();
+		
+		auto track_engine = context.track_locations();
+
+		std::vector<Location> locations;
+		locations.push_back(get_location_with_device());
+		track_engine->update_with(locations);
+		std::this_thread::sleep_for(std::chrono::seconds(5));
+
+		context.de_init();
+	}
+
+	Location get_location()
+	{
+		Location loc;
 		loc.set_name("Testable");
-		loc.set_allocated_id(new DataTypes::Key(contracts::data::get_random_key()));
+		loc.set_unit_mac_address(utils::network::get_mac_address());
+		loc.set_id(contracts::data::get_random_data_key());
 		return loc;
 	}
 
-	void get_locations(std::vector<DataTypes::Location>& items, size_t count)
+	Location get_location_with_device()
+	{
+		auto loc = get_location();
+		AccessDevice access_device("COM3");
+		loc.set_access_device(access_device);
+		return loc;
+	}
+
+	void get_locations(std::vector<Location>& items, size_t count)
 	{
 		for (size_t i = 0; i < count; i++)
 			items.push_back(get_location());
 	}
-
-
-
-
 }

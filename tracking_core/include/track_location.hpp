@@ -12,8 +12,7 @@ namespace tracking
 	{
 		class TrackLocation : public contracts::locations::ILocation
 		{
-		public:
-			
+		public:			
 			explicit TrackLocation( contracts::IServiceContext* context)
 				                    : context_(context)
 			{
@@ -28,29 +27,48 @@ namespace tracking
 				                    , contracts::IServiceContext* context)
 				                    : context_(context)
 			{
+				if (context_ == nullptr)
+					throw std::exception("Context can't be null");
+
 				try_resolve_dependencies();
 				TrackLocation::update(object);
 			}		
 
 			void update(const data_model::Location& val ) override
 			{
+				if (!location_.id().is_empty())
+				{
+					if (val.id().is_empty() || location_.id() != val.id())
+						throw std::exception("Track location id != location id");
+				}
+
 				location_ = val;
-				access_coordinator_    ->update(val.access_device ());
-				directshow_device_unit_->update(val.capture_device());
+
+				if (access_coordinator_ != nullptr)
+				  access_coordinator_    ->update(val.access_device ());
+
+				if (directshow_device_unit_ != nullptr)
+			  	directshow_device_unit_->update(val.capture_device());
 			}
 
 			void start() override 
 			{
 				//TODO put to list of ILifecycle
-				directshow_device_unit_->start();
-				access_coordinator_    ->start();
+				//if (directshow_device_unit_ != nullptr)
+			  	//directshow_device_unit_->start();
+
+				if (access_coordinator_ != nullptr)
+				  access_coordinator_    ->start();
 			}
 
 			void stop() override
 			{
 				//TODO put to list of ILifecycle
-				directshow_device_unit_->stop();
-				access_coordinator_    ->stop();
+				if (directshow_device_unit_ != nullptr)
+			  	directshow_device_unit_->stop();
+
+				if (access_coordinator_ != nullptr)
+			  	access_coordinator_    ->stop();
 			}
 
 			void on_target_detected() override {
@@ -98,32 +116,23 @@ namespace tracking
 			}
 
 		private:
-
 			void try_resolve_dependencies()
-			{
-				if (context_ != nullptr)
-				{
-					auto repository = context_->repository();
+			{				
+				auto repository = context_->repository();
+				if (repository == nullptr)
+					throw std::exception("Repository can't be null");
 
-					units::AccessDeviceUnitContext access_device_context_;
-					access_device_context_.repository = repository;
-					access_device_context_.engine     = context_->devices()->access_device_engine();
-					access_coordinator_ 
-						= std::make_unique<units::AccessDeviceObserver>(access_device_context_);
-
-					units::DirectShowDeviceUnitContext directshow_device_context_;
-					directshow_device_context_.repository = repository;
-					directshow_device_context_.engine     = context_->devices()->directshow_device_engine();
-					directshow_device_unit_
-						= std::make_unique<units::DirectShowDeviceUnit>(directshow_device_context_);
-					
-					if (repository != nullptr)
-						visit_records_repository_ = repository->get<data_model::VisitRecord>();
-					else
-						logger_.error("Repository is null");
-				}
-				else
-					logger_.error("Context is null");
+				auto access_device_engine  = context_->devices()->access_device_engine();
+				access_coordinator_  
+					= std::make_unique<units::AccessDeviceObserver>( access_device_engine
+													                                , repository);
+				/*
+				auto direct_show_engine = context_->devices()->directshow_device_engine();
+				directshow_device_unit_
+					= std::make_unique<units::DirectShowDeviceUnit>( direct_show_engine
+						                                             , repository);				
+				*/
+			  visit_records_repository_ = repository->get<data_model::VisitRecord>();			
 			}
 
 			TrackLocation(const TrackLocation& other) = delete;

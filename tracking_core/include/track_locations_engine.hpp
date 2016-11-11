@@ -27,14 +27,10 @@ namespace tracking
 				TrackLocationsEngine::de_init();
 			}
 
-			void init() override
-			{
-				
-			}
+			void init() override	{}
 
-			void de_init() override
-			{
-				
+			void de_init() override	{
+				container_.clear();
 			}
 			
 			void update(const data_model::Location& location) override {
@@ -42,12 +38,18 @@ namespace tracking
 					upsert(location);
 			}
 
+			void add(const data_model::Location& location) override {
+				if (mac_address_valid(location))
+					upsert(location);
+			}
+
 			void update_with(const std::vector<data_model::Location>& locations) override
 			{
 				std::set<data_model::Key> target_locations_set;
+
 				for (auto location : locations)
 				{
-					if ( !location.id().is_empty() 
+					if ( location.id().is_empty() 
 						|| !mac_address_valid(location))
 						continue;
 
@@ -117,7 +119,7 @@ namespace tracking
 				}
 			}
 
-			void remove(const data_model::Location& location)
+			void remove(const data_model::Location& location) override
 			{
 				if (location.id().is_empty())
 				{
@@ -153,7 +155,7 @@ namespace tracking
 
 		private:
 			bool mac_address_valid(const data_model::Location& location) const
-			{
+			{			
 				if (location.unit_mac_address() != local_macaddress_)
 				{
 					logger_.error( "Location (id {0}) macaddress is not valid for unit service"

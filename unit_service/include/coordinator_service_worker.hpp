@@ -1,19 +1,19 @@
-#ifndef CoordinatorService_Included
-#define CoordinatorService_Included
+#ifndef CoordinatorServiceWorker_Included
+#define CoordinatorServiceWorker_Included
 
 #include <contracts/iservice_context.hpp>
 #include "coordinator_service_connector.hpp"
 #include "coordinator_service_heartbeat.hpp"
 
-class CoordinatorService : public contracts::common::IModule 
+class CoordinatorServiceWorker : public contracts::common::IModule 
 	                       , public contracts::services::ICoordinatorMessages
 	
 {
 public:
-	explicit CoordinatorService(contracts::IServiceContext* context);
+	explicit CoordinatorServiceWorker(contracts::IServiceContext* context);
 
-	~CoordinatorService(){
-		CoordinatorService::de_init();
+	~CoordinatorServiceWorker(){
+		CoordinatorServiceWorker::de_init();
 	}
 
 	void init   () override;

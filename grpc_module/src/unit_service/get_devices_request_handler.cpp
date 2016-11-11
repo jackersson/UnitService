@@ -5,7 +5,7 @@ namespace grpc_services
 {
 	namespace unit_service
 	{
-		void GetDevicesRequestHandler::ProcessRequest()
+		void GetDevicesRequestHandler::process_request()
 		{
 			data_model::Devices devices;
 

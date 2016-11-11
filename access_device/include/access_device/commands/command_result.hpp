@@ -15,7 +15,7 @@ namespace access_device
 
 		public:		
 			CommandResult( dev_module module
-				           , std::exception exeption
+				           , const std::exception& exeption
 				           , bool ok
 				           , bool empty)
 				: exception_(exeption)

@@ -16,13 +16,7 @@
 namespace tracking
 {
 	namespace units
-	{	
-		struct AccessDeviceUnitContext
-		{
-			contracts::devices::access_device::IAccessDeviceEngine* engine    ;
-			contracts::data::AbstractRepositoryContainer*           repository;
-		};
-		
+	{			
 		class AccessDeviceObserver :
 			  public contracts::observers::Observable<contracts::locations::ILocation>
 	    , public contracts::devices::IDeviceObserver<ICommandResult>
@@ -35,11 +29,26 @@ namespace tracking
 				AccessDeviceObserver::stop();
 			}
 
-			explicit AccessDeviceObserver	(const AccessDeviceUnitContext& context)			
+			explicit 
+				AccessDeviceObserver
+				(contracts::devices::access_device::IAccessDeviceEngine*	engine ) 
+				: engine_(engine)
+				, persons_repository_(nullptr)
+			{
+				if (engine_ == nullptr)
+					throw std::exception("Access device engine can't be null");				
+			}
+
+			AccessDeviceObserver
+			  ( contracts::devices::access_device::IAccessDeviceEngine*	engine
+				, contracts::data::AbstractRepositoryContainer*           repository)
+				: engine_(engine)
 			{	
-				//TODO handle nulls 
-				engine_             = context.engine;
-				persons_repository_ = context.repository->get<data_model::Person>();
+				if (engine_ == nullptr )
+					throw std::exception("Access device engine can't be null");
+
+				if (repository == nullptr)
+				  persons_repository_ = repository->get<data_model::Person>();
 			}		
 
 			void update(const data_model::AccessDevice& device) override
@@ -69,7 +78,7 @@ namespace tracking
 
 			void start() override
 			{
-				auto dev_name = device_.name;
+				auto dev_name = device_.name();
 				if (dev_name == "")
 				{
 					logger_.error("Device name is not valid");
@@ -82,13 +91,21 @@ namespace tracking
 
 			void stop() override
 			{
-				engine_->unsubscribe(this);
-				engine_->remove(device_.name);
+				try
+				{
+					engine_->unsubscribe(this);
+					engine_->remove(device_.name());
+				}
+				catch (std::exception&)
+				{
+					//TODO not implemented
+				}
+	
 			}
 
 			void grant() const
 			{				
-				engine_->execute( device_.name
+				engine_->execute( device_.name()
 					              , contracts::devices::access_device::lGreenAccess);
 
 				std::future<void> result(std::async([this]()
@@ -98,7 +115,7 @@ namespace tracking
 			}
 
 			void deny() const	{
-				engine_->execute( device_.name
+				engine_->execute( device_.name()
 					              , contracts::devices::access_device::lRedMain);
 			}
 
@@ -165,7 +182,7 @@ namespace tracking
 			AccessDeviceObserver& operator=(const AccessDeviceObserver&) = delete;
 
 			bool device_connected() const	{
-				return engine_->device_enumerator().connected(device_.name);
+				return engine_->device_enumerator().connected(device_.name());
 			}
 
 			void check_buttons(const std::vector<unsigned char>& data) const

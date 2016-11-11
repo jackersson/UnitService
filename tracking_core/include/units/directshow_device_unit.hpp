@@ -34,12 +34,6 @@ namespace tracking
 		};
 		*/
 
-		struct DirectShowDeviceUnitContext
-		{
-			contracts::devices::video_device::IVideoEngine* engine    ;
-			contracts::data::AbstractRepositoryContainer*   repository;
-		};
-
 		class DirectShowDeviceUnit :
 			  public contracts::observers::Observable<contracts::locations::ILocation>
 			, public contracts::devices::IDeviceObserver<IStreamData>
@@ -53,11 +47,25 @@ namespace tracking
 				DirectShowDeviceUnit::stop();
 			}
 
-			explicit DirectShowDeviceUnit(const DirectShowDeviceUnitContext& context)			
+			explicit
+			DirectShowDeviceUnit(contracts::devices::video_device::IVideoEngine* engine)
+				: engine_(engine)
+				, persons_repository_(nullptr)
 			{
-				engine_             = context.engine;
-				persons_repository_ = context.repository->get<data_model::Person>();
-			}			
+				if (engine_ == nullptr)
+					throw std::exception("Access device engine can't be null");
+			}
+
+			DirectShowDeviceUnit(contracts::devices::video_device::IVideoEngine* engine
+			                 	 , contracts::data::AbstractRepositoryContainer* repository)
+				: engine_(engine)
+			{
+				if (engine_ == nullptr)
+					throw std::exception("Access device engine can't be null");
+
+				if (repository == nullptr)
+					persons_repository_ = repository->get<data_model::Person>();
+			}
 
 			void update(const data_model::CaptureDevice& device) override
 			{
@@ -70,7 +78,7 @@ namespace tracking
 					
 			void start() override
 			{
-				auto dev_name = device_.name;
+				auto dev_name = device_.name();
 				if (dev_name == "")
 				{
 					logger_.error("Device name is not valid");
@@ -84,7 +92,7 @@ namespace tracking
 			void stop() override
 			{
 				engine_->unsubscribe(this);
-				engine_->remove(device_.name);
+				engine_->remove(device_.name());
 			}
 					
 
@@ -144,7 +152,7 @@ namespace tracking
 			DirectShowDeviceUnit& operator=(const DirectShowDeviceUnit&) = delete;
 
 			bool device_connected() const {
-				return engine_->device_enumerator().connected(device_.name);
+				return engine_->device_enumerator().connected(device_.name());
 			}
 		
 			void on_target_detected(data_model::VisitRecord& visit_record)

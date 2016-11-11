@@ -4,7 +4,7 @@ namespace grpc_services
 {
 	namespace unit_service
 	{
-		void GetLocationStreamRequestHandler::ProcessRequest()
+		void GetLocationStreamRequestHandler::process_request()
 		{
 			google::protobuf::Empty response;
 			//TODO handle frames
@@ -13,5 +13,6 @@ namespace grpc_services
 			std::cout << "Client wants capture location video stream" << std::endl;
 			//responder_.Finish(response, grpc::Status::OK, this);
 		}
+
 	}
 }

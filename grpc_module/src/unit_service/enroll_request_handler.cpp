@@ -4,7 +4,7 @@ namespace grpc_services
 {
 	namespace unit_service
 	{
-		void EnrollRequestHandler::ProcessRequest()
+		void EnrollRequestHandler::process_request()
 		{
 			DataTypes::Faces response;
 			//TODO implement

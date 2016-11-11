@@ -61,8 +61,8 @@ namespace grpc_services
 			const auto& configuration = context_->configuration();		
 			
 			//database service 
-			//For test, Database service is going to be used
-			std::string address = configuration.database_service_address();
+			//For test, Coordinator service is going to be used
+			auto address = configuration.database_service_address();
 			contracts::services::ServiceAddress database_address(address);
 			database_client_ 
 				= std::make_unique<services_api::DatabaseClientDataApi>(database_address);
@@ -73,7 +73,6 @@ namespace grpc_services
 				= std::make_unique<services_api::datacontext::DataContextContainer>
 				(database_client_.get());
 
-
 			//Coordinator client 			
 			address = configuration.coordinator_service_address();
 			contracts::services::ServiceAddress coordinator_address(address);
@@ -81,7 +80,7 @@ namespace grpc_services
 				= std::make_unique<CoordinatorClient>(context_, coordinator_address);
 			servers_.push_back(coordinator_client_.get());			
 			
-
+			/*
 			//Facial service client 	
 			address = configuration.facial_service_address();
 			contracts::services::ServiceAddress facial_service_address(address);
@@ -89,7 +88,7 @@ namespace grpc_services
 				= std::make_unique<FacialClient>(facial_service_address);
 			servers_.push_back(facial_client_.get());
 
-			
+			*/
 
 			initialized_ = true;
 		}

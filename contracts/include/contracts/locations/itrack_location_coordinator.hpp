@@ -16,7 +16,13 @@ namespace contracts
 				update_with(const std::vector<data_model::Location>& locations) = 0;
 
 			virtual void
+				remove(const data_model::Location& location) = 0;
+
+			virtual void
 				update(const data_model::Location& location) = 0;
+
+			virtual void
+				add   (const data_model::Location& location) = 0;
 
 			virtual bool contains(const data_model::Location& location) const = 0;
 

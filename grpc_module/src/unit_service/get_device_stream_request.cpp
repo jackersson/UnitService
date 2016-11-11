@@ -4,7 +4,7 @@ namespace grpc_services
 {
 	namespace unit_service
 	{
-		void GetDeviceStreamRequestHandler::ProcessRequest()
+		void GetDeviceStreamRequestHandler::process_request()
 		{
 			google::protobuf::Empty response;
 			//TODO handle frames

@@ -21,24 +21,24 @@ namespace grpc_services
 				, responder_(&server_context_)
 				, context_(context)
 			{
-				Proceed();
+				proceed();
 			}
 
-			void CreateRequestHandler() override
+			void create_request_handler() override
 			{
 				new EnrollRequestHandler(service_, server_completion_queue_, context_);
 			}
 
-			void CreateRequest() override
+			void create_request() override
 			{
 				service_->RequestEnroll(&server_context_, &request_
 					, &responder_, server_completion_queue_
 					, server_completion_queue_, this);
 			}
 
-			void ProcessRequest() override;	
+			void process_request() override;
 
-		  static void Create( services_api::AsyncUnitService*            service
+		  static void create( services_api::AsyncUnitService*            service
 				                , grpc::ServerCompletionQueue* completion_queue
 				                , contracts::IServiceContext*     context)
 			{

@@ -20,24 +20,24 @@ namespace grpc_services
 				, responder_(&server_context_)
 				, context_(context)
 			{
-				Proceed();
+				proceed();
 			}
 
-			void CreateRequestHandler() override
+			void create_request_handler() override
 			{
 				new UpdateLocationRequestHandler(service_, server_completion_queue_, context_);
 			}
 
-			void CreateRequest() override
+			void create_request() override
 			{
 				service_->RequestUpdateLocation(&server_context_, &request_
 					, &responder_, server_completion_queue_
 					, server_completion_queue_, this);
 			}
 
-			void ProcessRequest() override;	
+			void process_request() override;
 
-			static void Create(services_api::AsyncUnitService* service
+			static void create( services_api::AsyncUnitService* service
 				                , grpc::ServerCompletionQueue*   completion_queue
 				                , contracts::IServiceContext*       context)
 			{
@@ -45,7 +45,7 @@ namespace grpc_services
 			}
 
 		private:
-			DataTypes::Location  request_;
+			DataTypes::LocationUpdate  request_;
 			grpc::ServerAsyncResponseWriter<google::protobuf::Empty> responder_;
 			contracts::IServiceContext* context_;
 		};

@@ -1,67 +1,67 @@
 #ifndef TestableUnitService_Included
 #define TestableUnitService_Included
 
-#include <contracts/common/ilifecycle.hpp>
-#include <contracts/iunit_context.hpp>
+#include <common/ilifecycle.hpp>
+#include <contracts/iservice_context.hpp>
 #include <contracts/locations/itrack_location_coordinator.hpp>
 #include <list>
 #include <devices_container.hpp>
-#include <services_coordinator.hpp>
-#include <repository_container.hpp>
-#include <track_locations_udapter.hpp>
+//#include <services_coordinator.hpp>
+//#include <repository_container.hpp>
 #include <track_locations_engine.hpp>
-#include <coordinator_service.hpp>
+#include "testable_repository_container.hpp"
 
-class UnitService : public contracts::common::IModule
-	                , public contracts::IUnitContext
+//#include <coordinator_service.hpp>
+
+class TestableUnitContext : public contracts::common::IModule
+	                        , public contracts::IServiceContext
 {
 public:
-	UnitService() : configuration_(nullptr)
-		            , logger_(std::make_unique<contracts::common::Logger>())
+	TestableUnitContext() : configuration_(nullptr)
 	{}
 
-	~UnitService() {
-		UnitService::de_init();
+	~TestableUnitContext() {
+		TestableUnitContext::de_init();
 	}
 
-	void set_configuration(contracts::IUnitConfiguration* configuration) {
+	void set_configuration(contracts::IServiceConfiguration* configuration) {
 		configuration_ = configuration;
 	}
 
 	void init()    override
 	{
-		logger()->info("Unit service start init");
+		logger_.info("Unit service start init");
 
 		devices_ = std::make_unique<DevicesContainer>();
 		devices_->init();
 
-		services_ = std::make_unique<grpc_services::ServicesCoordinator>(this);
+		//services_ = std::make_unique<grpc_services::ServicesCoordinator>(this);
 		//modules_.push_back(services_.get());
 
-		repository_ = std::make_unique<data_core::RepositoryContainer>(this);
+		repository_ = std::make_unique<track_locations_tests::TestableRepositoryContainer>();
 		modules_.push_back(repository_.get());
 
 		tracking_coordinator_
 			= std::make_unique<tracking::locations::TrackLocationsEngine>(this);
 		modules_.push_back(tracking_coordinator_.get());
-
-		track_locations_updator_ = std::make_unique<TrackLocationsUpdater>(this);
-		//modules_.push_back(track_locations_updator_.get());
-
-		coordinator_service_ = std::make_unique<CoordinatorService>(this);
-		//modules_.push_back(coordinator_service_.get());
-
+		
 		for (auto module : modules_)
 		{
 			if (module != nullptr)
 				module->init();
 		}
 
-		logger()->info("Unit service init done");
+		logger_.info("Unit service init done");
 	}
 
 	void de_init() override
 	{
+		for (auto module : modules_)
+		{
+			if (module != nullptr)
+				module->de_init();
+		}
+		modules_.clear();
 	}
 
 	contracts::devices::IDevicesContainer* devices() override {
@@ -75,12 +75,8 @@ public:
 	contracts::services::IServices* services() override {
 		return services_.get();
 	}
-
-	contracts::common::LoggerPtr  logger() override {
-		return logger_;
-	}
-
-	const contracts::IUnitConfiguration& configuration() override {
+	
+	const contracts::IServiceConfiguration& configuration() override {
 		return *configuration_;
 	}
 
@@ -89,17 +85,16 @@ public:
 	}
 
 private:
-	contracts::IUnitConfiguration* configuration_;
+	contracts::IServiceConfiguration* configuration_;
 
 	std::unique_ptr<contracts::locations::ITrackLocationsEngine>  tracking_coordinator_;
 	std::unique_ptr<contracts::services::IServices>               services_;
-	std::shared_ptr<contracts::common::Logger>                    logger_;
 	std::unique_ptr<contracts::devices::IDevicesContainer>        devices_;
 	std::unique_ptr<contracts::data::AbstractRepositoryContainer> repository_;
+	
+	contracts::logging::Logger   logger_;
 
-	std::unique_ptr<TrackLocationsUpdater>	track_locations_updator_;
-
-	std::unique_ptr<CoordinatorService> coordinator_service_;
+	//std::unique_ptr<CoordinatorService> coordinator_service_;
 
 	std::list<IModule*> modules_;
 };

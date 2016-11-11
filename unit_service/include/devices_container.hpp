@@ -30,7 +30,7 @@ public:
 	void de_init() override
 	{
 		access_engine_->de_init();
-		directshow_engine_->init();
+		directshow_engine_->de_init();
 	}
 
 	contracts::devices::access_device::IAccessDeviceEngine*

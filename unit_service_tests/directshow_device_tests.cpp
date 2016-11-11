@@ -3,7 +3,8 @@
 
 namespace directshow_tests
 {
-
+	//TODO to direct show device tests project
+	/*
 	TEST(DirectshowEnumeratorTest, DirectshowDeviceTests)
 	{
 		directshow_device::DirectshowDeviceEnumerator enumerator;
@@ -15,4 +16,5 @@ namespace directshow_tests
 
 		EXPECT_TRUE(true);
 	}
+	*/
 }

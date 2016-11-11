@@ -16,7 +16,7 @@ namespace unit_service_tests
 	//if file not exists it should display path to file and ask to setup it
 	TEST(ConfiguraionTest, LoadingConfiguraionTest)
 	{
-		UnitServiceConfiguration configuration;
+		ServiceConfiguration configuration;
 		try_load_config(configuration);
 
 		EXPECT_FALSE(configuration.empty());

@@ -4,7 +4,7 @@ namespace grpc_services
 {
 	namespace unit_service
 	{
-		void OpenDoorRequestHandler::ProcessRequest()
+		void OpenDoorRequestHandler::process_request()
 		{
 			google::protobuf::Empty response;
 
@@ -13,6 +13,6 @@ namespace grpc_services
 
 			logger_.info("Client wants open door");
 			responder_.Finish(response, grpc::Status::OK, this);
-		}
+		}		
 	}
 }

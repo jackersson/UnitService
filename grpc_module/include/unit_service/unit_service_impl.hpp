@@ -67,7 +67,7 @@ namespace grpc_services
 				services_api::CreateRequestHandlerFunc func 
 					= [this](grpc::ServerCompletionQueue* queue)
 				{
-					T::Create(&service_, queue, unit_context_);
+					T::create(&service_, queue, unit_context_);
 				};
 				//auto func = std::bind( T::Create            , &service_
 					  //                 , std::placeholders::_1, unit_context_ );
