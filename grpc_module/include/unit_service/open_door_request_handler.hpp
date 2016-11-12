@@ -4,21 +4,22 @@
 
 #include <helpers/request_handler.hpp>
 #include <contracts/iservice_context.hpp>
-#include <async_service_base.hpp>
+#include <services/unit_service.grpc.pb.h>
 
 namespace grpc_services
 {
 	namespace unit_service
 	{		
-		class OpenDoorRequestHandler : public RequestHandler<services_api::AsyncUnitService>
+		class OpenDoorRequestHandler 
+			: public RequestHandler<Services::UnitService::AsyncService>
 		{
 		public:
-			OpenDoorRequestHandler(services_api::AsyncUnitService* service
-	                        	, grpc::ServerCompletionQueue* completion_queue
-			                      , contracts::IServiceContext* context )
-	                        	: RequestHandler<services_api::AsyncUnitService>(service, completion_queue )
-		                        ,	responder_(&server_context_)
-			                     	, context_(context)
+			OpenDoorRequestHandler(Services::UnitService::AsyncService* service
+	      , grpc::ServerCompletionQueue* completion_queue
+			  , contracts::IServiceContext* context )
+	      : RequestHandler<Services::UnitService::AsyncService>(service, completion_queue )
+		    ,	responder_(&server_context_)
+			  , context_(context)
 		{
 			if (context_ == nullptr)
 				throw std::exception("Context can't be null");
@@ -47,8 +48,8 @@ namespace grpc_services
 
 		void process_request() override;
 
-		 static void create(services_api::AsyncUnitService*            service
-				               , grpc::ServerCompletionQueue* completion_queue
+		 static void create( Services::UnitService::AsyncService* service
+			                 , grpc::ServerCompletionQueue* completion_queue
 				               , contracts::IServiceContext*     context)
 			{
 				new OpenDoorRequestHandler(service, completion_queue, context);
@@ -61,8 +62,6 @@ namespace grpc_services
 			contracts::devices::access_device::IAccessDeviceEngine* engine_;
 
 			const std::chrono::seconds REQUEST_TIMEOUT = std::chrono::seconds(3);
-
-
 		};		
 	}
 }

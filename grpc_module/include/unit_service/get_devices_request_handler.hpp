@@ -4,22 +4,23 @@
 #include <memory>
 #include <helpers/request_handler.hpp>
 #include <contracts/iservice_context.hpp>
-#include <async_service_base.hpp>
+#include <services/unit_service.grpc.pb.h>
 
 namespace grpc_services
 {
 	namespace unit_service
 	{
 
-		class GetDevicesRequestHandler : public RequestHandler<services_api::AsyncUnitService>
+		class GetDevicesRequestHandler 
+			: public RequestHandler<Services::UnitService::AsyncService>
 		{
 		public:
-			GetDevicesRequestHandler( services_api::AsyncUnitService* service
-				                      , grpc::ServerCompletionQueue*    completion_queue
-			                        , contracts::IServiceContext*       context)
-				                      : RequestHandler<services_api::AsyncUnitService>(service, completion_queue )
-				                      ,	responder_(&server_context_)			
-				                      , context_(context)
+			GetDevicesRequestHandler( Services::UnitService::AsyncService* service
+				, grpc::ServerCompletionQueue*    completion_queue
+			  , contracts::IServiceContext*       context)
+				: RequestHandler<Services::UnitService::AsyncService>(service, completion_queue )
+				,	responder_(&server_context_)			
+				, context_(context)
 			{
 				proceed();
 			}
@@ -38,7 +39,7 @@ namespace grpc_services
 
 			void process_request() override;
 
-			static void create( services_api::AsyncUnitService*            service
+			static void create(Services::UnitService::AsyncService* service
 				                , grpc::ServerCompletionQueue* completion_queue
 				                , contracts::IServiceContext*     context)
 			{

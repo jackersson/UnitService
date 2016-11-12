@@ -3,8 +3,13 @@
 
 #include <common/ilifecycle.hpp>
 #include <contracts/devices/access_device/iaccess_device_engine.hpp>
-#include <data/models/devices.hpp>
 #include "contracts/devices/video_device/ivideo_engine.hpp"
+
+namespace data_model
+{
+	enum  DeviceType;
+	class Devices   ;
+}
 
 namespace contracts
 {

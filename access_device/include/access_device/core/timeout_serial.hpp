@@ -2,7 +2,6 @@
 #define	TIMEOUTSERIAL_H
 
 #include <stdexcept>
-#include <boost/utility.hpp>
 #include <boost/asio.hpp>
 
 /**

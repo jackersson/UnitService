@@ -1,7 +1,6 @@
 #ifndef CommandFactory_Included
 #define CommandFactory_Included
 
-#include <vector>
 #include <map>
 #include <access_device/core/iexecutable_command.hpp>
 #include "rs232_command.hpp"

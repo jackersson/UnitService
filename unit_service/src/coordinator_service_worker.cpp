@@ -1,6 +1,9 @@
 #include "coordinator_service_worker.hpp"
+
 #include <coordinator_utils.hpp>
-#include <contracts/iservice_context.hpp>
+#include <coordinator_service_connector.hpp>
+#include <coordinator_service_heartbeat.hpp>
+#include <data/models/unit.hpp>
 
 using services::helpers::CoordinatorConnector;
 using services::helpers::CoordinatorHeartbeat;

@@ -1,7 +1,10 @@
 #ifndef IDeviceInfo_Included
 #define IDeviceInfo_Included
 
-#include <string>
+namespace data_model
+{
+	class DeviceId;
+}
 
 namespace contracts
 {
@@ -13,7 +16,8 @@ namespace contracts
 		public:	
 			virtual ~IDeviceInfo() {}
 
-			virtual bool try_get_info(const std::string& device_name, T& info) = 0;
+			virtual bool try_get_info( const data_model::DeviceId& device_name
+				                       , T& info) = 0;
 		};
 	}
 }

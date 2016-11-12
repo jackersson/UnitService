@@ -2,19 +2,13 @@
 #define AccessDevicesReservedEngine_Included
 
 #include <contracts/devices/idevices_container.hpp>
-#include <access_device/access_device_engine.hpp>
-#include <datatypes/devices.pb.h>
 
 class AccessDevicesReservedEngine
 	: public contracts::devices::access_device::IAccessDeviceEngine
 {
 public:
 	explicit
-		AccessDevicesReservedEngine(contracts::devices::IDevicesSet* reserved_devices)
-		: impl_(std::make_unique<access_device::AccessDeviceEngine>())
-		, reserved_devices_(reserved_devices)
-	{	
-	}	
+		AccessDevicesReservedEngine(contracts::devices::IDevicesSet* reserved_devices);
 
 	void stop_all() override {
 		return impl_->stop_all();
@@ -24,12 +18,7 @@ public:
 		return impl_->add(device_name);
 	}
 
-	void remove(const std::string& device_name) override {
-		if (reserved_devices_ == nullptr
-			|| !reserved_devices_->contains(device_name
-				, data_model::DeviceType::CardReader))
-			return impl_->remove(device_name);
-	}
+	void remove(const std::string& device_name) override;
 
 	bool is_active(const std::string& device_name) override {
 		return impl_->is_active(device_name);
@@ -41,16 +30,19 @@ public:
 		impl_->execute(device_name, data);
 	}
 
-	void subscribe(access_device::IAccessDeviceObserver* observer
+	void subscribe(contracts::devices::IDeviceObserver
+		<contracts::devices::access_device::ICommandResult>* observer
 		, const std::string& device_name) override {
 		impl_->subscribe(observer, device_name);
 	}
 
-	void unsubscribe(access_device::IAccessDeviceObserver* observer) override {
+	void unsubscribe(contracts::devices::IDeviceObserver
+		              <contracts::devices::access_device::ICommandResult>* observer) override {
 		impl_->unsubscribe(observer);
 	}
 
-	bool has_observer(access_device::IAccessDeviceObserver* observer
+	bool has_observer(contracts::devices::IDeviceObserver
+		               <contracts::devices::access_device::ICommandResult>* observer
 		, const std::string& device_name) override {
 		return impl_->has_observer(observer, device_name);
 	}

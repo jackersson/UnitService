@@ -2,71 +2,36 @@
 #define ServerManager_Included
 
 #include <memory>
-#include <grpc++/grpc++.h>
+//#include <grpc++/grpc++.h>
 #include <services/iservice.hpp>
-#include "unit_service/unit_service_impl.hpp"
+//#include "unit_service/unit_service_impl.hpp"
 #include <contracts/iservice_context.hpp>
+
+namespace grpc
+{
+	class Server;
+}
+
+//namespace unit_service
+//{
+	//class UnitServiceImpl;
+//}
 
 namespace grpc_services
 {
 	class ServerManager : public contracts::services::IService
 	{
 	public:
-		explicit ServerManager(contracts::IServiceContext* context)
-			: active_(false)
-			, initialized_(false)
-			, context_(context)
-		{
-			ServerManager::init();
-		}
+		explicit ServerManager(contracts::IServiceContext* context);
 		
-		virtual ~ServerManager() {
-			ServerManager::de_init();
-		}
+		virtual ~ServerManager();
 
-		void start() override {
-			if (active_)
-				return;
+		void start  () override;
+		void stop   () override;		
+		void init   () override;
+		void de_init() override;
 
-			active_ = true;
-			for (auto it : servers_)
-				it->start();
-		}
-
-		void stop()  override {
-			if (!active_)
-				return;
-			if (server_ != nullptr )
-		  	server_->Shutdown();
-
-			for (auto it : servers_)
-			  it->stop();
-			servers_.clear();
-		}
-		
-		void init() override
-		{
-			if (initialized_)
-				return;
-
-			grpc::ServerBuilder builder;
-			auto port    = context_->configuration().unit_service_port();
-			
-			//Unit service
-			contracts::services::ServiceAddress sa("0.0.0.0", port);
-			unit_service_ = std::make_unique<unit_service::UnitServiceImpl>(
-				sa, &builder, context_);
-			servers_.push_back(unit_service_.get());
-
-			server_ = builder.BuildAndStart();
-			initialized_ = true;
-		}
-
-		void de_init() override
-		{
-			stop();
-		}
-
+	private:
 		bool active_;
 		bool initialized_;
 
@@ -75,10 +40,10 @@ namespace grpc_services
 
 		contracts::IServiceContext* context_;
 
-		std::unique_ptr<unit_service::UnitServiceImpl> unit_service_;
+		//std::unique_ptr<unit_service::UnitServiceImpl> unit_service_;
 
-		std::unique_ptr<grpc::Server>        server_;
-		std::vector<IService*> servers_;
+		std::unique_ptr<grpc::Server>  server_;
+		std::vector<IService*>         servers_;
 
 	};
 

@@ -3,9 +3,10 @@
 
 #include <contracts/iservice_context.hpp>
 #include <contracts/locations/itrack_location_coordinator.hpp>
-#include "coordinator_service_worker.hpp"
 #include <common/ilifecycle.hpp>
-#include <common/logger.hpp>
+#include <logging/logger.hpp>
+
+class CoordinatorServiceWorker;
 
 class ServiceContext : public contracts::common::IModule
 	                   , public contracts::IServiceContext

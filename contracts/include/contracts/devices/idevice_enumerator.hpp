@@ -3,6 +3,10 @@
 
 #include <vector>
 
+namespace data_model{
+	class DeviceId;
+}
+
 namespace contracts {
 	namespace devices
 	{
@@ -11,9 +15,9 @@ namespace contracts {
 		public:
 			virtual ~IDeviceEnumerator() {}
 
-			virtual	bool connected(const std::string& device_name) const = 0;
+			virtual	bool connected(const data_model::DeviceId& device_name) const = 0;
 
-			virtual std::vector<std::string> devices() const = 0;
+			virtual std::vector<data_model::DeviceId> devices() const = 0;
 		};
 	}
 }

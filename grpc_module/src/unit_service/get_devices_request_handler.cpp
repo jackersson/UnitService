@@ -1,5 +1,6 @@
-#include <unit_service/get_devices_request_handler.hpp>
-#include <database_service/database_client_proto_api.hpp>
+#include "unit_service/get_devices_request_handler.hpp"
+
+#include <helpers/request_adapters.hpp>
 
 namespace grpc_services
 {

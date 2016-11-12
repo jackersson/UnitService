@@ -4,7 +4,7 @@
 #include <string>
 #include <map>
 #include <contracts/iservice_configuration.hpp>
-#include <common/logger.hpp>
+#include <logging/logger.hpp>
 #include <common/ifile_io.hpp>
 
 enum ServiceParametrs

@@ -15,7 +15,7 @@ namespace contracts
 			public:
 				virtual ~IAccessDeviceEngine() {}
 
-				virtual void execute( const std::string& device_name
+				virtual void execute( const data_model::DeviceId& device_name
 					                  , lights data = lNone) = 0;
 			};
 

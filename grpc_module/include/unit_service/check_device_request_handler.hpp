@@ -2,25 +2,24 @@
 #define CheckDeviceRequestHandler_Included
 
 #include <memory>
-
 #include <helpers/request_handler.hpp>
 #include <contracts/iservice_context.hpp>
-#include <async_service_base.hpp>
+#include <services/unit_service.grpc.pb.h>
 
 namespace grpc_services
 {
 	namespace unit_service
 	{
 		class CheckDeviceRequestHandler 
-			: public RequestHandler<services_api::AsyncUnitService>			           
+			: public RequestHandler<Services::UnitService::AsyncService>			           
 		{
 		public:
-			CheckDeviceRequestHandler(services_api::AsyncUnitService* service
-				                       , grpc::ServerCompletionQueue* completion_queue
-				                       , contracts::IServiceContext* context)
-				                       : RequestHandler<services_api::AsyncUnitService>(service, completion_queue)
-				                       , responder_(&server_context_)
-				                       , context_(context)
+			CheckDeviceRequestHandler(Services::UnitService::AsyncService* service
+			    , grpc::ServerCompletionQueue* completion_queue
+			    , contracts::IServiceContext* context)
+			    : RequestHandler<Services::UnitService::AsyncService>(service, completion_queue)
+			    , responder_(&server_context_)
+			    , context_(context)
 			{
 				if  (context_ == nullptr)
 					throw std::exception("Context can't be null");
@@ -47,7 +46,7 @@ namespace grpc_services
 					, server_completion_queue_, this);
 			}
 
-			static void create(services_api::AsyncUnitService*            service
+			static void create(Services::UnitService::AsyncService*  service
 				                , grpc::ServerCompletionQueue* completion_queue
 				                , contracts::IServiceContext*     context)
 			{
@@ -55,7 +54,6 @@ namespace grpc_services
 			}
 
 			void process_request() override;
-
 
 		private:
 			void complete(const DataTypes::CheckMsg& response);

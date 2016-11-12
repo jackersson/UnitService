@@ -4,9 +4,13 @@
 #include <contracts/devices/device_observer.hpp>
 #include <common/ilifecycle.hpp>
 #include <contracts/devices/access_device/iaccess_coordinator.hpp>
-#include <data/models/location.hpp>
-#include <data/models/visit_record.hpp>
 #include <memory>
+
+namespace data_model
+{
+	class VisitRecord;
+	class Location   ;
+}
 
 namespace contracts
 {

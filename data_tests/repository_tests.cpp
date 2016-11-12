@@ -6,6 +6,8 @@
 #include <database_service/datacontext/datacontext_container.hpp>
 #include <repository_container.hpp>
 #include "helpers.hpp"
+#include <data/models/card.hpp>
+#include <data/models/queries.hpp>
 
 namespace repository_tests
 {	

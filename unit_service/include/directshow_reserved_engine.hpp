@@ -2,18 +2,13 @@
 #define DirectShowReservedEngine_Included
 
 #include <contracts/devices/idevices_container.hpp>
-#include <directshow_device_engine.hpp>
 
 class DirectShowReservedEngine
 	: public contracts::devices::video_device::IVideoEngine
 {
 public:
 	explicit
-		DirectShowReservedEngine(contracts::devices::IDevicesSet* reserved_devices)
-		: impl_(std::make_unique<directshow_device::DirectShowDeviceEngine>())
-		, reserved_devices_(reserved_devices)
-	{
-	}
+		DirectShowReservedEngine(contracts::devices::IDevicesSet* reserved_devices);
 
 	void stop_all() override {
 		return impl_->stop_all();
@@ -23,27 +18,25 @@ public:
 		return impl_->add(device_name);
 	}
 
-	void remove(const std::string& device_name) override {
-		if (reserved_devices_ == nullptr
-			|| !reserved_devices_->contains(device_name
-				, data_model::DeviceType::CardReader))
-			return impl_->remove(device_name);
-	}
+	void remove(const std::string& device_name) override;
 
 	bool is_active(const std::string& device_name) override {
 		return impl_->is_active(device_name);
 	}
 	
-	void subscribe(IVideoDeviceObserver* observer
+	void subscribe(contracts::devices::IDeviceObserver
+		<contracts::devices::video_device::IStreamData>* observer
 		, const std::string& device_name) override {
 		impl_->subscribe(observer, device_name);
 	}
 
-	void unsubscribe(IVideoDeviceObserver* observer) override {
+	void unsubscribe(contracts::devices::IDeviceObserver
+		<contracts::devices::video_device::IStreamData>* observer) override {
 		impl_->unsubscribe(observer);
 	}
 
-	bool has_observer(IVideoDeviceObserver* observer
+	bool has_observer(contracts::devices::IDeviceObserver
+		<contracts::devices::video_device::IStreamData>* observer
 		, const std::string& device_name) override {
 		return impl_->has_observer(observer, device_name);
 	}

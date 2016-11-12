@@ -1,6 +1,14 @@
 #ifndef ITrackLocationsEngine_Included
 #define ITrackLocationsEngine_Included
 
+#include <common/ilifecycle.hpp>
+#include <vector>
+#include <memory>
+
+namespace data_model{
+	class Location  ;
+	enum  DeviceType;
+}
 
 namespace contracts
 {

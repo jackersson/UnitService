@@ -158,6 +158,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\clients_manager.cpp" />
+    <ClCompile Include="src\coordinator_service\coordinator_client.cpp" />
+    <ClCompile Include="src\facial_service\facial_client.cpp" />
+    <ClCompile Include="src\server_manager.cpp" />
+    <ClCompile Include="src\services_coordinator.cpp" />
     <ClCompile Include="src\unit_service\check_device_request_handler.cpp" />
     <ClCompile Include="src\unit_service\enroll_request_handler.cpp" />
     <ClCompile Include="src\unit_service\get_card_request_handler.cpp" />
@@ -165,6 +170,7 @@
     <ClCompile Include="src\unit_service\get_device_stream_request.cpp" />
     <ClCompile Include="src\unit_service\get_location_stream_request.cpp" />
     <ClCompile Include="src\unit_service\open_door_request_handler.cpp" />
+    <ClCompile Include="src\unit_service\unit_service_impl.cpp" />
     <ClCompile Include="src\unit_service\update_location_request_handler.cpp" />
   </ItemGroup>
   <ItemGroup>

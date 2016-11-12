@@ -5,6 +5,11 @@
 #include <contracts/devices/access_device/icommand_result.hpp>
 #include <contracts/devices/video_device/istream_data.hpp>
 
+namespace data_model
+{
+	class VisitRecord;
+}
+
 namespace tracking
 {
 	namespace units

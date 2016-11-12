@@ -3,41 +3,22 @@
 
 #include <contracts/iservice_context.hpp>
 #include <contracts/iservices.hpp>
-#include "server_manager.hpp"
-#include "clients_manager.hpp"
 
 namespace grpc_services
 {
 	class ServicesCoordinator : public contracts::services::IServices
 	{
 	public:
-		explicit ServicesCoordinator(contracts::IServiceContext* context)			
-			: context_(context)
-		{
-			servers_ = std::make_shared<ServerManager>(context_);
-			clients_ = std::make_shared<ClientManager>(context_);
-		}
-
-		~ServicesCoordinator(){
-			ServicesCoordinator::de_init();
-		}
+		explicit ServicesCoordinator(contracts::IServiceContext* context);
+			
+		~ServicesCoordinator(); 		
 
 		//TODO not need
-		void start() override{}
-		void stop() override{}
+		void start  () override;
+		void stop   () override;
 
-		void init() override
-		{
-			clients_->start();
-			servers_->start();
-		}
-
-		void de_init() override
-		{
-			clients_->stop();
-			servers_->stop();
-		}
-
+		void init   () override;		
+		void de_init() override;	
 
 		contracts::data::AbstractDataContextContainer* database() override {
 			return clients_->database();
@@ -50,12 +31,10 @@ namespace grpc_services
 		contracts::services::ICoordinatorApi* coordinator() override {
 			return clients_->coordinator();
 		}
-
-
 	private:
 		contracts::IServiceContext* context_;
-		ServerManagerPtr servers_;
-		ClientManagerPtr clients_;
+		std::unique_ptr<IService>   servers_;
+		std::unique_ptr<IServices>  clients_;
 	};
 }
 

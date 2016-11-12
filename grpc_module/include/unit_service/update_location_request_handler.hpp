@@ -4,19 +4,20 @@
 #include <memory>
 #include <helpers/request_handler.hpp>
 #include <contracts/iservice_context.hpp>
-#include <async_service_base.hpp>
+#include <services/unit_service.grpc.pb.h>
 
 namespace grpc_services
 {
 	namespace unit_service
 	{
-		class UpdateLocationRequestHandler : public RequestHandler<services_api::AsyncUnitService>
+		class UpdateLocationRequestHandler 
+			: public RequestHandler<Services::UnitService::AsyncService>
 		{
 		public:
-			UpdateLocationRequestHandler(services_api::AsyncUnitService* service
+			UpdateLocationRequestHandler(Services::UnitService::AsyncService* service
 				, grpc::ServerCompletionQueue* completion_queue
 				, contracts::IServiceContext* context)
-				: RequestHandler<services_api::AsyncUnitService>(service, completion_queue)
+				: RequestHandler<Services::UnitService::AsyncService>(service, completion_queue)
 				, responder_(&server_context_)
 				, context_(context)
 			{
@@ -37,9 +38,9 @@ namespace grpc_services
 
 			void process_request() override;
 
-			static void create( services_api::AsyncUnitService* service
-				                , grpc::ServerCompletionQueue*   completion_queue
-				                , contracts::IServiceContext*       context)
+			static void create(Services::UnitService::AsyncService* service
+				                , grpc::ServerCompletionQueue*        completion_queue
+				                , contracts::IServiceContext*         context)
 			{
 				new UpdateLocationRequestHandler(service, completion_queue, context);
 			}

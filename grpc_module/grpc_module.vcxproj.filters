@@ -25,6 +25,12 @@
     <Filter Include="includes\facial_service">
       <UniqueIdentifier>{ffee3599-dbe6-4b38-a30e-9fefa5f65b1c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\coordinator_service">
+      <UniqueIdentifier>{06f11765-15cf-48c8-ada7-cd3f9a5745cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\facial_service">
+      <UniqueIdentifier>{3201b3af-cb38-4ea6-8ef4-290a0c8be810}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\unit_service\check_device_request_handler.cpp">
@@ -52,6 +58,24 @@
       <Filter>Source Files\unit_service</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\coordinator_service\coordinator_client.cpp">
+      <Filter>Source Files\coordinator_service</Filter>
+    </ClCompile>
+    <ClCompile Include="src\facial_service\facial_client.cpp">
+      <Filter>Source Files\facial_service</Filter>
+    </ClCompile>
+    <ClCompile Include="src\unit_service\unit_service_impl.cpp">
+      <Filter>Source Files\unit_service</Filter>
+    </ClCompile>
+    <ClCompile Include="src\clients_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\server_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\services_coordinator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

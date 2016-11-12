@@ -1,5 +1,7 @@
-#include <unit_service/update_location_request_handler.hpp>
+#include "unit_service/update_location_request_handler.hpp"
+
 #include <helpers/request_adapters.hpp>
+#include <data/models/location.hpp>
 
 using namespace services_api::helpers;
 

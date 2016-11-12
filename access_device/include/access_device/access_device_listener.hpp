@@ -2,17 +2,26 @@
 #define AccessDeviceListener_Included
 
 #include <queue>
-
 #include <threadable.hpp>
 #include <access_device/core/iexecutable_command.hpp>
 #include <mutex>
 #include <contracts/devices/device_observer.hpp>
 #include <observers/observable.hpp>
 #include "commands/command_factory.hpp"
-#include "common/access_device_state.hpp"
+#include <contracts/devices/idevice_info.hpp>
+
+namespace data_model{
+	class DeviceId;
+}
+
 
 namespace access_device
 {	
+
+	namespace commands {
+		class CommandFactory;
+	}
+
 	typedef contracts::devices::access_device::ICommandResult ICommandResult;
 	typedef contracts::devices::IDeviceObserver<ICommandResult> IAccessDeviceObserver;
 	typedef std::shared_ptr<IAccessDeviceObserver> IAccessDeviceObserverPtr;
@@ -22,18 +31,10 @@ namespace access_device
 		                   
 	{
 	public:
-		explicit AccessDeviceListener(std::string device_name)
-			: factory_(0)
-			, device_name_(device_name)
-			, serial_port_()
-			, need_to_ask_buttons_(false)
-			, need_to_recover_(false)
-		{
-			
-		}
-		~AccessDeviceListener()	{
-			AccessDeviceListener::stop();
-		}
+		explicit AccessDeviceListener(const data_model::DeviceId& device_name
+		,  contracts::devices::IDeviceInfo<data_model::DeviceId>* device_holder);
+		
+		~AccessDeviceListener();
 
 		void stop() override;
 
@@ -72,30 +73,10 @@ namespace access_device
 
 		void open(); 
 
-		void 
-		on_error(const std::exception& exception)  
-	  {
-		  contracts::devices::DeviceException 
-				device_exception(exception.what(), data_model::DeviceType::CardReader);
+		void on_error(const std::exception& exception);
+		void on_state(data_model::DeviceState state);
 
-			for (auto observer : observers_)
-				observer->on_error(device_exception);
-	  }
-
-		void 
-		on_state(data_model::DeviceState state)
-	  {
-			common::AccessDeviceState ac_state(state);
-			for (auto observer : observers_)
-				observer->on_state(ac_state);
-	  }
-
-		void 
-		on_next(contracts::devices::access_device::ICommandResultPtr data)
-	  {
-			for (auto observer : observers_)
-				observer->on_next(*data.get());
-	  }
+		void on_next(contracts::devices::access_device::ICommandResultPtr data);
 
 		core::IExecutableCommandPtr dequeue();
 
@@ -108,7 +89,9 @@ namespace access_device
 
 		std::recursive_mutex mutex_;
 
-		std::string device_name_;
+		contracts::devices::IDeviceInfo<data_model::DeviceId>* devices_holder_;
+		std::unique_ptr<data_model::DeviceId> device_name_;
+
 		std::queue<core::IExecutableCommandPtr> commands_;
 
 		TimeoutSerial serial_port_;

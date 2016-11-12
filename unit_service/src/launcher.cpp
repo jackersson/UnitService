@@ -3,7 +3,7 @@
 #include <sstream>
 #include <common/ifile_io.hpp>
 #include <service_utils.hpp>
-#include <common/logger.hpp>
+#include <logging/logger.hpp>
 
 const std::string Launcher::CONFIG_NAME = "config.bio";
 

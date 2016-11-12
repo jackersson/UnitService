@@ -1,7 +1,29 @@
-#include <access_device/access_device_listener.hpp>
+#include "access_device/access_device_listener.hpp"
+
+#include <data/models/devices.hpp>
+#include <contracts/devices/idevice_info.hpp>
+
+using namespace data_model;
+using namespace contracts::devices::access_device;
 
 namespace access_device
 {
+	AccessDeviceListener::AccessDeviceListener(const DeviceId& device_name
+	, contracts::devices::IDeviceInfo<DeviceId>* device_holder)
+		: factory_(device_name.serial_number())
+		, device_name_(std::make_unique<DeviceId>(device_name))
+		, serial_port_()
+		, need_to_ask_buttons_(false)
+		, need_to_recover_(false)
+		, devices_holder_(device_holder)
+	{
+
+	}
+
+	AccessDeviceListener::~AccessDeviceListener() {
+		AccessDeviceListener::stop();
+	}
+
 	void AccessDeviceListener::stop()
 	{
 		Threadable::stop();
@@ -55,7 +77,7 @@ namespace access_device
 		}
 		else
 		{
-			on_state(data_model::DeviceState::Active);
+			on_state(Active);
 			unlock();
 		}
 	}
@@ -69,7 +91,7 @@ namespace access_device
 	{
 		if (!need_to_recover_)
 			return;
-		execute<commands::LightCommandImpl>(contracts::devices::access_device::lights::lRedMain);
+		execute<commands::LightCommandImpl>(lRedMain);
 		need_to_recover_ = false;
 	}
 
@@ -86,22 +108,26 @@ namespace access_device
 
 		try
 		{
-			serial_port_.open(device_name_, BAUD_RATE);
+			DeviceId di;
+			if (!devices_holder_->try_get_info(*device_name_, di))
+				return;
+
+			serial_port_.open(di.name(), BAUD_RATE);
+			//TODO const
 			serial_port_.set_timeout(boost::posix_time::millisec(100));
-			if (!factory_.reset(serial_port_))
-				std::cout << "Can't reset device" << std::endl; //TODO maybe to log
+			if (!factory_.reset(serial_port_)) //TODO maybe to log
+				std::cout << "Can't reset device" << std::endl; 
 
-			execute<commands::LightCommandImpl>(contracts::devices::access_device::lights::lRedMain);
+			execute<commands::LightCommandImpl>(lRedMain);
 
-			on_state(data_model::DeviceState::Active);
+			on_state(Active);
 
 			need_to_recover_ = false;
 		}
 		catch (std::exception& exception) {
 			on_error(exception);
 		}
-	}
-	
+	}	
 
 	core::IExecutableCommandPtr AccessDeviceListener::dequeue()
 	{
@@ -123,6 +149,31 @@ namespace access_device
 		else
 			execute<commands::DallasCommandImpl>();
 		need_to_ask_buttons_ = !need_to_ask_buttons_;
+	}
+
+	void
+		AccessDeviceListener::on_error(const std::exception& exception)
+	{
+		contracts::devices::DeviceException
+			device_exception(exception.what(), CardReader);
+
+		for (auto observer : observers_)
+			observer->on_error(device_exception);
+	}
+
+	void
+		AccessDeviceListener::on_state(DeviceState state)
+	{
+		common::AccessDeviceState ac_state(state);
+		for (auto observer : observers_)
+			observer->on_state(ac_state);
+	}
+
+	void
+		AccessDeviceListener::on_next(ICommandResultPtr data)
+	{
+		for (auto observer : observers_)
+			observer->on_next(*data.get());
 	}
 }
 

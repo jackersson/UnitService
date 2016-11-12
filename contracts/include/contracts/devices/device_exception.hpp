@@ -2,7 +2,13 @@
 #define DeviceException_Included
 
 #include <exception>
-#include <data/models/devices.hpp>
+#include <string>
+
+namespace data_model
+{
+	class Devices   ;	
+	enum  DeviceType;
+}
 
 namespace contracts
 {

@@ -5,6 +5,11 @@
 #include <contracts/devices/idevice_enumerator.hpp>
 #include <common/ilifecycle.hpp>
 
+namespace data_model
+{
+	class DeviceId;
+}
+
 namespace contracts
 {
 	namespace locations
@@ -16,9 +21,9 @@ namespace contracts
 
 			virtual void stop_all() = 0;
 
-			virtual void add      (const std::string& device_name) = 0;												    
-			virtual void remove   (const std::string& device_name) = 0;
-			virtual bool is_active(const std::string& device_name) = 0;
+			virtual void add      (const data_model::DeviceId& device_name) = 0;												    
+			virtual void remove   (const data_model::DeviceId& device_name) = 0;
+			virtual bool is_active(const data_model::DeviceId& device_name) = 0;
 
 			virtual const devices::IDeviceEnumerator& device_enumerator() const = 0;
 		};
@@ -33,7 +38,7 @@ namespace contracts
 
 			virtual void 
 				subscribe( devices::IDeviceObserver<T>* observer
-				         , const std::string& device_name) = 0;
+				         , const data_model::DeviceId& device_name) = 0;
 
 
 			virtual void 
@@ -42,7 +47,7 @@ namespace contracts
 
 			virtual bool 
 				has_observer(devices::IDeviceObserver<T>* observer
-				            , const std::string& device_name) = 0;
+				            , const data_model::DeviceId& device_name) = 0;
 
 			virtual void unsubscribe_all() = 0;
 			

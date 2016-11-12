@@ -2,11 +2,18 @@
 #define CoordinatorServiceWorker_Included
 
 #include <contracts/iservice_context.hpp>
-#include "coordinator_service_connector.hpp"
-#include "coordinator_service_heartbeat.hpp"
+
+namespace services
+{
+	namespace helpers
+	{
+		class CoordinatorConnector;
+		class CoordinatorHeartbeat;
+	}
+}
 
 class CoordinatorServiceWorker : public contracts::common::IModule 
-	                       , public contracts::services::ICoordinatorMessages
+	                             , public contracts::services::ICoordinatorMessages
 	
 {
 public:

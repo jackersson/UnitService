@@ -1,175 +1,48 @@
 #ifndef AccessDeviceEngine_Included
 #define AccessDeviceEngine_Included
 
-#include <boost/asio.hpp>
 #include "serial_port_enumerator.hpp"
 #include "access_device_listener.hpp"
 #include <concurrent_containers.hpp>
 #include <contracts/devices/access_device/iaccess_device_engine.hpp>
 
 namespace access_device
-{
-	
+{	
 	class AccessDeviceEngine 
 		: public contracts::devices::access_device::IAccessDeviceEngine
 	{
 	public:
-		AccessDeviceEngine()
-		{
-			AccessDeviceEngine::init();
-		}
+		AccessDeviceEngine ();
+		~AccessDeviceEngine();
 
-		~AccessDeviceEngine()	{
-			AccessDeviceEngine::de_init();
-		}
-	
-		void stop_all() override
-		{
-			for ( auto it = devices_.begin(); it != devices_.end(); ++it)
-				it->second->stop();
-						
-			devices_.clear();
-		}
+		void stop_all() override;
 
-		void add(const std::string& device_name) override
-		{
-			if (device_name == "")
-				return;
+		void add      (const data_model::DeviceId& device_name) override;
+		void remove   (const data_model::DeviceId& device_name) override;
+		bool is_active(const data_model::DeviceId& device_name) override;
 
-			if (devices_.contains(device_name))
-				return;
-
-			//TODO will be device number
-			auto listener = std::make_shared<AccessDeviceListener>(device_name);
-			listener->start();
-			devices_.insert(device_name, listener);
-		}
-
-		void remove(const std::string& device_name) override
-		{
-			if (device_name == "")
-				return;
-
-			try
-			{
-				const auto& listener = devices_.find(device_name);
-				listener->stop();
-				devices_.remove(device_name);
-			}
-			catch (std::exception&) {
-				//Not implemented
-			}			
-		}
-
-		bool is_active(const std::string& device_name) override
-		{
-			if (device_name == "")
-				return false;
-
-			try
-			{
-				auto& listener = devices_.find(device_name);
-				return listener->active();
-			}
-			catch (std::exception&) {
-				return false;
-			}	
-		}
-
-		void execute(const std::string& device_name
+		void execute(const data_model::DeviceId&
 			, contracts::devices::access_device::lights data
-			= contracts::devices::access_device::lNone) override
-		{
-			if (device_name == "")
-				return;
-
-			try
-			{
-				auto& listener = devices_.find(device_name);
-				return listener->execute<commands::LightCommandImpl>(data);
-			}
-			catch (std::exception&) {
-				//Not implemented
-			}
-		}
+			= contracts::devices::access_device::lNone) override;
 			
 
-		void subscribe( IAccessDeviceObserver* observer
-				          , const std::string& device_name) override
-		{
-			
-			if (device_name == "")
-				return;
+		void subscribe   ( IAccessDeviceObserver*      observer
+			               , const data_model::DeviceId& device_name) override;
 
-			try
-			{
-				auto& listener = devices_.find(device_name);
-		  	return listener->subscribe(observer);
-			}
-			catch (std::exception&)	{
-				//Not implemented
-			}
-			
-		}
-
-		void unsubscribe(IAccessDeviceObserver* observer) override
-		{
-			for ( auto it : devices_) {
-				it.second->unsubscribe(observer);
-			}		
-		}
+		void unsubscribe (IAccessDeviceObserver* observer) override;
 
 		bool has_observer( IAccessDeviceObserver* observer
-			               , const std::string& device_name) override
-		{
-			
-			if (device_name == "")
-				return false;
-			try
-			{
-				auto& listener = devices_.find(device_name);
-				return listener->has_observer(observer);
-			}
-			catch (std::exception&) {
-				return false;
-			}		
+			               , const data_model::DeviceId& device_name) override;
 
-		}
-
-		void unsubscribe_all() override
-		{
-			for (auto it : devices_) {
-				it.second->unsubscribe_all();
-			}
-		}
+		void unsubscribe_all() override;
 		
-		const contracts::devices::IDeviceEnumerator& device_enumerator() const override
-		{
-			return device_enumerator_;
-		}	
+		const contracts::devices::IDeviceEnumerator& device_enumerator() const override;
 
-		void de_init() override
-		{
-			stop_all();
-			device_enumerator_.stop();
-		}
+		void de_init() override;
 
-		void init() override
-		{
-			device_enumerator_.start();
-		}
+		void init() override;
 
-		bool contains_key(std::string key)
-		{
-			try
-			{
-				devices_.find(key);
-				return true;
-			}
-			catch (std::exception&)	{
-				return false;
-			}
-		}
+		bool contains_key(const data_model::DeviceId& key);
 
 		private:
 			
@@ -177,7 +50,8 @@ namespace access_device
 		AccessDeviceEngine& operator=(const AccessDeviceEngine&) = delete;
 
 		SerialPortEnumerator device_enumerator_;
-		concurrent::containers::ConcurrentMap<std::string, AccessDeviceListenerPtr> devices_;
+		concurrent::containers::ConcurrentMap<data_model::DeviceId
+			                            , AccessDeviceListenerPtr> devices_;
 
 	};
 	

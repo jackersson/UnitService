@@ -2,7 +2,12 @@
 #define IDeviceObserver_Included
 
 #include <contracts/devices/device_exception.hpp>
-#include <data/models/devices.hpp>
+
+namespace data_model
+{
+	enum DeviceState;
+}
+
 namespace contracts
 {
 	namespace devices

@@ -1,8 +1,12 @@
 #ifndef IAccessCoordinator_Included
 #define IAccessCoordinator_Included
 
-#include <data/models/devices.hpp>
-#include <data/models/visit_record.hpp>
+namespace data_model
+{
+	class AccessDevice ;
+	enum  AccessState  ;
+	class CaptureDevice;
+}
 
 namespace contracts
 {

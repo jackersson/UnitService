@@ -57,6 +57,9 @@
     <ClCompile Include="src\access_device\commands\command_factory.cpp">
       <Filter>src\access_device\commands</Filter>
     </ClCompile>
+    <ClCompile Include="src\access_device\serial_port_enumerator.cpp">
+      <Filter>src\access_device</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\access_device\access_device_engine.hpp">

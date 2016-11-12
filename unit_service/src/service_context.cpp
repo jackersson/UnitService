@@ -1,8 +1,10 @@
 #include "service_context.hpp"
+
 #include <repository_container.hpp>
 #include <devices_container.hpp>
 #include <track_locations_engine.hpp>
 #include <services_coordinator.hpp>
+#include "coordinator_service_worker.hpp"
 
 void ServiceContext::init()
 {

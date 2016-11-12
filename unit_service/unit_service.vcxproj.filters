@@ -30,6 +30,12 @@
     <ClCompile Include="src\coordinator_service_worker.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\access_device_reserved_engine.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\directshow_reserved_engine.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\devices_container.hpp">

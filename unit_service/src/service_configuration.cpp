@@ -2,9 +2,18 @@
 #include <string>
 #include <property_tree/ptree_fwd.hpp>
 #include <property_tree/json_parser.hpp>
-#include <data/data_utils.hpp>
+#include <boost/uuid/uuid.hpp>            
+#include <boost/uuid/uuid_generators.hpp> 
+#include <boost/uuid/uuid_io.hpp>         
+
 
 typedef std::pair<ServiceParametrs, std::string> ServiceParametr;
+
+std::string generate_random_guid()
+{
+	auto guid = boost::uuids::random_generator()();
+	return to_string(guid);
+}
 
 std::map<ServiceParametrs, std::string> ServiceConfiguration::parametrs_ =
 {
@@ -22,7 +31,8 @@ ServiceConfiguration ServiceConfiguration::default_configuration()
 	config.set_coordinator_service_address("127.0.0.1:49095");
 	config.set_database_service_address   ("127.0.0.1:49065");
 	config.set_unit_service_port          (50053            );
-	config.set_service_uuid(contracts::data::get_random_guid());
+
+	config.set_service_uuid(generate_random_guid());
 	return config;
 }
 

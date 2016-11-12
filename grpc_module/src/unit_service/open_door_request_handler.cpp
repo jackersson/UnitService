@@ -1,5 +1,7 @@
 #include <unit_service/open_door_request_handler.hpp>
 #include <helpers/request_adapters.hpp>
+#include <data/models/location.hpp>
+
 namespace grpc_services
 {
 	namespace unit_service

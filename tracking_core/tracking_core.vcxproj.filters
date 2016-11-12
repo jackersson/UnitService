@@ -16,9 +16,27 @@
     <Filter Include="includes\units">
       <UniqueIdentifier>{ca700e54-388f-40b9-a067-e2607b1c5782}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\units">
+      <UniqueIdentifier>{c8108a02-798a-4e36-bd60-5afb96e6aed7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\units\access_device_unit.cpp">
+      <Filter>Source Files\units</Filter>
+    </ClCompile>
+    <ClCompile Include="src\units\directshow_device_unit.cpp">
+      <Filter>Source Files\units</Filter>
+    </ClCompile>
+    <ClCompile Include="src\track_location.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\track_location_container.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\track_location_engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

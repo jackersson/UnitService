@@ -150,6 +150,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\track_location.cpp" />
+    <ClCompile Include="src\track_location_container.cpp" />
+    <ClCompile Include="src\track_location_engine.cpp" />
+    <ClCompile Include="src\units\access_device_unit.cpp" />
+    <ClCompile Include="src\units\directshow_device_unit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\track_location.hpp" />

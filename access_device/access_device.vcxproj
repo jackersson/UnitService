@@ -153,6 +153,7 @@
     <ClCompile Include="src\access_device\access_device_listener.cpp" />
     <ClCompile Include="src\access_device\commands\command_factory.cpp" />
     <ClCompile Include="src\access_device\core\timeout_serial.cpp" />
+    <ClCompile Include="src\access_device\serial_port_enumerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\access_device\access_device_engine.hpp" />
