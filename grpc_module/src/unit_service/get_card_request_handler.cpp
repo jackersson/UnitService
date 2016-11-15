@@ -1,6 +1,8 @@
 #include "unit_service/get_card_request_handler.hpp"
 #include <future>
 
+#include <data/models/devices.hpp>
+
 using namespace contracts::devices;
 
 namespace grpc_services
@@ -14,9 +16,10 @@ namespace grpc_services
 
 			if (request_.device_type() == DataTypes::DeviceType::CardReader)
 			{
-				auto& dev_name = request_.device_name();
-				engine_->add(dev_name);
-				engine_->subscribe(this, dev_name);
+				data_model::DeviceId dev("any"
+					                      , static_cast<uint16_t>(request_.serial_number()));
+				engine_->add(dev);
+				engine_->subscribe(this, dev);
 				wait_for_complete_request();
 			}
 			else
@@ -31,16 +34,17 @@ namespace grpc_services
 
 		void GetCardRequestHandler::on_next(const access_device::ICommandResult& data)
 		{
-			if (data.module() == access_device::Dallas)
+			if (data.device_module() == access_device::Dallas)
 			{
 				DataTypes::CardMsg response;
-				response.set_card_num(data.to_string());
+				response.set_card_num(data.get_dallas_key());
 			}
 		}
 
 		void GetCardRequestHandler::complete(const DataTypes::CardMsg& response)
 		{
-			engine_->remove(request_.device_name());
+			engine_->remove(data_model::DeviceId("any"
+				             , static_cast<uint16_t>(request_.serial_number())));
 			engine_->unsubscribe(this);
 
 			logger_.info("Get card request done {0}", response.card_num());

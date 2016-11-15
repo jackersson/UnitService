@@ -9,6 +9,7 @@ namespace data_model
 {
 	enum  DeviceType;
 	class Devices   ;
+	class DeviceId  ;
 }
 
 namespace contracts
@@ -20,7 +21,7 @@ namespace contracts
 		public:
 			virtual ~IDevicesSet() {}
 
-			virtual bool contains( const std::string& device_name
+			virtual bool contains( const data_model::DeviceId& device_name
 				                   , data_model::DeviceType dev_type) const = 0;
 		};
 

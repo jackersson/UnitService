@@ -1,6 +1,7 @@
 #include "unit_service/get_devices_request_handler.hpp"
 
 #include <helpers/request_adapters.hpp>
+#include <data/models/devices.hpp>
 
 namespace grpc_services
 {

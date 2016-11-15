@@ -36,6 +36,9 @@
     <ClCompile Include="src\directshow_reserved_engine.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\devices_container.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\devices_container.hpp">

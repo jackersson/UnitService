@@ -14,19 +14,19 @@ public:
 		return impl_->stop_all();
 	}
 
-	void add(const std::string& device_name) override {
+	void add(const data_model::DeviceId& device_name) override {
 		return impl_->add(device_name);
 	}
 
-	void remove(const std::string& device_name) override;
+	void remove(const data_model::DeviceId& device_name) override;
 
-	bool is_active(const std::string& device_name) override {
+	bool is_active(const data_model::DeviceId& device_name) override {
 		return impl_->is_active(device_name);
 	}
 	
 	void subscribe(contracts::devices::IDeviceObserver
 		<contracts::devices::video_device::IStreamData>* observer
-		, const std::string& device_name) override {
+		, const data_model::DeviceId& device_name) override {
 		impl_->subscribe(observer, device_name);
 	}
 
@@ -37,7 +37,7 @@ public:
 
 	bool has_observer(contracts::devices::IDeviceObserver
 		<contracts::devices::video_device::IStreamData>* observer
-		, const std::string& device_name) override {
+		, const data_model::DeviceId& device_name) override {
 		return impl_->has_observer(observer, device_name);
 	}
 
@@ -45,8 +45,8 @@ public:
 		return impl_->unsubscribe_all();
 	}
 
-	const contracts::devices::IDeviceEnumerator& device_enumerator() const override {
-		return impl_->device_enumerator();
+	void enumerate_devices(std::vector<data_model::DeviceId>& devs) override {
+		return impl_->enumerate_devices(devs);
 	}
 
 	void de_init() override {

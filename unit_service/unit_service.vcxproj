@@ -170,6 +170,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\access_device_reserved_engine.cpp" />
     <ClCompile Include="src\coordinator_service_worker.cpp" />
+    <ClCompile Include="src\devices_container.cpp" />
     <ClCompile Include="src\directshow_reserved_engine.cpp" />
     <ClCompile Include="src\launcher.cpp" />
     <ClCompile Include="src\service_context.cpp" />

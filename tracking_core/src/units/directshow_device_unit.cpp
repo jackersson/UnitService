@@ -48,28 +48,26 @@ namespace tracking
 
 		void DirectShowDeviceUnit::start() 
 		{
-			auto dev_name = device_->name();
-			if (dev_name == "")
+			if (device_->is_empty())
 			{
 				logger_.error("Device name is not valid");
 				return;
 			}
 
-			engine_->add(dev_name);
-			engine_->subscribe(this, dev_name);
+			engine_->add(*device_);
+			engine_->subscribe(this, *device_);
 		}
 
 		void DirectShowDeviceUnit::stop() 
 		{
 			engine_->unsubscribe(this);
-			engine_->remove(device_->name());
+			engine_->remove(*device_);
 		}
 
-
-		bool DirectShowDeviceUnit::verify(data_model::VisitRecord& target
-			, const contracts::devices::video_device::IRawImage& data) 
+		bool DirectShowDeviceUnit::verify( VisitRecord& target
+			                               , const video_device::IRawImage& data) 
 		{
-			data_model::FaceCharacteristics face;// = try_extract_card(data, card);
+			FaceCharacteristics face;// = try_extract_card(data, card);
 			target.set_face(face);
 			return true;
 		}
@@ -116,10 +114,6 @@ namespace tracking
 				return;
 			//TODO async process
 		}			
-
-		bool DirectShowDeviceUnit::device_connected() const {
-			return engine_->device_enumerator().connected(device_->name());
-		}
 
 		void DirectShowDeviceUnit::on_target_detected(data_model::VisitRecord& visit_record)
 		{

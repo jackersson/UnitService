@@ -15,7 +15,7 @@ namespace tracking
 	namespace units
 	{		
 		AccessDeviceObserver::~AccessDeviceObserver() {
-			AccessDeviceObserver::stop();
+				AccessDeviceObserver::stop();
 		}
 			
 		AccessDeviceObserver::AccessDeviceObserver(IAccessDeviceEngine*	engine)
@@ -63,15 +63,14 @@ namespace tracking
 
 		void AccessDeviceObserver::start()
 		{
-			auto dev_name = device_->name();
-			if (dev_name == "")
+			if (device_->is_empty())
 			{
 				logger_.error("Device name is not valid");
 				return;
 			}
-
-			engine_->add(dev_name);
-			engine_->subscribe(this, dev_name);
+			
+			engine_->add(*device_);
+			engine_->subscribe(this, *device_);
 		}
 
 		void AccessDeviceObserver::stop()
@@ -79,7 +78,7 @@ namespace tracking
 			try
 			{
 				engine_->unsubscribe(this);
-				engine_->remove(device_->name());
+				engine_->remove(*device_);
 			}
 			catch (std::exception&)
 			{
@@ -89,8 +88,8 @@ namespace tracking
 		}
 
 		void AccessDeviceObserver::grant() const
-		{
-			engine_->execute(device_->name(), lGreenAccess);
+		{			
+			engine_->execute( *device_, lGreenAccess);
 
 			std::async(std::launch::async, [this]()
 			{ 
@@ -101,7 +100,7 @@ namespace tracking
 
 		void AccessDeviceObserver::deny() const  
 		{
-			engine_->execute(device_->name(), lRedMain);
+			engine_->execute(*device_, lRedMain);
 		}
 
 		bool AccessDeviceObserver::verify( VisitRecord& target
@@ -147,31 +146,26 @@ namespace tracking
 		{
 			//context_->logger()->error( "Access device state changed {0}"
 			//     , data.module());
-			switch (data.module())
+			switch (data.device_module())
 			{
 			case Buttons:
-				check_buttons(data.data());
+				check_buttons(data.small_data());
 				break;
 			case Dallas:
-				check_dallas_key(data.to_string());
+				check_dallas_key(data.get_dallas_key());
 				break;
 			case Lights:
 			case NoneModule:
 			default: break;
 			}
-		}
+		}		
 
-		
-		bool AccessDeviceObserver::device_connected()  const {
-			return engine_->device_enumerator().connected(device_->name());
-		}
-
-		void AccessDeviceObserver::check_buttons(const std::vector<unsigned char>& data) const
+		void AccessDeviceObserver::check_buttons(unsigned char data) const
 		{
 			//TODO flag check utils
 		}
 
-		void AccessDeviceObserver::check_dallas_key(std::string data) {
+		void AccessDeviceObserver::check_dallas_key(const std::string& data) {
 			if (data == "") //TODO make is_empty function
 				return;
 

@@ -26,8 +26,8 @@ public:
 	void init   () override;
 	void de_init() override;
 
-	data_model::ConnectMsg       connect_msg  () const override;
-	data_model::HeartbeatMessage heartbeat_msg() const override;
+	const data_model::ConnectMsg&       connect_msg  () const override;
+	const data_model::HeartbeatMessage& heartbeat_msg() const override;
 
 private:
 	contracts::IServiceContext* context_;

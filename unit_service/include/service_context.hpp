@@ -6,6 +6,7 @@
 #include <common/ilifecycle.hpp>
 #include <logging/logger.hpp>
 
+
 class CoordinatorServiceWorker;
 
 class ServiceContext : public contracts::common::IModule

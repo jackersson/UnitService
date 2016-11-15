@@ -34,8 +34,8 @@ namespace contracts
 
 			virtual bool contains(const data_model::Location& location) const = 0;
 
-			virtual bool contains( const std::string& device_name
-				                  , data_model::DeviceType dev_type) const = 0;
+			virtual bool contains( const data_model::DeviceId& device_name
+				                   , data_model::DeviceType dev_type) const = 0;
 
 			virtual size_t size() const = 0;		
 		};

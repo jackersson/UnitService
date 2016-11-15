@@ -33,18 +33,22 @@ void CoordinatorServiceWorker::de_init()
 	heartbeat_->de_init();
 }
 
-data_model::ConnectMsg CoordinatorServiceWorker::connect_msg() const
+const data_model::ConnectMsg& CoordinatorServiceWorker::connect_msg() const
 {
-	return services::helpers::generate_connect_msg(
+	static auto msg  = services::helpers::generate_connect_msg(
 	  	context_->configuration().unit_service_port()
 		, context_->configuration().service_uuid()
 		, data_model::ServiceType::UnitService);
+
+	return msg;
 }
 
-data_model::HeartbeatMessage CoordinatorServiceWorker::heartbeat_msg() const
+const data_model::HeartbeatMessage& CoordinatorServiceWorker::heartbeat_msg() const
 {
-	return services::helpers::generate_heartbeat_msg(
+	static auto msg = services::helpers::generate_heartbeat_msg(
 	  	context_->configuration().service_uuid()
 	 	, data_model::ServiceType::UnitService);
+
+	return msg;
 }
 

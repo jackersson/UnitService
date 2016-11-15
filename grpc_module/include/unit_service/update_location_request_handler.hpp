@@ -31,7 +31,7 @@ namespace grpc_services
 
 			void create_request() override
 			{
-				service_->RequestUpdateLocation(&server_context_, &request_
+				service_->RequestUpdateLocations(&server_context_, &request_
 					, &responder_, server_completion_queue_
 					, server_completion_queue_, this);
 			}
@@ -46,7 +46,9 @@ namespace grpc_services
 			}
 
 		private:
-			DataTypes::LocationUpdate  request_;
+			void update(const DataTypes::LocationUpdate&) const;			
+
+			DataTypes::LocationUpdates  request_;
 			grpc::ServerAsyncResponseWriter<google::protobuf::Empty> responder_;
 			contracts::IServiceContext* context_;
 		};

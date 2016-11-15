@@ -6,6 +6,9 @@
 #include <services_coordinator.hpp>
 #include "coordinator_service_worker.hpp"
 
+#include <coordinator_service_connector.hpp>
+#include <coordinator_service_heartbeat.hpp>
+
 void ServiceContext::init()
 {
 	logger_.info("Unit service start init");

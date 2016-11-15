@@ -57,7 +57,7 @@ namespace tracking
 		}
 
 
-		bool TrackLocationsEngine::contains(const std::string& device_name
+		bool TrackLocationsEngine::contains(const DeviceId& device_name
 			, DeviceType dev_type) const 
 		{
 			return container_.contains(device_name, dev_type);

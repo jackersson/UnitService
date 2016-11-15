@@ -1,6 +1,7 @@
 #include "unit_service/check_device_request_handler.hpp"
 
 #include <datatypes/devices.pb.h>
+#include <data/models/devices.hpp>
 #include <future>
 
 using namespace contracts::devices;
@@ -16,8 +17,8 @@ namespace grpc_services
 
 			if (request_.device_type() == DataTypes::DeviceType::CardReader)
 			{				
-				auto& dev_name = request_.device_name();
-				engine_->add      (data_model::DeviceId(dev_name);
+				auto serial = static_cast<uint16_t>(request_.serial_number());
+				engine_->add(data_model::DeviceId("any", serial));
 			}
 			else
 			{
@@ -28,7 +29,8 @@ namespace grpc_services
 		
 		void CheckDeviceRequestHandler::complete(const DataTypes::CheckMsg& response)
 		{			
-			engine_->remove     (request_.device_name());
+			auto serial = static_cast<uint16_t>(request_.serial_number());
+			engine_->remove(data_model::DeviceId("any", serial));
 
 			logger_.info("Check device request done {0}", response.ok());
 			responder_.Finish(response, grpc::Status::OK, this);
@@ -44,7 +46,8 @@ namespace grpc_services
 				if (this == nullptr || this->status_ != RequestStatus::FINISH)
 				{
 					DataTypes::CheckMsg response;
-					if (!engine_->is_active(request_.device_name()))
+					auto serial = static_cast<uint16_t>(request_.serial_number());
+					if (!engine_->is_active(data_model::DeviceId(serial)))
 					{
 						response.set_ok(false);
 						response.set_message("Failed to connect to device");

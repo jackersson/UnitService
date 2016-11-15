@@ -26,7 +26,7 @@ namespace tracking
 
 			void update_with(const std::vector<data_model::Location>& locations) override;
 			
-			bool contains( const std::string& device_name
+			bool contains( const data_model::DeviceId& device_name
 				           , data_model::DeviceType dev_type) const override;
 			
 			bool contains(const data_model::Location& location) const override;

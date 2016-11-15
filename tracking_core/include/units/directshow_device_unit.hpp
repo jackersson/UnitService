@@ -78,8 +78,6 @@ namespace tracking
 			DirectShowDeviceUnit(const DirectShowDeviceUnit& other) = delete;
 			DirectShowDeviceUnit& operator=(const DirectShowDeviceUnit&) = delete;
 
-			bool device_connected() const;
-		
 			void on_target_detected(data_model::VisitRecord& visit_record);
 			
 			std::unique_ptr<data_model::CaptureDevice> device_;

@@ -77,11 +77,8 @@ namespace tracking
 			AccessDeviceObserver(const AccessDeviceObserver& other) = delete;
 			AccessDeviceObserver& operator=(const AccessDeviceObserver&) = delete;
 
-			bool device_connected() const;
-
-			void check_buttons(const std::vector<unsigned char>& data) const;
-
-			void check_dallas_key(std::string data);
+			void check_buttons(unsigned char data) const;
+			void check_dallas_key(const std::string& data);
 
 			void on_target_detected(data_model::VisitRecord& visit_record);
 
