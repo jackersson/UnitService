@@ -4,6 +4,10 @@
 #include <iostream>
 #include <algorithm>
 #include <platform.hpp>
+#include <data/models/devices.hpp>
+
+#include "directshow_device_info.hpp"
+
 
 namespace directshow_device
 {
@@ -21,12 +25,28 @@ namespace directshow_device
 		return false;
 	}
 
-	bool DirectshowDeviceEnumerator::connected(const std::string& device_name) const  {
-		return find(devices_.begin(), devices_.end(), device_name) != devices_.end();
+	bool DirectshowDeviceEnumerator::connected
+	           (const data_model::DeviceId& device_name) const
+	{
+		std::lock_guard<std::recursive_mutex> lock(mutex_);
+		return  std::find_if(devices_.begin(), devices_.end(),
+			[&device_name](const std::string& device) -> bool
+		{
+			return device == device_name.name();
+		}) != devices_.end();
 	}
 
-	std::vector<std::string> DirectshowDeviceEnumerator::devices() const {
-		return devices_;
+	void DirectshowDeviceEnumerator::enumerate
+	           (std::vector<data_model::DeviceId>& devs) const
+	{
+		std::lock_guard<std::recursive_mutex> lock(mutex_);
+		for (const auto& dev : devices_)					
+			devs.push_back(data_model::DeviceId(dev));		
+	}
+
+	bool DirectshowDeviceEnumerator::connected(const std::string& device_name) const  
+	{		
+		return find(devices_.begin(), devices_.end(), device_name) != devices_.end();
 	}
 
 	void DirectshowDeviceEnumerator::run() 
@@ -84,14 +104,21 @@ namespace directshow_device
 		}
 	}
 
+
+	DirectShowDeviceInfo DirectshowDeviceEnumerator::get_device
+	               (const data_model::DeviceId& device_name) const
+	{
+		throw std::exception("not implemented");
+	}
+
 	bool 
-		DirectshowDeviceEnumerator::try_get_info( const std::string& device_name
-			                                      , DirectShowDeviceInfo& info)
+		DirectshowDeviceEnumerator::try_get_device( const data_model::DeviceId& device_name
+			                                        , DirectShowDeviceInfo& info) const
 	{
 		std::lock_guard<std::recursive_mutex> lock(mutex_);
 		for (auto device : actual_)
 		{
-			if (device.name() == device_name)
+			if (device.name() == device_name.name())
 			{
 				info = device;
 				auto caps = capture.getCapabilities(device.id());
@@ -106,7 +133,6 @@ namespace directshow_device
 				return true;
 			}
 		}
-
 		return false;
 	}
 

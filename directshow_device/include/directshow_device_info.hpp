@@ -33,60 +33,34 @@ namespace directshow_device
 		}
 		
 	private:
-		int width_;
+		int width_ ;
 		int height_;
 	};
 
+	//TODO use device id instead so many copy paste
 	class DirectShowDeviceInfo 
 	{	
 
 	public:
-		DirectShowDeviceInfo(): device_id_(0)
-		{}
+		DirectShowDeviceInfo();
+		DirectShowDeviceInfo(const std::string& device_name, int device_id);
 
-		DirectShowDeviceInfo(const std::string& device_name, int device_id)
-		                  	: device_name_(device_name)
-			                  , device_id_(device_id)
-		{}
+		void set_capabilities(const std::vector<Capability>& caps);
 
-		void set_capabilities(std::vector<Capability>& caps)	{
-			capabilities_= caps;		
-		}
+		int   id() const;	
 
-		int id() const	{
-			return device_id_;
-		}
-		
-		const std::string& name() const	{
-			return device_name_;
-		}
+		const std::string& name() const;
 
-		const std::vector<Capability>& capabilities() const	{
-			return capabilities_;
-		}
+		const std::vector<Capability>& capabilities() const;
 
-		Capability best_capability() const
-		{
-			Capability best;
-			for (auto cp : capabilities_)
-			{
-				if (best.size() < cp.size())
-					best = cp;
-			}
-			return best;
-		}
+		Capability best_capability() const;
 
-		bool DirectShowDeviceInfo::operator==(const DirectShowDeviceInfo &other) const {
-		
-			return device_name_ == other.device_name_
-				  && device_id_ == other.device_id_;
-		}
+		bool DirectShowDeviceInfo::operator==(const DirectShowDeviceInfo &other) const;
 
 	private:
 		std::string device_name_;
-		int device_id_;
-		std::vector<Capability> capabilities_;
-	
+		int         device_id_  ;
+		std::vector<Capability> capabilities_;	
 	};
 }
 

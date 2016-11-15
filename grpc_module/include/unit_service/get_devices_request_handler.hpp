@@ -10,7 +10,6 @@ namespace grpc_services
 {
 	namespace unit_service
 	{
-
 		class GetDevicesRequestHandler 
 			: public RequestHandler<Services::UnitService::AsyncService>
 		{

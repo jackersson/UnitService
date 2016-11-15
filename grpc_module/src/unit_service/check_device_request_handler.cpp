@@ -17,7 +17,7 @@ namespace grpc_services
 			if (request_.device_type() == DataTypes::DeviceType::CardReader)
 			{				
 				auto& dev_name = request_.device_name();
-				engine_->add      (dev_name);
+				engine_->add      (data_model::DeviceId(dev_name);
 			}
 			else
 			{

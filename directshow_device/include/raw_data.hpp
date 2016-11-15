@@ -3,21 +3,18 @@
 
 #include <memory>
 #include <contracts/devices/video_device/istream_data.hpp>
-#include "opencv2/opencv.hpp"
+
+namespace cv {
+	class Mat;
+}
 
 namespace directshow_device
 {
 	class RawImage : public contracts::devices::video_device::IRawImage
 	{
 	public:
-		explicit RawImage(const cv::Mat& data)
-		{
-			width_   = data.cols;
-			height_  = data.rows;
-			int size = data.total() * data.elemSize() * sizeof(unsigned char);
-			data_ = std::unique_ptr<unsigned char>(new unsigned char[size]);
-			std::memcpy(data_.get(), data.data, size);
-		}
+		explicit RawImage(const cv::Mat& data);
+
 		virtual ~RawImage() {}
 
 		bool empty() const {
@@ -38,7 +35,7 @@ namespace directshow_device
 	private:
 		int width_;
 		int height_;
-		std::unique_ptr<unsigned char> data_;
+		std::unique_ptr<unsigned char[]> data_;
 	};
 }
 #endif

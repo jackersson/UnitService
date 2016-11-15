@@ -1,7 +1,7 @@
 #ifndef IServiceContext_Included
 #define IServiceContext_Included
 
-#include <data/irepository.hpp>
+//#include <data/irepository.hpp>
 #include <contracts/devices/idevices_container.hpp>
 #include <contracts/iservices.hpp>
 #include <contracts/locations/itrack_location_coordinator.hpp>

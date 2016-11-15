@@ -3,22 +3,34 @@
 
 #include <contracts/devices/idevice_enumerator.hpp>
 #include <contracts/devices/idevice_info.hpp>
-#include "directshow_device_info.hpp"
 #include "std_threadable.hpp"
 #include <mutex>
+#include "directshow_device_info.hpp"
+
 
 namespace directshow_device
 {
+	class Capability;
+	class DirectShowDeviceInfo;
+
 	class DirectshowDeviceEnumerator : public utils::StdThreadable,
 		  public contracts::devices::IDeviceEnumerator
 		, public contracts::devices::IDeviceInfo<DirectShowDeviceInfo>
 	{
 	public:
 		DirectshowDeviceEnumerator() {}
-		bool connected(const std::string& device_name) const override;
 
-		std::vector<std::string> devices() const override;
-		bool try_get_info(const std::string& device_name, DirectShowDeviceInfo& info) override;
+		bool connected(const data_model::DeviceId& device_name) const override;
+		void enumerate(std::vector<data_model::DeviceId>&) const override;
+
+		
+		DirectShowDeviceInfo 
+			get_device(const data_model::DeviceId& device_name) const override;
+
+		bool try_get_device( const data_model::DeviceId& device_name
+			                 , DirectShowDeviceInfo&) const override;
+
+
 	
 	protected:
 		void run() override;
@@ -28,12 +40,15 @@ namespace directshow_device
 		void enumerate();
 		void update   ();
 
+		bool connected(const std::string& device_name) const;
+
+
 		DirectshowDeviceEnumerator(const DirectshowDeviceEnumerator& other) = delete;
 		DirectshowDeviceEnumerator& operator=(const DirectshowDeviceEnumerator&) = delete;
 		
-		std::recursive_mutex mutex_;
+		mutable std::recursive_mutex mutex_;
 
-		std::vector<std::string> devices_;
+		std::vector<std::string>          devices_;
 		std::vector<DirectShowDeviceInfo> actual_ ;
 	};
 }

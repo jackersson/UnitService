@@ -2,20 +2,12 @@
 #define ServerManager_Included
 
 #include <memory>
-//#include <grpc++/grpc++.h>
 #include <services/iservice.hpp>
-//#include "unit_service/unit_service_impl.hpp"
 #include <contracts/iservice_context.hpp>
 
-namespace grpc
-{
+namespace grpc {
 	class Server;
 }
-
-//namespace unit_service
-//{
-	//class UnitServiceImpl;
-//}
 
 namespace grpc_services
 {

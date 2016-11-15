@@ -1,10 +1,11 @@
-#include <iostream>
-#include <thread>
-#include "directshow_device_engine.hpp"
-using namespace std;
-using namespace cv;
-using namespace contracts::devices::video_device;
-
+//#include <iostream>
+//#include <thread>
+//#include "directshow_device_engine.hpp"
+//#include <opencv2/core/mat.hpp>
+//using namespace std;
+//using namespace cv;
+//using namespace contracts::devices::video_device;
+/*
 Mat bytes_to_mat(unsigned char* bytes, int width, int height)
 {
 	auto image = Mat(height, width, CV_8UC3, bytes);
@@ -67,3 +68,4 @@ int main()
 	
 	return 0;
 }
+*/

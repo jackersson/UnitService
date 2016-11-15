@@ -1,8 +1,6 @@
 #ifndef IServiceConfiguration_Included
 #define IServiceConfiguration_Included
 
-#include <data/irepository.hpp>
-
 namespace contracts
 {
 	class IServiceConfiguration
