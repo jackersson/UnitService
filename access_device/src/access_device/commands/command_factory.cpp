@@ -1,49 +1,55 @@
 #include <access_device/commands/command_factory.hpp>
-#include <cstdint>
 
 namespace access_device
 {
 	namespace commands {
 		
-		CommandFactory::CommandFactory( uint16_t device_number) 
-			                            : device_number_(device_number)
+		CommandFactory::CommandFactory() 			                           
 		{
 			//register_command<LightCommandImpl> (std::make_shared<LightCommandImpl>());
-			register_command<ButtonCommandImpl>(std::make_shared<ButtonCommandImpl>());
-			register_command<DallasCommandImpl>(std::make_shared<DallasCommandImpl>());
-		}
-
-		std::shared_ptr<core::ICommandContext>
-			CommandFactory::get(rs232::port_command id, unsigned char data)
-		{
-			auto it = commands_.find(id);
-			std::shared_ptr<core::ICommandContext> command;
-			if (it != commands_.end())
-				command = it->second;
-			else
-				command = std::make_shared<LightCommandImpl>();
-			apply_settings(*command, data);
-			return command;
-		}
+			register_command<ButtonCommand    >(std::make_shared<ButtonCommand>());
+			register_command<DallasCommand    >(std::make_shared<DallasCommand>());
+			register_command<DeviceInfoCommand>(std::make_shared<DeviceInfoCommand>());
+		}	
 		
 		bool CommandFactory::reset(TimeoutSerial& sp)
 		{
-			std::vector<std::shared_ptr<core::ICommandContext>> commands_to_reset =
+			std::vector<std::shared_ptr<core::IExecutableCommand>> commands_to_reset =
 			{
-				  get<ButtonCommandImpl>(0)
-				, get<LightCommandImpl>(0)
-				, get<DallasCommandImpl>(0)
+				  get<ButtonCommand>()
+				, get<LightCommand >()
+				, get<DallasCommand>()
 			};
 
 			auto success = 0;
 			for (auto cmd : commands_to_reset)
 			{
-				const auto& result = cmd->execute(sp);
-				if (result->ok())
-					success++;
+				try
+				{
+					const auto& result = cmd->execute(sp);
+					if (result->is_valid())
+						success++;
+				}
+				catch (std::exception&){
+					//Not implemented
+				}
+				
 			}
 
 			return success == commands_to_reset.size();
 		}	
+
+		int CommandFactory::get_device_number(TimeoutSerial& sp)
+		{
+			auto command = get<DeviceInfoCommand>();
+			try
+			{
+				const auto& result = command->execute(sp);
+				return result->is_valid() ? result->device_number() : DEVICE_ERROR;
+			}
+			catch (std::exception&){
+				return DEVICE_ERROR;
+			}
+		}
 	}
 }

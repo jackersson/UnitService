@@ -60,6 +60,21 @@
     <ClCompile Include="src\access_device\serial_port_enumerator.cpp">
       <Filter>src\access_device</Filter>
     </ClCompile>
+    <ClCompile Include="src\access_device\commands\command.cpp">
+      <Filter>src\access_device\commands</Filter>
+    </ClCompile>
+    <ClCompile Include="src\access_device\commands\executable_command_base.cpp">
+      <Filter>src\access_device\commands</Filter>
+    </ClCompile>
+    <ClCompile Include="src\access_device\core\serial_port_io.cpp">
+      <Filter>src\access_device\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\access_device\common\access_device_state.cpp">
+      <Filter>src\access_device\common</Filter>
+    </ClCompile>
+    <ClCompile Include="src\access_device\access_device_impl.cpp">
+      <Filter>src\access_device</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\access_device\access_device_engine.hpp">
@@ -80,9 +95,6 @@
     <ClInclude Include="include\access_device\commands\command.hpp">
       <Filter>include\access_device\commands</Filter>
     </ClInclude>
-    <ClInclude Include="include\access_device\commands\command_result.hpp">
-      <Filter>include\access_device\commands</Filter>
-    </ClInclude>
     <ClInclude Include="include\access_device\commands\executable_command_base.hpp">
       <Filter>include\access_device\commands</Filter>
     </ClInclude>
@@ -92,13 +104,7 @@
     <ClInclude Include="include\access_device\core\iexecutable_command.hpp">
       <Filter>include\access_device\core</Filter>
     </ClInclude>
-    <ClInclude Include="include\access_device\commands\port_command_result.hpp">
-      <Filter>include\access_device\commands</Filter>
-    </ClInclude>
     <ClInclude Include="include\access_device\commands\command_impl.hpp">
-      <Filter>include\access_device\commands</Filter>
-    </ClInclude>
-    <ClInclude Include="include\access_device\commands\rs232_command.hpp">
       <Filter>include\access_device\commands</Filter>
     </ClInclude>
     <ClInclude Include="include\access_device\commands\command_factory.hpp">
@@ -109,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="include\access_device\core\timeout_serial.hpp">
       <Filter>include\access_device\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\access_device\access_device_impl.hpp">
+      <Filter>include\access_device</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

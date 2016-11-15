@@ -29,5 +29,8 @@
     <ClInclude Include="test_command_context.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="simple_threadable.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,23 +1,28 @@
 #include "access_device/access_device_listener.hpp"
 
 #include <data/models/devices.hpp>
-#include <contracts/devices/idevice_info.hpp>
+#include "access_device/common/access_device_state.hpp"
 
 using namespace data_model;
 using namespace contracts::devices::access_device;
+using namespace std::chrono;
 
 namespace access_device
 {
-	AccessDeviceListener::AccessDeviceListener(const DeviceId& device_name
-	, contracts::devices::IDeviceInfo<DeviceId>* device_holder)
-		: factory_(device_name.serial_number())
-		, device_name_(std::make_unique<DeviceId>(device_name))
-		, serial_port_()
-		, need_to_ask_buttons_(false)
-		, need_to_recover_(false)
-		, devices_holder_(device_holder)
-	{
+	milliseconds 
+		AccessDeviceListener::read_write_timeout_	      = milliseconds(1000);
+	milliseconds 
+		AccessDeviceListener::delay_between_ask_device_ = milliseconds(100);
+		
 
+	AccessDeviceListener::AccessDeviceListener(const data_model::DeviceId& device_id
+	                  , contracts::devices::IDeviceInfo<AccessDeviceImplPtr>* devices)
+		: device_number_(std::make_unique<DeviceId>(device_id))
+		, devices_(devices)
+	  , need_to_ask_buttons_(false)
+		, need_to_recover_(false)
+	{		
+		start();
 	}
 
 	AccessDeviceListener::~AccessDeviceListener() {
@@ -26,60 +31,69 @@ namespace access_device
 
 	void AccessDeviceListener::stop()
 	{
+		clear();
 		Threadable::stop();
-		factory_.reset(serial_port_);
-		serial_port_.close();			
+		if (access_device_impl_ != nullptr)
+	  	access_device_impl_->de_init();
 	}
-	
+		
 	void AccessDeviceListener::run() 
-	{
-		open();
-
+	{		
+		init_session();
+		
 		while (active())
 		{
 			auto command = dequeue();
 			if (command != nullptr)
 			{
-				std::this_thread::sleep_for(delay_between_ask_device_);
-				auto execution_result = command->execute(serial_port_);
+				//std::this_thread::sleep_for(delay_between_ask_device_);
 
-				if (execution_result->ok())
+				try
 				{
-					if (!execution_result->empty())
-						on_next(execution_result);
+					auto result = access_device_impl_->execute(command);
+					if (result->is_valid() && !result->is_empty() )
+						on_next(result);
 
 					if (need_to_recover_)
 						unlock();
 				}
-				else
-					handle_exception(execution_result->exception());
+				catch (std::exception& ex) {
+					handle_exception(ex);
+				}				
 			}
 
 			if (cancelation_requested)
 				break;
 		}
-
-		clear();
+		stop();
 	}
 
+	//TODO think about smarter way
 	void AccessDeviceListener::handle_exception(const std::exception& ex)
 	{
-		if (!is_active())
-		{
-			on_error(ex);
-			std::this_thread::sleep_for(delay_between_ask_device_);
-			open();
-		}
-		else if (ex.what() != "Undefined exception")
-		{
-			on_error(ex);
-			lock();
-		}
-		else
-		{
-			on_state(Active);
-			unlock();
-		}
+		if (is_active() && ex.what() == "Undefined exception")
+			return;
+
+		on_error(ex);
+		std::this_thread::sleep_for(delay_between_ask_device_);
+		access_device_impl_ = devices_->get_device(*device_number_);
+		init_session();
+		lock();
+	}
+
+	bool AccessDeviceListener::is_active() const
+	{
+		return access_device_impl_ != nullptr && access_device_impl_->is_open() && active();
+	}
+
+	uint16_t AccessDeviceListener::id() const{
+		return device_number_->serial_number();
+	}
+
+	const std::string& AccessDeviceListener::port_name() const {
+		if (access_device_impl_ == nullptr)
+			return device_number_->name();
+		return access_device_impl_->port_name();
 	}
 
 	void AccessDeviceListener::lock()
@@ -91,8 +105,7 @@ namespace access_device
 	{
 		if (!need_to_recover_)
 			return;
-		execute<commands::LightCommandImpl>(lRedMain);
-		need_to_recover_ = false;
+		activate();
 	}
 
 	void AccessDeviceListener::execute(core::IExecutableCommandPtr command)
@@ -100,54 +113,60 @@ namespace access_device
 		std::lock_guard<std::recursive_mutex> lock(mutex_);
 		commands_.push(command);
 	}
-			
-	void AccessDeviceListener::open()
-	{
-		if (serial_port_.is_open())
-			return;
 
+	bool AccessDeviceListener::open()
+	{
+		if (access_device_impl_ == nullptr)
+			return false;
 		try
 		{
-			DeviceId di;
-			if (!devices_holder_->try_get_info(*device_name_, di))
-				return;
-
-			serial_port_.open(di.name(), BAUD_RATE);
-			//TODO const
-			serial_port_.set_timeout(boost::posix_time::millisec(100));
-			if (!factory_.reset(serial_port_)) //TODO maybe to log
-				std::cout << "Can't reset device" << std::endl; 
-
-			execute<commands::LightCommandImpl>(lRedMain);
-
-			on_state(Active);
-
-			need_to_recover_ = false;
+			return access_device_impl_->open();
 		}
 		catch (std::exception& exception) {
 			on_error(exception);
+			return false;
 		}
+	}		
+
+	void AccessDeviceListener::init_session()
+	{
+		if (!open())
+			return;
+		if (access_device_impl_ != nullptr && !access_device_impl_->reset()) //TODO maybe to log
+			std::cout << "Can't reset device" << std::endl;
+
+		activate();			
 	}	
+
+	void AccessDeviceListener::activate()
+	{
+		execute<commands::LightCommand>(lRedMain);
+		on_state(Active);
+		need_to_recover_ = false;
+	}
 
 	core::IExecutableCommandPtr AccessDeviceListener::dequeue()
 	{
 		std::lock_guard<std::recursive_mutex> lock(mutex_);
-		while (commands_.empty())
+		while (commands_.empty() && !cancelation_requested)
 		{
 			std::this_thread::sleep_for(delay_between_ask_device_);
-			what_with_access_device();
+			what_with_access_device();		
 		}
+		if (commands_.empty())
+			return nullptr;
+
 		auto ptr = commands_.front();
 		commands_.pop();
 		return ptr;
 	}
 
 	void AccessDeviceListener::what_with_access_device()
-	{
+	{		
 		if (need_to_ask_buttons_)
-			execute<commands::ButtonCommandImpl>();
+			 execute<commands::ButtonCommand>();
 		else
-			execute<commands::DallasCommandImpl>();
+			execute<commands::DallasCommand>();
 		need_to_ask_buttons_ = !need_to_ask_buttons_;
 	}
 
@@ -172,8 +191,12 @@ namespace access_device
 	void
 		AccessDeviceListener::on_next(ICommandResultPtr data)
 	{
-		for (auto observer : observers_)
-			observer->on_next(*data.get());
+		//TODO improve code logic
+		if (data->device_module() == Dallas || data->device_module() == Buttons)
+		{
+			for (auto observer : observers_)
+				observer->on_next(*data.get());
+		}
 	}
 }
 

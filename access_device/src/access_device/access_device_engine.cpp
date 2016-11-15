@@ -19,83 +19,81 @@ namespace access_device
 
 	void AccessDeviceEngine::stop_all() 
 	{
-		for (auto it = devices_.begin(); it != devices_.end(); ++it)
-			it->second->stop();
+		for (auto it : devices_)
+			it->stop();
 
 		devices_.clear();
 	}
-
-	void AccessDeviceEngine::add(const DeviceId& device_name) 
+	
+	void AccessDeviceEngine::add(const DeviceId& device)
 	{
-		if (device_name.is_empty())
+		if (device.is_empty())
 			return;
 
-		if (devices_.contains(device_name))
+		if (get_device_listener(device.serial_number()) != nullptr)
 			return;
 
-		auto listener = std::make_shared<AccessDeviceListener>(device_name);
+		auto listener = std::make_shared<AccessDeviceListener>(device, &device_enumerator_);
 		listener->start();
-		devices_.insert(device_name, listener);
+		devices_.push_back(listener);
 	}
 
-	void AccessDeviceEngine::remove(const DeviceId& device_name)
+	void AccessDeviceEngine::remove(const DeviceId& device)
 	{
-		if (device_name.is_empty())
+		if (device.is_empty())
 			return;
 
-		try
+		auto listener = get_device_listener(device.serial_number());
+		if (listener != nullptr)
 		{
-			const auto& listener = devices_.find(device_name);
 			listener->stop();
-			devices_.remove(device_name);
-		}
-		catch (std::exception&) {
-			//Not implemented
+			devices_.remove(listener);
 		}
 	}
-
-	bool AccessDeviceEngine::is_active(const DeviceId& device_name)
+	
+	bool AccessDeviceEngine::is_active(const DeviceId& device)
 	{
-		if (device_name.is_empty())
+		if (device.is_empty())
 			return false;
 
 		try
-		{
-			auto& listener = devices_.find(device_name);
-			return listener->active();
+		{		
+			auto listener = get_device_listener(device.serial_number());
+			return listener != nullptr && listener->is_active();
 		}
 		catch (std::exception&) {
 			return false;
 		}
 	}
 
-	void AccessDeviceEngine::execute( const DeviceId& device_name
-		                              , lights data	= lNone) 
+	void AccessDeviceEngine::execute( const DeviceId& device
+		                              , lights data	) 
 	{
-		if (device_name.is_empty())
+		if (device.is_empty())
 			return;
 
 		try
-		{
-			auto& listener = devices_.find(device_name);
-			return listener->execute<commands::LightCommandImpl>(data);
+		{		
+			auto listener = get_device_listener(device.serial_number());
+			if (listener != nullptr)
+		  	listener->execute<commands::LightCommand>(data);
 		}
 		catch (std::exception&) {
 			//Not implemented
 		}
 	}
-
 
 	void AccessDeviceEngine::subscribe( IAccessDeviceObserver* observer
-		                                , const DeviceId& device_name)
+		                                , const DeviceId& device)
 	{
-		if (device_name.is_empty())
+		if (device.is_empty())
 			return;
 
 		try
-		{
-			auto& listener = devices_.find(device_name);
-			return listener->subscribe(observer);
+		{			
+			auto listener = get_device_listener(device.serial_number());
+			if (listener != nullptr)
+			  listener->subscribe(observer);			
 		}
 		catch (std::exception&) {
 			//Not implemented
@@ -105,19 +103,19 @@ namespace access_device
 	void AccessDeviceEngine::unsubscribe(IAccessDeviceObserver* observer) 
 	{
 		for (auto it : devices_) {
-			it.second->unsubscribe(observer);
+			it->unsubscribe(observer);
 		}
 	}
 
 	bool AccessDeviceEngine::has_observer( IAccessDeviceObserver* observer
-		                                   , const DeviceId& device_name   )
+		                                   , const DeviceId& device   )
 	{
-		if (device_name.is_empty())
+		if (device.is_empty())
 			return false;
 		try
 		{
-			auto& listener = devices_.find(device_name);
-			return listener->has_observer(observer);
+			auto listener = get_device_listener(device.serial_number());
+			return listener != nullptr && listener->has_observer(observer);
 		}
 		catch (std::exception&) {
 			return false;
@@ -127,13 +125,15 @@ namespace access_device
 	void AccessDeviceEngine::unsubscribe_all()
 	{
 		for (auto it : devices_) {
-			it.second->unsubscribe_all();
+			it->unsubscribe_all();
 		}
 	}
 
-	const IDeviceEnumerator& AccessDeviceEngine::device_enumerator() const
+	void AccessDeviceEngine::enumerate_devices(std::vector<DeviceId>& devs) 
 	{
-		return device_enumerator_;
+		std::lock_guard<std::recursive_mutex> lock(mutex_);
+		for (auto it : devices_)
+			devs.push_back(DeviceId(it->port_name(), it->id()));
 	}
 
 	void AccessDeviceEngine::de_init()
@@ -144,19 +144,31 @@ namespace access_device
 
 	void AccessDeviceEngine::init()
 	{
-		device_enumerator_.start();
+		device_enumerator_.start    ();
 	}
 
-	bool AccessDeviceEngine::contains_key(const DeviceId& device_name)
+	AccessDeviceListenerPtr 
+		AccessDeviceEngine::get_device_listener(const std::string& device_name)
 	{
-		try
+	  std::lock_guard<std::recursive_mutex> lock(mutex_);
+		auto result = std::find_if(devices_.begin(), devices_.end()
+			, [&device_name](AccessDeviceListenerPtr listener) -> bool
 		{
-			devices_.find(device_name);
-			return true;
-		}
-		catch (std::exception&) {
-			return false;
-		}
+			return listener->port_name() == device_name;
+		});
+		return result == devices_.end() ? nullptr : *result;
+	}	
+
+	AccessDeviceListenerPtr
+		AccessDeviceEngine::get_device_listener(uint16_t device_number)
+	{			
+		std::lock_guard<std::recursive_mutex> lock(mutex_);
+		auto result = std::find_if(devices_.begin(), devices_.end()
+			, [&device_number](AccessDeviceListenerPtr listener)
+		{
+			return listener->id() == device_number;				
+		});
+		return result == devices_.end() ? nullptr : *result;
 	}	
 }
 

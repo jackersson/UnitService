@@ -10,18 +10,13 @@ namespace access_device
 		class AccessDeviceState : public contracts::devices::IDeviceState
 		{
 		public:
-			explicit AccessDeviceState(data_model::DeviceState state)	
-				: dev_type_(data_model::DeviceType::CardReader)
-				, state_(state)
-			{}
-
-			data_model::DeviceType  type() const override
-			{
+			explicit AccessDeviceState(data_model::DeviceState state);
+		
+			data_model::DeviceType  type() const override	{
 				return dev_type_;
 			}
 
-			data_model::DeviceState state()  const override
-			{
+			data_model::DeviceState state()  const override	{
 				return state_;
 			}
 

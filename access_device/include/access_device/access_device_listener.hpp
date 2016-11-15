@@ -1,23 +1,20 @@
 #ifndef AccessDeviceListener_Included
 #define AccessDeviceListener_Included
 
-#include <queue>
-#include <threadable.hpp>
 #include <access_device/core/iexecutable_command.hpp>
-#include <mutex>
 #include <contracts/devices/device_observer.hpp>
 #include <observers/observable.hpp>
-#include "commands/command_factory.hpp"
 #include <contracts/devices/idevice_info.hpp>
+#include "access_device_impl.hpp"
+#include <threadable.hpp>
+#include <queue>
 
 namespace data_model{
 	class DeviceId;
 }
 
-
 namespace access_device
 {	
-
 	namespace commands {
 		class CommandFactory;
 	}
@@ -27,39 +24,35 @@ namespace access_device
 	typedef std::shared_ptr<IAccessDeviceObserver> IAccessDeviceObserverPtr;
 
 	class AccessDeviceListener final : public utils::Threadable
-		                   , public contracts::observers::Observable<IAccessDeviceObserver>
+		                               , public contracts::observers::Observable<IAccessDeviceObserver>
 		                   
 	{
 	public:
-		explicit AccessDeviceListener(const data_model::DeviceId& device_name
-		,  contracts::devices::IDeviceInfo<data_model::DeviceId>* device_holder);
+
+		explicit 
+			AccessDeviceListener(const data_model::DeviceId& port_name
+			     , contracts::devices::IDeviceInfo<AccessDeviceImplPtr>* devices);
 		
 		~AccessDeviceListener();
 
 		void stop() override;
 
-	protected:
-		void run() override;
-
-		void handle_exception(const std::exception& ex);
-
-		void lock();
-
-		void unlock();
-	public:
 		void execute(core::IExecutableCommandPtr command);
 
 		template <typename T>
 		void execute(unsigned char data = 0)
 		{
-			auto command = factory_.get<T>(data);		
+			std::lock_guard<std::recursive_mutex> lock(mutex_);
+			//TODO think about smarter way
+			if (access_device_impl_ == nullptr)
+				handle_exception(std::exception("Device is null"));
+			if (access_device_impl_ == nullptr)
+				return;
+			auto command = access_device_impl_->factory().get<T>(id(), data);		
 			execute(command);
 		}
 
-		bool is_active() const
-		{
-			return serial_port_.is_open() && active();
-		}
+		bool is_active() const;	
 
 		void clear()
 		{
@@ -68,47 +61,62 @@ namespace access_device
 				commands_.pop();						
 		}
 
-		static	const int BAUD_RATE = 4800;
-	private:
+		const std::string& port_name() const;
 
-		void open(); 
+		uint16_t id() const;
+		
+		static const int BAUD_RATE = 4800;
+
+	protected:
+		void run() override;
+
+	private:
+		AccessDeviceListener(const AccessDeviceListener& other) = delete;
+		AccessDeviceListener& operator=(const AccessDeviceListener&) = delete;
+		
+		void handle_exception(const std::exception& ex);
+
+		void lock  ();
+		void unlock();
+		bool open  (); 
+		void activate();
+		//void close ();
+		//void reset ();
+		void init_session();
 
 		void on_error(const std::exception& exception);
 		void on_state(data_model::DeviceState state);
-
-		void on_next(contracts::devices::access_device::ICommandResultPtr data);
+		void on_next (contracts::devices::access_device::ICommandResultPtr data);
 
 		core::IExecutableCommandPtr dequeue();
 
 		void what_with_access_device();
 		
-		AccessDeviceListener(const AccessDeviceListener& other) = delete;
-		AccessDeviceListener& operator=(const AccessDeviceListener&) = delete;
 
-		commands::CommandFactory factory_;
+		//commands::CommandFactory factory_;
+		std::recursive_mutex     mutex_  ;
 
-		std::recursive_mutex mutex_;
+		//std::string               port_name_    ;
+		std::unique_ptr<data_model::DeviceId> device_number_;
 
-		contracts::devices::IDeviceInfo<data_model::DeviceId>* devices_holder_;
-		std::unique_ptr<data_model::DeviceId> device_name_;
+		//std::unique_ptr<data_model::DeviceId>   device_info_;
+		std::queue<core::IExecutableCommandPtr> commands_   ;
+		//std::unique_ptr<TimeoutSerial>          serial_port_;
 
-		std::queue<core::IExecutableCommandPtr> commands_;
+		AccessDeviceImplPtr access_device_impl_;
 
-		TimeoutSerial serial_port_;
+		contracts::devices::IDeviceInfo<AccessDeviceImplPtr>* devices_;
 
 		bool need_to_ask_buttons_;
-		bool need_to_recover_;
+		bool need_to_recover_    ;
+
+
 		
-		std::chrono::milliseconds read_write_timeout
-			= std::chrono::milliseconds(1000);
-
-		std::chrono::milliseconds delay_between_ask_device_
-			                                  = std::chrono::milliseconds(100);
-
+		static std::chrono::milliseconds read_write_timeout_      ;
+		static std::chrono::milliseconds delay_between_ask_device_;
 	};
 
-	typedef std::shared_ptr<AccessDeviceListener> AccessDeviceListenerPtr;
-	
+	typedef std::shared_ptr<AccessDeviceListener> AccessDeviceListenerPtr;	
 }
 
 #endif

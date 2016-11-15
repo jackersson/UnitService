@@ -16,8 +16,7 @@ namespace contracts {
 			virtual ~IDeviceEnumerator() {}
 
 			virtual	bool connected(const data_model::DeviceId& device_name) const = 0;
-
-			virtual std::vector<data_model::DeviceId> devices() const = 0;
+			virtual void enumerate(std::vector<data_model::DeviceId>&     ) const = 0;
 		};
 	}
 }

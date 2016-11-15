@@ -4,11 +4,14 @@
 #include <access_device/core/iexecutable_command.hpp>
 #include "test_command_context.hpp"
 #include <flags.hpp>
-#include <access_device/access_device_engine.hpp>
+//#include <access_device/access_device_engine.hpp>
 
-using namespace access_device::rs232;
+using namespace access_device::rs232   ;
+using namespace access_device::commands;
+using namespace access_device::core    ;
 
-namespace rs232_controller_tests
+
+namespace access_device_tests
 {
 	void word_pair_check(port_command command)
 	{
@@ -47,26 +50,32 @@ namespace rs232_controller_tests
 	void create_data_key_command_check(const std::vector<unsigned char>& key)
 	{
 		std::vector<unsigned char> bytes;
-		create_data_key_command(bytes, key, Dallas, 0);
+		create_data_key_command(bytes, key, port_command::Dallas, 0);
 		EXPECT_TRUE(check_sum_valid(bytes));
 	}
-
+	
 	//with controller
-	void light_command_check(access_device_tests::TestCommandContext& test_cmd
-		, access_device::core::ICommandContextPtr command
-		, uint32_t id
-		, bool with_data = true)
+	void light_command_check( TestCommandContext&   test_cmd
+		                      , IExecutableCommandPtr command
+		                      , uint32_t id
+		                      , bool with_data = true)
 	{
 		//Not need to set data when ask buttons
 		if (with_data)
-			command->set_data(id);
-		auto result = test_cmd.execute(command);
-		access_device_tests::TestCommandContext::check_result(result);
-
-		auto output = result->data()[0];
-
-		EXPECT_EQ(id, output);
+			command->command().set_data(id);
+		try
+		{
+			auto result = test_cmd.execute(command);
+		
+			EXPECT_TRUE(result->is_valid());
+			EXPECT_EQ  (id, result->small_data());
+		}
+		catch(std::exception& ex)
+		{
+			EXPECT_EQ("", ex.what());
+		}
 	}
+	
 
 	enum FlagsTest
 	{
@@ -77,7 +86,7 @@ namespace rs232_controller_tests
 
 	enum FlagsWithShiftTest
 	{
-		UnsetFlagsWithShift = 0
+		  UnsetFlagsWithShift = 0
 		, FlagsWithShift1 = 1 << 1
 		, FlagsWithShift2 = 1 << 2
 		, FlagsWithShift3 = 1 << 4
@@ -91,7 +100,7 @@ namespace rs232_controller_tests
 		EXPECT_FALSE(utils::flags::has(val, Flag2));
 
 		utils::flags::set(val, Flag1);
-		EXPECT_TRUE(utils::flags::has(val, Flag1));
+		EXPECT_TRUE (utils::flags::has(val, Flag1));
 		EXPECT_FALSE(utils::flags::has(val, Flag2));
 
 		utils::flags::set(val, Flag2);
@@ -107,13 +116,13 @@ namespace rs232_controller_tests
 		EXPECT_FALSE(utils::flags::has(val, FlagsWithShift3));
 
 		utils::flags::set(val, FlagsWithShift1);
-		EXPECT_TRUE(utils::flags::has(val, FlagsWithShift1));
+		EXPECT_TRUE (utils::flags::has(val, FlagsWithShift1));
 		EXPECT_FALSE(utils::flags::has(val, FlagsWithShift2));
 		EXPECT_FALSE(utils::flags::has(val, FlagsWithShift3));
 
 		utils::flags::set(val, FlagsWithShift2);
-		EXPECT_TRUE(utils::flags::has(val, FlagsWithShift1));
-		EXPECT_TRUE(utils::flags::has(val, FlagsWithShift2));
+		EXPECT_TRUE (utils::flags::has(val, FlagsWithShift1));
+		EXPECT_TRUE (utils::flags::has(val, FlagsWithShift2));
 		EXPECT_FALSE(utils::flags::has(val, FlagsWithShift3));
 
 		utils::flags::set(val, FlagsWithShift3);
@@ -126,7 +135,7 @@ namespace rs232_controller_tests
 	{
 		word_pair_check(ReadB);
 		word_pair_check(WriteB);
-		word_pair_check(Dallas);
+		word_pair_check(port_command::Dallas);
 		word_pair_check(Master);
 		word_pair_check(ReadC);
 	}
@@ -169,13 +178,18 @@ namespace rs232_controller_tests
 	//with controller
 	TEST(LightCommandTest, LightCommandTest)
 	{
-		access_device::commands::CommandFactory factory(0);
-		auto command = factory.get<access_device::commands::LightCommandImpl>();
+		CommandFactory factory;
+		auto command = factory.get<LightCommand>();
 		//TODO check first com port name before running test
-		access_device_tests::TestCommandContext cm_test("COM3");
+		TestCommandContext cm_test("COM6");
 
-		std::vector<uint32_t> examples = { Pb1RedMain | Pb6Green
-			, 0, Pb1RedMain | Pb6Green | Pb8GreenAccess, 0 };
+		std::vector<uint32_t> examples = 
+		{   
+			  Pb1RedMain | Pb6Green
+			, 0
+			, Pb1RedMain | Pb6Green | Pb8GreenAccess
+			, 0 
+		};
 
 		for (auto num : examples)
 			light_command_check(cm_test, command, num);
@@ -183,10 +197,10 @@ namespace rs232_controller_tests
 
 	TEST(ButtonCommandTest, ButtonCommandTest)
 	{
-		access_device::commands::CommandFactory factory(0);
-		auto command = factory.get<access_device::commands::ButtonCommandImpl>();
+		CommandFactory factory;
+		auto command = factory.get<ButtonCommand>();
 		//TODO check first com port name before running test
-		access_device_tests::TestCommandContext cm_test("COM3");
+		TestCommandContext cm_test("COM3");
 
 		//Press Both buttons to pass the following
 		std::vector<uint32_t> examples = { Pc1Access | Pc4OpenGate };
@@ -197,19 +211,46 @@ namespace rs232_controller_tests
 
 	TEST(DataKeyCommandTest, DataKeyCommandTest)
 	{
-		access_device::commands::CommandFactory factory(0);
-		auto command = factory.get<access_device::commands::DallasCommandImpl>();
+		CommandFactory factory;
+		auto command = factory.get<DallasCommand>();
 		//TODO check first com port name before running test
-		access_device_tests::TestCommandContext cm_test("COM3");
+		TestCommandContext cm_test("COM3");
 
 		//Put dallas key to pass the following
 		auto result = cm_test.execute(command);
-		access_device_tests::TestCommandContext::check_result(result);
 
-		EXPECT_EQ(DALLAS_KEY_SIZE, result->data().size());
+		EXPECT_TRUE (result->is_valid());
+		EXPECT_FALSE(result->is_empty());	
+		EXPECT_EQ   (DALLAS_KEY_SIZE, result->full_data().size());
 	}
 
+	TEST(AccessDeviceCommandTest, DeviceInfoCommandTest)
+	{
+		CommandFactory factory;
+		auto command = factory.get<DeviceInfoCommand>();
+		//TODO check first com port name before running test
+		TestCommandContext cm_test("COM6");		
+		
+		//Put device with not 0 id
+		auto result = cm_test.execute(command);
 
+		EXPECT_TRUE (result->is_valid());
+		EXPECT_TRUE (result->device_number() > 0);
+
+	}
+
+	TEST(AccessDeviceCommandTest, CommandInfoParseTest)
+	{
+		std::vector<unsigned char> cmd = { 129, 0, 3, 0, 0, 8, 4 };
+
+		//CommandInfo cinfo;
+		//cinfo.parse(cmd);
+
+		//EXPECT_TRUE(129, cinfo.header);
+		//EXPECT_TRUE(3  , cinfo.device_number);
+		//EXPECT_TRUE(1  , cinfo.data.size()  );
+		//EXPECT_TRUE(cinfo.valid);
+	}
 
 
 

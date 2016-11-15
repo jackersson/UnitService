@@ -2,28 +2,50 @@
 #define SerialPortEnumerator_Included
 
 #include <threadable.hpp>
-//#include <thread>
 #include <contracts/devices/idevice_enumerator.hpp>
 #include <chrono>
+#include <observers/observable.hpp>
+#include "access_device_impl.hpp"
+#include <contracts/devices/idevice_info.hpp>
 
 namespace access_device
 {
 	class SerialPortEnumerator : public utils::Threadable
 		                         , public contracts::devices::IDeviceEnumerator
+		, public contracts::devices::IDeviceInfo<AccessDeviceImplPtr>
 	{
 	public:
-		bool connected(const data_model::DeviceId& device_name) const override;
+		SerialPortEnumerator(){}
 
-		std::vector<data_model::DeviceId> devices() const override;
+		bool connected(const data_model::DeviceId& device_name) const override;
+		void enumerate(std::vector<data_model::DeviceId>&     ) const override;
+		
+		AccessDeviceImplPtr
+			get_device(const data_model::DeviceId& device_name) const override;
+
+		bool try_get_device(const data_model::DeviceId& device_name
+			, AccessDeviceImplPtr& info) const override
+		{
+			throw std::exception("not implemented");
+		}
+
 
 	protected:
 		void run  () override;
 		void print();
 	private:		
-		void update();
+		SerialPortEnumerator(const SerialPortEnumerator& other) = delete;
+		SerialPortEnumerator& operator=(const SerialPortEnumerator&) = delete;
+
+		void update ();
+
+		bool contains(const std::string& port_name);
 				
-		std::vector<data_model::DeviceId> devices_;
-		std::vector<data_model::DeviceId> serials_;
+		mutable std::recursive_mutex mutex_;
+
+		std::vector<AccessDeviceImplPtr> devices_;
+		std::vector<std::string> serials_;
+
 
 		static std::chrono::milliseconds delay_;
 	};

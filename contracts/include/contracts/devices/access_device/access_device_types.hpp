@@ -29,9 +29,10 @@ namespace contracts
 			enum access_device_module
 			{
 				  NoneModule = 0
-			  ,	Lights  = 130
-				, Buttons = 131
-				, Dallas  = 132
+				, Info       = 129
+			  ,	Lights     = 130
+				, Buttons    = 131
+				, Dallas     = 132
 			};
 		}
 	}

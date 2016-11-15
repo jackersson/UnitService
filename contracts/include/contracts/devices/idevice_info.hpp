@@ -16,8 +16,11 @@ namespace contracts
 		public:	
 			virtual ~IDeviceInfo() {}
 
-			virtual bool try_get_info( const data_model::DeviceId& device_name
-				                       , T& info) = 0;
+			virtual bool try_get_device( const data_model::DeviceId& device_name
+				                          , T& info) const = 0;
+
+			virtual
+				T get_device(const data_model::DeviceId& device_name) const = 0;
 		};
 	}
 }

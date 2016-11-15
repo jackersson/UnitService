@@ -92,7 +92,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_WIN32_WINNT=0x0601;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)access_device\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -150,21 +150,24 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\access_device\access_device_engine.cpp" />
+    <ClCompile Include="src\access_device\access_device_impl.cpp" />
     <ClCompile Include="src\access_device\access_device_listener.cpp" />
+    <ClCompile Include="src\access_device\commands\command.cpp" />
     <ClCompile Include="src\access_device\commands\command_factory.cpp" />
+    <ClCompile Include="src\access_device\commands\executable_command_base.cpp" />
+    <ClCompile Include="src\access_device\common\access_device_state.cpp" />
+    <ClCompile Include="src\access_device\core\serial_port_io.cpp" />
     <ClCompile Include="src\access_device\core\timeout_serial.cpp" />
     <ClCompile Include="src\access_device\serial_port_enumerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\access_device\access_device_engine.hpp" />
+    <ClInclude Include="include\access_device\access_device_impl.hpp" />
     <ClInclude Include="include\access_device\access_device_listener.hpp" />
     <ClInclude Include="include\access_device\commands\command.hpp" />
     <ClInclude Include="include\access_device\commands\command_factory.hpp" />
     <ClInclude Include="include\access_device\commands\command_impl.hpp" />
-    <ClInclude Include="include\access_device\commands\command_result.hpp" />
-    <ClInclude Include="include\access_device\commands\port_command_result.hpp" />
     <ClInclude Include="include\access_device\commands\executable_command_base.hpp" />
-    <ClInclude Include="include\access_device\commands\rs232_command.hpp" />
     <ClInclude Include="include\access_device\common\access_device_state.hpp" />
     <ClInclude Include="include\access_device\core\iexecutable_command.hpp" />
     <ClInclude Include="include\access_device\core\serial_port_io.hpp" />

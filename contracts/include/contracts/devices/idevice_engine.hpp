@@ -21,11 +21,16 @@ namespace contracts
 
 			virtual void stop_all() = 0;
 
+			//virtual void start(const data_model::DeviceId& device) = 0;
+			//virtual void stop (const data_model::DeviceId& device) = 0;
+
 			virtual void add      (const data_model::DeviceId& device_name) = 0;												    
 			virtual void remove   (const data_model::DeviceId& device_name) = 0;
 			virtual bool is_active(const data_model::DeviceId& device_name) = 0;
 
-			virtual const devices::IDeviceEnumerator& device_enumerator() const = 0;
+			virtual void enumerate_devices(std::vector<data_model::DeviceId>& devs) = 0;
+//
+			//virtual const devices::IDeviceEnumerator& device_enumerator() const = 0;
 		};
 
 		

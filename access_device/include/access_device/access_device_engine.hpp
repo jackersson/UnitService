@@ -17,8 +17,9 @@ namespace access_device
 
 		void stop_all() override;
 
-		void add      (const data_model::DeviceId& device_name) override;
-		void remove   (const data_model::DeviceId& device_name) override;
+		void add    (const data_model::DeviceId& device) override;
+		void remove (const data_model::DeviceId& device) override;
+		
 		bool is_active(const data_model::DeviceId& device_name) override;
 
 		void execute(const data_model::DeviceId&
@@ -34,25 +35,29 @@ namespace access_device
 		bool has_observer( IAccessDeviceObserver* observer
 			               , const data_model::DeviceId& device_name) override;
 
-		void unsubscribe_all() override;
-		
-		const contracts::devices::IDeviceEnumerator& device_enumerator() const override;
+		void unsubscribe_all() override;		
 
 		void de_init() override;
+		void init   () override;
 
-		void init() override;
 
-		bool contains_key(const data_model::DeviceId& key);
+		void enumerate_devices(std::vector<data_model::DeviceId>& devs) override;
 
-		private:
+
+	private:
+		mutable std::recursive_mutex mutex_;
+		
+		AccessDeviceListenerPtr get_device_listener(uint16_t number);
+		AccessDeviceListenerPtr get_device_listener(const std::string& name);
+			
 			
 		AccessDeviceEngine(const AccessDeviceEngine& other) = delete;
 		AccessDeviceEngine& operator=(const AccessDeviceEngine&) = delete;
 
 		SerialPortEnumerator device_enumerator_;
-		concurrent::containers::ConcurrentMap<data_model::DeviceId
-			                            , AccessDeviceListenerPtr> devices_;
 
+		concurrent::containers::ConcurrentVector<AccessDeviceListenerPtr> devices_;
+		
 	};
 	
 }

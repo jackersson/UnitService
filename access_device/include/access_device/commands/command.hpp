@@ -1,72 +1,103 @@
 #ifndef Command_Included
 #define Command_Included
 
-#include <access_device/rs232/rs232_controller_utils.hpp>
 #include <vector>
-#include <common/iequatable.hpp>
+#include <contracts/devices/access_device/access_device_types.hpp>
+#include <contracts/devices/access_device/icommand_result.hpp>
+#include <access_device/rs232/rs232_controller_types.hpp>
 
 namespace access_device
 {
-	namespace commands {
-
-		class Command : public contracts::common::IEquatable<Command>
+	namespace commands 
+	{
+		class OutputCommand 
+			: public contracts::devices::access_device::ICommandResult
 		{
 		public:
+			explicit OutputCommand(const std::vector<unsigned char>& command);
 
-			explicit Command(const std::vector<unsigned char>& bytes)
-				: bytes_(bytes)
-			{
-				valid_ = rs232::check_sum_valid(bytes);
+			bool is_valid() const override;
+			bool is_empty() const override;
 
-				data_  = rs232::get_data(bytes);
-				empty_ = rs232::data_empty(data_);
-			}
+			uint16_t      device_number () const override;
+			std::string   get_dallas_key() const override;
+			unsigned char small_data    () const override;
 
-			virtual ~Command() {}
+			const std::vector<unsigned char>& full_data() const override;
 
-			bool equals(const Command& other) const override
-			{
-				return valid() && other.valid()
-					&& rs232::compare(bytes(), other.bytes());
-			}
-
-			bool valid() const {
-				return valid_;
-			}
-
-			bool empty() const {
-				return empty_;
-			}
-
-			const std::vector<unsigned char>& bytes() const {
-				return bytes_;
-			}
-
-			const std::vector<unsigned char>& data() const {
-				return data_;
-			}
-
-		protected:
-			std::vector<unsigned char> data_;
-			bool empty_;
+			contracts::devices::access_device::access_device_module
+				device_module() const override;
 
 		private:
-			std::vector<unsigned char> bytes_;
-			bool valid_;
+			void parse(const std::vector<unsigned char>& command);
+
+			rs232::port_command        header_       ;
+			uint16_t                   device_number_;
+			std::vector<unsigned char> data_         ;
+			bool                       valid_        ;
 		};
 
-		//if 0 then 255 in data
-		class InvertedCommand : public Command
+		class IInputCommand
 		{
-			public:
-			explicit InvertedCommand(const std::vector<unsigned char>& bytes)
-				: Command(bytes)
-			{
-				if (data_.size() == 0)
-					return;
-				rs232::invert(data_);
-				empty_ = rs232::data_empty(data_);
-			}
+		public:
+			virtual ~IInputCommand() {}
+
+			virtual void set_device_number(uint16_t      dev_number) = 0;
+			virtual void set_data         (unsigned char data      ) = 0;
+
+			virtual const std::vector<unsigned char>& get() const = 0;
+
+			virtual rs232::port_command get_header() const = 0;
+		};
+
+		class SimpleCommand : public IInputCommand
+		{
+		public:
+			SimpleCommand(rs232::port_command port_cmd, size_t size);
+
+			rs232::port_command get_header() const override;
+
+			void set_header       (rs232::port_command port_cmd);
+			void set_device_number(uint16_t dev_number) override;
+
+			const std::vector<unsigned char>& get() const  override;
+			
+		protected:
+			std::vector<unsigned char> command_;
+
+		private:
+			rs232::port_command  header_;
+			uint16_t      device_number_;
+		};
+
+		class ReadPortCommand : public SimpleCommand
+		{
+		public:
+			explicit ReadPortCommand(rs232::port_command port_cmd);
+
+			void set_data(unsigned char data) override;
+		};
+
+		class WritePortCommand : public SimpleCommand
+		{
+		public:
+			explicit WritePortCommand(rs232::port_command port_cmd);
+
+			void set_data(unsigned char data) override;
+		private:
+			unsigned char data_;
+		};
+
+		class DallasKeyCommand : public SimpleCommand
+		{
+		public:
+			explicit DallasKeyCommand(rs232::port_command port_cmd);
+
+			void set_data(unsigned char) override;
+
+			void set_data(const std::vector<unsigned char>& data);
+		private:
+			std::vector<unsigned char> data_;
 		};
 	}
 }

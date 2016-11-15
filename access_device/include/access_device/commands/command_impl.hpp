@@ -1,7 +1,7 @@
 #ifndef ICommandsImpl_Included
 #define ICommandsImpl_Included
-#include "executable_command_base.hpp"
 
+#include "executable_command_base.hpp"
 
 namespace access_device
 {
@@ -9,80 +9,35 @@ namespace access_device
 	{		
 		class LightCommand final: public ExecutableCommandBase
 		{
-
 		public:
-			LightCommand()
-				: ExecutableCommandBase(rs232::port_command::WriteB, rs232::DATA_SIZE)
-			{
-				std::vector<unsigned char> bytes;
-				rs232::create_data_command(bytes, id(), 0, 0);
-				input_command_ = std::make_unique<Command>(bytes);
+			LightCommand(): ExecutableCommandBase(rs232::WRITE_COMMAND_SIZE)	{	
+				input_command_ = std::make_unique<WritePortCommand>(rs232::port_command::WriteB);
 			}
-			//TODO maybe remove from here
-			const Command& input() const override	{
-				return *input_command_.get();
-			}
-
-		private:
-			std::unique_ptr<Command> input_command_;
 		};
 
 		class ButtonCommand final : public ExecutableCommandBase
 		{
-
 		public:
-			ButtonCommand()
-				: ExecutableCommandBase(rs232::port_command::ReadC, rs232::DATA_SIZE)
-			{
-				std::vector<unsigned char> bytes;
-				rs232::create_empty_command(bytes, id(), 0);
-				input_command_ = std::make_unique<Command>(bytes);
+			ButtonCommand() : ExecutableCommandBase(rs232::WRITE_COMMAND_SIZE)	{
+				input_command_ = std::make_unique<ReadPortCommand>(rs232::port_command::ReadC);
 			}
-
-			//TODO maybe remove from here
-			const Command& input() const override {
-				return *input_command_.get();
-			}
-
-		protected:
-			std::shared_ptr<Command> create_command(const std::vector<unsigned char>& bytes) const override
-			{
-				return std::make_shared<InvertedCommand>(bytes);
-			}
-
-
-		private:
-			std::unique_ptr<Command> input_command_;
 		};
 
 		class DallasCommand final : public ExecutableCommandBase
 		{
 		public:
-			DallasCommand()
-				: ExecutableCommandBase(rs232::port_command::Dallas, rs232::DALLAS_SIZE)
-			{
-				std::vector<unsigned char> bytes;
-				rs232::create_empty_command(bytes, id(), 0);
-				input_command_ = std::make_unique<Command>(bytes);		
+			DallasCommand() : ExecutableCommandBase(rs232::DALLAS_SIZE)	{
+				input_command_ = std::make_unique<ReadPortCommand>(rs232::port_command::Dallas);
 			}
-
-			//TODO maybe remove from here
-			const Command& input() const override {
-				return *input_command_.get();
-			}
-
-		protected:
-			std::shared_ptr<Command> 
-				create_command(const std::vector<unsigned char>& bytes) const override
-			{
-				return std::make_shared<InvertedCommand>(bytes);
-			}
-
-
-		private:
-			std::unique_ptr<Command> input_command_;
 		};
-	
+
+		class DeviceInfoCommand final : public ExecutableCommandBase
+		{
+		public:
+			DeviceInfoCommand() : ExecutableCommandBase(rs232::WRITE_COMMAND_SIZE)	{
+				input_command_ = std::make_unique<ReadPortCommand>(rs232::port_command::ReadB);
+			}
+		};	
 	}
 }
 
