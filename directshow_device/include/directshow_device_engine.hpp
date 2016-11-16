@@ -42,8 +42,9 @@ namespace directshow_device
 		void de_init() override;
 		void init   () override;
 
-		void enumerate_devices(std::vector<data_model::DeviceId>& devs) override;
+		const contracts::devices::IDeviceEnumerator& enumerator() const override;
 
+		size_t size() const override;			
 
 	private:
 		DirectShowDeviceEngine(const DirectShowDeviceEngine& other) = delete;

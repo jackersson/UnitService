@@ -2,6 +2,7 @@
 #include <future>
 
 #include <data/models/devices.hpp>
+#include "../../../unit_service_tests/unit_service_api.hpp"
 
 using namespace contracts::devices;
 
@@ -16,11 +17,13 @@ namespace grpc_services
 
 			if (request_.device_type() == DataTypes::DeviceType::CardReader)
 			{
+
 				data_model::DeviceId dev("any"
 					                      , static_cast<uint16_t>(request_.serial_number()));
-				engine_->add(dev);
-				engine_->subscribe(this, dev);
-				wait_for_complete_request();
+
+				testable_unit_context::GetCardApi card_api(engine_);
+				auto f = card_api.get_card(dev);
+			
 			}
 			else
 			{

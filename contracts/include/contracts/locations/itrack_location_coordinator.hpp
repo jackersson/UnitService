@@ -8,6 +8,7 @@
 namespace data_model{
 	class Location  ;
 	enum  DeviceType;
+	class DeviceId  ;
 }
 
 namespace contracts

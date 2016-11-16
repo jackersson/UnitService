@@ -56,14 +56,14 @@ bool DevicesContainer::contains( const data_model::DeviceId& device_name
 void DevicesContainer::fill_access_devices(data_model::Devices& devices) const
 {
 	std::vector<data_model::DeviceId> items;
-	access_engine_->enumerate_devices(items);
+	access_engine_->enumerator().enumerate(items);
 	fill_devices(devices, items, data_model::DeviceType::CardReader);
 }
 
 void DevicesContainer::fill_video_devices(data_model::Devices& devices) const
 {
 	std::vector<data_model::DeviceId> items;
-	directshow_engine_->enumerate_devices(items);
+	directshow_engine_->enumerator().enumerate(items);
 	fill_devices(devices, items, data_model::DeviceType::Capture);
 }
 

@@ -31,10 +31,12 @@ namespace access_device
 
 	void AccessDeviceListener::stop()
 	{
+		if (!cancelation_requested)
+			on_state(Stopped);
 		clear();
 		Threadable::stop();
 		if (access_device_impl_ != nullptr)
-	  	access_device_impl_->de_init();
+	  	access_device_impl_->de_init();		
 	}
 		
 	void AccessDeviceListener::run() 
@@ -122,8 +124,7 @@ namespace access_device
 		{
 			return access_device_impl_->open();
 		}
-		catch (std::exception& exception) {
-			on_error(exception);
+		catch (std::exception&) {
 			return false;
 		}
 	}		
@@ -131,7 +132,10 @@ namespace access_device
 	void AccessDeviceListener::init_session()
 	{
 		if (!open())
+		{
+			on_state(Error);
 			return;
+		}
 		if (access_device_impl_ != nullptr && !access_device_impl_->reset()) //TODO maybe to log
 			std::cout << "Can't reset device" << std::endl;
 

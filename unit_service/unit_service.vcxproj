@@ -167,7 +167,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="src\access_device_reserved_engine.cpp" />
     <ClCompile Include="src\coordinator_service_worker.cpp" />
     <ClCompile Include="src\devices_container.cpp" />

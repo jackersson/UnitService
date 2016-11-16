@@ -17,7 +17,7 @@ namespace access_device
 		return  std::find_if(devices_.begin(), devices_.end(),
 			[&device_name](AccessDeviceImplPtr device) -> bool
 		{
-			return device->id() == device_name.serial_number();
+			return device->device_valid() && device->id() == device_name.serial_number();
 		}) != devices_.end();
 	}
 

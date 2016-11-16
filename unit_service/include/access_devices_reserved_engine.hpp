@@ -51,8 +51,12 @@ public:
 		return impl_->unsubscribe_all();
 	}
 
-	void enumerate_devices(std::vector<data_model::DeviceId>& devs) override {
-		return impl_->enumerate_devices(devs);
+	const contracts::devices::IDeviceEnumerator& enumerator() const override {
+		return impl_->enumerator();
+	}
+
+	size_t size() const override{
+		return impl_->size();
 	}
 	
 	void de_init() override {

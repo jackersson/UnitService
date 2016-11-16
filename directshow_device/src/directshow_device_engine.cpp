@@ -4,6 +4,9 @@
 
 #include "directshow_device_listener.hpp"
 
+using namespace contracts::devices;
+using namespace video_device;
+
 namespace directshow_device
 {	
 	DirectShowDeviceEngine::DirectShowDeviceEngine() {
@@ -69,7 +72,7 @@ namespace directshow_device
 		}
 	}
 
-	void DirectShowDeviceEngine::subscribe(IVideoDeviceObserver* observer
+	void DirectShowDeviceEngine::subscribe(IDeviceObserver<IStreamData>* observer
 		, const data_model::DeviceId& device_name) 
 	{
 		if (device_name.is_empty())
@@ -85,14 +88,14 @@ namespace directshow_device
 		}
 	}
 
-	void DirectShowDeviceEngine::unsubscribe(IVideoDeviceObserver* observer) 
+	void DirectShowDeviceEngine::unsubscribe(IDeviceObserver<IStreamData>* observer)
 	{
 		for (auto it : devices_) {
 			it.second->unsubscribe(observer);
 		}
 	}
 
-	bool DirectShowDeviceEngine::has_observer(IVideoDeviceObserver* observer
+	bool DirectShowDeviceEngine::has_observer(IDeviceObserver<IStreamData>* observer
 		, const data_model::DeviceId& device_name) 
 	{
 		if (device_name.is_empty())
@@ -137,10 +140,14 @@ namespace directshow_device
 		}
 	}
 
-	void DirectShowDeviceEngine::enumerate_devices
-	                          (std::vector<data_model::DeviceId>& devs)
+	const contracts::devices::IDeviceEnumerator& 
+		    DirectShowDeviceEngine::enumerator() const
 	{
-		for (auto it : devices_)
-			devs.push_back(data_model::DeviceId(it.first));
-	}	
+		return device_enumerator_;
+	}
+
+	size_t DirectShowDeviceEngine::size() const
+	{
+		return devices_.size();
+	}
 }

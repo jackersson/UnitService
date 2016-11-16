@@ -128,12 +128,10 @@ namespace access_device
 			it->unsubscribe_all();
 		}
 	}
-
-	void AccessDeviceEngine::enumerate_devices(std::vector<DeviceId>& devs) 
+		
+	const IDeviceEnumerator& AccessDeviceEngine::enumerator() const
 	{
-		std::lock_guard<std::recursive_mutex> lock(mutex_);
-		for (auto it : devices_)
-			devs.push_back(DeviceId(it->port_name(), it->id()));
+		return device_enumerator_;
 	}
 
 	void AccessDeviceEngine::de_init()
@@ -170,5 +168,11 @@ namespace access_device
 		});
 		return result == devices_.end() ? nullptr : *result;
 	}	
+	
+	size_t AccessDeviceEngine::size() const
+	{
+		std::lock_guard<std::recursive_mutex> lock(mutex_);
+		return devices_.size();
+	}
 }
 

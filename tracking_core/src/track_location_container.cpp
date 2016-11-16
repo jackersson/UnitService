@@ -44,22 +44,36 @@ namespace tracking
 			return track_locations_.contains(uuid);
 		}
 
-		bool TrackLocationsContainer::contains(const std::string& device_name
-			, data_model::DeviceType dev_type) const
+		
+		bool 
+			TrackLocationsContainer::contains( const data_model::DeviceId& device_name
+			                                 , data_model::DeviceType dev_type) const
 		{
+			if (device_name.is_empty())
+				return false;
 			switch (dev_type)
 			{
 			case data_model::None_Type: break;
 			case data_model::CardReader:
-				return (access_devices_.find(device_name) != access_devices_.end());
+				for (auto item : track_locations_)
+				{
+					auto& dev = item.second->location().access_device();
+					if (!dev.is_empty() && dev == device_name)
+						return true;
+				}			
 			case data_model::Capture:
-				return (video_devices_.find(device_name) != video_devices_.end());
+				for (auto item : track_locations_)
+				{
+					auto& dev = item.second->location().capture_device();
+					if (!dev.is_empty() && dev == device_name)
+						return true;
+				}
 			default:
 				break;
 			}
 			return false;
 		}
-
+		
 		void TrackLocationsContainer::clear()
 		{
 			track_locations_.clear();
@@ -67,7 +81,8 @@ namespace tracking
 		}
 
 		//returns true if there is any difference
-		bool TrackLocationsContainer::get_difference(const std::set<data_model::Key>& items
+		bool TrackLocationsContainer::get_difference
+		  ( const std::set<data_model::Key>& items
 			, std::vector<data_model::Key>& difference)
 		{
 			std::set_difference(keys_.begin(), keys_.end()

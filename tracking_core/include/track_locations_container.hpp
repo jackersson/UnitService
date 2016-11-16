@@ -26,22 +26,19 @@ namespace tracking
 
 			bool contains( contracts::locations::ILocationPtr location) const;
 			bool contains( const data_model::Key& uuid) const;
-			bool contains( const std::string& device_name
+			bool contains( const data_model::DeviceId& device_name
 				           , data_model::DeviceType dev_type) const;
 
 			void clear();
 
 			//returns true if there is any difference
-			bool get_difference(const std::set<data_model::Key>& items
-				, std::vector<data_model::Key>& difference);
+			bool get_difference( const std::set<data_model::Key>& items
+			                 	 , std::vector<data_model::Key>& difference);
 
 			size_t size()	const;
 
 		private:		
 			std::set<data_model::Key> keys_;
-
-			std::set<std::string> access_devices_;
-			std::set<std::string> video_devices_ ;
 
 			//TODO not mutable but const contains, find
 			mutable concurrent::containers::ConcurrentMap<data_model::Key

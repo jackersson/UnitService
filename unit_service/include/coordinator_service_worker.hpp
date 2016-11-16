@@ -19,9 +19,7 @@ class CoordinatorServiceWorker : public contracts::common::IModule
 public:
 	explicit CoordinatorServiceWorker(contracts::IServiceContext* context);
 
-	~CoordinatorServiceWorker(){
-		CoordinatorServiceWorker::de_init();
-	}
+	~CoordinatorServiceWorker();
 
 	void init   () override;
 	void de_init() override;

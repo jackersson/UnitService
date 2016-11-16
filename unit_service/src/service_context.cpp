@@ -6,8 +6,13 @@
 #include <services_coordinator.hpp>
 #include "coordinator_service_worker.hpp"
 
-#include <coordinator_service_connector.hpp>
-#include <coordinator_service_heartbeat.hpp>
+ServiceContext::ServiceContext() : configuration_(nullptr)
+{}
+
+
+ServiceContext::~ServiceContext() {
+	ServiceContext::de_init();
+}
 
 void ServiceContext::init()
 {
@@ -26,7 +31,7 @@ void ServiceContext::init()
 	tracking_coordinator_
   	= std::make_shared<tracking::locations::TrackLocationsEngine>(this);
 	modules_.push_back(tracking_coordinator_.get());	
-
+	
 	coordinator_service_ = std::make_unique<CoordinatorServiceWorker>(this);
 	modules_.push_back(coordinator_service_.get());
 
@@ -35,7 +40,7 @@ void ServiceContext::init()
 		if (module != nullptr)
 			module->init();
 	}
-
+	
 	logger_.info("Unit service init done");
 }
 
@@ -47,3 +52,5 @@ void ServiceContext::de_init()
 		  module->de_init();
 	}
 }
+
+

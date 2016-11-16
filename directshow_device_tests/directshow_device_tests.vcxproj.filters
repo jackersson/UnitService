@@ -18,25 +18,8 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="unit_service_tests.cpp">
+    <ClCompile Include="directshow_device_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="unit_service_api_tests.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="testable_unit_context.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="testable_check_device_request.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="testable_get_card_request.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="unit_service_api.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

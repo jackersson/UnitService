@@ -24,8 +24,10 @@ namespace contracts
 			virtual void add      (const data_model::DeviceId& device_name) = 0;												    
 			virtual void remove   (const data_model::DeviceId& device_name) = 0;
 			virtual bool is_active(const data_model::DeviceId& device_name) = 0;
+							
+			virtual const devices::IDeviceEnumerator& enumerator() const = 0;
 
-			virtual void enumerate_devices(std::vector<data_model::DeviceId>& devs) = 0;
+			virtual size_t size() const = 0;
 		};
 		
 		template <typename T>

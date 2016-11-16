@@ -11,7 +11,8 @@ namespace tracking
 {
 	namespace locations
 	{		
-		TrackLocationsEngine::TrackLocationsEngine(contracts::IServiceContext* context)
+		TrackLocationsEngine::TrackLocationsEngine
+		(contracts::IServiceContext* context)
 			: context_(context)
 		{
 			local_macaddress_ = utils::network::get_mac_address();

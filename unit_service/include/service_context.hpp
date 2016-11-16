@@ -13,12 +13,8 @@ class ServiceContext : public contracts::common::IModule
 	                   , public contracts::IServiceContext
 {
 public:
-	ServiceContext() : configuration_(nullptr)
-	{}
-	
-	~ServiceContext(){
-		ServiceContext::de_init();
-	}
+	ServiceContext ();	
+	~ServiceContext();
 
 	void set_configuration(contracts::IServiceConfiguration* configuration) {
 		configuration_ = configuration;

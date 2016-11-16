@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\launcher.cpp">
       <Filter>src</Filter>
     </ClCompile>

@@ -1,6 +1,9 @@
 #include <gtest/gtest.h>
-#include <devices_container.hpp>
 #include <data/models/devices.hpp>
+#include <access_device/access_device_engine.hpp>
+#include "testable_check_device_request.hpp"
+#include "testable_get_card_request.hpp"
+#include <devices_container.hpp>
 
 namespace unit_service_api_tests
 {		
@@ -36,7 +39,33 @@ namespace unit_service_api_tests
 		}
 
 		EXPECT_TRUE(access_device_found );
-		EXPECT_TRUE(capture_device_found);
+		//EXPECT_TRUE(capture_device_found);
+		//*/
+	}
+
+	//TODO check on reserved engine
+
+	//Plug unplag wanted device
+	TEST(UnitServiceApiTests, CheckDeviceTest)
+	{
+		access_device::AccessDeviceEngine engine;
+		testable_unit_context::CheckDeviceMock check(&engine);
+
+		DataTypes::Device dev;
+		dev.set_serial_number(0);
+		dev.set_device_type(DataTypes::CardReader);
+		check.process_request(dev);
+	}
+
+	TEST(UnitServiceApiTests, GetCardTest)
+	{
+		access_device::AccessDeviceEngine engine;
+		testable_unit_context::GetCardMock check(&engine);
+
+		DataTypes::Device dev;
+		dev.set_serial_number(0);
+		dev.set_device_type(DataTypes::CardReader);
+		check.process_request(dev);
 	}
 
 }
