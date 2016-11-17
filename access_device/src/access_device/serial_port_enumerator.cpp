@@ -11,6 +11,16 @@ using namespace std::chrono;
 namespace access_device
 {	
 	milliseconds SerialPortEnumerator::delay_ = milliseconds(1000);
+
+	SerialPortEnumerator::SerialPortEnumerator()
+	{
+		
+	}
+
+	SerialPortEnumerator::~SerialPortEnumerator()
+	{
+
+	}
 	
 	bool SerialPortEnumerator::connected(const data_model::DeviceId& device_name) const {
 		std::lock_guard<std::recursive_mutex> lock(mutex_);

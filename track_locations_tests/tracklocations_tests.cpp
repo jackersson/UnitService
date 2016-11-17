@@ -3,6 +3,13 @@
 #include <units/access_device_unit.hpp>
 #include "testable_unit_context.hpp"
 #include "testable_track_location.hpp"
+#include <network_utils.hpp>
+
+#include <data/models/location.hpp>
+#include <data/models/devices.hpp>
+#include <access_device/access_device_engine.hpp>
+#include <data/data_utils.hpp>
+#include "testable_configuration.hpp"
 
 using namespace data_model;
 using namespace tracking::locations;
@@ -12,7 +19,7 @@ namespace track_locations_tests
 	Location get_location ();
 	void     get_locations(std::vector<Location>& items, size_t count);
 	Location get_location_with_device();
-
+	
 	TEST(TrackLocationTests, TrackLocationsContainerTest)
 	{		
 		TrackLocationsEngine engine(nullptr);
@@ -57,7 +64,6 @@ namespace track_locations_tests
 		auto device_name = "COM3";
 
 		access_device::AccessDeviceEngine engine;
-		engine.init();
 		std::this_thread::sleep_for(std::chrono::seconds(1));
 		
 		tracking::units::AccessDeviceObserver  unit(&engine);
@@ -96,7 +102,8 @@ namespace track_locations_tests
 
 	TEST(TrackLocationTests, TrackLocationLifecycleTest)
 	{
-		TestableUnitContext context;
+		TestableServiceConfiguration config;
+		TestableUnitContext context(&config);
 		context.init();
 		
 		auto track_engine = context.track_locations();
@@ -108,7 +115,25 @@ namespace track_locations_tests
 
 		context.de_init();
 	}
+	
+	TEST(TrackLocationTests, GrantAccessTest)
+	{
+		TestableServiceConfiguration config;
+		TestableUnitContext context(&config);
+		//context.init();
 
+		auto track_engine = context.track_locations();
+
+		std::vector<Location> locations;
+		locations.push_back(get_location_with_device());
+		track_engine->update_with(locations);
+		std::this_thread::sleep_for(std::chrono::seconds(2));
+
+		track_engine->grant_access(locations[0]);
+		std::this_thread::sleep_for(std::chrono::seconds(5));
+		context.de_init();
+	}
+	
 	Location get_location()
 	{
 		Location loc;
@@ -121,7 +146,7 @@ namespace track_locations_tests
 	Location get_location_with_device()
 	{
 		auto loc = get_location();
-		AccessDevice access_device("COM3");
+		AccessDevice access_device(3);
 		loc.set_access_device(access_device);
 		return loc;
 	}

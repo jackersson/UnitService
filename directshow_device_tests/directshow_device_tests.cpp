@@ -1,20 +1,18 @@
-//#include <gtest/gtest.h>
-//#include <directshow_device_enumerator.hpp>
+#include <gtest/gtest.h>
+#include <directshow_device_enumerator.hpp>
 
 namespace directshow_tests
 {
-	//TODO to direct show device tests project
-	/*
 	TEST(DirectshowEnumeratorTest, DirectshowDeviceTests)
 	{
-	directshow_device::DirectshowDeviceEnumerator enumerator;
-	enumerator.start();
-
-	std::this_thread::sleep_for(std::chrono::seconds(10));
-
-	enumerator.stop();
-
-	EXPECT_TRUE(true);
+	  directshow_device::DirectshowDeviceEnumerator enumerator;
+	  enumerator.start();
+	  
+	  std::this_thread::sleep_for(std::chrono::seconds(3));
+	  
+	  enumerator.stop();
+	  
+	  EXPECT_TRUE(true);		
 	}
-	*/
+	
 }

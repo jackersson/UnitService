@@ -11,6 +11,13 @@
 
 namespace directshow_device
 {
+	DirectshowDeviceEnumerator::DirectshowDeviceEnumerator()
+	{}
+
+	DirectshowDeviceEnumerator::~DirectshowDeviceEnumerator(){
+		Threadable::stop();
+	}
+
   std::chrono::milliseconds delay = std::chrono::milliseconds(1000);
 	ca::Capture capture(nullptr, nullptr);
 

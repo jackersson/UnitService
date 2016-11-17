@@ -167,7 +167,6 @@
     <ClInclude Include="include\directshow_device_listener.hpp" />
     <ClInclude Include="include\platform.hpp" />
     <ClInclude Include="include\raw_data.hpp" />
-    <ClInclude Include="include\std_threadable.hpp" />
     <ClInclude Include="include\stream_data.hpp" />
     <ClInclude Include="include\video_source.hpp" />
   </ItemGroup>

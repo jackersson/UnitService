@@ -14,13 +14,15 @@ namespace tracking
 {
 	namespace units
 	{		
-		AccessDeviceObserver::~AccessDeviceObserver() {
+		AccessDeviceObserver::~AccessDeviceObserver()			
+		{
 				AccessDeviceObserver::stop();
 		}
 			
 		AccessDeviceObserver::AccessDeviceObserver(IAccessDeviceEngine*	engine)
 			: engine_(engine)
 			, persons_repository_(nullptr)
+			, device_(std::make_unique<AccessDevice>())
 		{
 			if (engine_ == nullptr)
 				throw std::exception("Access device engine can't be null");
@@ -28,7 +30,8 @@ namespace tracking
 
 		AccessDeviceObserver::AccessDeviceObserver(IAccessDeviceEngine*	engine
 		  , AbstractRepositoryContainer* repository)
-		  : engine_(engine)
+		  : device_(std::make_unique<AccessDevice>())
+			, engine_(engine)
 		{
 			if (engine_ == nullptr)
 				throw std::exception("Access device engine can't be null");

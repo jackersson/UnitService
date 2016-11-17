@@ -19,14 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{AC260F3F-8DB1-4A4F-843F-BD5FEB86C9DF}</ProjectGuid>
+    <ProjectGuid>{AB6D903D-D25A-4540-B92E-3A4412503ABF}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>access_device</RootNamespace>
+    <RootNamespace>services_api_tests</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -58,11 +58,16 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\properties\serial_port_x32d.props" />
-    <Import Project="..\contracts\contracts_x32d.props" />
-    <Import Project="..\properties\bioskynet_contracts_x32d.props" />
     <Import Project="..\properties\boost_32d.props" />
+    <Import Project="..\properties\messages_x32d.props" />
+    <Import Project="..\properties\services_api_x32d.props" />
+    <Import Project="..\properties\bioskynet_contracts_x32d.props" />
     <Import Project="..\properties\utils_x32d.props" />
+    <Import Project="..\properties\grpc_x32d.props" />
+    <Import Project="..\properties\protobuf_x32d.props" />
+    <Import Project="..\properties\spdlog_x32d.props" />
+    <Import Project="..\grpc_module\grpc_module_x32d.props" />
+    <Import Project="..\properties\gtest_x32d.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -92,8 +97,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_WIN32_WINNT=0x0601;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)access_device\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -149,32 +153,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\access_device\access_device_engine.cpp" />
-    <ClCompile Include="src\access_device\access_device_impl.cpp" />
-    <ClCompile Include="src\access_device\access_device_listener.cpp" />
-    <ClCompile Include="src\access_device\commands\command.cpp" />
-    <ClCompile Include="src\access_device\commands\command_factory.cpp" />
-    <ClCompile Include="src\access_device\commands\executable_command_base.cpp" />
-    <ClCompile Include="src\access_device\common\access_device_state.cpp" />
-    <ClCompile Include="src\access_device\core\serial_port_io.cpp" />
-    <ClCompile Include="src\access_device\core\timeout_serial.cpp" />
-    <ClCompile Include="src\access_device\serial_port_enumerator.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="include\access_device\access_device_engine.hpp" />
-    <ClInclude Include="include\access_device\access_device_impl.hpp" />
-    <ClInclude Include="include\access_device\access_device_listener.hpp" />
-    <ClInclude Include="include\access_device\commands\command.hpp" />
-    <ClInclude Include="include\access_device\commands\command_factory.hpp" />
-    <ClInclude Include="include\access_device\commands\command_impl.hpp" />
-    <ClInclude Include="include\access_device\commands\executable_command_base.hpp" />
-    <ClInclude Include="include\access_device\common\access_device_state.hpp" />
-    <ClInclude Include="include\access_device\core\iexecutable_command.hpp" />
-    <ClInclude Include="include\access_device\core\serial_port_io.hpp" />
-    <ClInclude Include="include\access_device\core\timeout_serial.hpp" />
-    <ClInclude Include="include\access_device\rs232\rs232_controller_types.hpp" />
-    <ClInclude Include="include\access_device\rs232\rs232_controller_utils.hpp" />
-    <ClInclude Include="include\access_device\serial_port_enumerator.hpp" />
+    <ClCompile Include="clients_tests.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

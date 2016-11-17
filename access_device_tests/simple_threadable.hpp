@@ -7,20 +7,12 @@ namespace utils
 	class SimpleThreadable : public Threadable
 	{
 	public:
-		SimpleThreadable() {}
-
+		SimpleThreadable();
+		~SimpleThreadable();
 	protected:
-		void run() override
-		{
-			while (active())
-			{
-				std::cout << "do" << std::endl;
-				if (cancelation_requested)
-					break;
-			}
-			std::cout << "done" << std::endl;
-		}
+		void run() override;
 	};
 }
 
-#endif
+#endif 
+

@@ -7,7 +7,9 @@
 #include <contracts/devices/device_observer.hpp>
 #include <contracts/devices/video_device/istream_data.hpp>
 
-#include "std_threadable.hpp"
+//#include "std_threadable.hpp"
+
+#include <threadable.hpp>
 
 namespace cv {
 	class VideoCapture;
@@ -19,7 +21,7 @@ namespace directshow_device
 	class Capability;
 	class DirectShowDeviceInfo;
 	
-	class VideoSource : public utils::StdThreadable
+	class VideoSource : public utils::Threadable
 		, public contracts::observers::Observable
 		            <contracts::devices::IDeviceObserver
 		            <contracts::devices::video_device::IStreamData>>

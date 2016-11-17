@@ -4,6 +4,8 @@
 #include <contracts/locations/ilocation.hpp>
 #include "units/access_device_unit.hpp"
 
+#include <data/models/location.hpp>
+
 namespace track_locations_tests
 {	
 		class TestableTrackLocation : public contracts::locations::ILocation

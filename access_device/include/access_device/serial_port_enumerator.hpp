@@ -15,8 +15,8 @@ namespace access_device
 		, public contracts::devices::IDeviceInfo<AccessDeviceImplPtr>
 	{
 	public:
-		SerialPortEnumerator(){}
-
+		SerialPortEnumerator();
+		~SerialPortEnumerator();
 		bool connected(const data_model::DeviceId& device_name) const override;
 		void enumerate(std::vector<data_model::DeviceId>&     ) const override;
 		

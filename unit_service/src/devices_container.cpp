@@ -11,12 +11,20 @@
 DevicesContainer::DevicesContainer()
 	: access_engine_(std::make_unique<access_device::AccessDeviceEngine>())
 	, directshow_engine_(std::make_unique<directshow_device::DirectShowDeviceEngine>())
-{	}
+{
+	DevicesContainer::init();
+}
 
 DevicesContainer::DevicesContainer(IDevicesSet* reserved_devices)
 	: access_engine_(std::make_unique<AccessDevicesReservedEngine>(reserved_devices))
 	, directshow_engine_(std::make_unique<DirectShowReservedEngine>(reserved_devices))
-{	}
+{
+	DevicesContainer::init();
+}
+
+DevicesContainer::~DevicesContainer() {
+	DevicesContainer::de_init();
+}
 
 void DevicesContainer::init()
 {

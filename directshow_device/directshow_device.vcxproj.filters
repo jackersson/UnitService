@@ -59,9 +59,6 @@
     <ClInclude Include="include\video_source.hpp">
       <Filter>includes</Filter>
     </ClInclude>
-    <ClInclude Include="include\std_threadable.hpp">
-      <Filter>includes</Filter>
-    </ClInclude>
     <ClInclude Include="include\stream_data.hpp">
       <Filter>includes</Filter>
     </ClInclude>

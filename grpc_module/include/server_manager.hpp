@@ -33,7 +33,7 @@ namespace grpc_services
 		contracts::IServiceContext* context_;
 
 		//std::unique_ptr<unit_service::UnitServiceImpl> unit_service_;
-
+		std::unique_ptr<IService> unit_service_;
 		std::unique_ptr<grpc::Server>  server_;
 		std::vector<IService*>         servers_;
 

@@ -1,7 +1,6 @@
 #ifndef DirectShowDeviceEngine_Included
 #define DirectShowDeviceEngine_Included
 
-#include <std_threadable.hpp>
 #include <contracts/devices/video_device/ivideo_engine.hpp>
 #include <concurrent_containers.hpp>
 

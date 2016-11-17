@@ -32,5 +32,8 @@
     <ClInclude Include="testable_repository_container.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="testable_configuration.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

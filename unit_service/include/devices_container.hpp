@@ -10,6 +10,8 @@ public:
 
 	explicit DevicesContainer(IDevicesSet* reserved_devices);
 
+	~DevicesContainer();
+
 	void init() override;
 
 	void de_init() override;

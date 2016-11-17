@@ -2,9 +2,6 @@
 #define TestableRepositoryContainer_Included
 
 #include <data/irepository.hpp>
-#include "repository/location_repository.hpp"
-#include "repository/visit_records_repository.hpp"
-#include "repository/persons_repository.hpp"
 #include "repository/face_charst_repository.hpp"
 #include <memory>
 

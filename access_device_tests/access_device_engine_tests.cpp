@@ -124,7 +124,7 @@ namespace unit_service_api_tests
 	}
 
 	TEST(AccessDeviceEngineTest, SimpleThreadTest)
-	{
+	{		
 		utils::SimpleThreadable thread;
 
 		thread.start();

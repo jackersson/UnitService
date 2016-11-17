@@ -17,9 +17,9 @@ namespace tracking
 		}
 		
 		DirectShowDeviceUnit::DirectShowDeviceUnit(video_device::IVideoEngine* engine)
-			: engine_(engine)
+			: device_(std::make_unique<CaptureDevice>())
+			, engine_(engine)
 			, persons_repository_(nullptr)
-			, device_(std::make_unique<CaptureDevice>())
 		{
 			if (engine_ == nullptr)
 				throw std::exception("Access device engine can't be null");

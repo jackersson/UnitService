@@ -3,9 +3,10 @@
 
 #include <contracts/devices/idevice_enumerator.hpp>
 #include <contracts/devices/idevice_info.hpp>
-#include "std_threadable.hpp"
+//#include "std_threadable.hpp"
 #include <mutex>
 #include "directshow_device_info.hpp"
+#include <threadable.hpp>
 
 
 namespace directshow_device
@@ -13,13 +14,13 @@ namespace directshow_device
 	class Capability;
 	class DirectShowDeviceInfo;
 
-	class DirectshowDeviceEnumerator : public utils::StdThreadable,
-		  public contracts::devices::IDeviceEnumerator
+	class DirectshowDeviceEnumerator : public utils::Threadable
+		, public contracts::devices::IDeviceEnumerator
 		, public contracts::devices::IDeviceInfo<DirectShowDeviceInfo>
 	{
 	public:
-		DirectshowDeviceEnumerator() {}
-
+		DirectshowDeviceEnumerator();
+		~DirectshowDeviceEnumerator();
 		bool connected(const data_model::DeviceId& device_name) const override;
 		void enumerate(std::vector<data_model::DeviceId>&) const override;
 

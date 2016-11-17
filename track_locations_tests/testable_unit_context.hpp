@@ -10,6 +10,7 @@
 //#include <repository_container.hpp>
 #include <track_locations_engine.hpp>
 #include "testable_repository_container.hpp"
+#include <services_coordinator.hpp>
 
 //#include <coordinator_service.hpp>
 
@@ -17,26 +18,28 @@ class TestableUnitContext : public contracts::common::IModule
 	                        , public contracts::IServiceContext
 {
 public:
-	TestableUnitContext() : configuration_(nullptr)
-	{}
+	explicit TestableUnitContext(contracts::IServiceConfiguration* config) 
+		: configuration_(config)
+	{
+		TestableUnitContext::init();
+	}
 
 	~TestableUnitContext() {
 		TestableUnitContext::de_init();
 	}
 
-	void set_configuration(contracts::IServiceConfiguration* configuration) {
-		configuration_ = configuration;
-	}
+//	void set_configuration(contracts::IServiceConfiguration* configuration) {
+	//	configuration_ = configuration;
+	//}
 
 	void init()    override
 	{
 		logger_.info("Unit service start init");
 
 		devices_ = std::make_unique<DevicesContainer>();
-		devices_->init();
 
-		//services_ = std::make_unique<grpc_services::ServicesCoordinator>(this);
-		//modules_.push_back(services_.get());
+		services_ = std::make_unique<grpc_services::ServicesCoordinator>(this);
+		modules_.push_back(services_.get());
 
 		repository_ = std::make_unique<track_locations_tests::TestableRepositoryContainer>();
 		modules_.push_back(repository_.get());

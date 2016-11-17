@@ -50,7 +50,7 @@ namespace grpc_services
 
 		//Unit service
 		contracts::services::ServiceAddress sa("0.0.0.0", port);
-		auto unit_service_ = std::make_unique<unit_service::UnitServiceImpl>(
+		unit_service_ = std::make_unique<unit_service::UnitServiceImpl>(
 			sa, &builder, context_);
 		servers_.push_back(unit_service_.get());
 

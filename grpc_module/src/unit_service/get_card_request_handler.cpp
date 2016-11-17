@@ -2,7 +2,6 @@
 #include <future>
 
 #include <data/models/devices.hpp>
-#include "../../../unit_service_tests/unit_service_api.hpp"
 
 using namespace contracts::devices;
 
@@ -21,8 +20,8 @@ namespace grpc_services
 				data_model::DeviceId dev("any"
 					                      , static_cast<uint16_t>(request_.serial_number()));
 
-				testable_unit_context::GetCardApi card_api(engine_);
-				auto f = card_api.get_card(dev);
+			//	testable_unit_context::GetCardApi card_api(engine_);
+				//auto f = card_api.get_card(dev);
 			
 			}
 			else
