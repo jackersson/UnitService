@@ -18,7 +18,7 @@ namespace contracts
 		virtual devices::IDevicesContainer*        devices()         = 0;
 		virtual data::AbstractRepositoryContainer* repository()      = 0;
 		virtual services::IServices*               services()        = 0;
-		virtual const IServiceConfiguration&       configuration()   = 0;
+		virtual IServiceConfiguration*             configuration()   = 0;
 	};
 
 	typedef std::shared_ptr<IServiceContext> IServiceContextPtr;

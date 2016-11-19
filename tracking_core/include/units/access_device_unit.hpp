@@ -74,6 +74,8 @@ namespace tracking
 
 		private:
 
+			bool active_;
+
 			AccessDeviceObserver(const AccessDeviceObserver& other) = delete;
 			AccessDeviceObserver& operator=(const AccessDeviceObserver&) = delete;
 

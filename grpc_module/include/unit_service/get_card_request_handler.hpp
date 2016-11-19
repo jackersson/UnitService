@@ -6,15 +6,14 @@
 #include <contracts/iservice_context.hpp>
 #include <services/unit_service.grpc.pb.h>
 
+#include "unit_service_api.hpp"
+
 namespace grpc_services
 {
 	namespace unit_service
 	{		
 		class GetCardRequestHandler 
-			: public RequestHandler<Services::UnitService::AsyncService>
-		  , public contracts::devices::IDeviceObserver
-		                      	<contracts::devices::access_device::ICommandResult>
-		
+			: public RequestHandler<Services::UnitService::AsyncService>		
 		{
 		public:
 			GetCardRequestHandler(Services::UnitService::AsyncService* service
@@ -30,10 +29,11 @@ namespace grpc_services
 				if (devices == nullptr)
 					throw std::exception("Devices can't be null");
 
-				engine_ = devices->access_device_engine();
-				if (devices == nullptr)
+				auto engine_ = devices->access_device_engine();
+				if (engine_ == nullptr)
 					throw std::exception("Access Device engine can't be null");
-				
+
+				card_api_ = std::make_unique<GetCardApi>(engine_);				
 				proceed();
 			}
 			
@@ -57,19 +57,15 @@ namespace grpc_services
 			{
 				new GetCardRequestHandler(service, completion_queue, context);
 			}
-			
-			void on_error(const contracts::devices::DeviceException& exception) override;
-			void on_state(const contracts::devices::IDeviceState& state) override;
-			void on_next (const contracts::devices::access_device::ICommandResult& data) override;
-			
+		
 		private:
 			void complete(const DataTypes::CardMsg& response);
-			void wait_for_complete_request();
 
 			DataTypes::Device  request_;
 			grpc::ServerAsyncResponseWriter<DataTypes::CardMsg> responder_;
+			std::unique_ptr<GetCardApi> card_api_;
 			contracts::IServiceContext* context_;
-			contracts::devices::access_device::IAccessDeviceEngine* engine_;
+			//contracts::devices::access_device::IAccessDeviceEngine* engine_;
 
 			const std::chrono::seconds REQUEST_TIMEOUT = std::chrono::seconds(3);				
 		};

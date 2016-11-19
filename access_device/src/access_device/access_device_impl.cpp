@@ -3,6 +3,7 @@
 
 #include <access_device/core/timeout_serial.hpp>
 #include <access_device/access_device_impl.hpp>
+#include <future>
 
 using namespace data_model;
 using namespace contracts::devices::access_device;
@@ -19,7 +20,7 @@ namespace access_device
 
 	void AccessDeviceImpl::init()
 	{
-		//	std::async(std::launch::async, [this]() {
+			std::async(std::launch::async, [this]() {
 		try
 		{
 			auto state = open();
@@ -36,11 +37,11 @@ namespace access_device
 				std::cout << port_name_ << " not controlller" << std::endl;
 			close();
 		}
-		catch (std::exception&)
+		catch (std::exception& ex)
 		{
-			//Not implemented
+			std::cout << port_name_ << " init exception " << ex.what() << std::endl;
 		}
-		//	});
+			});
 	}
 
 	AccessDeviceImpl::~AccessDeviceImpl() {
@@ -79,7 +80,7 @@ namespace access_device
 			return true;
 		
 		serial_port_->open(port_name_, BAUD_RATE);
-		serial_port_->set_timeout(boost::posix_time::millisec(100));
+		serial_port_->set_timeout(boost::posix_time::millisec(200));
 		return true;	
 	}
 

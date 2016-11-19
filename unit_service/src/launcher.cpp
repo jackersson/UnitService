@@ -4,12 +4,16 @@
 #include <common/ifile_io.hpp>
 #include <service_utils.hpp>
 #include <logging/logger.hpp>
+#include <network_utils.hpp>
 
 const std::string Launcher::CONFIG_NAME = "config.bio";
 
 
  void Launcher::init()
  {
+	 logger_.info("MacAddress : {0}", utils::network::get_mac_address());
+	 logger_.info("IpAddress  : {0}", utils::network::get_local_ip()   );
+
 	 auto ok = try_load_config(configuration_);
 
 	 if (!ok)

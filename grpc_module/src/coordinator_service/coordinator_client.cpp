@@ -20,10 +20,11 @@ namespace grpc_services
 	
 	std::pair<std::string, std::string>	get_metadata_ip();
 
-	CoordinatorClient::CoordinatorClient(contracts::IServiceContext* context
+	CoordinatorClient::CoordinatorClient(
+		  contracts::IServiceConfiguration*     config
 		, contracts::services::IServiceAddress& address)
 		: CoordinatorClientDataApi(address)
-		, context_(context)
+		, configuration_(config)
 	{}
 
 	void CoordinatorClient::do_set_call_options(services_api::IAsyncCall* call) const 
@@ -33,7 +34,7 @@ namespace grpc_services
 			== typeid(services_api::AsyncConnectCall).name())
 		{
 			call->deadline = CONNECT_REQUEST_DEADLINE;
-			set_connect_msg_metadata(call->metadata, context_->configuration());
+			set_connect_msg_metadata(call->metadata, *configuration_);
 		}
 	}
 

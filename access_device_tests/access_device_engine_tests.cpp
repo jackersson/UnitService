@@ -58,7 +58,6 @@ namespace unit_service_api_tests
 		engine.de_init();
 	}
 
-
 	TEST(AccessDeviceEngineTest, AccessDeviceLifecycleTest)
 	{
 		data_model::DeviceId device_name("Com", 0);

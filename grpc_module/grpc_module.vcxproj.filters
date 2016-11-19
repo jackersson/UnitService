@@ -122,6 +122,9 @@
     <ClInclude Include="include\coordinator_service\coordinator_client.hpp">
       <Filter>includes\coordinator_service</Filter>
     </ClInclude>
+    <ClInclude Include="include\unit_service\unit_service_api.hpp">
+      <Filter>includes\unit_service</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

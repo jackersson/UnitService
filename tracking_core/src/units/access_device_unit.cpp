@@ -23,6 +23,7 @@ namespace tracking
 			: engine_(engine)
 			, persons_repository_(nullptr)
 			, device_(std::make_unique<AccessDevice>())
+			, active_(false)
 		{
 			if (engine_ == nullptr)
 				throw std::exception("Access device engine can't be null");
@@ -32,12 +33,17 @@ namespace tracking
 		  , AbstractRepositoryContainer* repository)
 		  : device_(std::make_unique<AccessDevice>())
 			, engine_(engine)
+			, active_(false)
 		{
 			if (engine_ == nullptr)
 				throw std::exception("Access device engine can't be null");
 
 			if (repository == nullptr)
-				persons_repository_ = repository->get<Person>();
+				throw std::exception("Repository can't be null");
+			
+			persons_repository_ = repository->get<Person>();
+			if (repository == nullptr)
+				throw std::exception("Person Repository can't be null");
 		}
 
 		void AccessDeviceObserver::update(const AccessDevice& device) 
@@ -60,6 +66,7 @@ namespace tracking
 				deny();
 				break;
 			case NoneState:
+				engine_->execute(*device_, lNone);
 			default: break;
 			}
 		}
@@ -118,6 +125,7 @@ namespace tracking
 		std::shared_ptr<VisitRecord>
 			AccessDeviceObserver::identify(const std::string& data) 
 		{
+			set_state(NoneState);
 			Card card;
 			auto person_found = try_extract_card(data, card);
 
@@ -146,9 +154,7 @@ namespace tracking
 		}
 
 		void AccessDeviceObserver::on_next(const ICommandResult& data) 
-		{
-			//context_->logger()->error( "Access device state changed {0}"
-			//     , data.module());
+		{			
 			switch (data.device_module())
 			{
 			case Buttons:
@@ -169,9 +175,11 @@ namespace tracking
 		}
 
 		void AccessDeviceObserver::check_dallas_key(const std::string& data) {
-			if (data == "") //TODO make is_empty function
+			if (data == "" || active_) //TODO make is_empty function
 				return;
 
+			active_ = true;
+			logger_.info("Card detected {0}", data);
 			try
 			{
 				auto target = identify(data);
@@ -180,6 +188,13 @@ namespace tracking
 			catch (std::exception&) {
 				//not implemented
 			}
+
+			std::async(std::launch::async, [this]()
+			{
+				std::this_thread::sleep_for(std::chrono::seconds(3));
+				logger_.info("Ready");
+				active_ = false;
+			});
 		}
 
 		void AccessDeviceObserver::on_target_detected(VisitRecord& visit_record)

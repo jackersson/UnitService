@@ -1,4 +1,4 @@
-#ifndef UnitServiceApi_Included
+/*#ifndef UnitServiceApi_Included
 #define UnitServiceApi_Included
 
 #include <future>
@@ -78,7 +78,8 @@ namespace testable_unit_context
 		contracts::devices::access_device::IAccessDeviceEngine* engine_;
 	  std::promise<std::string> card_number_;
 	};
+	
 }
 
-#endif
+#endif */
 

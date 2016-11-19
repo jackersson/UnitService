@@ -77,7 +77,6 @@
     <Import Project="..\properties\messages_x32d.props" />
     <Import Project="..\contracts\contracts_x32d.props" />
     <Import Project="..\properties\spdlog_x32d.props" />
-    <Import Project="..\properties\services_common_x32d.props" />
     <Import Project="..\properties\utils_x32d.props" />
     <Import Project="..\properties\serial_port_x32d.props" />
     <Import Project="..\properties\services_api_x32d.props" />
@@ -111,6 +110,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

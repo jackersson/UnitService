@@ -10,11 +10,14 @@ namespace grpc_services
 		void GetDevicesRequestHandler::process_request()
 		{
 			data_model::Devices devices;
-
-			if (context_ != nullptr && context_->devices() != nullptr)
+			logger_.info("Get device request -> in");
+			if (context_ != nullptr || context_->devices() != nullptr)
 				context_->devices()->enumerate(devices);
 
 			auto response = services_api::helpers::to_proto_devices(devices);
+			logger_.info("Get device request -> out {0}", devices.size());
+
+			next();
 			responder_.Finish(response, grpc::Status::OK, this);
 		}
 	}

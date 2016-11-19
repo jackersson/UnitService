@@ -46,7 +46,7 @@ namespace grpc_services
 			return;
 
 		grpc::ServerBuilder builder;
-		auto port = context_->configuration().unit_service_port();
+		auto port = context_->configuration()->unit_service_port();
 
 		//Unit service
 		contracts::services::ServiceAddress sa("0.0.0.0", port);

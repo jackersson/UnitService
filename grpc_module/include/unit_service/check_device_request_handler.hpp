@@ -6,6 +6,8 @@
 #include <contracts/iservice_context.hpp>
 #include <services/unit_service.grpc.pb.h>
 
+#include "unit_service_api.hpp"
+
 namespace grpc_services
 {
 	namespace unit_service
@@ -28,7 +30,7 @@ namespace grpc_services
 					throw std::exception("Devices can't be null");
 
 				engine_ = devices->access_device_engine();
-				if (devices == nullptr)
+				if (engine_ == nullptr)
 					throw std::exception("Access Device engine can't be null");
 
 				proceed();
@@ -57,7 +59,6 @@ namespace grpc_services
 
 		private:
 			void complete(const DataTypes::CheckMsg& response);
-			void wait_for_device();
 
 			DataTypes::Device  request_;
 			grpc::ServerAsyncResponseWriter<DataTypes::CheckMsg> responder_;

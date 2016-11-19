@@ -38,26 +38,31 @@ namespace grpc_services
 	{
 		if (initialized_)
 			return;
-		const auto& configuration = context_->configuration();
+		auto configuration = context_->configuration();
 
 		//database service 
 		//For test, Coordinator service is going to be used
-		auto address = configuration.database_service_address();
+		/*
+		auto address = configuration->database_service_address();
 		contracts::services::ServiceAddress database_address(address);
 		auto data_impl = std::make_shared<services_api::DatabaseClientDataApi>(database_address);
 		servers_.push_back(data_impl.get());
 		database_client_ = data_impl;
+		*/
+
+		//Coordinator client 			
+		auto address = configuration->coordinator_service_address();
+		contracts::services::ServiceAddress coordinator_address(address);
+		auto coord_impl	= std::make_shared<CoordinatorClient>( context_->configuration()
+			                                                   , coordinator_address);
+		servers_.push_back(coord_impl.get());
+		coordinator_client_ = coord_impl;
+		database_client_    = coord_impl;
 
 		database_context_
 			= std::make_unique<services_api::datacontext::DataContextContainer>
 			(database_client_.get());
 
-		//Coordinator client 			
-		address = configuration.coordinator_service_address();
-		contracts::services::ServiceAddress coordinator_address(address);
-		auto coord_impl	= std::make_shared<CoordinatorClient>(context_, coordinator_address);
-		servers_.push_back(coord_impl.get());
-		coordinator_client_ = coord_impl;
 		/*
 		//Facial service client
 		address = configuration.facial_service_address();

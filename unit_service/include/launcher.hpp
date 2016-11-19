@@ -5,6 +5,8 @@
 #include "service_configuration.hpp"
 #include "service_context.hpp"
 
+#include "logging/logger.hpp"
+
 class Launcher : contracts::common::IModule
 {
 public:
@@ -29,6 +31,7 @@ public:
 private:
 	ServiceConfiguration configuration_  ;
 	ServiceContext       service_context_;
+	contracts::logging::Logger  logger_;
 };
 
 

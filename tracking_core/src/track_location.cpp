@@ -73,20 +73,25 @@ namespace tracking
 
 			void TrackLocation::on_target_detected(data_model::VisitRecord& object) 
 			{
+				logger_.info("On target detected");
 				object.set_location_id(location_->id());
 				auto state = object.person_id().is_empty()
-					? data_model::AccessState::Granted
-					: data_model::AccessState::Denied;
+					? data_model::AccessState::Denied
+					: data_model::AccessState::Granted;
 				object.set_access_state(state);
+//#pragma omp sections
+		//		{			
+					access_coordinator_->set_state(state);
 
-#pragma omp sections
-				{
 					if (visit_records_repository_ != nullptr)
-						visit_records_repository_->add(object);
-#pragma omp section
-					if (visit_records_repository_ != nullptr)
-						access_coordinator_->set_state(state);
-				}
+					{
+						//auto result = visit_records_repository_->add(object);
+						//logger_.info("Visit record detected {0}", result);
+					}
+//#pragma omp section
+					//if (visit_records_repository_ != nullptr)
+						//access_coordinator_->set_state(state);
+			//	}
 			}
 
 			const data_model::Location& TrackLocation::location() const  {
@@ -122,6 +127,8 @@ namespace tracking
 				access_coordinator_
 					= std::make_unique<units::AccessDeviceObserver>(access_device_engine
 						, repository);
+
+				access_coordinator_->subscribe(this);
 				/*
 				auto direct_show_engine = context_->devices()->directshow_device_engine();
 				directshow_device_unit_

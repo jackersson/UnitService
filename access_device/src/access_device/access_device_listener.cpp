@@ -13,7 +13,8 @@ namespace access_device
 		AccessDeviceListener::read_write_timeout_	      = milliseconds(1000);
 	milliseconds 
 		AccessDeviceListener::delay_between_ask_device_ = milliseconds(100);
-		
+	
+	milliseconds reconnection_delay_ = milliseconds(2000);
 
 	AccessDeviceListener::AccessDeviceListener(const data_model::DeviceId& device_id
 	                  , contracts::devices::IDeviceInfo<AccessDeviceImplPtr>* devices)
@@ -77,7 +78,7 @@ namespace access_device
 			return;
 
 		on_error(ex);
-		std::this_thread::sleep_for(delay_between_ask_device_);
+		std::this_thread::sleep_for(reconnection_delay_);
 		access_device_impl_ = devices_->get_device(*device_number_);
 		init_session();
 		lock();

@@ -80,7 +80,6 @@
     <Import Project="..\properties\spdlog_x32d.props" />
     <Import Project="..\properties\services_api_x32d.props" />
     <Import Project="..\properties\serial_port_x32d.props" />
-    <Import Project="C:\dependencies\BioSkyNet.Common.Cpp\BioSkyNet.Common.Cpp\services_common\services_common_x32d.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -168,7 +167,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\access_device_reserved_engine.cpp" />
-    <ClCompile Include="src\coordinator_service_worker.cpp" />
+    <ClCompile Include="src\coordinator_connector.cpp" />
     <ClCompile Include="src\devices_container.cpp" />
     <ClCompile Include="src\directshow_reserved_engine.cpp" />
     <ClCompile Include="src\launcher.cpp" />
@@ -177,7 +176,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\access_devices_reserved_engine.hpp" />
-    <ClInclude Include="include\coordinator_service_worker.hpp" />
+    <ClInclude Include="include\coordinator_connector.hpp" />
     <ClInclude Include="include\devices_container.hpp" />
     <ClInclude Include="include\directshow_reserved_engine.hpp" />
     <ClInclude Include="include\launcher.hpp" />

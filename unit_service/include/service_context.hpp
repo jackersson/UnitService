@@ -6,11 +6,11 @@
 #include <common/ilifecycle.hpp>
 #include <logging/logger.hpp>
 
-
+class CoordinatorConnector;
 class CoordinatorServiceWorker;
 
 class ServiceContext : public contracts::common::IModule
-	                   , public contracts::IServiceContext
+	                   , public contracts::IServiceContext                     
 {
 public:
 	ServiceContext ();	
@@ -35,14 +35,18 @@ public:
 		return services_.get();
 	}
 	
-	const contracts::IServiceConfiguration&       configuration() override	{
-		return *configuration_;
+	contracts::IServiceConfiguration*  configuration() override	{
+		return configuration_;
 	}
 
 	contracts::locations::ITrackLocationsEngine* track_locations() override
 	{
 		return tracking_coordinator_.get();
 	}
+
+//	const data_model::ConnectMsg&       connect_msg  () const override;	
+	//const data_model::HeartbeatMessage& heartbeat_msg() const override;
+
 
 private:		
 	contracts::IServiceConfiguration* configuration_;
@@ -52,7 +56,9 @@ private:
 	std::unique_ptr<contracts::devices::IDevicesContainer>        devices_   ;
 	std::unique_ptr<contracts::data::AbstractRepositoryContainer> repository_; 
 	
-	std::unique_ptr<CoordinatorServiceWorker> coordinator_service_;
+	std::unique_ptr<CoordinatorConnector> coordinator_service_;
+
+//	std::unique_ptr<CoordinatorServiceWorker> worker_;
 
 	std::list<IModule*> modules_;
 

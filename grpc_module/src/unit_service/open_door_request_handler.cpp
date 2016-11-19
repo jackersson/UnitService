@@ -10,10 +10,15 @@ namespace grpc_services
 		{
 			google::protobuf::Empty response;
 
-			auto location = services_api::helpers::to_data_location(request_);
-			context_->track_locations()->grant_access(location);
 
-			logger_.info("Client wants open door");
+			logger_.info("Open door request -> in {}", request_.id().guid());
+			
+			auto location = services_api::helpers::to_data_location(request_);
+
+			auto result = context_->track_locations()->grant_access(location);
+
+			logger_.info("Open door request -> out {0}", result);
+			next();
 			responder_.Finish(response, grpc::Status::OK, this);
 		}		
 	}

@@ -49,7 +49,7 @@ namespace testable_unit_context
 		
 		bool done_;
 		DataTypes::Device  request_ ;
-		GetCardApi         card_api_;
+		grpc_services::unit_service::GetCardApi         card_api_;
 
 		const std::chrono::seconds REQUEST_TIMEOUT = std::chrono::seconds(5);
 	};

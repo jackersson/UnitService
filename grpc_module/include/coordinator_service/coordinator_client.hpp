@@ -9,7 +9,7 @@ namespace grpc_services
 	class CoordinatorClient : public services_api::CoordinatorClientDataApi
 	{
 	public:
-		explicit CoordinatorClient( contracts::IServiceContext* context
+		explicit CoordinatorClient( contracts::IServiceConfiguration* context
 			                        , contracts::services::IServiceAddress& address);
 	
 		void do_set_call_options(services_api::IAsyncCall* call) const override;
@@ -18,7 +18,7 @@ namespace grpc_services
 		CoordinatorClient(const CoordinatorClient&) = delete;
 		CoordinatorClient& operator=(const CoordinatorClient&) = delete;
 
-		contracts::IServiceContext* context_;
+		contracts::IServiceConfiguration* configuration_;
 		static const int CONNECT_REQUEST_DEADLINE;
 	};
 }

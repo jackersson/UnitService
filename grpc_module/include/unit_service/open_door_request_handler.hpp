@@ -23,13 +23,8 @@ namespace grpc_services
 		{
 			if (context_ == nullptr)
 				throw std::exception("Context can't be null");
-			auto devices = context_->devices();
-			if (devices == nullptr)
-				throw std::exception("Devices can't be null");
-
-			engine_ = devices->access_device_engine();
-			if (devices == nullptr)
-				throw std::exception("Access Device engine can't be null");
+			if (context_->track_locations() == nullptr)
+				throw std::exception("Track locations can't be null");
 
 			proceed();
 		}
@@ -59,7 +54,6 @@ namespace grpc_services
 			DataTypes::Location  request_;
 			grpc::ServerAsyncResponseWriter<google::protobuf::Empty> responder_;
 			contracts::IServiceContext* context_;
-			contracts::devices::access_device::IAccessDeviceEngine* engine_;
 
 			const std::chrono::seconds REQUEST_TIMEOUT = std::chrono::seconds(3);
 		};		

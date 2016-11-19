@@ -101,7 +101,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;BOOST_THREAD_PROVIDES_FUTURE_CONTINUATION;BOOST_THREAD_PROVIDES_FUTURE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)grpc_module\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -186,6 +186,7 @@
     <ClInclude Include="include\unit_service\get_device_stream_request_handler.hpp" />
     <ClInclude Include="include\unit_service\get_location_stream_request_handler.hpp" />
     <ClInclude Include="include\unit_service\open_door_request_handler.hpp" />
+    <ClInclude Include="include\unit_service\unit_service_api.hpp" />
     <ClInclude Include="include\unit_service\unit_service_impl.hpp" />
     <ClInclude Include="include\unit_service\update_location_request_handler.hpp" />
   </ItemGroup>

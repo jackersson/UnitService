@@ -24,9 +24,6 @@
     <ClCompile Include="src\service_context.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\coordinator_service_worker.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\access_device_reserved_engine.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -34,6 +31,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\devices_container.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\coordinator_connector.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,7 +56,7 @@
     <ClInclude Include="include\service_configuration.hpp">
       <Filter>includes</Filter>
     </ClInclude>
-    <ClInclude Include="include\coordinator_service_worker.hpp">
+    <ClInclude Include="include\coordinator_connector.hpp">
       <Filter>includes</Filter>
     </ClInclude>
   </ItemGroup>

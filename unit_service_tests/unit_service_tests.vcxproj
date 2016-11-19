@@ -79,7 +79,6 @@
     <Import Project="..\properties\spdlog_x32d.props" />
     <Import Project="..\properties\messages_x32d.props" />
     <Import Project="..\properties\services_api_x32d.props" />
-    <Import Project="..\properties\services_common_x32d.props" />
     <Import Project="..\properties\data_core_32d.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

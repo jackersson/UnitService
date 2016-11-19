@@ -43,7 +43,7 @@ namespace tracking
 			TrackLocation(const TrackLocation& other) = delete;
 			TrackLocation& operator=(const TrackLocation&) = delete;
 
-			std::unique_ptr<contracts::devices::access_device::IAccessCoordinator> access_coordinator_;
+			std::unique_ptr<units::AccessDeviceObserver> access_coordinator_;
 			
 			std::unique_ptr<units::DirectShowDeviceUnit> directshow_device_unit_;
 

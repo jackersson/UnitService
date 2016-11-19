@@ -12,6 +12,7 @@
 #include <future>
 #include <service_utils.hpp>
 #include "unit_service_api.hpp"
+#include <unit_service/unit_service_api.hpp>
 
 namespace testable_unit_context
 {
@@ -35,7 +36,7 @@ namespace testable_unit_context
 				data_model::DeviceId dev("any", serial);
 					
 				boost::async([this, dev]()	{
-					return check_device(engine_->enumerator(), dev);
+					return grpc_services::unit_service::check_device(engine_->enumerator(), dev);
 				})
 				.then([this](boost::future<bool> f) {
 						prepare_response(f.get());
