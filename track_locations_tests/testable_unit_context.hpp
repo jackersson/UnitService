@@ -79,8 +79,8 @@ public:
 		return services_.get();
 	}
 	
-	const contracts::IServiceConfiguration& configuration() override {
-		return *configuration_;
+	contracts::IServiceConfiguration* configuration() override {
+		return configuration_;
 	}
 
 	contracts::locations::ITrackLocationsEngine* track_locations() override {

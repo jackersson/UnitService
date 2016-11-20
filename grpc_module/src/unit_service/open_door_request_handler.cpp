@@ -10,7 +10,6 @@ namespace grpc_services
 		{
 			google::protobuf::Empty response;
 
-
 			logger_.info("Open door request -> in {}", request_.id().guid());
 			
 			auto location = services_api::helpers::to_data_location(request_);

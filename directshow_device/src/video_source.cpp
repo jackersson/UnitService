@@ -17,6 +17,11 @@ namespace directshow_device
 		, capture_error_fault_(0)
 	{}
 
+	VideoSource::~VideoSource()
+	{
+		release();
+	}
+
 	bool VideoSource::open(int device_id)
 	{
 		std::lock_guard<std::recursive_mutex> lock(mutex_);
@@ -69,7 +74,7 @@ namespace directshow_device
 		start();
 		pause_ = false;
 	}
-
+	
 	void VideoSource::run()  {
 
 		while (true)
@@ -97,6 +102,8 @@ namespace directshow_device
 			if (cancelation_requested)
 				break;
 		}
+
+		release();
 	}
 
 	void VideoSource::on_error(const contracts::devices::DeviceException& exception)

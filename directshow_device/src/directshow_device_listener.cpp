@@ -17,6 +17,11 @@ namespace directshow_device
 		video_capture_ = std::make_unique<VideoSource>();
 		try_connect();
 	}		
+	DirectshowDeviceListener::~DirectshowDeviceListener()
+	{
+		Threadable::stop();
+	}
+
 
 	void DirectshowDeviceListener::open(DirectShowDeviceInfo& device)
 	{
@@ -77,6 +82,13 @@ namespace directshow_device
 			case contracts::video::None: break;
 			default: break;
 			}
+			
+			if  (cancelation_requested)
+			{
+				video_capture_->stop();
+				break;
+			}
+
 			std::this_thread::sleep_for(delay_between_commands_);
 		}
 	}
@@ -99,6 +111,9 @@ namespace directshow_device
 				try_connect();
 				std::cout << "Video source disconnected" << std::endl;
 			}
+
+			if (cancelation_requested)
+				return contracts::video::PlayerCommands::None;
 		}
 
 		auto result = commands_.front();

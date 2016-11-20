@@ -28,6 +28,7 @@ namespace directshow_device
 	{
 	public:
 		VideoSource();
+		~VideoSource();
 		bool open(int device_id);
 
 		bool is_open() const;

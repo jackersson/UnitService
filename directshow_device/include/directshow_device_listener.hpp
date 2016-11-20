@@ -33,6 +33,8 @@ namespace directshow_device
 			( const std::string& device_name
 			, contracts::devices::IDeviceInfo<DirectShowDeviceInfo>* device_holder);
 		
+		~DirectshowDeviceListener();
+
 		void try_kill  () override {
 			commands_.push(contracts::video::PlayerCommands::Kill);
 		}

@@ -1,7 +1,6 @@
 #include "clients_manager.hpp"
 
 #include "coordinator_service/coordinator_client.hpp"
-#include "database_service/database_client_data_api.hpp"
 #include "database_service/datacontext/datacontext_container.hpp"
 
 namespace grpc_services
