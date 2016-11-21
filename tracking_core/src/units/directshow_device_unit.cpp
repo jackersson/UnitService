@@ -5,6 +5,10 @@
 #include <data/models/person.hpp>
 #include <data/models/devices.hpp>
 
+#include <opencv/cv.hpp>
+
+#include <tbb/task_group.h>
+
 using namespace data_model;
 using namespace contracts::devices;
 
@@ -12,6 +16,13 @@ namespace tracking
 {
 	namespace units
 	{	
+		inline
+			cv::Mat bytes_to_mat(unsigned char* bytes, int width, int height)
+		{
+			auto image = cv::Mat(height, width, CV_8UC3, bytes);
+			return image;
+		}
+
 		DirectShowDeviceUnit::~DirectShowDeviceUnit() {
 			DirectShowDeviceUnit::stop();
 		}
@@ -20,6 +31,7 @@ namespace tracking
 			: device_(std::make_unique<CaptureDevice>())
 			, engine_(engine)
 			, persons_repository_(nullptr)
+			, tasks_(std::make_unique<tbb::task_group>())
 		{
 			if (engine_ == nullptr)
 				throw std::exception("Access device engine can't be null");
@@ -29,6 +41,7 @@ namespace tracking
 			, contracts::data::AbstractRepositoryContainer* repository)
 			: engine_(engine)
 			, device_(std::make_unique<CaptureDevice>())
+			, tasks_(std::make_unique<tbb::task_group>())
 		{
 			if (engine_ == nullptr)
 				throw std::exception("Access device engine can't be null");
@@ -109,10 +122,21 @@ namespace tracking
 
 		void DirectShowDeviceUnit::on_next(const IStreamData& data)
 		{
-			auto im = data.try_get_data(contracts::devices::video_device::StreamTypeColor);
+			auto im = data.try_get_data(video_device::StreamTypeColor);
 			if (im == nullptr)
 				return;
-			//TODO async process
+			
+			//tasks_->run([im, this]()
+			//{
+				auto frame = bytes_to_mat(im->data(), im->width(), im->height());
+			  cv::namedWindow("view", CV_WINDOW_NORMAL);
+				cv::setWindowProperty("view", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
+				imshow("view", frame);
+				if (cvWaitKey(10) >= 0)
+				{
+					return;
+				}
+			//});
 		}			
 
 		void DirectShowDeviceUnit::on_target_detected(data_model::VisitRecord& visit_record)

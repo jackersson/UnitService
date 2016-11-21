@@ -129,12 +129,12 @@ namespace tracking
 						, repository);
 
 				access_coordinator_->subscribe(this);
-				/*
+				
 				auto direct_show_engine = context_->devices()->directshow_device_engine();
 				directshow_device_unit_
 				= std::make_unique<units::DirectShowDeviceUnit>( direct_show_engine
 				, repository);
-				*/
+				
 				visit_records_repository_ = repository->get<data_model::VisitRecord>();
 			}
 	}

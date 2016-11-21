@@ -14,6 +14,10 @@ namespace data_model{
 	class Person;
 }
 
+namespace tbb {
+	class task_group;
+}
+
 namespace tracking
 {
 	namespace units
@@ -75,6 +79,8 @@ namespace tracking
 			void on_next(const IStreamData& data) override;
 
 		private:
+			std::unique_ptr<tbb::task_group> tasks_;
+
 			DirectShowDeviceUnit(const DirectShowDeviceUnit& other) = delete;
 			DirectShowDeviceUnit& operator=(const DirectShowDeviceUnit&) = delete;
 

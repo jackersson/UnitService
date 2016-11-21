@@ -1,6 +1,7 @@
 #include "track_locations_container.hpp"
 
 #include <data/models/location.hpp>
+#include <iterator>
 
 using namespace contracts::locations;
 

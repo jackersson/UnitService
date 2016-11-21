@@ -132,7 +132,9 @@ namespace track_locations_tests
 		loc.set_id(Key(u1));
 		std::cout << "location id" << to_string(loc.id().guid()) << std::endl;
 		AccessDevice access_device(3);
-		loc.set_access_device(access_device);
+		CaptureDevice capture_device("LightCam 1020");
+		loc.set_access_device (access_device);
+		loc.set_capture_device(capture_device);
 		track_engine->update(loc);
 		
 		std::this_thread::sleep_for(std::chrono::seconds(30));

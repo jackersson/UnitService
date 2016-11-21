@@ -1,6 +1,6 @@
 #ifndef DirectShowDeviceObserver_Included
 #define DirectShowDeviceObserver_Included
-/*#include <directshow_device_engine.hpp>
+#include <directshow_device_engine.hpp>
 #include <opencv/cv.hpp>
 
 
@@ -49,6 +49,6 @@ namespace directshow_tests
 
 	};
 }
-*/
+
 
 #endif
