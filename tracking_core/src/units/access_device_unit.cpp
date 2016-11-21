@@ -3,7 +3,8 @@
 #include <data/models/visit_record.hpp>
 #include <data/models/devices.hpp>
 #include <data/models/queries.hpp>
-#include <future>
+
+#include <tbb/task_group.h>
 
 using namespace contracts::devices;
 using namespace access_device;
@@ -16,7 +17,8 @@ namespace tracking
 	{		
 		AccessDeviceObserver::~AccessDeviceObserver()			
 		{
-				AccessDeviceObserver::stop();
+			AccessDeviceObserver::stop();
+			tasks_->cancel();
 		}
 			
 		AccessDeviceObserver::AccessDeviceObserver(IAccessDeviceEngine*	engine)
@@ -24,6 +26,7 @@ namespace tracking
 			, persons_repository_(nullptr)
 			, device_(std::make_unique<AccessDevice>())
 			, active_(false)
+			, tasks_(std::make_unique<tbb::task_group>())
 		{
 			if (engine_ == nullptr)
 				throw std::exception("Access device engine can't be null");
@@ -34,6 +37,7 @@ namespace tracking
 		  : device_(std::make_unique<AccessDevice>())
 			, engine_(engine)
 			, active_(false)
+			, tasks_(std::make_unique<tbb::task_group>())
 		{
 			if (engine_ == nullptr)
 				throw std::exception("Access device engine can't be null");
@@ -42,7 +46,7 @@ namespace tracking
 				throw std::exception("Repository can't be null");
 			
 			persons_repository_ = repository->get<Person>();
-			if (repository == nullptr)
+			if (persons_repository_ == nullptr)
 				throw std::exception("Person Repository can't be null");
 		}
 
@@ -101,7 +105,7 @@ namespace tracking
 		{			
 			engine_->execute( *device_, lGreenAccess);
 
-			std::async(std::launch::async, [this]()
+			tasks_->run( [this]()
 			{ 
 				std::this_thread::sleep_for(ACCESS_DELAY);
 			  deny();
@@ -148,7 +152,6 @@ namespace tracking
 
 		void AccessDeviceObserver::on_state(const IDeviceState& state)
 		{
-			//context_->logger()->error("Access device state changed {0}", state.state());
 			for (auto observer : observers_)
 				observer->on_state(state);
 		}
@@ -175,11 +178,15 @@ namespace tracking
 		}
 
 		void AccessDeviceObserver::check_dallas_key(const std::string& data) {
-			if (data == "" || active_) //TODO make is_empty function
+			logger_.info("Card detected {0}", data);
+
+			if (data == "" || active_)
+			{
+				logger_.info("Access device unit is busy", data);
 				return;
+			}
 
 			active_ = true;
-			logger_.info("Card detected {0}", data);
 			try
 			{
 				auto target = identify(data);
@@ -189,9 +196,9 @@ namespace tracking
 				//not implemented
 			}
 
-			std::async(std::launch::async, [this]()
+			tasks_->run([this]()
 			{
-				std::this_thread::sleep_for(std::chrono::seconds(3));
+				std::this_thread::sleep_for(std::chrono::seconds(ACCESS_DELAY));
 				logger_.info("Ready");
 				active_ = false;
 			});

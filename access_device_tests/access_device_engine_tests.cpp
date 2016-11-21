@@ -27,7 +27,7 @@ namespace unit_service_api_tests
 	//Put card to reader while running test
 	TEST(AccessDeviceEngineTest, GetCardTest)
 	{
-		data_model::DeviceId device("COM3", 0);
+		data_model::DeviceId device("COM3", 3);
 		access_device_tests::TestableObserver observer;
 		AccessDeviceEngine engine;
 		std::this_thread::sleep_for(std::chrono::seconds(1));

@@ -7,12 +7,13 @@
 
 #include "coordinator_connector.hpp"
 #include <network_utils.hpp>
-#include <data/data_utils.hpp>
 #include <data/models/location.hpp>
 #include <uuid/string_generator.hpp>
 #include <uuid/uuid_io.hpp>
 
-ServiceContext::ServiceContext() : configuration_(nullptr)                                 
+ServiceContext::ServiceContext
+  (contracts::IServiceConfiguration* configuration) 
+	: configuration_(configuration)
 {}
 
 
@@ -41,25 +42,13 @@ void ServiceContext::init()
 	coordinator_service_ = std::make_unique<CoordinatorConnector>
 		(services_->coordinator(), configuration_);
 	modules_.push_back(coordinator_service_.get());
-
+	
 	for (auto module : modules_)
 	{
 		if (module != nullptr)
 			module->init();
 	}
-	
-	data_model::Location loc;
-	loc.set_name("Testable");
-	loc.set_unit_mac_address(utils::network::get_mac_address());
-
-	boost::uuids::string_generator gen;
-	auto u1 = gen("{9e7229b7-c22e-4e67-9d92-95751fdece22}");
-	loc.set_id(data_model::Key(u1));
-	std::cout << "location id" << to_string(loc.id().guid()) << std::endl;
-	data_model::AccessDevice access_device(3);
-	loc.set_access_device(access_device);
-	tracking_coordinator_->update(loc);
-	
+		
 	logger_.info("Unit service init done");
 }
 
@@ -71,25 +60,3 @@ void ServiceContext::de_init()
 		  module->de_init();
 	}
 }
-/*
-const data_model::ConnectMsg& ServiceContext::connect_msg() const
-{
-	static auto msg = services::helpers::generate_connect_msg(
-		  configuration_->unit_service_port()
-		, configuration_->service_uuid()
-		, data_model::ServiceType::UnitService);
-
-	return msg;
-}
-
-const data_model::HeartbeatMessage& ServiceContext::heartbeat_msg() const
-{
-	static auto msg = services::helpers::generate_heartbeat_msg(
-	  	configuration_->service_uuid()
-		, data_model::ServiceType::UnitService);
-
-	return msg;
-}
-*/
-
-

@@ -3,6 +3,9 @@
 #include <data/models/devices.hpp>
 #include "access_device/common/access_device_state.hpp"
 
+#include <tbb/task_group.h>
+
+
 using namespace data_model;
 using namespace contracts::devices::access_device;
 using namespace std::chrono;
@@ -17,11 +20,13 @@ namespace access_device
 	milliseconds reconnection_delay_ = milliseconds(2000);
 
 	AccessDeviceListener::AccessDeviceListener(const data_model::DeviceId& device_id
-	                  , contracts::devices::IDeviceInfo<AccessDeviceImplPtr>* devices)
+		, contracts::devices::IDeviceInfo<AccessDeviceImplPtr>* devices)
 		: device_number_(std::make_unique<DeviceId>(device_id))
 		, devices_(devices)
-	  , need_to_ask_buttons_(false)
+		, need_to_ask_buttons_(false)
 		, need_to_recover_(false)
+		, next_busy_(false)
+		, tasks_(std::make_unique<tbb::task_group>())
 	{		
 		start();
 	}
@@ -38,6 +43,7 @@ namespace access_device
 		Threadable::stop();
 		if (access_device_impl_ != nullptr)
 	  	access_device_impl_->de_init();		
+		tasks_->cancel();
 	}
 		
 	void AccessDeviceListener::run() 
@@ -48,14 +54,17 @@ namespace access_device
 		{
 			auto command = dequeue();
 			if (command != nullptr)
-			{
-				//std::this_thread::sleep_for(delay_between_ask_device_);
-
+			{				
 				try
 				{
 					auto result = access_device_impl_->execute(command);
-					if (result->is_valid() && !result->is_empty() )
-						on_next(result);
+					if (result->is_valid() && !result->is_empty())
+					{
+						tasks_->run([this, result]()
+						{
+							on_next(result);
+						});
+					}
 
 					if (need_to_recover_)
 						unlock();
@@ -195,12 +204,27 @@ namespace access_device
 
 	void
 		AccessDeviceListener::on_next(ICommandResultPtr data)
-	{
-		//TODO improve code logic
-		if (data->device_module() == Dallas || data->device_module() == Buttons)
+	{		
+		if (next_busy_)
 		{
-			for (auto observer : observers_)
-				observer->on_next(*data.get());
+			std::cout << "Next busy : rejected";
+			return;
+		}
+
+		if (data->device_module() == Dallas || data->device_module() == Buttons)
+		{			
+			std::cout << "**** Card detected start notification";
+			next_busy_ = true;
+
+		  for (auto observer : observers_)
+		  {
+				tasks_->run([data, observer]()
+		  	{
+		  		observer->on_next(*data.get());		  
+		  	});
+		  }			
+			std::cout << "**** Card detected end notification";		
+			next_busy_ = false;
 		}
 	}
 }

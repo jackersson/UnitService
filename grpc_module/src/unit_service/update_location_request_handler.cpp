@@ -2,6 +2,7 @@
 
 #include <helpers/request_adapters.hpp>
 #include <data/models/location.hpp>
+#include <future>
 
 using namespace services_api::helpers;
 
@@ -11,13 +12,25 @@ namespace grpc_services
 	{
 		void UpdateLocationRequestHandler::process_request()
 		{
+			logger_.info("Update location -> in");
 			google::protobuf::Empty response;
 
-			for ( const auto& item : request_.items())
-				update(item);			
-
-			logger_.info("Coordinator wants update location");
+			next();
 			responder_.Finish(response, grpc::Status::OK, this);
+
+			std::async(std::launch::async, [this]() {
+				try
+				{
+					for (const auto& item : request_.items())
+						update(item);
+				}
+				catch (std::exception& ex)
+				{
+					logger_.error(ex.what());
+				}
+			});
+
+			logger_.info("Update location -> out ok");
 		}
 
 		void UpdateLocationRequestHandler::update
@@ -27,16 +40,17 @@ namespace grpc_services
 			{
 			case DataTypes::LocationUpdate::kInserted:
 				context_->track_locations()->add(to_data_location(request.inserted()));
-				break;
+				return;
 			case DataTypes::LocationUpdate::kDeleted:
 				context_->track_locations()->remove(to_data_location(request.deleted()));
-				break;
+				return;
 			case DataTypes::LocationUpdate::kUpdated:
 				context_->track_locations()->update(to_data_location(request.updated()));
-				break;
+				return;
 			case DataTypes::LocationUpdate::UPDATE_TYPE_NOT_SET: break;
 			default: break;
 			}
+			throw std::exception("UpdateLocationRequestHandler update not implemented");
 		}
 	}
 }

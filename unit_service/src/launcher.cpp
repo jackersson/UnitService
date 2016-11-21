@@ -19,12 +19,13 @@ const std::string Launcher::CONFIG_NAME = "config.bio";
 	 if (!ok)
 		 return;
 
-	 service_context_.set_configuration(&configuration_);
-	 service_context_.init();
+	 service_context_ = std::make_unique<ServiceContext>(&configuration_);
+	 service_context_->init();
  }
 
  void Launcher::de_init() {	
-	 service_context_.de_init();
+	 if (service_context_ != nullptr)
+	 service_context_->de_init();
  }
 
  //TODO to common

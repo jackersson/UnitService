@@ -9,8 +9,14 @@
 #include <threadable.hpp>
 #include <queue>
 
+
+
 namespace data_model{
 	class DeviceId;
+}
+
+namespace tbb {
+	class task_group;
 }
 
 namespace access_device
@@ -103,6 +109,7 @@ namespace access_device
 		std::queue<core::IExecutableCommandPtr> commands_   ;
 		//std::unique_ptr<TimeoutSerial>          serial_port_;
 
+
 		AccessDeviceImplPtr access_device_impl_;
 
 		contracts::devices::IDeviceInfo<AccessDeviceImplPtr>* devices_;
@@ -110,6 +117,9 @@ namespace access_device
 		bool need_to_ask_buttons_;
 		bool need_to_recover_    ;
 
+		bool next_busy_;
+
+		std::unique_ptr<tbb::task_group> tasks_;
 
 		
 		static std::chrono::milliseconds read_write_timeout_      ;

@@ -9,6 +9,10 @@
 #include <data/irepository.hpp>
 #include <logging/logger.hpp>
 
+namespace tbb {
+	class task_group;
+}
+
 namespace data_model
 {
 	class VisitRecord;
@@ -29,9 +33,7 @@ namespace tracking
 		{
 
 		public:
-			virtual ~AccessDeviceObserver();//	{
-			//	AccessDeviceObserver::stop();
-			//}
+			virtual ~AccessDeviceObserver();
 
 			explicit
 				AccessDeviceObserver
@@ -73,6 +75,8 @@ namespace tracking
 			void on_next(const ICommandResult& data) override;
 
 		private:
+
+			std::unique_ptr<tbb::task_group> tasks_;
 
 			bool active_;
 

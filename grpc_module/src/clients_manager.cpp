@@ -2,6 +2,8 @@
 
 #include "coordinator_service/coordinator_client.hpp"
 #include "database_service/datacontext/datacontext_container.hpp"
+#include "database_service/database_client_data_api.hpp"
+
 
 namespace grpc_services
 {
@@ -49,7 +51,8 @@ namespace grpc_services
 		database_client_ = data_impl;
 		*/
 
-		//Coordinator client 			
+		//Coordinator client 		
+		
 		auto address = configuration->coordinator_service_address();
 		contracts::services::ServiceAddress coordinator_address(address);
 		auto coord_impl	= std::make_shared<CoordinatorClient>( context_->configuration()
@@ -57,7 +60,7 @@ namespace grpc_services
 		servers_.push_back(coord_impl.get());
 		coordinator_client_ = coord_impl;
 		database_client_    = coord_impl;
-
+		
 		database_context_
 			= std::make_unique<services_api::datacontext::DataContextContainer>
 			(database_client_.get());

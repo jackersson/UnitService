@@ -10,6 +10,8 @@ namespace grpc_services
 			//TODO handle frames
 			//context_->track_locations()->grant_access(request_);
 
+			//responder_.Write()
+
 			std::cout << "Client wants capture device video stream" << std::endl;
 			//responder_.Finish(response, grpc::Status::OK, this);
 		}

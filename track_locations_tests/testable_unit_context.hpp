@@ -18,8 +18,9 @@ class TestableUnitContext : public contracts::common::IModule
 	                        , public contracts::IServiceContext
 {
 public:
-	explicit TestableUnitContext(contracts::IServiceConfiguration* config) 
+	explicit TestableUnitContext(contracts::IServiceConfiguration* config)
 		: configuration_(config)
+		, initialized_(false)
 	{
 		TestableUnitContext::init();
 	}
@@ -34,6 +35,9 @@ public:
 
 	void init()    override
 	{
+		if (initialized_)
+			return;
+
 		logger_.info("Unit service start init");
 
 		devices_ = std::make_unique<DevicesContainer>();
@@ -55,6 +59,7 @@ public:
 		}
 
 		logger_.info("Unit service init done");
+		initialized_ = true;
 	}
 
 	void de_init() override
@@ -88,6 +93,7 @@ public:
 	}
 
 private:
+	bool initialized_;
 	contracts::IServiceConfiguration* configuration_;
 
 	std::unique_ptr<contracts::locations::ITrackLocationsEngine>  tracking_coordinator_;

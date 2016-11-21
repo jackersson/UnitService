@@ -13,13 +13,9 @@ class ServiceContext : public contracts::common::IModule
 	                   , public contracts::IServiceContext                     
 {
 public:
-	ServiceContext ();	
+	ServiceContext (contracts::IServiceConfiguration* configuration);
 	~ServiceContext();
-
-	void set_configuration(contracts::IServiceConfiguration* configuration) {
-		configuration_ = configuration;
-	}
-	
+		
 	void init()    override;
 	void de_init() override;
 

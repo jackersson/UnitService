@@ -8,11 +8,11 @@ namespace tracking
 	namespace locations
 	{
 		TrackLocation::TrackLocation(contracts::IServiceContext* context)
-				: context_(context)
-			  , location_(std::make_unique<data_model::Location>())
-			{
-				try_resolve_dependencies();
-			}
+				: location_(std::make_unique<data_model::Location>())
+			  , context_(context)
+		{
+			try_resolve_dependencies();
+		}
 
 		TrackLocation::~TrackLocation() {
 				TrackLocation::stop();
@@ -50,8 +50,8 @@ namespace tracking
 			void TrackLocation::start()
 			{
 				//TODO put to list of ILifecycle
-				//if (directshow_device_unit_ != nullptr)
-				//directshow_device_unit_->start();
+				if (directshow_device_unit_ != nullptr)
+				  directshow_device_unit_->start();
 
 				if (access_coordinator_ != nullptr)
 					access_coordinator_->start();
@@ -60,8 +60,8 @@ namespace tracking
 			void TrackLocation::stop()
 			{
 				//TODO put to list of ILifecycle
-				if (directshow_device_unit_ != nullptr)
-					directshow_device_unit_->stop();
+				//if (directshow_device_unit_ != nullptr)
+					//directshow_device_unit_->stop();
 
 				if (access_coordinator_ != nullptr)
 					access_coordinator_->stop();
@@ -79,19 +79,19 @@ namespace tracking
 					? data_model::AccessState::Denied
 					: data_model::AccessState::Granted;
 				object.set_access_state(state);
-//#pragma omp sections
-		//		{			
-					access_coordinator_->set_state(state);
 
+#pragma omp sections
+				{						
 					if (visit_records_repository_ != nullptr)
 					{
-						//auto result = visit_records_repository_->add(object);
-						//logger_.info("Visit record detected {0}", result);
+						auto result = visit_records_repository_->add(object);
+						logger_.info("Visit record detected {0}", result);
 					}
-//#pragma omp section
-					//if (visit_records_repository_ != nullptr)
-						//access_coordinator_->set_state(state);
-			//	}
+#pragma omp section
+					{
+						access_coordinator_->set_state(state);
+					}
+				}
 			}
 
 			const data_model::Location& TrackLocation::location() const  {

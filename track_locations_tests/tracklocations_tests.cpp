@@ -10,6 +10,8 @@
 #include <access_device/access_device_engine.hpp>
 #include <data/data_utils.hpp>
 #include "testable_configuration.hpp"
+#include <service_context.hpp>
+#include <uuid/string_generator.hpp>
 
 using namespace data_model;
 using namespace tracking::locations;
@@ -77,7 +79,7 @@ namespace track_locations_tests
 
 		unit  .stop();
 		engine.de_init();	
-	}
+	}	
 
 	//API call to update location in container
 	TEST(TrackLocationTests, TrackLocationContainerUpdateTest)
@@ -111,7 +113,29 @@ namespace track_locations_tests
 		std::vector<Location> locations;
 		locations.push_back(get_location_with_device());
 		track_engine->update_with(locations);
-		std::this_thread::sleep_for(std::chrono::seconds(5));
+		std::this_thread::sleep_for(std::chrono::seconds(20));
+
+		context.de_init();
+	}
+
+	TEST(TrackLocationTests, RealTrackLocationLifecycleTest)
+	{
+		TestableServiceConfiguration config;
+		ServiceContext context(&config);
+		context.init();
+
+		auto track_engine = context.track_locations();
+		Location loc;
+		loc.set_name("Testable");
+		loc.set_unit_mac_address(utils::network::get_mac_address());
+		auto u1 = boost::uuids::string_generator()("{9e7229b7-c22e-4e67-9d92-95751fdece22}");
+		loc.set_id(Key(u1));
+		std::cout << "location id" << to_string(loc.id().guid()) << std::endl;
+		AccessDevice access_device(3);
+		loc.set_access_device(access_device);
+		track_engine->update(loc);
+		
+		std::this_thread::sleep_for(std::chrono::seconds(30));
 
 		context.de_init();
 	}

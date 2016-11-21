@@ -23,14 +23,14 @@ public:
 	}
 
 	ServiceContext& context() {
-		return service_context_;
+		return *service_context_;
 	}
 
 	static const std::string CONFIG_NAME; //= "config.bio";
 
 private:
 	ServiceConfiguration configuration_  ;
-	ServiceContext       service_context_;
+	std::unique_ptr<ServiceContext> service_context_;
 	contracts::logging::Logger  logger_;
 };
 
