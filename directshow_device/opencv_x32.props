@@ -9,7 +9,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\opencv3.1\sources\bin32\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_highgui310.lib;opencv_core310.lib;opencv_videoio310.lib;opencv_ml310.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_highgui310.lib;opencv_core310.lib;opencv_videoio310.lib;opencv_ml310.lib;opencv_imgcodecs310.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>xcopy /I /E /Y /D /C "C:\opencv3.1\sources\bin32\bin\Release\opencv_core310.dll" "$(OutDir)"

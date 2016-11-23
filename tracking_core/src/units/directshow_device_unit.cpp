@@ -122,16 +122,16 @@ namespace tracking
 
 		void DirectShowDeviceUnit::on_next(const IStreamData& data)
 		{
-			auto im = data.try_get_data(video_device::StreamTypeColor);
-			if (im == nullptr)
-				return;
+		//	auto im = data.try_get_data(video_device::StreamTypeColor);
+		//	if (im == nullptr)
+		//		return;
 			
 			//tasks_->run([im, this]()
 			//{
-				auto frame = bytes_to_mat(im->data(), im->width(), im->height());
+				//auto frame = bytes_to_mat(im->data(), im->width(), im->height());
 			  cv::namedWindow("view", CV_WINDOW_NORMAL);
 				cv::setWindowProperty("view", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
-				imshow("view", frame);
+		  	cv::imshow("view", data.color());
 				if (cvWaitKey(10) >= 0)
 				{
 					return;

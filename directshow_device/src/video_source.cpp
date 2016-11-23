@@ -13,7 +13,7 @@ namespace directshow_device
 
 	VideoSource::VideoSource() : pause_(false)
 		, video_capture_(std::make_unique<cv::VideoCapture>())
-		, stream_data_(std::make_unique<StreamData>())
+		//, stream_data_(std::make_unique<StreamData>())
 		, capture_error_fault_(0)
 	{}
 
@@ -87,11 +87,16 @@ namespace directshow_device
 			if (flag)
 			{
 				capture_error_fault_ = 0;
-				stream_data_->add(contracts::devices::video_device::StreamTypeColor
-					, frame);
+
+				StreamData dt(frame);
+			//	stream_data_->add(contracts::devices::video_device::StreamTypeColor
+					//, frame);
 
 				for (auto observer : observers_)
-					observer->on_next(*stream_data_);
+				{
+					if (observer != nullptr)
+						observer->on_next(dt);
+				}
 			}
 			else
 			{

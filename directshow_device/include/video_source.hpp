@@ -55,7 +55,7 @@ namespace directshow_device
 
 		bool pause_;
 		std::unique_ptr<cv::VideoCapture> video_capture_;
-		std::unique_ptr<StreamData>       stream_data_  ;
+		//std::unique_ptr<StreamData>       stream_data_  ;
 		int  capture_error_fault_;
 
 		mutable std::recursive_mutex mutex_;

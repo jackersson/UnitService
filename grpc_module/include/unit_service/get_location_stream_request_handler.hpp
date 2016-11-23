@@ -1,7 +1,6 @@
 #ifndef GetLocationStreamRequestHandler_Included
 #define GetLocationStreamRequestHandler_Included
 
-#include <memory>
 #include <helpers/request_handler.hpp>
 #include <contracts/iservice_context.hpp>
 #include <services/unit_service.grpc.pb.h>
@@ -31,9 +30,9 @@ namespace grpc_services
 
 			void create_request() override
 			{
-				service_->RequestGetLocationStream(&server_context_, &request_
-					, &responder_, server_completion_queue_
-					, server_completion_queue_, this);
+				service_->RequestGetLocationStream(&server_context_
+					                , &responder_, server_completion_queue_
+					                , server_completion_queue_, this);
 			}
 
 			void process_request() override;
@@ -48,7 +47,7 @@ namespace grpc_services
 
 		private:
 			DataTypes::Location  request_;
-			grpc::ServerAsyncWriter<DataTypes::FrameBytes> responder_;
+			grpc::ServerAsyncReaderWriter<DataTypes::FrameBytes, Services::StreamMsg > responder_;
 			contracts::IServiceContext* context_;
 		};
 	}

@@ -33,6 +33,7 @@ namespace directshow_tests
 
 		void on_next(const contracts::devices::video_device::IStreamData& data) override
 		{
+			/*
 			std::cout << "frame got" << std::endl;
 
 			auto im = data.try_get_data(contracts::devices::video_device::StreamTypeColor);
@@ -45,6 +46,7 @@ namespace directshow_tests
 			{
 				return;
 			}
+			*/
 		}
 
 	};

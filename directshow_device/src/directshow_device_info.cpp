@@ -34,7 +34,8 @@ namespace directshow_device
 			if (best.size() < cp.size())
 				best = cp;
 		}
-		return best;
+		
+		return Capability(640, 480);// best;
 	}
 
 	bool DirectShowDeviceInfo::operator==(const DirectShowDeviceInfo &other) const {

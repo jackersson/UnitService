@@ -3,7 +3,6 @@
 
 #include <contracts/devices/idevice_enumerator.hpp>
 #include <contracts/devices/idevice_info.hpp>
-//#include "std_threadable.hpp"
 #include <mutex>
 #include "directshow_device_info.hpp"
 #include <threadable.hpp>

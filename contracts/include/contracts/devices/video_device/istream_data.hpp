@@ -1,7 +1,11 @@
 #ifndef IStreamData_Included
 #define IStreamData_Included
 
-
+#include <vector>
+namespace cv
+{
+	class Mat;
+}
 namespace contracts
 {
 	namespace devices
@@ -28,8 +32,9 @@ namespace contracts
 			{
 			public:
 				virtual ~IStreamData() {}
-
-				virtual IRawImage* try_get_data(StreamType type) const = 0;
+				virtual const std::vector<unsigned char>& jpeg_bytes() const = 0;
+				virtual const cv::Mat&  color() const = 0;
+				//virtual IRawImage* try_get_data(StreamType type) const = 0;
 			};
 		}
 	}
