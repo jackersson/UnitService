@@ -6,6 +6,7 @@
 
 #include <data/models/devices.hpp>
 
+using namespace contracts::devices;
 
 
 namespace directshow_device
@@ -13,7 +14,6 @@ namespace directshow_device
 
 	VideoSource::VideoSource() : pause_(false)
 		, video_capture_(std::make_unique<cv::VideoCapture>())
-		//, stream_data_(std::make_unique<StreamData>())
 		, capture_error_fault_(0)
 	{}
 
@@ -27,8 +27,7 @@ namespace directshow_device
 		std::lock_guard<std::recursive_mutex> lock(mutex_);
 		video_capture_->open(device_id);
 		if (!video_capture_->isOpened())
-			on_error(contracts::devices::DeviceException("Can't open device"
-				, data_model::DeviceType::Capture));
+			on_error(DeviceException("Can't open device", data_model::DeviceType::Capture));
 		else
 			capture_error_fault_ = 0;
 
@@ -89,18 +88,11 @@ namespace directshow_device
 				capture_error_fault_ = 0;
 
 				StreamData dt(frame);
-			//	stream_data_->add(contracts::devices::video_device::StreamTypeColor
-					//, frame);
-
-				for (auto observer : observers_)
-				{
-					if (observer != nullptr)
-						observer->on_next(dt);
-				}
+				on_next(dt);
 			}
 			else
 			{
-				on_error(contracts::devices::DeviceException("Capture error"
+				on_error(DeviceException("Capture error"
 					, data_model::DeviceType::Capture));
 				capture_error_fault_++;
 			}
@@ -111,10 +103,37 @@ namespace directshow_device
 		release();
 	}
 
-	void VideoSource::on_error(const contracts::devices::DeviceException& exception)
+	void VideoSource::on_error(const DeviceException& exception)
 	{
-		for (auto observer : observers_)
-			observer->on_error(exception);
+		notify([&exception, this](const std::vector<IDeviceObserver
+			<video_device::IStreamData>*>& observers)
+		{
+			for (auto observer : observers)
+			{
+				//TODO make task
+				if (observer != nullptr)
+					observer->on_error(exception);
+			}
+		});
+	}
+
+	void VideoSource::on_next(const video_device::IStreamData& data)
+	{
+		notify([&data, this](const std::vector<IDeviceObserver
+		                        	<video_device::IStreamData>*>& observers)
+		{
+			for (auto observer : observers)
+			{
+				//TODO make task
+				if (observer != nullptr)
+					observer->on_next(data);
+			}
+		});	
+	}
+
+	void VideoSource::on_state(const contracts::devices::IDeviceState&)
+	{
+		//Not implemented
 	}
 
 	bool VideoSource::capture_error() const {

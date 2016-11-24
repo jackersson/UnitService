@@ -47,7 +47,9 @@ namespace directshow_device
 
 	private:
 
-		void on_error(const contracts::devices::DeviceException& exception);
+		void on_error(const contracts::devices::DeviceException&);
+		void on_next (const contracts::devices::video_device::IStreamData&);
+		void on_state(const contracts::devices::IDeviceState&);
 		bool capture_error() const;
 
 		VideoSource(const VideoSource& other) = delete;
@@ -55,7 +57,6 @@ namespace directshow_device
 
 		bool pause_;
 		std::unique_ptr<cv::VideoCapture> video_capture_;
-		//std::unique_ptr<StreamData>       stream_data_  ;
 		int  capture_error_fault_;
 
 		mutable std::recursive_mutex mutex_;

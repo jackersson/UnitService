@@ -53,17 +53,23 @@ namespace grpc_services
 			void on_next (const contracts::devices::video_device::IStreamData& data) override;
 			
 		private:
+
+			void try_start_stream();
+			void complete();
+			
 			std::unique_ptr<data_model::DeviceId> device_id_;
 
 			GetDeviceStreamRequestHandler(const GetDeviceStreamRequestHandler& other) = delete;
 			GetDeviceStreamRequestHandler& operator=(const GetDeviceStreamRequestHandler&) = delete;
 
 			mutable std::recursive_mutex mutex_;
+
 			bool can_process_;
-			bool processed_     ;
-			bool initialized_   ;
-			bool read_requested_;
+			bool initialized_;
+			bool stopped_    ;
+
 			google::protobuf::int64 correlation_id_;
+
 			Services::StreamMsg  request_;
 			grpc::ServerAsyncReaderWriter<DataTypes::FrameBytes, Services::StreamMsg > responder_;
 			contracts::IServiceContext* context_;

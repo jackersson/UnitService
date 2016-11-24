@@ -19,20 +19,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{096A7623-15F1-4267-9262-3969A46E060A}</ProjectGuid>
+    <ProjectGuid>{2C546A28-BD24-4BA0-9954-8ACB960AC65F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>directshow_device</RootNamespace>
+    <RootNamespace>ALL_BUILD</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Utility</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Utility</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -58,24 +58,9 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="directshow_lib.props" />
-    <Import Project="opencv_x32d.props" />
-    <Import Project="..\properties\bioskynet_contracts_x32d.props" />
-    <Import Project="..\properties\utils_x32d.props" />
-    <Import Project="..\properties\boost_32d.props" />
-    <Import Project="..\contracts\contracts_x32d.props" />
-    <Import Project="video_capture_x32.props" />
-    <Import Project="directshow_device_x32.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\contracts\contracts_x32.props" />
-    <Import Project="..\properties\release\boost_32.props" />
-    <Import Project="..\properties\release\bioskynet_contracts_x32.props" />
-    <Import Project="video_capture_x32.props" />
-    <Import Project="directshow_device_x32.props" />
-    <Import Project="opencv_x32.props" />
-    <Import Project="..\properties\release\utils_x32.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -102,13 +87,11 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_CONSOLE;WIN32;_WINDOWS;_DEBUG;PA_WDMKS_NO_KSGUID_LIB;_WIN32_WINNT=0x0601;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>Debug</GenerateDebugInformation>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -159,24 +142,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="src\directshow_device_engine.cpp" />
-    <ClCompile Include="src\directshow_device_enumerator.cpp" />
-    <ClCompile Include="src\directshow_device_info.cpp" />
-    <ClCompile Include="src\directshow_device_listener.cpp" />
-    <ClCompile Include="src\raw_data.cpp" />
-    <ClCompile Include="src\stream_data.cpp" />
-    <ClCompile Include="src\video_source.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="include\directshow_device_engine.hpp" />
-    <ClInclude Include="include\directshow_device_enumerator.hpp" />
-    <ClInclude Include="include\directshow_device_info.hpp" />
-    <ClInclude Include="include\directshow_device_listener.hpp" />
-    <ClInclude Include="include\platform.hpp" />
-    <ClInclude Include="include\raw_data.hpp" />
-    <ClInclude Include="include\stream_data.hpp" />
-    <ClInclude Include="include\video_source.hpp" />
+    <ProjectReference Include="..\access_device\access_device.vcxproj">
+      <Project>{ac260f3f-8db1-4a4f-843f-bd5feb86c9df}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\contracts\contracts.vcxproj">
+      <Project>{81569cc0-e190-4111-8bed-2262c6a379a4}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\directshow_device\directshow_device.vcxproj">
+      <Project>{096a7623-15f1-4267-9262-3969a46e060a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\grpc_module\grpc_module.vcxproj">
+      <Project>{77d11f39-0ee9-452b-92f3-fb6c7c4f9cf9}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\tracking_core\tracking_core.vcxproj">
+      <Project>{92055307-94c0-4d8c-9431-d15eb2a7779a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\unit_service\unit_service.vcxproj">
+      <Project>{e02ca6ee-78f8-49c1-a6ac-9bcf0fd0c326}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

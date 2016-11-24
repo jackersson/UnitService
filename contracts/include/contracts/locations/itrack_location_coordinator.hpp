@@ -6,6 +6,7 @@
 #include <memory>
 
 namespace data_model{
+	class Key       ;
 	class Location  ;
 	enum  DeviceType;
 	class DeviceId  ;
@@ -37,6 +38,9 @@ namespace contracts
 
 			virtual bool contains( const data_model::DeviceId& device_name
 				                   , data_model::DeviceType dev_type) const = 0;
+
+			virtual bool try_get( const data_model::Key& key
+				                  , data_model::Location& location) const = 0;
 
 			virtual size_t size() const = 0;		
 		};

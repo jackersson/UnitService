@@ -19,7 +19,8 @@ namespace access_device
 	
 	milliseconds reconnection_delay_ = milliseconds(2000);
 
-	AccessDeviceListener::AccessDeviceListener(const data_model::DeviceId& device_id
+	AccessDeviceListener::AccessDeviceListener
+	  ( const DeviceId& device_id
 		, contracts::devices::IDeviceInfo<AccessDeviceImplPtr>* devices)
 		: device_number_(std::make_unique<DeviceId>(device_id))
 		, devices_(devices)
@@ -187,6 +188,7 @@ namespace access_device
 	void
 		AccessDeviceListener::on_error(const std::exception& exception)
 	{
+		std::lock_guard<std::recursive_mutex> lock(mutex_);
 		contracts::devices::DeviceException
 			device_exception(exception.what(), CardReader);
 
@@ -197,6 +199,7 @@ namespace access_device
 	void
 		AccessDeviceListener::on_state(DeviceState state)
 	{
+		std::lock_guard<std::recursive_mutex> lock(mutex_);
 		common::AccessDeviceState ac_state(state);
 		for (auto observer : observers_)
 			observer->on_state(ac_state);
@@ -205,17 +208,16 @@ namespace access_device
 	void
 		AccessDeviceListener::on_next(ICommandResultPtr data)
 	{		
-		if (next_busy_)
-		{
-			std::cout << "Next busy : rejected";
-			return;
-		}
+		//if (next_busy_)
+		//{
+			//std::cout << "Next busy : rejected";
+			//return;
+		//}
 
 		if (data->device_module() == Dallas || data->device_module() == Buttons)
 		{			
-			std::cout << "**** Card detected start notification";
-			next_busy_ = true;
-
+			//next_busy_ = true;
+			std::lock_guard<std::recursive_mutex> lock(mutex_);
 		  for (auto observer : observers_)
 		  {
 				tasks_->run([data, observer]()
@@ -223,8 +225,7 @@ namespace access_device
 		  		observer->on_next(*data.get());		  
 		  	});
 		  }			
-			std::cout << "**** Card detected end notification";		
-			next_busy_ = false;
+			//next_busy_ = false;
 		}
 	}
 }

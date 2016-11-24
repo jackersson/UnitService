@@ -141,6 +141,7 @@ namespace access_device
 		ReadPortCommand::ReadPortCommand(rs232::port_command port_cmd)
 			: SimpleCommand(port_cmd, rs232::READ_COMMAND_SIZE)
 		{
+			rs232::set_check_sum(command_);
 		}
 
 		void ReadPortCommand::set_data(unsigned char data)  {

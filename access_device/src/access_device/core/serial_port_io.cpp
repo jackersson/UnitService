@@ -8,7 +8,7 @@ using namespace std::chrono;
 
 namespace access_device
 {
-	milliseconds SerialPortIO::delay_ = milliseconds(100);
+	milliseconds SerialPortIO::delay_ = milliseconds(200);
 
 	SerialPortIO::~SerialPortIO() {}
 
@@ -19,12 +19,16 @@ namespace access_device
 		                        , unsigned char header) const
 	{
 		if (!sp.is_open())
+		{
+			std::cout << "SerialPortIO::execute !sp.is_open()" << std::endl;
 			return false;
+		}
 
 		if (!write(sp, input))
+		{
+			std::cout << "SerialPortIO::execute !write(sp, input)" << std::endl;
 			return false;
-
-		std::this_thread::sleep_for(delay_);
+		}
 
 		read(sp, output, total_count, header);
 		return output.size() == total_count;
@@ -34,7 +38,7 @@ namespace access_device
 		, const std::vector<unsigned char>& input) const
 	{
 		try
-		{
+		{			
 			sp.write((char*)input.data(), input.size());
 			return true;
 		}
@@ -49,12 +53,13 @@ namespace access_device
 		                     , size_t total_count
 		                     , unsigned char header) const
 	{
-		auto          timeout = 0;
+		auto          timeout = clock();
 		unsigned char value = 0;
-
+		
 		output.clear();
 		output.push_back(header);
-		while (header != value || timeout < 10)
+		//TODO think about timeout
+		while (header != value && (clock() - timeout) < 2 * CLOCKS_PER_SEC)
 		{
 			char readc = 0;
 			try
@@ -62,8 +67,8 @@ namespace access_device
 				sp.read(&readc, 1);
 			}
 			catch (std::exception& ex) {
-				std::cout << ex.what() << std::endl;
-				break;
+				std::cout << "SerialPortIO::read " 
+					<< ex.what() << std::endl;
 			}
 
 			value = readc;

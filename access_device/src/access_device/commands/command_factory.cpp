@@ -1,4 +1,5 @@
 #include <access_device/commands/command_factory.hpp>
+#include <iostream>
 
 namespace access_device
 {
@@ -47,7 +48,8 @@ namespace access_device
 				const auto& result = command->execute(sp);
 				return result->is_valid() ? result->device_number() : DEVICE_ERROR;
 			}
-			catch (std::exception&){
+			catch (std::exception& ex){
+				std::cout << "get_device_number exception : " << ex.what() << std::endl;
 				return DEVICE_ERROR;
 			}
 		}

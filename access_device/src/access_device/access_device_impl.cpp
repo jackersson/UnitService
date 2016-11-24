@@ -31,7 +31,8 @@ namespace access_device
 				if (serial_number != commands::CommandFactory::DEVICE_ERROR)
 					device_number_ = std::pair<uint16_t, bool>(serial_number, true);
 				std::cout << port_name_ << " "
-					<< device_number_.first << " " << device_number_.second << std::endl;
+					<< device_number_.first << " " << device_number_.second <<  " "
+					<< serial_number << std::endl;
 			}
 			else
 				std::cout << port_name_ << " not controlller" << std::endl;
@@ -80,7 +81,7 @@ namespace access_device
 			return true;
 		
 		serial_port_->open(port_name_, BAUD_RATE);
-		serial_port_->set_timeout(boost::posix_time::millisec(200));
+		serial_port_->set_timeout(boost::posix_time::millisec(1000));
 		return true;	
 	}
 

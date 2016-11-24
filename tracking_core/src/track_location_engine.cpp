@@ -38,6 +38,19 @@ namespace tracking
 				upsert(location);
 		}
 
+		bool TrackLocationsEngine::try_get(const Key& key, Location& location) const
+		{
+			try
+			{
+				auto it = container_.find(key);
+				location = it->location();
+				return true;
+			}
+			catch (std::exception&) {
+				return false;
+			}
+		}		
+
 		void TrackLocationsEngine::update_with(const std::vector<Location>& locations)
 		{
 			std::set<Key> target_locations_set;

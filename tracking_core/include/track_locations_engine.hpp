@@ -20,6 +20,8 @@ namespace tracking
 
 			void init   () override;
 			void de_init() override;
+
+			bool try_get(const data_model::Key&, data_model::Location&) const override;
 			
 			void update(const data_model::Location& location) override;
 			void add   (const data_model::Location& location) override;
@@ -48,7 +50,8 @@ namespace tracking
 			
 			std::string                 local_macaddress_;
 			contracts::IServiceContext* context_         ;
-			TrackLocationsContainer     container_       ;
+			//TODO consider better version
+			mutable TrackLocationsContainer     container_;
 
 			mutable contracts::logging::Logger logger_;
 		};

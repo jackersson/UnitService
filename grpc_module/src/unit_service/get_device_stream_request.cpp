@@ -1,5 +1,4 @@
 #include "unit_service/get_device_stream_request_handler.hpp"
-#include <boost/thread/future.hpp>
 #include <data/models/devices.hpp>
 
 using namespace contracts::devices;
@@ -8,7 +7,7 @@ namespace grpc_services
 {
 	namespace unit_service
 	{
-		bool update__device_if_changed( const Services::StreamMsg& request
+		bool update_device_if_changed( const Services::StreamMsg& request
 		                              , data_model::DeviceId& device)
 		{
 			if (request.target_type_case() == Services::StreamMsg::kDevice)
@@ -26,16 +25,15 @@ namespace grpc_services
 			, grpc::ServerCompletionQueue* completion_queue
 			, contracts::IServiceContext* context)
 			: RequestHandler<Services::UnitService::AsyncService>(service, completion_queue)
-			, responder_(&server_context_)
-			, context_(context)
 			, initialized_   (false)
-			, read_requested_(false)
-			, processed_     (false)
 			, correlation_id_(-1)
-
+			, responder_(&server_context_)
+			, context_  (context)
+			, stopped_  (false)
 		{
 			if (context_ == nullptr)
 				throw std::exception("Context can't be null");
+
 			auto devices = context_->devices();
 			if (devices == nullptr)
 				throw std::exception("Devices can't be null");
@@ -56,52 +54,52 @@ namespace grpc_services
 		}
 
 		void GetDeviceStreamRequestHandler::process_request()
-		{ 			
+		{ 	
 			std::lock_guard<std::recursive_mutex> lock(mutex_);
-			can_process_ = true;
-			std::cout << "can_process_ " << can_process_ << std::endl;
-			if (processed_)
-				return;
-			processed_ = true;
-			logger_.info("Streaming session starts");
-			boost::async([this]()
-			{					
-				while ( request_.state() != DataTypes::Stopped
-					   && !server_context_.IsCancelled())
-				{
-					read_requested_ = false;
-					auto corr_id = request_.correlation_id();
-					if (correlation_id_ == corr_id)
-					{
-						std::this_thread::sleep_for(std::chrono::seconds(1));
-						continue;
-					}
-					correlation_id_ = corr_id;
-
-					auto changed = update__device_if_changed(request_, *device_id_);
-					if (changed)
-					{
-						logger_.info("Streaming started -> {0}", device_id_->name());
-						engine_->add(*device_id_);
-						engine_->subscribe(this, *device_id_);
-					}
-					std::lock_guard<std::recursive_mutex> lock(mutex_);
-					read_requested_ = true;				
-					responder_.Read(&request_, this);					
-				} 
-			}).then([this](boost::future<void> f)
+	
+			auto canceled = server_context_.IsCancelled();
+			stopped_      = request_.state() == DataTypes::Stopped;
+			if (stopped_ || canceled)
 			{
-				if (server_context_.IsCancelled())
-					std::cout << "server_context_ canceled" << std::endl;
-				engine_->unsubscribe(this);
-				//engine_->remove(*device_id_);
+				if (canceled)
+					logger_.info("Service context cancelled");
+				complete();
+				return;
+			}
 
-				logger_.info("Streaming stopped -> {0}", device_id_->name());
-				next();
-				responder_.Finish(grpc::Status::OK, this);
-			});				
+			can_process_ = true;
+			auto corr_id = request_.correlation_id();
+			if (correlation_id_ == corr_id)
+				return;
 
-		}			
+			correlation_id_ = corr_id;
+
+			try_start_stream();
+
+			responder_.Read(&request_, this);	
+		}		
+	
+
+		void GetDeviceStreamRequestHandler::try_start_stream()
+		{
+			auto changed = update_device_if_changed(request_, *device_id_);
+			if (changed)
+			{
+				logger_.info("Streaming started -> {0}", device_id_->name());
+				engine_->add(*device_id_);
+				engine_->subscribe(this, *device_id_);
+			}
+		}
+
+		void GetDeviceStreamRequestHandler::complete()
+		{			
+			engine_->unsubscribe(this);
+			engine_->remove(*device_id_);
+
+			logger_.info("Streaming stopped -> {0}", device_id_->name());
+			responder_.Finish(grpc::Status::OK, this);
+			next();
+		}
 
 		void GetDeviceStreamRequestHandler::on_error(const DeviceException& exception)
 		{}
@@ -111,7 +109,7 @@ namespace grpc_services
 
 		void GetDeviceStreamRequestHandler::on_next(const IStreamData& data)
 		{
-			if (read_requested_ || request_.state() == DataTypes::Stopped)
+			if (stopped_)
 				return;
 
 			auto compressed = data.jpeg_bytes();
@@ -126,8 +124,6 @@ namespace grpc_services
 			std::lock_guard<std::recursive_mutex> lock(mutex_);
 			responder_.Write(bytes, this);			
 			can_process_ = server_context_.IsCancelled();
-			std::cout << "can_process_ " << can_process_ << std::endl;
-
 		}
 	}
 }

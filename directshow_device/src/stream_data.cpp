@@ -4,7 +4,7 @@
 
 namespace directshow_device
 {	
-	std::vector<int> StreamData::jpeg_params = { CV_IMWRITE_JPEG_QUALITY, 50 };
+	std::vector<int> StreamData::jpeg_params = { CV_IMWRITE_JPEG_QUALITY, 100 };
 
 	StreamData::StreamData(const cv::Mat& mat)
 		:mat_(mat)
