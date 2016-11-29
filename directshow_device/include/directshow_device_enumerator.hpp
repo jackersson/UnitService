@@ -1,21 +1,20 @@
 #ifndef DirectShowDeviceEnumerator_Included
 #define DirectShowDeviceEnumerator_Included
 
-#include <contracts/devices/idevice_enumerator.hpp>
-#include <contracts/devices/idevice_info.hpp>
+#include <devices/idevice_enumerator.hpp>
+#include <devices/idevice_info.hpp>
 #include <mutex>
 #include "directshow_device_info.hpp"
 #include <threadable.hpp>
 
-
-namespace directshow_device
+namespace video_device
 {
 	class Capability;
 	class DirectShowDeviceInfo;
 
 	class DirectshowDeviceEnumerator : public utils::Threadable
-		, public contracts::devices::IDeviceEnumerator
-		, public contracts::devices::IDeviceInfo<DirectShowDeviceInfo>
+		, public devices::IDeviceEnumerator
+		, public devices::IDeviceInfo<DirectShowDeviceInfo>
 	{
 	public:
 		DirectshowDeviceEnumerator();
@@ -42,11 +41,13 @@ namespace directshow_device
 
 		bool connected(const std::string& device_name) const;
 
+		bool do_connected(const std::string& device_name) const;
+
 
 		DirectshowDeviceEnumerator(const DirectshowDeviceEnumerator& other) = delete;
 		DirectshowDeviceEnumerator& operator=(const DirectshowDeviceEnumerator&) = delete;
 		
-		mutable std::recursive_mutex mutex_;
+		mutable std::mutex mutex_;
 
 		std::vector<std::string>          devices_;
 		std::vector<DirectShowDeviceInfo> actual_ ;

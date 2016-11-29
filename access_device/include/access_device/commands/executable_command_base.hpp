@@ -2,7 +2,7 @@
 #define ExecutableCommandBase_Included
 
 #include <cstdint>
-#include <contracts/devices/access_device/icommand_result.hpp>
+#include <devices/access_device/icommand_result.hpp>
 #include "access_device/core/serial_port_io.hpp"
 #include "command.hpp"
 #include <access_device/core/iexecutable_command.hpp>
@@ -19,8 +19,7 @@ namespace access_device
 
 			virtual ~ExecutableCommandBase();
 
-			contracts::devices::access_device::ICommandResultPtr	
-				   execute(TimeoutSerial& sp ) override;
+			ICommandResultPtr	 execute(TimeoutSerial& sp ) override;
 
 			bool reset(TimeoutSerial& sp) override;
 			

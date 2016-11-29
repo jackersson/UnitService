@@ -77,7 +77,7 @@ void CoordinatorConnector::de_init()
 const data_model::ConnectMsg& CoordinatorConnector::connect_msg() const
 {
 	static auto msg = generate_connect_msg(
-		  configuration_->unit_service_port()
+		  configuration_->unit_service_address()
 		, configuration_->service_uuid()
 		, data_model::ServiceType::UnitService);
 
@@ -95,27 +95,22 @@ const data_model::HeartbeatMessage& CoordinatorConnector::heartbeat_msg() const
 
 
 data_model::ConnectMsg
-generate_connect_msg(uint16_t service_port
+generate_connect_msg(const std::string& unit_service_address
 	, const std::string& service_id
 	, data_model::ServiceType service_type)
 {
-	auto ip_address = utils::network::get_local_ip();
-	contracts::services::ServiceAddress sa(ip_address, service_port);
-
 	data_model::ConnectMsg connect_msg;
-	connect_msg.ip_address = sa.get();
-	connect_msg.type = service_type;
+	connect_msg.ip_address = unit_service_address;
+	connect_msg.type       = service_type;
 	connect_msg.id = contracts::data::to_data_key(service_id);
 
 	return connect_msg;
 }
 
 data_model::HeartbeatMessage
-generate_heartbeat_msg(const std::string& service_id
-	, data_model::ServiceType   service_type)
+generate_heartbeat_msg( const std::string& service_id
+	                    , data_model::ServiceType   service_type)
 {
-	auto ip_address = utils::network::get_local_ip();
-
 	data_model::HeartbeatMessage message;
 	message.type = service_type;
 	message.id = contracts::data::to_data_key(service_id);

@@ -1,9 +1,7 @@
 #ifndef IDeviceUnit_Included
 #define IDeviceUnit_Included
 
-#include <contracts/locations/ilocation.hpp>
-#include <contracts/devices/access_device/icommand_result.hpp>
-#include <contracts/devices/video_device/istream_data.hpp>
+#include <locations/ilocation.hpp>
 
 namespace data_model
 {
@@ -13,10 +11,7 @@ namespace data_model
 namespace tracking
 {
 	namespace units
-	{
-		typedef contracts::devices::access_device::ICommandResult ICommandResult;
-		typedef contracts::devices::video_device::IStreamData     IStreamData   ;
-
+	{	
 		class IDeviceUpdatable
 		{
 		public:
@@ -35,10 +30,7 @@ namespace tracking
 
 			virtual std::shared_ptr<data_model::VisitRecord>
 				      identify(const T& data) = 0;
-		};
-
-		typedef
-			std::shared_ptr<contracts::devices::IDeviceObserver<ICommandResult>> IDeviceObserverPtr;
+		};		
 	}
 }
 

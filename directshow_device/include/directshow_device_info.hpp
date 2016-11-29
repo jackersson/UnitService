@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-namespace directshow_device
+namespace video_device
 {
 	class Capability
 	{

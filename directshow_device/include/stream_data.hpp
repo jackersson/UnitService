@@ -1,12 +1,8 @@
 #ifndef StreamData_Included
 #define StreamData_Included
 
-#include <contracts/devices/video_device/istream_data.hpp>
+#include <devices/video_device/istream_data.hpp>
 #include <opencv2/core/mat.hpp>
-
-namespace cv {
-	class Mat;
-}
 
 namespace contracts {
 	namespace devices {
@@ -16,25 +12,13 @@ namespace contracts {
 	}
 }
 
-namespace directshow_device
-{
-	
-	class StreamData : public contracts::devices::video_device::IStreamData
+namespace video_device
+{	
+	class StreamData : public IStreamData
 	{
 	public:
-		StreamData(const cv::Mat& mat);
-		/*
-		contracts::devices::video_device::IRawImage*
-			try_get_data(contracts::devices::video_device::StreamType type) const override;
-
-		void add( contracts::devices::video_device::StreamType type
-			       , cv::Mat& image);
-		*/
-
-	//	void set_mat(const cv::Mat& mat)	{
-		//	mat_ = mat;
-	//	}
-
+		explicit StreamData(const cv::Mat& mat);
+	
 		const cv::Mat& color() const override{
 			return mat_;
 		}

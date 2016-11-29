@@ -2,10 +2,10 @@
 #define UnitServiceApi_Included
 
 #include <future>
-#include <contracts/devices/device_exception.hpp>
-#include <contracts/devices/device_observer.hpp>
-#include <contracts/devices/access_device/icommand_result.hpp>
-#include <contracts/devices/access_device/iaccess_device_engine.hpp>
+#include <devices/device_exception.hpp>
+#include <devices/device_observer.hpp>
+#include <devices/access_device/icommand_result.hpp>
+#include <devices/access_device/iaccess_device_engine.hpp>
 #include <service_utils.hpp>
 
 namespace grpc_services
@@ -13,7 +13,7 @@ namespace grpc_services
 	namespace unit_service
 	{
 		inline
-			bool check_device(const contracts::devices::IDeviceEnumerator& enumerator
+			bool check_device(const devices::IDeviceEnumerator& enumerator
 				, const data_model::DeviceId& device)
 		{
 			auto tries_count = 0;
@@ -30,12 +30,10 @@ namespace grpc_services
 		}
 
 		class GetCardApi
-			: public contracts::devices::IDeviceObserver
-			<contracts::devices::access_device::ICommandResult>
+			: public devices::IDeviceObserver<access_device::ICommandResultPtr>
 		{
 		public:
-			explicit GetCardApi
-			(contracts::devices::access_device::IAccessDeviceEngine* engine)
+			explicit GetCardApi(access_device::IAccessDeviceEngine* engine)
 				: engine_(engine)
 			{
 				if (engine_ == nullptr)
@@ -65,23 +63,23 @@ namespace grpc_services
 				return card_number;
 			};
 
-			void on_error(const contracts::devices::DeviceException& exception) override
+			void on_error(const devices::DeviceException& exception) override
 			{}
 
-			void on_state(const contracts::devices::IDeviceState&    state) override
+			void on_state(const devices::IDeviceState&    state) override
 			{}
 
-			void on_next(const contracts::devices::access_device::ICommandResult& data) override
+			void on_next(access_device::ICommandResultPtr data) override
 			{
-				if (data.device_module() == contracts::devices::access_device::Dallas)
-					card_number_.set_value(data.get_dallas_key());
+				if (data->device_module() == access_device::Dallas)
+					card_number_.set_value(data->get_dallas_key());
 			}
 
 		private:
 			GetCardApi(const GetCardApi& other) = delete;
 			GetCardApi& operator=(const GetCardApi&) = delete;
 
-			contracts::devices::access_device::IAccessDeviceEngine* engine_;
+			access_device::IAccessDeviceEngine* engine_;
 			std::promise<std::string> card_number_;
 		};
 	}

@@ -1,7 +1,7 @@
 #include "unit_service/get_device_stream_request_handler.hpp"
 #include <data/models/devices.hpp>
 
-using namespace contracts::devices;
+using namespace devices;
 using namespace video_device;
 namespace grpc_services
 {
@@ -22,28 +22,17 @@ namespace grpc_services
 
 		GetDeviceStreamRequestHandler::GetDeviceStreamRequestHandler
 		(   Services::UnitService::AsyncService* service
-			, grpc::ServerCompletionQueue* completion_queue
-			, contracts::IServiceContext* context)
+			, grpc::ServerCompletionQueue*         completion_queue
+			, contracts::IServiceContext*          context          )
 			: RequestHandler<Services::UnitService::AsyncService>(service, completion_queue)
 			, initialized_   (false)
 			, correlation_id_(-1)
 			, responder_(&server_context_)
 			, context_  (context)
 			, stopped_  (false)
-		{
-			if (context_ == nullptr)
-				throw std::exception("Context can't be null");
-
-			auto devices = context_->devices();
-			if (devices == nullptr)
-				throw std::exception("Devices can't be null");
-
-			engine_ = devices->directshow_device_engine();
-			if (engine_ == nullptr)
-				throw std::exception("DirectShow Device engine can't be null");
-		
-			device_id_ = std::make_unique<data_model::DeviceId>();
-			
+			, request_created_(false)
+			, device_id_ (std::make_unique<data_model::DeviceId>())		
+		{		
 			proceed();
 		}
 
@@ -56,6 +45,12 @@ namespace grpc_services
 		void GetDeviceStreamRequestHandler::process_request()
 		{ 	
 			std::lock_guard<std::recursive_mutex> lock(mutex_);
+
+			if (!try_resolve_dependencies())
+			{
+				complete();
+				return;
+			}
 	
 			auto canceled = server_context_.IsCancelled();
 			stopped_      = request_.state() == DataTypes::Stopped;
@@ -107,12 +102,12 @@ namespace grpc_services
 		void GetDeviceStreamRequestHandler::on_state(const IDeviceState& state)
 		{}
 
-		void GetDeviceStreamRequestHandler::on_next(const IStreamData& data)
+		void GetDeviceStreamRequestHandler::on_next(std::shared_ptr<IStreamData> data)
 		{
 			if (stopped_)
 				return;
 
-			auto compressed = data.jpeg_bytes();
+			auto compressed = data->jpeg_bytes();
 			if (compressed.size() <= 0)
 				return;
 			DataTypes::FrameBytes bytes;			
@@ -124,6 +119,35 @@ namespace grpc_services
 			std::lock_guard<std::recursive_mutex> lock(mutex_);
 			responder_.Write(bytes, this);			
 			can_process_ = server_context_.IsCancelled();
+		}
+
+		bool GetDeviceStreamRequestHandler::try_resolve_dependencies()
+		{
+			if (initialized_)
+				return initialized_;
+
+			try
+			{
+				initialized_ = true;
+
+				if (context_ == nullptr)
+					throw std::exception("Context can't be null");
+
+				auto devices = context_->devices();
+				if (devices == nullptr)
+					throw std::exception("Devices can't be null");
+
+				engine_ = devices->directshow_device_engine();
+				if (engine_ == nullptr)
+					throw std::exception("DirectShow Device engine can't be null");
+
+				return true;
+			}
+			catch (std::exception& ex)
+			{
+				logger_.error("GetDeviceStreamRequestHandler::try_resolve_dependencies {0}", ex.what());
+				return false;
+			}
 		}
 	}
 }

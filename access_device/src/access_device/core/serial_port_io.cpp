@@ -8,7 +8,7 @@ using namespace std::chrono;
 
 namespace access_device
 {
-	milliseconds SerialPortIO::delay_ = milliseconds(200);
+	milliseconds SerialPortIO::delay_ = milliseconds(100);
 
 	SerialPortIO::~SerialPortIO() {}
 
@@ -29,6 +29,8 @@ namespace access_device
 			std::cout << "SerialPortIO::execute !write(sp, input)" << std::endl;
 			return false;
 		}
+
+		std::this_thread::sleep_for(delay_);
 
 		read(sp, output, total_count, header);
 		return output.size() == total_count;
@@ -66,9 +68,8 @@ namespace access_device
 			{
 				sp.read(&readc, 1);
 			}
-			catch (std::exception& ex) {
-				std::cout << "SerialPortIO::read " 
-					<< ex.what() << std::endl;
+			catch (std::exception&) {
+				break;
 			}
 
 			value = readc;

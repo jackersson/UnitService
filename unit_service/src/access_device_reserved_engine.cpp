@@ -5,7 +5,7 @@
 
 using namespace data_model;
 
-AccessDevicesReservedEngine::AccessDevicesReservedEngine(contracts::devices::IDevicesSet* reserved_devices)
+AccessDevicesReservedEngine::AccessDevicesReservedEngine(devices::IDevicesSet* reserved_devices)
 	: impl_(std::make_unique<access_device::AccessDeviceEngine>())
 	, reserved_devices_(reserved_devices)
 {

@@ -1,7 +1,7 @@
 {
     "FacialServiceAddress": "127.0.0.1:50051",
     "CoordinatorServiceAddress": "192.168.0.200:65400",
-    "DatabaseServiceAddress": "127.0.0.1:49065",
-    "UnitServicePort": "50053",
-    "ServiceId": "2a7dfe1e-5344-4e59-94c6-4814548abd18"
+    "DatabaseServiceAddress": "127.0.0.1:65400",
+    "UnitServiceAddress": "192.168.0.125:50053",
+    "ServiceId": "9b85adf2-fcc5-461e-9676-7afa5246cf6e"
 }

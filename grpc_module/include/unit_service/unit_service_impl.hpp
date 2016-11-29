@@ -1,7 +1,7 @@
 #ifndef UnitServiceImpl_INCLUDED
 #define UnitServiceImpl_INCLUDED
 
-#include <contracts/iservice_context.hpp>
+#include <iservice_context.hpp>
 #include <async_service_base.hpp>
 #include <services/unit_service.grpc.pb.h>
 

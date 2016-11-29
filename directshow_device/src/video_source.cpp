@@ -6,15 +6,17 @@
 
 #include <data/models/devices.hpp>
 
-using namespace contracts::devices;
+using namespace devices   ; 
+using namespace data_model;
 
 
-namespace directshow_device
+namespace video_device
 {
-
-	VideoSource::VideoSource() : pause_(false)
+	VideoSource::VideoSource() 
+		: pause_(false)
 		, video_capture_(std::make_unique<cv::VideoCapture>())
 		, capture_error_fault_(0)
+		, busy_(false)
 	{}
 
 	VideoSource::~VideoSource()
@@ -27,7 +29,7 @@ namespace directshow_device
 		std::lock_guard<std::recursive_mutex> lock(mutex_);
 		video_capture_->open(device_id);
 		if (!video_capture_->isOpened())
-			on_error(DeviceException("Can't open device", data_model::DeviceType::Capture));
+			on_error(DeviceException("Can't open device", Capture));
 		else
 			capture_error_fault_ = 0;
 
@@ -87,13 +89,12 @@ namespace directshow_device
 			{
 				capture_error_fault_ = 0;
 
-				StreamData dt(frame);
+				auto dt = std::make_shared<StreamData>(frame);
 				on_next(dt);
 			}
 			else
 			{
-				on_error(DeviceException("Capture error"
-					, data_model::DeviceType::Capture));
+				on_error(DeviceException("Capture error", Capture));
 				capture_error_fault_++;
 			}
 			if (cancelation_requested)
@@ -105,33 +106,34 @@ namespace directshow_device
 
 	void VideoSource::on_error(const DeviceException& exception)
 	{
-		notify([&exception, this](const std::vector<IDeviceObserver
-			<video_device::IStreamData>*>& observers)
+		notify([&exception, this](std::vector<IDeviceObserver
+			<IStreamDataPtr>*>& observers)
 		{
-			for (auto observer : observers)
-			{
+			//for (auto observer : observers)
+			//{
 				//TODO make task
-				if (observer != nullptr)
-					observer->on_error(exception);
-			}
+				//if (observer != nullptr)
+				//	observer->on_error(exception);
+		//	}
 		});
 	}
 
-	void VideoSource::on_next(const video_device::IStreamData& data)
-	{
-		notify([&data, this](const std::vector<IDeviceObserver
-		                        	<video_device::IStreamData>*>& observers)
+	void VideoSource::on_next(IStreamDataPtr data)
+	{			
+	
+		notify([data, this](std::vector<IDeviceObserver
+			<IStreamDataPtr>*>& observers)
 		{
-			for (auto observer : observers)
-			{
-				//TODO make task
-				if (observer != nullptr)
-					observer->on_next(data);
-			}
-		});	
+			if (observers.size() <= 0)			
+				return;
+		
+	#pragma omp parallel for
+			for (auto i = 0; i < observers.size(); ++i)
+				observers[i]->on_next(data);			
+		});
 	}
 
-	void VideoSource::on_state(const contracts::devices::IDeviceState&)
+	void VideoSource::on_state(const IDeviceState&)
 	{
 		//Not implemented
 	}

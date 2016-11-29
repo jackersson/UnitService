@@ -4,59 +4,54 @@
 #include <queue>
 #include <threadable.hpp>
 #include <mutex>
-#include <contracts/video/iplayer.hpp>
-#include <contracts/devices/idevice_info.hpp>
+#include <video/iplayer.hpp>
+#include <devices/idevice_info.hpp>
 #include <observers/observable.hpp>
-#include <contracts/devices/video_device/istream_data.hpp>
-#include <contracts/devices/device_observer.hpp>
+#include <devices/video_device/istream_data.hpp>
+#include <devices/device_observer.hpp>
 
-namespace directshow_device
+namespace video_device
 {
-
-	typedef
-		contracts::devices::IDeviceObserver
-		<contracts::devices::video_device::IStreamData>	IVideoDeviceObserver;
-
-
 	class VideoSource;
 	class Capability;
 	class DirectShowDeviceInfo;
 
 	class DirectshowDeviceListener  
 		     : public utils::Threadable
-		     , public contracts::video::IMediaPlayer
-		     , public contracts::observers::IObservable<IVideoDeviceObserver>
+		     , public video::IMediaPlayer
+		     , public contracts::observers::IObservable
+		              <devices::IDeviceObserver<IStreamDataPtr>>
 	{
 	public:
 		explicit 
 			DirectshowDeviceListener
 			( const std::string& device_name
-			, contracts::devices::IDeviceInfo<DirectShowDeviceInfo>* device_holder);
+			, devices::IDeviceInfo<DirectShowDeviceInfo>* device_holder);
 		
 		~DirectshowDeviceListener();
 
 		void try_kill  () override {
-			commands_.push(contracts::video::PlayerCommands::Kill);
+			commands_.push(video::PlayerCommands::Kill);
 		}
 
 		void try_stop  () override {
-			commands_.push(contracts::video::PlayerCommands::Stop);
+			commands_.push(video::PlayerCommands::Stop);
 		}
 
 		void try_start () override {
-			commands_.push(contracts::video::PlayerCommands::Start);
+			commands_.push(video::PlayerCommands::Start);
 		}
 
 		void try_pause () override {
-			commands_.push(contracts::video::PlayerCommands::Pause);
+			commands_.push(video::PlayerCommands::Pause);
 		}
 
 		void try_resume() override {
-			commands_.push(contracts::video::PlayerCommands::Resume);
+			commands_.push(video::PlayerCommands::Resume);
 		}
 
 		void try_connect() {
-			commands_.push(contracts::video::PlayerCommands::Connect);
+			commands_.push(video::PlayerCommands::Connect);
 		}
 
 		void open(DirectShowDeviceInfo& device);
@@ -67,12 +62,12 @@ namespace directshow_device
 		void run  () override;
 		void clear();
 
-		contracts::video::PlayerCommands dequeue();
+		video::PlayerCommands dequeue();
 
 public:
-	void subscribe   (IVideoDeviceObserver* observer) override;
-	void unsubscribe (IVideoDeviceObserver* observer) override;
-	bool has_observer(IVideoDeviceObserver* observer) override;
+	void subscribe   (devices::IDeviceObserver<IStreamDataPtr>* observer) override;
+	void unsubscribe (devices::IDeviceObserver<IStreamDataPtr>* observer) override;
+	bool has_observer(devices::IDeviceObserver<IStreamDataPtr>* observer) override;
 
 	void unsubscribe_all() override;
 	size_t count() const override;
@@ -81,12 +76,12 @@ public:
 		DirectshowDeviceListener(const DirectshowDeviceListener& other) = delete;
 		DirectshowDeviceListener& operator=(const DirectshowDeviceListener&) = delete;
 
-		contracts::devices::IDeviceInfo<DirectShowDeviceInfo>* device_connectivity_;
+		devices::IDeviceInfo<DirectShowDeviceInfo>* device_connectivity_;
 	  std::unique_ptr<VideoSource> video_capture_;
 		std::mutex mutex_;
 
 		std::string device_name_;
-		std::queue<contracts::video::PlayerCommands> commands_;
+		std::queue<video::PlayerCommands> commands_;
 				
 		std::chrono::milliseconds delay_between_commands_
 			= std::chrono::milliseconds(0);

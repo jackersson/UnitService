@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <helpers/request_handler.hpp>
-#include <contracts/iservice_context.hpp>
+#include <iservice_context.hpp>
 #include <services/unit_service.grpc.pb.h>
 
 #include "unit_service_api.hpp"
@@ -16,26 +16,10 @@ namespace grpc_services
 			: public RequestHandler<Services::UnitService::AsyncService>		
 		{
 		public:
-			GetCardRequestHandler(Services::UnitService::AsyncService* service
+			GetCardRequestHandler
+			( Services::UnitService::AsyncService* service
 				, grpc::ServerCompletionQueue* completion_queue
-				, contracts::IServiceContext* context)
-				: RequestHandler<Services::UnitService::AsyncService>(service, completion_queue)
-				, responder_(&server_context_)
-				, context_(context)			
-			{
-				if (context_ == nullptr)
-					throw std::exception("Context can't be null");
-				auto devices = context_->devices();
-				if (devices == nullptr)
-					throw std::exception("Devices can't be null");
-
-				auto engine_ = devices->access_device_engine();
-				if (engine_ == nullptr)
-					throw std::exception("Access Device engine can't be null");
-
-				card_api_ = std::make_unique<GetCardApi>(engine_);				
-				proceed();
-			}
+				, contracts::IServiceContext* context);
 			
 			void create_request_handler() override
 			{
@@ -59,8 +43,11 @@ namespace grpc_services
 			}
 		
 		private:
+			bool try_resolve_dependencies();
+
 			void complete(const DataTypes::CardMsg& response);
 
+			bool initialized_;
 			DataTypes::Device  request_;
 			grpc::ServerAsyncResponseWriter<DataTypes::CardMsg> responder_;
 			std::unique_ptr<GetCardApi> card_api_;

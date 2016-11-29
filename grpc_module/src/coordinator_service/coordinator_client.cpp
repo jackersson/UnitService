@@ -1,7 +1,7 @@
 #include "coordinator_service/coordinator_client.hpp"
 
 #include <network_utils.hpp>
-#include <contracts/iservice_context.hpp>
+#include <iservice_context.hpp>
 #include <coordinator_service/coordinator_client_calls.hpp>
 
 namespace grpc_services
@@ -43,9 +43,9 @@ namespace grpc_services
 	( std::vector<std::pair<std::string, std::string>>& metadata
 	, const contracts::IServiceConfiguration& configuration  )
 	{
-		metadata.push_back(get_metadata_service_id(configuration));
+		//metadata.push_back(get_metadata_service_id(configuration));
 		metadata.push_back(get_metadata_macaddress());
-		metadata.push_back(get_metadata_ip());
+		//metadata.push_back(get_metadata_ip());
 	}
 	
 	std::pair<std::string, std::string>	get_metadata_macaddress() 

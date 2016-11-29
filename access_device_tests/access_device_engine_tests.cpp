@@ -13,7 +13,7 @@ namespace unit_service_api_tests
 {
 	TEST(AccessDeviceEngineTest, OpenDoorTest)
 	{
-		data_model::DeviceId device_name("test", 0);
+		data_model::DeviceId device_name("test", 3);
 
 		AccessDeviceEngine engine;
 		std::this_thread::sleep_for(std::chrono::seconds(1));

@@ -1,49 +1,56 @@
 #include "access_device/access_device_listener.hpp"
 
+#include "access_device/core/timeout_serial.hpp"
+#include "access_device/access_device_impl.hpp"
 
-#include <access_device/core/timeout_serial.hpp>
-#include <access_device/access_device_impl.hpp>
-#include <future>
+#include <thread_pool.hpp>
 
 using namespace data_model;
-using namespace contracts::devices::access_device;
 using namespace std::chrono;
 
 namespace access_device
 {	
 	AccessDeviceImpl::AccessDeviceImpl(const std::string& port_name)
-		: port_name_(port_name)
+		: busy_(false)
+		, port_name_(port_name)	
 		, serial_port_(std::make_unique<TimeoutSerial>())
 	{
+		open();
 		init();
 	}
 
 	void AccessDeviceImpl::init()
 	{
-			std::async(std::launch::async, [this]() {
+		if (busy_ || device_valid())
+			return;
+
+		busy_ = true;		
+
+		utils::threading::submit_job_nowait(
+			[this]() 
+		{
+			try_init();
+			std::this_thread::sleep_for(seconds(2));
+			busy_ = false;
+		});
+	}
+
+	void AccessDeviceImpl::try_init()
+	{
 		try
 		{
-			auto state = open();
+			if (!is_open())
+				return;
 
-			if (state)
+			auto serial_number = factory_.get_device_number(*serial_port_);
+			if (serial_number != commands::CommandFactory::DEVICE_ERROR)
 			{
-				auto serial_number = factory_.get_device_number(*serial_port_);
-				if (serial_number != commands::CommandFactory::DEVICE_ERROR)
-					device_number_ = std::pair<uint16_t, bool>(serial_number, true);
-				std::cout << port_name_ << " "
-					<< device_number_.first << " " << device_number_.second <<  " "
-					<< serial_number << std::endl;
+				device_number_ = std::pair<uint16_t, bool>(serial_number, true);
+				logger_.info("{0} : is controller with device id {1}", port_name_, device_number_.first);
 			}
-			else
-				std::cout << port_name_ << " not controlller" << std::endl;
-			close();
 		}
-		catch (std::exception& ex)
-		{
-			std::cout << port_name_ << " init exception " << ex.what() << std::endl;
-		}
-			});
-	}
+		catch (std::exception&) {}
+	}	
 
 	AccessDeviceImpl::~AccessDeviceImpl() {
 		de_init();
@@ -51,15 +58,19 @@ namespace access_device
 
 	void AccessDeviceImpl::de_init()
 	{		
+		if (!is_open())
+			return;
 		reset();
 		close();
 	}
 
 	bool AccessDeviceImpl::reset()
 	{
-		if (serial_port_ == nullptr)
+		if (serial_port_ == nullptr || !device_valid())
 			return false;
-		return factory_.reset(*serial_port_); //All lights should be reset
+		auto ok = factory_.reset(*serial_port_);
+		logger_.info("{0} : reset {1}", port_name_, ok ? "succeed" : "failed");
+		return ok; //All lights should be reset
 	}
 	
 	bool AccessDeviceImpl::is_open() const
@@ -86,9 +97,7 @@ namespace access_device
 	}
 
 	void AccessDeviceImpl::close()
-	{
-		if (!serial_port_->is_open())
-			return;
+	{	
 		try
 		{
 			serial_port_->close();

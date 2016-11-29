@@ -2,15 +2,15 @@
 #define RawData_Included
 
 #include <memory>
-#include <contracts/devices/video_device/istream_data.hpp>
+#include <devices/video_device/istream_data.hpp>
 
 namespace cv {
 	class Mat;
 }
 
-namespace directshow_device
+namespace video_device
 {
-	class RawImage : public contracts::devices::video_device::IRawImage
+	class RawImage : public IRawImage
 	{
 	public:
 		explicit RawImage(const cv::Mat& data);

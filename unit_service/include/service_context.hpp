@@ -1,10 +1,11 @@
 #ifndef ServiceContext_Included
 #define ServiceContext_Included
 
-#include <contracts/iservice_context.hpp>
-#include <contracts/locations/itrack_location_coordinator.hpp>
+#include <iservice_context.hpp>
+#include <locations/itrack_location_coordinator.hpp>
 #include <common/ilifecycle.hpp>
 #include <logging/logger.hpp>
+#include <list>
 
 class CoordinatorConnector;
 class CoordinatorServiceWorker;
@@ -13,13 +14,13 @@ class ServiceContext : public contracts::common::IModule
 	                   , public contracts::IServiceContext                     
 {
 public:
-	ServiceContext (contracts::IServiceConfiguration* configuration);
+	explicit ServiceContext (contracts::IServiceConfiguration* configuration);
 	~ServiceContext();
 		
 	void init()    override;
 	void de_init() override;
 
-	contracts::devices::IDevicesContainer* devices() override	{
+	devices::IDevicesContainer* devices() override	{
 		return devices_.get();
 	}
 
@@ -27,7 +28,7 @@ public:
 		return repository_.get();
 	}
 
-	contracts::services::IServices*  services() override {
+	services::IServices*  services() override {
 		return services_.get();
 	}
 	
@@ -47,9 +48,9 @@ public:
 private:		
 	contracts::IServiceConfiguration* configuration_;
 
-	contracts::locations::ITrackLocationsEnginePtr                tracking_coordinator_;
-	std::unique_ptr<contracts::services::IServices>               services_  ;
-	std::unique_ptr<contracts::devices::IDevicesContainer>        devices_   ;
+	std::shared_ptr<contracts::locations::ITrackLocationsEngine>  tracking_coordinator_;
+	std::unique_ptr<services::IServices>               services_  ;
+	std::unique_ptr<devices::IDevicesContainer>        devices_   ;
 	std::unique_ptr<contracts::data::AbstractRepositoryContainer> repository_; 
 	
 	std::unique_ptr<CoordinatorConnector> coordinator_service_;

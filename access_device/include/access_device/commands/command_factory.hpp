@@ -15,14 +15,14 @@ namespace access_device
 			CommandFactory();			
 
 			template <typename T>
-			std::shared_ptr<core::IExecutableCommand>
+			core::IExecutableCommandPtr
 				get(uint16_t device_number = 0, unsigned char data = 0)
 			{				
 				//TODO should be smarter way.
 				//The problem: when data applied to one object it changes everywhere
 				//Possible solution: try to use pool of objects instead of single object
 				auto it = container_.find(typeid(T).name());
-				std::shared_ptr<core::IExecutableCommand> command;
+				core::IExecutableCommandPtr command;
 				if (it != container_.end())				
 					command = it->second;							
 				else				
@@ -39,15 +39,14 @@ namespace access_device
 
 		private:
 			template<typename T>
-			void register_command(std::shared_ptr<core::IExecutableCommand> command)
+			void register_command(core::IExecutableCommandPtr command)
 			{
 				//TODO check if exists
 				container_.insert(std::pair<std::string
-					, std::shared_ptr<core::IExecutableCommand>>(typeid(T).name(), command));
+					, core::IExecutableCommandPtr>(typeid(T).name(), command));
 			}
 		
-			std::map<std::string
-				, std::shared_ptr<core::IExecutableCommand>> container_;
+			std::map<std::string, core::IExecutableCommandPtr> container_;
 
 		};
 	}

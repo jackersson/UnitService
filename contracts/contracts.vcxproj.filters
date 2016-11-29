@@ -63,64 +63,64 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\contracts\video\iplayer.hpp">
-      <Filter>Header Files\contracts\video</Filter>
-    </ClInclude>
-    <ClInclude Include="include\contracts\devices\device_observer.hpp">
-      <Filter>Header Files\contracts\devices</Filter>
-    </ClInclude>
-    <ClInclude Include="include\contracts\devices\device_exception.hpp">
-      <Filter>Header Files\contracts\devices</Filter>
-    </ClInclude>
-    <ClInclude Include="include\contracts\locations\ilocation.hpp">
-      <Filter>Header Files\contracts\locations</Filter>
-    </ClInclude>
-    <ClInclude Include="include\contracts\locations\itrack_location_coordinator.hpp">
-      <Filter>Header Files\contracts\locations</Filter>
-    </ClInclude>
-    <ClInclude Include="include\contracts\devices\access_device\access_device_types.hpp">
-      <Filter>Header Files\contracts\devices\access_device</Filter>
-    </ClInclude>
-    <ClInclude Include="include\contracts\devices\access_device\icommand_result.hpp">
-      <Filter>Header Files\contracts\devices\access_device</Filter>
-    </ClInclude>
-    <ClInclude Include="include\contracts\devices\idevice_engine.hpp">
-      <Filter>Header Files\contracts\devices</Filter>
-    </ClInclude>
-    <ClInclude Include="include\contracts\devices\idevice_enumerator.hpp">
-      <Filter>Header Files\contracts\devices</Filter>
-    </ClInclude>
-    <ClInclude Include="include\contracts\devices\access_device\iaccess_coordinator.hpp">
-      <Filter>Header Files\contracts\devices\access_device</Filter>
-    </ClInclude>
-    <ClInclude Include="include\contracts\devices\access_device\iaccess_device_engine.hpp">
-      <Filter>Header Files\contracts\devices\access_device</Filter>
-    </ClInclude>
-    <ClInclude Include="include\contracts\devices\video_device\istream_data.hpp">
-      <Filter>Header Files\contracts\devices\video_device</Filter>
-    </ClInclude>
-    <ClInclude Include="include\contracts\devices\video_device\ivideo_engine.hpp">
-      <Filter>Header Files\contracts\devices\video_device</Filter>
-    </ClInclude>
-    <ClInclude Include="include\contracts\devices\idevice_info.hpp">
-      <Filter>Header Files\contracts\devices</Filter>
-    </ClInclude>
-    <ClInclude Include="include\contracts\devices\idevices_container.hpp">
-      <Filter>Header Files\contracts\devices</Filter>
-    </ClInclude>
-    <ClInclude Include="include\contracts\iservices.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\contracts\iservice_context.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\contracts\iservice_configuration.hpp">
-      <Filter>Header Files\contracts</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\iservice_configuration.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\iservice_context.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\iservices.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\devices\device_exception.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\devices\device_observer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\devices\idevice_engine.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\devices\idevice_enumerator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\devices\idevice_info.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\devices\idevices_container.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\locations\ilocation.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\locations\itrack_location_coordinator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\video\iplayer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\devices\access_device\access_device_types.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\devices\access_device\iaccess_coordinator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\devices\access_device\iaccess_device_engine.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\devices\access_device\icommand_result.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\devices\video_device\istream_data.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\devices\video_device\ivideo_engine.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

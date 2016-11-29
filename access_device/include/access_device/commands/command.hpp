@@ -2,16 +2,15 @@
 #define Command_Included
 
 #include <vector>
-#include <contracts/devices/access_device/access_device_types.hpp>
-#include <contracts/devices/access_device/icommand_result.hpp>
+#include <devices/access_device/access_device_types.hpp>
+#include <devices/access_device/icommand_result.hpp>
 #include <access_device/rs232/rs232_controller_types.hpp>
 
 namespace access_device
 {
 	namespace commands 
 	{
-		class OutputCommand 
-			: public contracts::devices::access_device::ICommandResult
+		class OutputCommand : public ICommandResult
 		{
 		public:
 			explicit OutputCommand(const std::vector<unsigned char>& command);
@@ -25,8 +24,7 @@ namespace access_device
 
 			const std::vector<unsigned char>& full_data() const override;
 
-			contracts::devices::access_device::access_device_module
-				device_module() const override;
+			access_device_module	device_module() const override;
 
 		private:
 			void parse(const std::vector<unsigned char>& command);

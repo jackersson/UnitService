@@ -1,5 +1,4 @@
 #include <access_device/commands/command_factory.hpp>
-#include <iostream>
 
 namespace access_device
 {
@@ -15,7 +14,7 @@ namespace access_device
 		
 		bool CommandFactory::reset(TimeoutSerial& sp)
 		{
-			std::vector<std::shared_ptr<core::IExecutableCommand>> commands_to_reset =
+			std::vector<core::IExecutableCommandPtr> commands_to_reset =
 			{
 				  get<ButtonCommand>()
 				, get<LightCommand >()
@@ -27,16 +26,13 @@ namespace access_device
 			{
 				try
 				{
-					const auto& result = cmd->execute(sp);
-					if (result->is_valid())
-						success++;
+					auto result = cmd->execute(sp);
+					success++;
 				}
 				catch (std::exception&){
 					//Not implemented
-				}
-				
+				}				
 			}
-
 			return success == commands_to_reset.size();
 		}	
 
@@ -48,8 +44,7 @@ namespace access_device
 				const auto& result = command->execute(sp);
 				return result->is_valid() ? result->device_number() : DEVICE_ERROR;
 			}
-			catch (std::exception& ex){
-				std::cout << "get_device_number exception : " << ex.what() << std::endl;
+			catch (std::exception&){
 				return DEVICE_ERROR;
 			}
 		}

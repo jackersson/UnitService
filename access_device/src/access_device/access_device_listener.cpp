@@ -3,12 +3,13 @@
 #include <data/models/devices.hpp>
 #include "access_device/common/access_device_state.hpp"
 
-#include <tbb/task_group.h>
+#include <thread_pool.hpp>
 
 
 using namespace data_model;
-using namespace contracts::devices::access_device;
+using namespace devices;
 using namespace std::chrono;
+using namespace utils::threading;
 
 namespace access_device
 {
@@ -21,13 +22,12 @@ namespace access_device
 
 	AccessDeviceListener::AccessDeviceListener
 	  ( const DeviceId& device_id
-		, contracts::devices::IDeviceInfo<AccessDeviceImplPtr>* devices)
+		, devices::IDeviceInfo<AccessDeviceImplPtr>* devices)
 		: device_number_(std::make_unique<DeviceId>(device_id))
 		, devices_(devices)
 		, need_to_ask_buttons_(false)
 		, need_to_recover_(false)
 		, next_busy_(false)
-		, tasks_(std::make_unique<tbb::task_group>())
 	{		
 		start();
 	}
@@ -38,13 +38,10 @@ namespace access_device
 
 	void AccessDeviceListener::stop()
 	{
-		if (!cancelation_requested)
-			on_state(Stopped);
-		clear();
 		Threadable::stop();
+		on_state(Stopped);	
 		if (access_device_impl_ != nullptr)
 	  	access_device_impl_->de_init();		
-		tasks_->cancel();
 	}
 		
 	void AccessDeviceListener::run() 
@@ -59,13 +56,8 @@ namespace access_device
 				try
 				{
 					auto result = access_device_impl_->execute(command);
-					if (result->is_valid() && !result->is_empty())
-					{
-						tasks_->run([this, result]()
-						{
-							on_next(result);
-						});
-					}
+					if (!result->is_empty())
+					  submit_job_nowait([this, result]() {on_next(result); });
 
 					if (need_to_recover_)
 						unlock();
@@ -79,6 +71,7 @@ namespace access_device
 				break;
 		}
 		stop();
+		clear();
 	}
 
 	//TODO think about smarter way
@@ -89,7 +82,7 @@ namespace access_device
 
 		on_error(ex);
 		std::this_thread::sleep_for(reconnection_delay_);
-		access_device_impl_ = devices_->get_device(*device_number_);
+		access_device_impl_ = devices_->get_device(*device_number_);	
 		init_session();
 		lock();
 	}
@@ -147,8 +140,9 @@ namespace access_device
 			on_state(Error);
 			return;
 		}
-		if (access_device_impl_ != nullptr && !access_device_impl_->reset()) //TODO maybe to log
-			std::cout << "Can't reset device" << std::endl;
+
+		if (access_device_impl_ != nullptr)
+			access_device_impl_->reset();
 
 		activate();			
 	}	
@@ -189,8 +183,7 @@ namespace access_device
 		AccessDeviceListener::on_error(const std::exception& exception)
 	{
 		std::lock_guard<std::recursive_mutex> lock(mutex_);
-		contracts::devices::DeviceException
-			device_exception(exception.what(), CardReader);
+		DeviceException device_exception(exception.what(), CardReader);
 
 		for (auto observer : observers_)
 			observer->on_error(device_exception);
@@ -207,26 +200,28 @@ namespace access_device
 
 	void
 		AccessDeviceListener::on_next(ICommandResultPtr data)
-	{		
-		//if (next_busy_)
-		//{
-			//std::cout << "Next busy : rejected";
-			//return;
-		//}
+	{
+		if (next_busy_)
+			return;
 
-		if (data->device_module() == Dallas || data->device_module() == Buttons)
-		{			
-			//next_busy_ = true;
-			std::lock_guard<std::recursive_mutex> lock(mutex_);
-		  for (auto observer : observers_)
-		  {
-				tasks_->run([data, observer]()
-		  	{
-		  		observer->on_next(*data.get());		  
-		  	});
-		  }			
-			//next_busy_ = false;
-		}
+		next_busy_ = true;	
+		
+		notify([data, this](const
+			std::vector<IDeviceObserver<ICommandResultPtr>*>& observers)
+		{
+			if (observers.size() <= 0)
+			{
+				next_busy_ = false;
+				return;
+			}
+
+			submit_job_nowait([data, &observers, this]() {
+#pragma omp parallel for 
+				for (auto i = 0; i < observers.size(); ++i)
+					observers[i]->on_next(data);
+				next_busy_ = false;
+			});
+		});
 	}
 }
 

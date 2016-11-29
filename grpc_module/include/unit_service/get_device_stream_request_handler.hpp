@@ -2,7 +2,7 @@
 #define GetDeviceStreamRequestHandler_Included
 
 #include <helpers/request_handler.hpp>
-#include <contracts/iservice_context.hpp>
+#include <iservice_context.hpp>
 #include <services/unit_service.grpc.pb.h>
 
 namespace grpc_services
@@ -12,7 +12,7 @@ namespace grpc_services
 		class GetDeviceStreamRequestHandler 
 			: public RequestHandler<Services::UnitService::AsyncService>
 			, public 
-			contracts::devices::IDeviceObserver<contracts::devices::video_device::IStreamData>
+			devices::IDeviceObserver<video_device::IStreamDataPtr>
 		{
 		public:
 			GetDeviceStreamRequestHandler
@@ -25,10 +25,10 @@ namespace grpc_services
 
 			void create_request_handler() override
 			{
-				if (!initialized_)
+				if (!request_created_)
 				{
 					new GetDeviceStreamRequestHandler(service_, server_completion_queue_, context_);
-					initialized_ = true;
+					request_created_ = true;
 				}
 			}
 
@@ -48,12 +48,12 @@ namespace grpc_services
 				new GetDeviceStreamRequestHandler(service, completion_queue, context);
 			}
 
-			void on_error(const contracts::devices::DeviceException& exception) override;
-			void on_state(const contracts::devices::IDeviceState&    state) override;
-			void on_next (const contracts::devices::video_device::IStreamData& data) override;
+			void on_error(const devices::DeviceException& exception) override;
+			void on_state(const devices::IDeviceState&    state) override;
+			void on_next (video_device::IStreamDataPtr    data ) override;
 			
 		private:
-
+			bool try_resolve_dependencies();
 			void try_start_stream();
 			void complete();
 			
@@ -65,16 +65,17 @@ namespace grpc_services
 			mutable std::recursive_mutex mutex_;
 
 			bool can_process_;
-			bool initialized_;
+			bool request_created_;
 			bool stopped_    ;
+
+			bool initialized_;
 
 			google::protobuf::int64 correlation_id_;
 
 			Services::StreamMsg  request_;
 			grpc::ServerAsyncReaderWriter<DataTypes::FrameBytes, Services::StreamMsg > responder_;
 			contracts::IServiceContext* context_;
-
-			contracts::devices::video_device::IVideoEngine* engine_;
+			video_device::IVideoEngine* engine_;
 		};
 	}
 }

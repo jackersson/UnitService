@@ -4,8 +4,6 @@
 #include <vector>
 #include <sstream>
 
-using namespace contracts::devices::access_device;
-
 namespace access_device
 {
 	namespace commands {
@@ -54,9 +52,9 @@ namespace access_device
 			switch (header_)
 			{
 			case rs232::WriteB: return Lights;
-			case rs232::ReadC: return Buttons;
-			case rs232::Dallas: return access_device_module::Dallas;
-			case rs232::ReadB: return Info;
+			case rs232::ReadC : return Buttons;
+			case rs232::Dallas: return Dallas;
+			case rs232::ReadB : return Info;
 			case rs232::Master:
 			default:
 				break;

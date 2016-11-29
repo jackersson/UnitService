@@ -1,7 +1,7 @@
 #ifndef CoordinatorConnector_Included
 #define CoordinatorConnector_Included
 
-#include <contracts/iservice_context.hpp>
+#include <iservice_context.hpp>
 #include <repeatable_action.hpp>
 #include <logging/logger.hpp>
 
@@ -59,9 +59,9 @@ namespace data_model {
 }
 
 data_model::ConnectMsg
-generate_connect_msg(uint16_t service_port
-	, const std::string& service_id
-	, data_model::ServiceType service_type);
+generate_connect_msg( const std::string& service_port
+	                  , const std::string& service_id
+	                  , data_model::ServiceType service_type);
 
 
 data_model::HeartbeatMessage

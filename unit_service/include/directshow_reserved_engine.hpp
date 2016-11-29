@@ -1,14 +1,13 @@
 #ifndef DirectShowReservedEngine_Included
 #define DirectShowReservedEngine_Included
 
-#include <contracts/devices/idevices_container.hpp>
+#include <devices/idevices_container.hpp>
 
-class DirectShowReservedEngine
-	: public contracts::devices::video_device::IVideoEngine
+class DirectShowReservedEngine : public video_device::IVideoEngine
 {
 public:
 	explicit
-		DirectShowReservedEngine(contracts::devices::IDevicesSet* reserved_devices);
+		DirectShowReservedEngine(devices::IDevicesSet* reserved_devices);
 
 	void stop_all() override {
 		return impl_->stop_all();
@@ -24,19 +23,16 @@ public:
 		return impl_->is_active(device_name);
 	}
 	
-	void subscribe(contracts::devices::IDeviceObserver
-		<contracts::devices::video_device::IStreamData>* observer
+	void subscribe(devices::IDeviceObserver<video_device::IStreamDataPtr>* observer
 		, const data_model::DeviceId& device_name) override {
 		impl_->subscribe(observer, device_name);
 	}
 
-	void unsubscribe(contracts::devices::IDeviceObserver
-		<contracts::devices::video_device::IStreamData>* observer) override {
+	void unsubscribe(devices::IDeviceObserver<video_device::IStreamDataPtr>* observer) override {
 		impl_->unsubscribe(observer);
 	}
 
-	bool has_observer(contracts::devices::IDeviceObserver
-		<contracts::devices::video_device::IStreamData>* observer
+	bool has_observer(devices::IDeviceObserver<video_device::IStreamDataPtr>* observer
 		, const data_model::DeviceId& device_name) override {
 		return impl_->has_observer(observer, device_name);
 	}
@@ -45,7 +41,7 @@ public:
 		return impl_->unsubscribe_all();
 	}
 	
-	const contracts::devices::IDeviceEnumerator& enumerator() const override {
+	const devices::IDeviceEnumerator& enumerator() const override {
 		return impl_->enumerator();
 	}
 
@@ -63,7 +59,7 @@ public:
 
 private:
 	std::unique_ptr<IVideoEngine>    impl_            ;
-	contracts::devices::IDevicesSet* reserved_devices_;
+	devices::IDevicesSet* reserved_devices_;
 };
 
 #endif

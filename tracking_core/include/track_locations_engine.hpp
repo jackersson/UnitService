@@ -1,9 +1,9 @@
 #ifndef TrackLocationsEngine_Included
 #define TrackLocationsEngine_Included
 
-#include <contracts/locations/itrack_location_coordinator.hpp>
+#include <locations/itrack_location_coordinator.hpp>
 #include "track_locations_container.hpp"
-#include <contracts/devices/idevices_container.hpp>
+#include <devices/idevices_container.hpp>
 
 namespace tracking
 {
@@ -11,7 +11,7 @@ namespace tracking
 	{
 		class TrackLocationsEngine 
 			: public contracts::locations::ITrackLocationsEngine
-			, public contracts::devices::IDevicesSet
+			, public devices::IDevicesSet
 		{
 		public:
 			explicit TrackLocationsEngine(contracts::IServiceContext* context);               

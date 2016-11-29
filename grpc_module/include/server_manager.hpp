@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <services/iservice.hpp>
-#include <contracts/iservice_context.hpp>
+#include <iservice_context.hpp>
 
 namespace grpc {
 	class Server;
@@ -36,7 +36,7 @@ namespace grpc_services
 		std::unique_ptr<IService> unit_service_;
 		std::unique_ptr<grpc::Server>  server_;
 		std::vector<IService*>         servers_;
-
+		
 	};
 
 	typedef std::shared_ptr<ServerManager> ServerManagerPtr;

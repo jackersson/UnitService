@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <helpers/request_handler.hpp>
-#include <contracts/iservice_context.hpp>
+#include <iservice_context.hpp>
 #include <services/unit_service.grpc.pb.h>
 
 namespace grpc_services
@@ -14,15 +14,9 @@ namespace grpc_services
 			: public RequestHandler<Services::UnitService::AsyncService>
 		{
 		public:
-			EnrollRequestHandler(Services::UnitService::AsyncService* service
-				, grpc::ServerCompletionQueue* completion_queue
-				, contracts::IServiceContext* context)
-				: RequestHandler<Services::UnitService::AsyncService>(service, completion_queue)
-				, responder_(&server_context_)
-				, context_(context)
-			{
-				proceed();
-			}
+			EnrollRequestHandler( Services::UnitService::AsyncService* service
+				                  , grpc::ServerCompletionQueue* completion_queue
+				                  , contracts::IServiceContext* context);
 
 			void create_request_handler() override
 			{
@@ -46,6 +40,8 @@ namespace grpc_services
 			}
 
 		private:
+			bool initialized_;
+
 			DataTypes::Device  request_;
 			grpc::ServerAsyncResponseWriter<DataTypes::Faces> responder_;
 			contracts::IServiceContext* context_;

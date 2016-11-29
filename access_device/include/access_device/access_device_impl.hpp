@@ -3,6 +3,7 @@
 
 #include <access_device/core/iexecutable_command.hpp>
 #include "commands/command_factory.hpp"
+#include "logging/logger.hpp"
 
 namespace data_model {
 	class DeviceId;
@@ -21,9 +22,9 @@ namespace access_device
 		~AccessDeviceImpl();
 
 		//Throws exception
-		contracts::devices::access_device::ICommandResultPtr
-			execute(core::IExecutableCommandPtr command);
+		ICommandResultPtr	execute(core::IExecutableCommandPtr command);
 
+		void init   ();
 		void de_init();
 		bool open   ();
 		bool reset  ();
@@ -52,9 +53,11 @@ namespace access_device
 		AccessDeviceImpl(const AccessDeviceImpl& other) = delete;
 		AccessDeviceImpl& operator=(const AccessDeviceImpl&) = delete;
 		
-		void init ();
 		void close();
-		
+
+		void try_init();	
+
+		bool busy_;
 
 		commands::CommandFactory factory_;
 		std::recursive_mutex     mutex_;
@@ -62,7 +65,9 @@ namespace access_device
 		std::string               port_name_;
 		std::pair<uint16_t, bool> device_number_;
 
-		std::unique_ptr<TimeoutSerial>          serial_port_;	
+		contracts::logging::Logger logger_;
+
+		std::unique_ptr<TimeoutSerial>   serial_port_;	
 	};
 
 	typedef std::shared_ptr<AccessDeviceImpl> AccessDeviceImplPtr;

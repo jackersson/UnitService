@@ -157,27 +157,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\contracts\devices\access_device\access_device_types.hpp" />
-    <ClInclude Include="include\contracts\devices\access_device\iaccess_coordinator.hpp" />
-    <ClInclude Include="include\contracts\devices\access_device\iaccess_device_engine.hpp" />
-    <ClInclude Include="include\contracts\devices\access_device\icommand_result.hpp" />
-    <ClInclude Include="include\contracts\devices\device_exception.hpp" />
-    <ClInclude Include="include\contracts\devices\device_observer.hpp" />
-    <ClInclude Include="include\contracts\devices\idevices_container.hpp" />
-    <ClInclude Include="include\contracts\devices\idevice_engine.hpp" />
-    <ClInclude Include="include\contracts\devices\idevice_enumerator.hpp" />
-    <ClInclude Include="include\contracts\devices\idevice_info.hpp" />
-    <ClInclude Include="include\contracts\devices\video_device\istream_data.hpp" />
-    <ClInclude Include="include\contracts\devices\video_device\ivideo_engine.hpp" />
-    <ClInclude Include="include\contracts\iservices.hpp" />
-    <ClInclude Include="include\contracts\iservice_configuration.hpp" />
-    <ClInclude Include="include\contracts\iservice_context.hpp" />
-    <ClInclude Include="include\contracts\locations\ilocation.hpp" />
-    <ClInclude Include="include\contracts\locations\itrack_location_coordinator.hpp" />
-    <ClInclude Include="include\contracts\video\iplayer.hpp" />
+    <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp" />
+    <ClInclude Include="include\devices\access_device\access_device_types.hpp" />
+    <ClInclude Include="include\devices\access_device\iaccess_coordinator.hpp" />
+    <ClInclude Include="include\devices\access_device\iaccess_device_engine.hpp" />
+    <ClInclude Include="include\devices\access_device\icommand_result.hpp" />
+    <ClInclude Include="include\devices\device_exception.hpp" />
+    <ClInclude Include="include\devices\device_observer.hpp" />
+    <ClInclude Include="include\devices\idevices_container.hpp" />
+    <ClInclude Include="include\devices\idevice_engine.hpp" />
+    <ClInclude Include="include\devices\idevice_enumerator.hpp" />
+    <ClInclude Include="include\devices\idevice_info.hpp" />
+    <ClInclude Include="include\devices\video_device\istream_data.hpp" />
+    <ClInclude Include="include\devices\video_device\ivideo_engine.hpp" />
+    <ClInclude Include="include\iservices.hpp" />
+    <ClInclude Include="include\iservice_configuration.hpp" />
+    <ClInclude Include="include\iservice_context.hpp" />
+    <ClInclude Include="include\locations\ilocation.hpp" />
+    <ClInclude Include="include\locations\itrack_location_coordinator.hpp" />
+    <ClInclude Include="include\video\iplayer.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

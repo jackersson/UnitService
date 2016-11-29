@@ -2,21 +2,22 @@
 #define SerialPortEnumerator_Included
 
 #include <threadable.hpp>
-#include <contracts/devices/idevice_enumerator.hpp>
+#include <devices/idevice_enumerator.hpp>
 #include <chrono>
 #include <observers/observable.hpp>
 #include "access_device_impl.hpp"
-#include <contracts/devices/idevice_info.hpp>
+#include <devices/idevice_info.hpp>
 
 namespace access_device
 {
 	class SerialPortEnumerator : public utils::Threadable
-		                         , public contracts::devices::IDeviceEnumerator
-		, public contracts::devices::IDeviceInfo<AccessDeviceImplPtr>
+		                         , public devices::IDeviceEnumerator
+		                         , public devices::IDeviceInfo<AccessDeviceImplPtr>
 	{
 	public:
 		SerialPortEnumerator();
 		~SerialPortEnumerator();
+
 		bool connected(const data_model::DeviceId& device_name) const override;
 		void enumerate(std::vector<data_model::DeviceId>&     ) const override;
 		
@@ -39,14 +40,14 @@ namespace access_device
 
 		void update ();
 
-		bool contains(const std::string& port_name);
+		bool contains   (const std::string& port_name);
+		bool do_contains(const std::string& port_name);
 				
-		mutable std::recursive_mutex mutex_;
+		mutable std::mutex mutex_;
 
 		std::vector<AccessDeviceImplPtr> devices_;
 		std::vector<std::string> serials_;
-
-
+		
 		static std::chrono::milliseconds delay_;
 	};
 }

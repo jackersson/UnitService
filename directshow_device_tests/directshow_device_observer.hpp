@@ -33,6 +33,7 @@ namespace directshow_tests
 
 		void on_next(const contracts::devices::video_device::IStreamData& data) override
 		{
+			/*
 			std::cout << "frame got" << std::endl;
 
 
@@ -46,6 +47,7 @@ namespace directshow_tests
 			{
 				return;
 			}
+			*/
 		}
 
 	};

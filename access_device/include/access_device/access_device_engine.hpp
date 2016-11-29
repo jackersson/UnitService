@@ -4,12 +4,11 @@
 #include "serial_port_enumerator.hpp"
 #include "access_device_listener.hpp"
 #include <concurrent_containers.hpp>
-#include <contracts/devices/access_device/iaccess_device_engine.hpp>
+#include <devices/access_device/iaccess_device_engine.hpp>
 
 namespace access_device
 {	
-	class AccessDeviceEngine 
-		: public contracts::devices::access_device::IAccessDeviceEngine
+	class AccessDeviceEngine : public IAccessDeviceEngine
 	{
 	public:
 		AccessDeviceEngine ();
@@ -22,17 +21,14 @@ namespace access_device
 		
 		bool is_active(const data_model::DeviceId& device_name) override;
 
-		void execute(const data_model::DeviceId&
-			, contracts::devices::access_device::lights data
-			= contracts::devices::access_device::lNone) override;
+		void execute(const data_model::DeviceId&, lights data	= lNone) override;
 			
+		void subscribe( devices::IDeviceObserver<ICommandResultPtr>* observer
+			            , const data_model::DeviceId& device_name) override;
 
-		void subscribe   ( IAccessDeviceObserver*      observer
-			               , const data_model::DeviceId& device_name) override;
+		void unsubscribe (devices::IDeviceObserver<ICommandResultPtr>* observer) override;
 
-		void unsubscribe (IAccessDeviceObserver* observer) override;
-
-		bool has_observer( IAccessDeviceObserver* observer
+		bool has_observer(devices::IDeviceObserver<ICommandResultPtr>* observer
 			               , const data_model::DeviceId& device_name) override;
 
 		void unsubscribe_all() override;		
@@ -40,7 +36,7 @@ namespace access_device
 		void de_init() override;
 		void init   () override;
 
-		const contracts::devices::IDeviceEnumerator& enumerator() const override;
+		const devices::IDeviceEnumerator& enumerator() const override;
 				
 		size_t size() const override;
 		

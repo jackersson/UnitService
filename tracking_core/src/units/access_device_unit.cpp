@@ -4,9 +4,9 @@
 #include <data/models/devices.hpp>
 #include <data/models/queries.hpp>
 
-#include <tbb/task_group.h>
+#include <thread_pool.hpp>
 
-using namespace contracts::devices;
+using namespace devices;
 using namespace access_device;
 using namespace contracts::data;
 using namespace data_model;
@@ -18,15 +18,13 @@ namespace tracking
 		AccessDeviceObserver::~AccessDeviceObserver()			
 		{
 			AccessDeviceObserver::stop();
-			tasks_->cancel();
 		}
 			
 		AccessDeviceObserver::AccessDeviceObserver(IAccessDeviceEngine*	engine)
-			: engine_(engine)
+			: busy_(false), engine_(engine)
 			, persons_repository_(nullptr)
 			, device_(std::make_unique<AccessDevice>())
 			, active_(false)
-			, tasks_(std::make_unique<tbb::task_group>())
 		{
 			if (engine_ == nullptr)
 				throw std::exception("Access device engine can't be null");
@@ -34,10 +32,9 @@ namespace tracking
 
 		AccessDeviceObserver::AccessDeviceObserver(IAccessDeviceEngine*	engine
 		  , AbstractRepositoryContainer* repository)
-		  : device_(std::make_unique<AccessDevice>())
+		  : busy_(false), device_(std::make_unique<AccessDevice>())
 			, engine_(engine)
 			, active_(false)
-			, tasks_(std::make_unique<tbb::task_group>())
 		{
 			if (engine_ == nullptr)
 				throw std::exception("Access device engine can't be null");
@@ -93,6 +90,8 @@ namespace tracking
 			{
 				engine_->unsubscribe(this);
 				engine_->remove(*device_);
+				device_ = std::make_unique<AccessDevice>();
+
 			}
 			catch (std::exception&)
 			{
@@ -102,18 +101,24 @@ namespace tracking
 		}
 
 		void AccessDeviceObserver::grant() const
-		{			
-			engine_->execute( *device_, lGreenAccess);
+		{	
+			if (busy_)
+				return;
 
-			tasks_->run( [this]()
-			{ 
+			busy_ = true;
+			logger_.info("Grant access {0}", device_->name());
+			utils::threading::submit_job_nowait([this]()
+			{
+			  engine_->execute( *device_, lGreenAccess);			
 				std::this_thread::sleep_for(ACCESS_DELAY);
-			  deny();
+				deny();
+				busy_ = false;
 			});
 		}
 
 		void AccessDeviceObserver::deny() const  
 		{
+			logger_.info("Deny access {0}", device_->name());
 			engine_->execute(*device_, lRedMain);
 		}
 
@@ -156,15 +161,15 @@ namespace tracking
 				observer->on_state(state);
 		}
 
-		void AccessDeviceObserver::on_next(const ICommandResult& data) 
+		void AccessDeviceObserver::on_next(ICommandResultPtr data) 
 		{			
-			switch (data.device_module())
+			switch (data->device_module())
 			{
 			case Buttons:
-				check_buttons(data.small_data());
+				check_buttons(data->small_data());
 				break;
 			case Dallas:
-				check_dallas_key(data.get_dallas_key());
+				check_dallas_key(data->get_dallas_key());
 				break;
 			case Lights:
 			case NoneModule:
@@ -196,10 +201,10 @@ namespace tracking
 				//not implemented
 			}
 
-			tasks_->run([this]()
+
+			utils::threading::submit_job_nowait([this]()
 			{
 				std::this_thread::sleep_for(std::chrono::seconds(ACCESS_DELAY));
-				logger_.info("Ready");
 				active_ = false;
 			});
 		}

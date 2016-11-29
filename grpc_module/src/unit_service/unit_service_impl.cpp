@@ -33,12 +33,11 @@ namespace grpc_services
 		void UnitServiceImpl::init()
 		{
 			connect();
-
-			initialize_handler<CheckDeviceRequestHandler      >();
+			//initialize_handler<CheckDeviceRequestHandler      >();
 			initialize_handler<GetDevicesRequestHandler       >();
-			initialize_handler<EnrollRequestHandler           >();
+			//initialize_handler<EnrollRequestHandler           >();
 			initialize_handler<GetCardRequestHandler          >();
-			initialize_handler<GetDeviceStreamRequestHandler  >();
+			//initialize_handler<GetDeviceStreamRequestHandler  >();
 			initialize_handler<GetLocationStreamRequestHandler>();
 			initialize_handler<OpenDoorRequestHandler         >();
 			initialize_handler<UpdateLocationRequestHandler   >();

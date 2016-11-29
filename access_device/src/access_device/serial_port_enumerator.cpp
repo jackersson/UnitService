@@ -10,20 +10,13 @@ using namespace std::chrono;
 
 namespace access_device
 {	
-	milliseconds SerialPortEnumerator::delay_ = milliseconds(1000);
+	milliseconds SerialPortEnumerator::delay_ = milliseconds(3000);
 
-	SerialPortEnumerator::SerialPortEnumerator()
-	{
-		
-	}
-
-	SerialPortEnumerator::~SerialPortEnumerator()
-	{
-
-	}
+	SerialPortEnumerator::SerialPortEnumerator (){}
+	SerialPortEnumerator::~SerialPortEnumerator(){}
 	
 	bool SerialPortEnumerator::connected(const data_model::DeviceId& device_name) const {
-		std::lock_guard<std::recursive_mutex> lock(mutex_);
+		std::lock_guard<std::mutex> lock(mutex_);
 		return  std::find_if(devices_.begin(), devices_.end(),
 			[&device_name](AccessDeviceImplPtr device) -> bool
 		{
@@ -32,7 +25,7 @@ namespace access_device
 	}
 
 	void SerialPortEnumerator::enumerate(std::vector<data_model::DeviceId>& devs) const {
-		std::lock_guard<std::recursive_mutex> lock(mutex_);
+		std::lock_guard<std::mutex> lock(mutex_);
 		for (auto dev : devices_)
 		{
 			if (dev->device_valid())
@@ -43,7 +36,7 @@ namespace access_device
 	AccessDeviceImplPtr
 		SerialPortEnumerator::get_device(const data_model::DeviceId& device_name) const
 	{
-		std::lock_guard<std::recursive_mutex> lock(mutex_);
+		std::lock_guard<std::mutex> lock(mutex_);
 		auto res = std::find_if(devices_.begin(), devices_.end(),
 			[&device_name](AccessDeviceImplPtr device) -> bool
 		{
@@ -82,20 +75,21 @@ namespace access_device
 
 	void SerialPortEnumerator::update()
 	{
-		std::lock_guard<std::recursive_mutex> lock(mutex_);
+		std::lock_guard<std::mutex> lock(mutex_);
 		if (devices_.size() > 0)
 		{
 			devices_.erase( remove_if(devices_.begin(), devices_.end()
 				, [&](AccessDeviceImplPtr device_name)
 			{
+			  device_name->init();
 				return find(serials_.begin(), serials_.end(), device_name->port_name())
 					== serials_.end();
 			}), devices_.end());
 		}
 
-		for (auto device_name : serials_)
+		for (const auto& device_name : serials_)
 		{
-			if (!contains(device_name))
+			if (!do_contains(device_name))
 			{
 				auto item = std::make_shared<AccessDeviceImpl>(device_name);
 				devices_.push_back(item);
@@ -104,6 +98,12 @@ namespace access_device
 	}
 	
 	bool SerialPortEnumerator::contains(const std::string& port_name)
+	{
+		std::lock_guard<std::mutex> lock(mutex_);
+		return do_contains(port_name);
+	}
+
+	bool SerialPortEnumerator::do_contains(const std::string& port_name)
 	{
 		return std::find_if(devices_.begin(), devices_.end()
 			, [&port_name](AccessDeviceImplPtr device) -> bool

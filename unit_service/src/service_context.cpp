@@ -6,10 +6,7 @@
 #include <services_coordinator.hpp>
 
 #include "coordinator_connector.hpp"
-#include <network_utils.hpp>
-#include <data/models/location.hpp>
-#include <uuid/string_generator.hpp>
-#include <uuid/uuid_io.hpp>
+
 
 ServiceContext::ServiceContext
   (contracts::IServiceConfiguration* configuration) 
@@ -25,9 +22,6 @@ void ServiceContext::init()
 {
 	logger_.info("Unit service start init");
 	
-	devices_ = std::make_unique<DevicesContainer>();
-	modules_.push_back(devices_.get());
-
 	services_ = std::make_unique<grpc_services::ServicesCoordinator>(this);
 	modules_.push_back(services_.get());
 		
@@ -35,9 +29,12 @@ void ServiceContext::init()
 	repository_ = std::make_unique<data_core::RepositoryContainer>(database_api);
 	modules_.push_back(repository_.get());
 		
-	tracking_coordinator_
-  	= std::make_shared<tracking::locations::TrackLocationsEngine>(this);
-	modules_.push_back(tracking_coordinator_.get());	
+	auto track_location_engine = std::make_shared<tracking::locations::TrackLocationsEngine>(this);
+	tracking_coordinator_ = track_location_engine;  
+	modules_.push_back(tracking_coordinator_.get());
+
+	devices_ = std::make_unique<DevicesContainer>(track_location_engine.get());
+	modules_.push_back(devices_.get());
 	
 	coordinator_service_ = std::make_unique<CoordinatorConnector>
 		(services_->coordinator(), configuration_);

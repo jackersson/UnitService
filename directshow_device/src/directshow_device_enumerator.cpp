@@ -9,7 +9,7 @@
 #include "directshow_device_info.hpp"
 
 
-namespace directshow_device
+namespace video_device
 {
 	DirectshowDeviceEnumerator::DirectshowDeviceEnumerator()
 	{}
@@ -35,7 +35,7 @@ namespace directshow_device
 	bool DirectshowDeviceEnumerator::connected
 	           (const data_model::DeviceId& device_name) const
 	{
-		std::lock_guard<std::recursive_mutex> lock(mutex_);
+		std::lock_guard<std::mutex> lock(mutex_);
 		return  std::find_if(devices_.begin(), devices_.end(),
 			[&device_name](const std::string& device) -> bool
 		{
@@ -46,13 +46,19 @@ namespace directshow_device
 	void DirectshowDeviceEnumerator::enumerate
 	           (std::vector<data_model::DeviceId>& devs) const
 	{
-		std::lock_guard<std::recursive_mutex> lock(mutex_);
+		std::lock_guard<std::mutex> lock(mutex_);
 		for (const auto& dev : devices_)					
 			devs.push_back(data_model::DeviceId(dev));		
 	}
 
-	bool DirectshowDeviceEnumerator::connected(const std::string& device_name) const  
-	{		
+	bool DirectshowDeviceEnumerator::connected(const std::string& device_name) const
+	{
+		std::lock_guard<std::mutex> lock(mutex_);
+		return do_connected(device_name);
+	}
+
+	bool DirectshowDeviceEnumerator::do_connected(const std::string& device_name) const
+	{
 		return find(devices_.begin(), devices_.end(), device_name) != devices_.end();
 	}
 
@@ -72,11 +78,11 @@ namespace directshow_device
 
 	void DirectshowDeviceEnumerator::enumerate()
 	{		
-		std::lock_guard<std::recursive_mutex> lock(mutex_);
+		std::lock_guard<std::mutex> lock(mutex_);
 
 		actual_.clear();
 		auto devices = capture.getDevices();
-		for (auto dev : devices)
+		for (const auto& dev : devices)
 		{
 			DirectShowDeviceInfo info(dev.name, dev.index);
 			actual_.push_back(info);
@@ -93,6 +99,8 @@ namespace directshow_device
 	
 	void DirectshowDeviceEnumerator::update()
 	{
+		std::lock_guard<std::mutex> lock(mutex_);
+
 		if (devices_.size() > 0)
 		{
 			auto predicate = [this](const std::string& device_name) {
@@ -106,7 +114,7 @@ namespace directshow_device
 		for (auto device_name : actual_)
 		{
 			auto dev_name = device_name.name();
-			if (!connected(dev_name))
+			if (!do_connected(dev_name))
 				devices_.push_back(dev_name);
 		}
 	}
@@ -122,7 +130,7 @@ namespace directshow_device
 		DirectshowDeviceEnumerator::try_get_device( const data_model::DeviceId& device_name
 			                                        , DirectShowDeviceInfo& info) const
 	{
-		std::lock_guard<std::recursive_mutex> lock(mutex_);
+		std::lock_guard<std::mutex> lock(mutex_);
 		for (auto device : actual_)
 		{
 			if (device.name() == device_name.name())
@@ -130,7 +138,7 @@ namespace directshow_device
 				info = device;
 				auto caps = capture.getCapabilities(device.id());
 				std::vector<Capability> caps_ok;
-				for (auto cap : caps)
+				for (const auto& cap : caps)
 				{
 					if  (cap.pixel_format == CA_MJPEG)
 					caps_ok.push_back(Capability(cap.width, cap.height));

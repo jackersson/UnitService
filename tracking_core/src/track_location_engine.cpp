@@ -25,7 +25,8 @@ namespace tracking
 		void TrackLocationsEngine::init()  {}
 
 		void TrackLocationsEngine::de_init()  {
-			container_.clear();
+			if  (container_.size() > 0)
+		  	container_.clear();
 		}
 
 		void TrackLocationsEngine::update(const Location& location)  {
@@ -40,15 +41,13 @@ namespace tracking
 
 		bool TrackLocationsEngine::try_get(const Key& key, Location& location) const
 		{
-			try
+			auto it = container_.find(key);
+			if (it != nullptr)
 			{
-				auto it = container_.find(key);
 				location = it->location();
 				return true;
 			}
-			catch (std::exception&) {
-				return false;
-			}
+			return false;		
 		}		
 
 		void TrackLocationsEngine::update_with(const std::vector<Location>& locations)
@@ -96,16 +95,14 @@ namespace tracking
 				logger_.error("Grant access failed. Location not found");
 				return false;
 			}
-			try
-			{
-				auto it = container_.find(location.id());
-				it->access_coordinator().set_state(AccessState::Granted);
-			}
-			catch (std::exception& exception) {
-				logger_.error("Grant access failed. {0}", exception.what());
-				return false;
-			}
-			return true;
+		
+			auto it = container_.find(location.id());
+			if (it != nullptr)
+			  it->access_coordinator().set_state(Granted);
+			else 
+				logger_.error("Grant access failed. Location not found");
+
+			return it != nullptr;
 		}
 
 		void TrackLocationsEngine::upsert(const Location& location)
@@ -116,11 +113,10 @@ namespace tracking
 				return;
 			}
 
-			try {
-				auto existing = container_.find(location.id());
-				existing->update(location);
-			}
-			catch (std::exception&)
+			auto existing = container_.find(location.id());
+			if (existing != nullptr)
+			  existing->update(location);
+			else
 			{
 				auto track_location = std::make_shared<TrackLocation>(location, context_);
 				container_.add(track_location);
@@ -139,15 +135,15 @@ namespace tracking
 		}
 
 		void TrackLocationsEngine::remove(const Key& uuid)
-		{
-			try {
-				auto existing = container_.find(uuid);
-				existing->stop();
-				container_.remove(uuid);
-			}
-			catch (std::exception& exception) {
-				logger_.error("{0}", exception.what());
-			}
+		{	
+			auto existing = container_.find(uuid);
+			if (existing == nullptr)
+				return;
+
+			existing->stop();
+			container_.remove(uuid);
+
+			logger_.error("Location removed {0}", to_string(uuid.guid()));			
 		}
 
 		void TrackLocationsEngine::remove_range(std::vector<Key>& uuids)

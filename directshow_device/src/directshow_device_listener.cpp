@@ -4,17 +4,20 @@
 #include "video_source.hpp"
 
 #include <data/models/devices.hpp>
+#include <devices/idevice_info.hpp>
 
-namespace directshow_device
+using namespace video  ;
+using namespace devices;
+
+namespace video_device
 {
 	DirectshowDeviceListener::DirectshowDeviceListener
    	( const std::string& device_name
-		, contracts::devices::IDeviceInfo<DirectShowDeviceInfo>* device_holder)
+		, IDeviceInfo<DirectShowDeviceInfo>* device_holder)
 		: device_connectivity_(device_holder)
 		, video_capture_(std::make_unique<VideoSource>())
 		, device_name_(device_name)
 	{
-		video_capture_ = std::make_unique<VideoSource>();
 		try_connect();
 	}		
 	DirectshowDeviceListener::~DirectshowDeviceListener()
@@ -51,19 +54,19 @@ namespace directshow_device
 
 			switch (command)
 			{
-			case contracts::video::PlayerCommands::Kill:
+			case Kill:
 				video_capture_->release();
 				break;
 
-			case contracts::video::PlayerCommands::Start:
+			case Start:
 				video_capture_->play();
 				break;
 
-			case contracts::video::PlayerCommands::Stop:
+			case Stop:
 				video_capture_->pause();
 				break;
 
-			case contracts::video::PlayerCommands::Connect:
+			case Connect:
 			{
 				DirectShowDeviceInfo finfo;
 				if (device_connectivity_->try_get_device
@@ -73,13 +76,13 @@ namespace directshow_device
 					try_connect();
 				break;
 			}
-			case contracts::video::PlayerCommands::Pause:
+			case Pause:
 				video_capture_->pause();
 				break;
-			case contracts::video::PlayerCommands::Resume:
+			case Resume:
 				video_capture_->play();
 				break;
-			case contracts::video::None: break;
+			case None: break;
 			default: break;
 			}
 			
@@ -100,7 +103,7 @@ namespace directshow_device
 			commands_.pop();
 	}
 
-	contracts::video::PlayerCommands DirectshowDeviceListener::dequeue()
+	PlayerCommands DirectshowDeviceListener::dequeue()
 	{
 		std::lock_guard<std::mutex> lock(mutex_);
 		while (commands_.empty())
@@ -113,7 +116,7 @@ namespace directshow_device
 			}
 
 			if (cancelation_requested)
-				return contracts::video::PlayerCommands::None;
+				return None;
 		}
 
 		auto result = commands_.front();
@@ -121,15 +124,15 @@ namespace directshow_device
 		return result;
 	}
 
-	void DirectshowDeviceListener::subscribe(IVideoDeviceObserver* observer)  {
+	void DirectshowDeviceListener::subscribe(IDeviceObserver<IStreamDataPtr>* observer)  {
 		video_capture_->subscribe(observer);
 	}
 
-	void DirectshowDeviceListener::unsubscribe(IVideoDeviceObserver* observer)  {
+	void DirectshowDeviceListener::unsubscribe(IDeviceObserver<IStreamDataPtr>* observer)  {
 		video_capture_->unsubscribe(observer);
 	}
 
-	bool DirectshowDeviceListener::has_observer(IVideoDeviceObserver* observer)  {
+	bool DirectshowDeviceListener::has_observer(IDeviceObserver<IStreamDataPtr>* observer)  {
 		return video_capture_->has_observer(observer);
 	}
 

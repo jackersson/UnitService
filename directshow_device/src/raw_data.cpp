@@ -2,7 +2,7 @@
 
 #include <opencv2/opencv.hpp>
 
-namespace directshow_device
+namespace video_device
 {	
 	RawImage::RawImage(const cv::Mat& data)
 	{

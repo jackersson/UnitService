@@ -59,29 +59,28 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\access_device\access_device_x32d.props" />
-    <Import Project="..\tracking_core\tracking_core_x32d.props" />
-    <Import Project="..\grpc_module\protobuf_x32d.props" />
-    <Import Project="..\unit_service\unit_service_x32.props" />
-    <Import Project="..\grpc_module\gflags_x32d.props" />
-    <Import Project="..\grpc_module\grpc_module_x32d.props" />
-    <Import Project="..\grpc_module\grpc_x32d.props" />
-    <Import Project="..\grpc_module\openssl_x32d.props" />
-    <Import Project="..\grpc_module\zlib_x32d.props" />
-    <Import Project="..\properties\spdlog_x32d.props" />
-    <Import Project="..\properties\messages_x32d.props" />
-    <Import Project="..\properties\boost_32d.props" />
-    <Import Project="..\properties\bioskynet_contracts_x32d.props" />
-    <Import Project="..\contracts\contracts_x32d.props" />
-    <Import Project="..\properties\gtest_x32d.props" />
-    <Import Project="..\properties\data_core_32d.props" />
-    <Import Project="..\unit_service\unit_service_x32d.props" />
-    <Import Project="..\properties\serial_port_x32d.props" />
-    <Import Project="..\directshow_device\directshow_lib.props" />
+    <Import Project="..\directshow_device\directshow_device_x32d.props" />
     <Import Project="..\directshow_device\opencv_x32d.props" />
     <Import Project="..\directshow_device\video_capture_x32d.props" />
+    <Import Project="..\properties\gflags_x32d.props" />
+    <Import Project="..\grpc_module\grpc_module_x32d.props" />
+    <Import Project="..\properties\grpc_x32d.props" />
+    <Import Project="..\properties\gtest_x32d.props" />
+    <Import Project="..\properties\openssl_x32d.props" />
+    <Import Project="..\properties\protobuf_x32d.props" />
+    <Import Project="..\properties\zlib_x32d.props" />
+    <Import Project="..\tracking_core\tracking_core_x32d.props" />
+    <Import Project="..\unit_service\unit_service_x32d.props" />
+    <Import Project="..\properties\bioskynet_contracts_x32d.props" />
+    <Import Project="..\properties\boost_32d.props" />
+    <Import Project="..\properties\data_core_32d.props" />
+    <Import Project="..\properties\proto_messages_x32d.props" />
+    <Import Project="..\contracts\contracts_x32d.props" />
+    <Import Project="..\properties\spdlog_x32d.props" />
     <Import Project="..\properties\utils_x32d.props" />
+    <Import Project="..\access_device\serial_port_x32d.props" />
     <Import Project="..\properties\services_api_x32d.props" />
-    <Import Project="C:\dependencies\property_sheets\tbb_x32.props" />
+    <Import Project="..\properties\tbb_x32d.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />

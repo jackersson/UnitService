@@ -1,15 +1,15 @@
 #ifndef ClientsManager_Included
 #define ClientsManager_Included
 
-#include <contracts/iservices.hpp>
+#include <iservices.hpp>
 #include <memory>
 #include <services/iservice.hpp>
-#include <contracts/iservice_context.hpp>
+#include <iservice_context.hpp>
 #include <services/idatabase_api.hpp>
 
 namespace grpc_services
 {
-	class ClientManager : public contracts::services::IServices	                  
+	class ClientManager : public services::IServices	                  
 	{
 	public:
 		explicit ClientManager(contracts::IServiceContext* context);

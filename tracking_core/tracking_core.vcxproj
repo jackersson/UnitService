@@ -159,7 +159,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="src\track_location.cpp" />
     <ClCompile Include="src\track_location_container.cpp" />
     <ClCompile Include="src\track_location_engine.cpp" />

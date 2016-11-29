@@ -1,14 +1,13 @@
 #ifndef AccessDevicesReservedEngine_Included
 #define AccessDevicesReservedEngine_Included
 
-#include <contracts/devices/idevices_container.hpp>
+#include <devices/idevices_container.hpp>
 
-class AccessDevicesReservedEngine
-	: public contracts::devices::access_device::IAccessDeviceEngine
+class AccessDevicesReservedEngine	: public access_device::IAccessDeviceEngine
 {
 public:
 	explicit
-		AccessDevicesReservedEngine(contracts::devices::IDevicesSet* reserved_devices);
+		AccessDevicesReservedEngine(devices::IDevicesSet* reserved_devices);
 
 	void stop_all() override {
 		return impl_->stop_all();
@@ -25,24 +24,20 @@ public:
 	}
 
 	void execute(const data_model::DeviceId& device_name
-		, contracts::devices::access_device::lights data
-		= contracts::devices::access_device::lNone) override {
+		, access_device::lights data= access_device::lNone) override {
 		impl_->execute(device_name, data);
 	}
 
-	void subscribe(contracts::devices::IDeviceObserver
-		<contracts::devices::access_device::ICommandResult>* observer
+	void subscribe(devices::IDeviceObserver<access_device::ICommandResultPtr>* observer
 		, const data_model::DeviceId& device_name) override {
 		impl_->subscribe(observer, device_name);
 	}
 
-	void unsubscribe(contracts::devices::IDeviceObserver
-		              <contracts::devices::access_device::ICommandResult>* observer) override {
+	void unsubscribe(devices::IDeviceObserver<access_device::ICommandResultPtr>* observer) override {
 		impl_->unsubscribe(observer);
 	}
 
-	bool has_observer(contracts::devices::IDeviceObserver
-		               <contracts::devices::access_device::ICommandResult>* observer
+	bool has_observer(devices::IDeviceObserver<access_device::ICommandResultPtr>* observer
 		, const data_model::DeviceId& device_name) override {
 		return impl_->has_observer(observer, device_name);
 	}
@@ -51,7 +46,7 @@ public:
 		return impl_->unsubscribe_all();
 	}
 
-	const contracts::devices::IDeviceEnumerator& enumerator() const override {
+	const devices::IDeviceEnumerator& enumerator() const override {
 		return impl_->enumerator();
 	}
 
@@ -69,7 +64,7 @@ public:
 
 private:
 	std::unique_ptr<IAccessDeviceEngine>  impl_;
-	contracts::devices::IDevicesSet*     reserved_devices_;
+	devices::IDevicesSet*     reserved_devices_;
 };
 
 #endif

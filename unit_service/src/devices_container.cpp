@@ -1,6 +1,6 @@
 #include "devices_container.hpp"
 
-#include <contracts/devices/idevices_container.hpp>
+#include <devices/idevices_container.hpp>
 #include <access_device/access_device_engine.hpp>
 #include <directshow_device_engine.hpp>
 #include "access_devices_reserved_engine.hpp"
@@ -10,7 +10,7 @@
 
 DevicesContainer::DevicesContainer()
 	: access_engine_(std::make_unique<access_device::AccessDeviceEngine>())
-	, directshow_engine_(std::make_unique<directshow_device::DirectShowDeviceEngine>())
+	, directshow_engine_(std::make_unique<video_device::DirectShowDeviceEngine>())
 {
 	DevicesContainer::init();
 }
@@ -38,13 +38,11 @@ void DevicesContainer::de_init()
 	directshow_engine_->de_init();
 }
 
-contracts::devices::access_device::IAccessDeviceEngine*
-	DevicesContainer::access_device_engine() {
+access_device::IAccessDeviceEngine* DevicesContainer::access_device_engine() {
 	return access_engine_.get();
 }
 
-contracts::devices::video_device::IVideoEngine*
-	DevicesContainer::directshow_device_engine()
+video_device::IVideoEngine*	DevicesContainer::directshow_device_engine()
 {
 	return directshow_engine_.get();
 }

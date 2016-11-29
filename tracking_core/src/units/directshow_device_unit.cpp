@@ -8,9 +8,12 @@
 #include <opencv/cv.hpp>
 
 #include <tbb/task_group.h>
+#include <thread_pool.hpp>
+#include <iostream>
 
 using namespace data_model;
-using namespace contracts::devices;
+using namespace devices;
+using namespace video_device;
 
 namespace tracking
 {
@@ -69,12 +72,15 @@ namespace tracking
 
 			engine_->add(*device_);
 			engine_->subscribe(this, *device_);
+			//cv::namedWindow("view", CV_WINDOW_NORMAL);
 		}
 
 		void DirectShowDeviceUnit::stop() 
 		{
 			engine_->unsubscribe(this);
 			engine_->remove(*device_);
+			device_ = std::make_unique<CaptureDevice>();
+
 		}
 
 		bool DirectShowDeviceUnit::verify( VisitRecord& target
@@ -120,22 +126,12 @@ namespace tracking
 				observer->on_state(state);
 		}
 
-		void DirectShowDeviceUnit::on_next(const IStreamData& data)
-		{
-		//	auto im = data.try_get_data(video_device::StreamTypeColor);
-		//	if (im == nullptr)
-		//		return;
-			
-			//tasks_->run([im, this]()
+		void DirectShowDeviceUnit::on_next(IStreamDataPtr data)
+		{	
+			//utils::threading::submit_job_nowait([data]()
 			//{
-				//auto frame = bytes_to_mat(im->data(), im->width(), im->height());
-			  //cv::namedWindow("view", CV_WINDOW_NORMAL);
-				//cv::setWindowProperty("view", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
-		  	cv::imshow("view", data.color());
-				if (cvWaitKey(10) >= 0)
-				{
-					return;
-				}
+				cv::imshow("view", data->color());
+				cvWaitKey(1);
 			//});
 		}			
 

@@ -1,16 +1,15 @@
 #ifndef DirectShowDeviceEngine_Included
 #define DirectShowDeviceEngine_Included
 
-#include <contracts/devices/video_device/ivideo_engine.hpp>
+#include <devices/video_device/ivideo_engine.hpp>
 #include <concurrent_containers.hpp>
 
 #include "directshow_device_enumerator.hpp"
 #include "directshow_device_listener.hpp"
 
-namespace directshow_device
+namespace video_device
 {
-	class DirectShowDeviceEngine
-		: public contracts::devices::video_device::IVideoEngine
+	class DirectShowDeviceEngine : public IVideoEngine
 	{
 	public:
 		DirectShowDeviceEngine();
@@ -23,17 +22,14 @@ namespace directshow_device
 		bool is_active(const data_model::DeviceId& device_name) override;
 
 		void subscribe
-		(contracts::devices::IDeviceObserver
-			<contracts::devices::video_device::IStreamData>* observer
+		(devices::IDeviceObserver<IStreamDataPtr>* observer
 			, const data_model::DeviceId& device_name) override;
 
 		void unsubscribe
-		(contracts::devices::IDeviceObserver
-			<contracts::devices::video_device::IStreamData>* observer) override;
+		(devices::IDeviceObserver<IStreamDataPtr>* observer) override;
 
 		bool has_observer
-		(contracts::devices::IDeviceObserver
-			<contracts::devices::video_device::IStreamData>* observer
+		( devices::IDeviceObserver<IStreamDataPtr>* observer
 			, const data_model::DeviceId& device_name) override;
 
 		void unsubscribe_all() override;
@@ -41,7 +37,7 @@ namespace directshow_device
 		void de_init() override;
 		void init   () override;
 
-		const contracts::devices::IDeviceEnumerator& enumerator() const override;
+		const devices::IDeviceEnumerator& enumerator() const override;
 
 		size_t size() const override;			
 

@@ -2,21 +2,15 @@
 #define AccessDeviceListener_Included
 
 #include <access_device/core/iexecutable_command.hpp>
-#include <contracts/devices/device_observer.hpp>
+#include <devices/device_observer.hpp>
 #include <observers/observable.hpp>
-#include <contracts/devices/idevice_info.hpp>
+#include <devices/idevice_info.hpp>
 #include "access_device_impl.hpp"
 #include <threadable.hpp>
 #include <queue>
 
-
-
 namespace data_model{
 	class DeviceId;
-}
-
-namespace tbb {
-	class task_group;
 }
 
 namespace access_device
@@ -25,19 +19,14 @@ namespace access_device
 		class CommandFactory;
 	}
 
-	typedef contracts::devices::access_device::ICommandResult ICommandResult;
-	typedef contracts::devices::IDeviceObserver<ICommandResult> IAccessDeviceObserver;
-	typedef std::shared_ptr<IAccessDeviceObserver> IAccessDeviceObserverPtr;
-
 	class AccessDeviceListener final : public utils::Threadable
-		                               , public contracts::observers::Observable<IAccessDeviceObserver>
-		                   
+		, public contracts::observers::Observable
+		          <devices::IDeviceObserver<ICommandResultPtr>>
 	{
 	public:
-
 		explicit 
-			AccessDeviceListener(const data_model::DeviceId& port_name
-			     , contracts::devices::IDeviceInfo<AccessDeviceImplPtr>* devices);
+			AccessDeviceListener( const data_model::DeviceId& port_name
+			                    , devices::IDeviceInfo<AccessDeviceImplPtr>* devices);
 		
 		~AccessDeviceListener();
 
@@ -92,7 +81,7 @@ namespace access_device
 
 		void on_error(const std::exception& exception);
 		void on_state(data_model::DeviceState state);
-		void on_next (contracts::devices::access_device::ICommandResultPtr data);
+		void on_next (ICommandResultPtr data);
 
 		core::IExecutableCommandPtr dequeue();
 
@@ -112,16 +101,13 @@ namespace access_device
 
 		AccessDeviceImplPtr access_device_impl_;
 
-		contracts::devices::IDeviceInfo<AccessDeviceImplPtr>* devices_;
+	 devices::IDeviceInfo<AccessDeviceImplPtr>* devices_;
 
 		bool need_to_ask_buttons_;
 		bool need_to_recover_    ;
 
 		bool next_busy_;
 
-		std::unique_ptr<tbb::task_group> tasks_;
-
-		
 		static std::chrono::milliseconds read_write_timeout_      ;
 		static std::chrono::milliseconds delay_between_ask_device_;
 	};

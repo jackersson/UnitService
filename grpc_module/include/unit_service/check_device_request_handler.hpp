@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <helpers/request_handler.hpp>
-#include <contracts/iservice_context.hpp>
+#include <iservice_context.hpp>
 #include <services/unit_service.grpc.pb.h>
 
 #include "unit_service_api.hpp"
@@ -16,29 +16,17 @@ namespace grpc_services
 			: public RequestHandler<Services::UnitService::AsyncService>			           
 		{
 		public:
-			CheckDeviceRequestHandler(Services::UnitService::AsyncService* service
-			    , grpc::ServerCompletionQueue* completion_queue
-			    , contracts::IServiceContext* context)
-			    : RequestHandler<Services::UnitService::AsyncService>(service, completion_queue)
-			    , responder_(&server_context_)
-			    , context_(context)
-			{
-				if  (context_ == nullptr)
-					throw std::exception("Context can't be null");
-				auto devices = context_->devices();
-				if (devices == nullptr)
-					throw std::exception("Devices can't be null");
+			CheckDeviceRequestHandler
+			 ( Services::UnitService::AsyncService* service
+				, grpc::ServerCompletionQueue* completion_queue
+				, contracts::IServiceContext* context);
 
-				engine_ = devices->access_device_engine();
-				if (engine_ == nullptr)
-					throw std::exception("Access Device engine can't be null");
-
-				proceed();
-			}
+			~CheckDeviceRequestHandler();
 
 			void create_request_handler() override
 			{
-				new CheckDeviceRequestHandler(service_, server_completion_queue_, context_);
+				create(service_, server_completion_queue_, context_);
+				//new CheckDeviceRequestHandler(service_, server_completion_queue_, context_);
 			}
 
 			void create_request() override
@@ -58,12 +46,15 @@ namespace grpc_services
 			void process_request() override;
 
 		private:
+			bool try_resolve_dependencies();
+
 			void complete(const DataTypes::CheckMsg& response);
 
+			bool initialized_;
 			DataTypes::Device  request_;
 			grpc::ServerAsyncResponseWriter<DataTypes::CheckMsg> responder_;
 			contracts::IServiceContext* context_;
-			contracts::devices::access_device::IAccessDeviceEngine* engine_;
+			access_device::IAccessDeviceEngine* engine_;
 
 			const std::chrono::seconds REQUEST_TIMEOUT = std::chrono::seconds(3);
 		};

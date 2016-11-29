@@ -1,17 +1,14 @@
 #ifndef AccessDeviceUnit_Included
 #define AccessDeviceUnit_Included
 
-#include <contracts/locations/ilocation.hpp>
+#include <locations/ilocation.hpp>
 #include <observers/observable.hpp>
-#include <contracts/devices/access_device/iaccess_coordinator.hpp>
-#include <contracts/devices/access_device/iaccess_device_engine.hpp>
+#include <devices/access_device/iaccess_coordinator.hpp>
+#include <devices/access_device/iaccess_device_engine.hpp>
 #include "idevice_unit.hpp"
 #include <data/irepository.hpp>
 #include <logging/logger.hpp>
 
-namespace tbb {
-	class task_group;
-}
 
 namespace data_model
 {
@@ -21,15 +18,16 @@ namespace data_model
 	class Card       ;
 }
 
+
 namespace tracking
 {
 	namespace units
 	{			
 		class AccessDeviceObserver :
-			  public contracts::observers::Observable<contracts::locations::ILocation>
-	    , public contracts::devices::IDeviceObserver<ICommandResult>
+			  public contracts::observers::Observable<locations::ILocation>
+	    , public devices::IDeviceObserver<access_device::ICommandResultPtr>
 			, public IIdentification<std::string>
-			, public contracts::devices::access_device::IAccessCoordinator
+			, public access_device::IAccessCoordinator
 		{
 
 		public:
@@ -37,11 +35,11 @@ namespace tracking
 
 			explicit
 				AccessDeviceObserver
-				(contracts::devices::access_device::IAccessDeviceEngine*	engine);
+				(access_device::IAccessDeviceEngine*	engine);
 				
 
 			AccessDeviceObserver
-			( contracts::devices::access_device::IAccessDeviceEngine*	engine
+			( access_device::IAccessDeviceEngine*	engine
 			, contracts::data::AbstractRepositoryContainer*           repository);
 			
 
@@ -68,16 +66,15 @@ namespace tracking
 			std::shared_ptr<data_model::VisitRecord>
 				identify(const std::string& data) override;
 			
-			void on_error(const contracts::devices::DeviceException& exception) override;
+			void on_error(const devices::DeviceException& exception) override;
 
-			void on_state(const contracts::devices::IDeviceState& state) override;
+			void on_state(const devices::IDeviceState& state) override;
 
-			void on_next(const ICommandResult& data) override;
+			void on_next(access_device::ICommandResultPtr data) override;
 
 		private:
 
-			std::unique_ptr<tbb::task_group> tasks_;
-
+			mutable bool busy_;
 			bool active_;
 
 			AccessDeviceObserver(const AccessDeviceObserver& other) = delete;
@@ -91,9 +88,9 @@ namespace tracking
 			bool try_extract_card(const std::string& data, data_model::Card& card);
 
 			std::unique_ptr<data_model::AccessDevice> device_;
-			contracts::devices::access_device::IAccessDeviceEngine* engine_;
+			access_device::IAccessDeviceEngine* engine_;
 			contracts::data::IRepository<data_model::Person>* persons_repository_;
-			contracts::logging::Logger logger_;
+			mutable contracts::logging::Logger logger_;
 		
 			const std::chrono::seconds ACCESS_DELAY = std::chrono::seconds(3);
 		};

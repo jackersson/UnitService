@@ -2,16 +2,14 @@
 
 #include <memory>
 #include <grpc++/grpc++.h>
-//#include <services/iservice.hpp>
 #include "unit_service/unit_service_impl.hpp"
-//#include <contracts/iservice_context.hpp>
 
 namespace grpc_services
 {
 	ServerManager::ServerManager(contracts::IServiceContext* context)
-			: active_(false)
-			, initialized_(false)
-			, context_(context)
+		: active_(false)
+		, initialized_(false)
+		, context_(context)
 	{
 		ServerManager::init();
 	}
@@ -32,11 +30,16 @@ namespace grpc_services
 	void ServerManager::stop()  {
 		if (!active_)
 			return;
+
+		if (servers_.size() <= 0)
+			return;
+
 		if (server_ != nullptr)
 			server_->Shutdown();
-
+			
 		for (auto it : servers_)
 			it->stop();
+
 		servers_.clear();
 	}
 
@@ -46,10 +49,10 @@ namespace grpc_services
 			return;
 
 		grpc::ServerBuilder builder;
-		auto port = context_->configuration()->unit_service_port();
+		const auto& address = context_->configuration()->unit_service_address();
 
 		//Unit service
-		contracts::services::ServiceAddress sa("0.0.0.0", port);
+		contracts::services::ServiceAddress sa(address);
 		unit_service_ = std::make_unique<unit_service::UnitServiceImpl>(
 			sa, &builder, context_);
 		servers_.push_back(unit_service_.get());

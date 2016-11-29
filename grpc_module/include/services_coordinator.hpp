@@ -1,12 +1,12 @@
 #ifndef ServiceCoordinator_Incuded
 #define ServiceCoordinator_Incuded
 
-#include <contracts/iservice_context.hpp>
-#include <contracts/iservices.hpp>
+#include <iservice_context.hpp>
+#include <iservices.hpp>
 
 namespace grpc_services
 {
-	class ServicesCoordinator : public contracts::services::IServices
+	class ServicesCoordinator : public services::IServices
 	{
 	public:
 		explicit ServicesCoordinator(contracts::IServiceContext* context);

@@ -4,10 +4,8 @@
 #include <memory>
 
 #include <observers/observable.hpp>
-#include <contracts/devices/device_observer.hpp>
-#include <contracts/devices/video_device/istream_data.hpp>
-
-//#include "std_threadable.hpp"
+#include <devices/device_observer.hpp>
+#include <devices/video_device/istream_data.hpp>
 
 #include <threadable.hpp>
 
@@ -15,16 +13,15 @@ namespace cv {
 	class VideoCapture;
 }
 
-namespace directshow_device
+namespace video_device
 {	
 	class StreamData;
 	class Capability;
 	class DirectShowDeviceInfo;
 	
 	class VideoSource : public utils::Threadable
-		, public contracts::observers::Observable
-		            <contracts::devices::IDeviceObserver
-		            <contracts::devices::video_device::IStreamData>>
+		                , public contracts::observers::Observable
+		                        <devices::IDeviceObserver<IStreamDataPtr>>
 	{
 	public:
 		VideoSource();
@@ -47,9 +44,10 @@ namespace directshow_device
 
 	private:
 
-		void on_error(const contracts::devices::DeviceException&);
-		void on_next (const contracts::devices::video_device::IStreamData&);
-		void on_state(const contracts::devices::IDeviceState&);
+		void on_error(const devices::DeviceException&);
+		void on_next (IStreamDataPtr stream_data );
+		void on_state(const devices::IDeviceState&);
+
 		bool capture_error() const;
 
 		VideoSource(const VideoSource& other) = delete;
@@ -61,6 +59,7 @@ namespace directshow_device
 
 		mutable std::recursive_mutex mutex_;
 
+		bool busy_;
 		const int CAPTURE_ERROR_THRESHOLD = 3;
 	};
 

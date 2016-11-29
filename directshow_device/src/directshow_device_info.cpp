@@ -1,6 +1,6 @@
 #include "directshow_device_info.hpp"
 
-namespace directshow_device
+namespace video_device
 {	
 	DirectShowDeviceInfo::DirectShowDeviceInfo() : device_id_(0)
 	{}

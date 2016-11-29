@@ -10,13 +10,25 @@ namespace grpc_services
 {
 	namespace unit_service
 	{
+		UpdateLocationRequestHandler::UpdateLocationRequestHandler(Services::UnitService::AsyncService* service
+			, grpc::ServerCompletionQueue* completion_queue
+			, contracts::IServiceContext* context)
+			: RequestHandler<Services::UnitService::AsyncService>(service, completion_queue)
+			, initialized_(false)
+			, responder_  (&server_context_)
+			, context_    (context)
+		{
+			proceed();
+		}
+
 		void UpdateLocationRequestHandler::process_request()
 		{
 			logger_.info("Update location -> in");
-			google::protobuf::Empty response;
-
-			next();
-			responder_.Finish(response, grpc::Status::OK, this);
+			if  (!try_resolve_dependencies())
+			{
+				complete();
+				return;
+			}			
 
 			std::async(std::launch::async, [this]() {
 				try
@@ -29,8 +41,16 @@ namespace grpc_services
 					logger_.error(ex.what());
 				}
 			});
+			complete();
+		}
 
+		void UpdateLocationRequestHandler::complete()
+		{
 			logger_.info("Update location -> out ok");
+			google::protobuf::Empty response;
+
+			next();
+			responder_.Finish(response, grpc::Status::OK, this);
 		}
 
 		void UpdateLocationRequestHandler::update
@@ -51,6 +71,30 @@ namespace grpc_services
 			default: break;
 			}
 			throw std::exception("UpdateLocationRequestHandler update not implemented");
+		}
+
+		bool UpdateLocationRequestHandler::try_resolve_dependencies()
+		{
+			if (initialized_)
+				return initialized_;
+
+			try
+			{
+				initialized_ = true;
+
+				if (context_ == nullptr)
+					throw std::exception("Context can't be null");
+				auto tracking = context_->track_locations();
+				if (tracking == nullptr)
+					throw std::exception("Devices can't be null");
+
+				return true;
+			}
+			catch (std::exception& ex)
+			{
+				logger_.error("UpdateLocationRequestHandler::try_resolve_dependencies {0}", ex.what());
+				return false;
+			}
 		}
 	}
 }

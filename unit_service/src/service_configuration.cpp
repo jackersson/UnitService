@@ -19,7 +19,7 @@ std::map<ServiceParametrs, std::string> ServiceConfiguration::parametrs_ =
 {
 	  ServiceParametr(FacialServiceAddress     , "FacialServiceAddress"     )
 	, ServiceParametr(CoordinatorServiceAddress, "CoordinatorServiceAddress")
-	, ServiceParametr(UnitServicePort          , "UnitServicePort"          )
+	, ServiceParametr(UnitServiceAddress       , "UnitServiceAddress"       )
 	, ServiceParametr(ServiceId                , "ServiceId"                )
 	, ServiceParametr(DatabaseServiceAddress   , "DatabaseServiceAddress"   )
 };
@@ -28,9 +28,9 @@ ServiceConfiguration ServiceConfiguration::default_configuration()
 {
 	ServiceConfiguration config;
 	config.set_facial_service_address     ("127.0.0.1:50051");
-	config.set_coordinator_service_address("127.0.0.1:49095");
+	config.set_coordinator_service_address("127.0.0.1:65400");
 	config.set_database_service_address   ("127.0.0.1:49065");
-	config.set_unit_service_port          (50053            );
+	config.set_unit_service_address       ("192.168.0.125:50053");
 
 	config.set_service_uuid(generate_random_guid());
 	return config;
@@ -53,7 +53,8 @@ bool ServiceConfiguration::load(const std::string &filename)
 		database_service_address_
 			= pt.get<std::string>(parametrs_[DatabaseServiceAddress]);
 
-		unit_service_port_ = pt.get<uint16_t>(parametrs_[UnitServicePort]);
+		unit_service_address_
+			= pt.get<std::string>(parametrs_[UnitServiceAddress]);
 
 		service_uuid_
 			= pt.get<std::string>(parametrs_[ServiceId]);
@@ -71,11 +72,17 @@ bool ServiceConfiguration::save(const std::string &filename) const
 	using boost::property_tree::ptree;
 	ptree pt;
 
-	pt.put(parametrs_[FacialServiceAddress]     , facial_service_address_     );
-	pt.put(parametrs_[CoordinatorServiceAddress], coordinator_service_address_);
-	pt.put(parametrs_[DatabaseServiceAddress]   , coordinator_service_address_);
-	pt.put(parametrs_[UnitServicePort]          , unit_service_port_          );
-	pt.put(parametrs_[ServiceId]                , service_uuid_               );
+	ServiceConfiguration target;
+	if (empty())
+		target = default_configuration();
+	else
+		target = *this;
+
+	pt.put(parametrs_[FacialServiceAddress]     , target.facial_service_address()     );
+	pt.put(parametrs_[CoordinatorServiceAddress], target.coordinator_service_address());
+	pt.put(parametrs_[DatabaseServiceAddress]   , target.coordinator_service_address());
+	pt.put(parametrs_[UnitServiceAddress]       , target.unit_service_address()          );
+	pt.put(parametrs_[ServiceId]                , target.service_uuid()               );
 
 	try
 	{

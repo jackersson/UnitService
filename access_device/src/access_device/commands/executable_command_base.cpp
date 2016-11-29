@@ -5,8 +5,6 @@
 #include <access_device/commands/executable_command_base.hpp>
 #include <access_device/commands/command.hpp>
 
-using namespace contracts::devices::access_device;
-
 namespace access_device
 {
 	using namespace rs232;

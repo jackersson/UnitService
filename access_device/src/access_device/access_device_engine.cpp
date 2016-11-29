@@ -2,10 +2,8 @@
 
 #include <data/models/devices.hpp>
 
-using namespace contracts::devices;
-using namespace contracts::devices::access_device;
 using namespace data_model;
-
+using namespace devices;
 namespace access_device
 {	
 	AccessDeviceEngine::AccessDeviceEngine()
@@ -83,7 +81,7 @@ namespace access_device
 		}
 	}
 
-	void AccessDeviceEngine::subscribe( IAccessDeviceObserver* observer
+	void AccessDeviceEngine::subscribe(IDeviceObserver<ICommandResultPtr>* observer
 		                                , const DeviceId& device)
 	{
 		if (device.is_empty())
@@ -100,14 +98,14 @@ namespace access_device
 		}
 	}
 
-	void AccessDeviceEngine::unsubscribe(IAccessDeviceObserver* observer) 
+	void AccessDeviceEngine::unsubscribe(IDeviceObserver<ICommandResultPtr>* observer)
 	{
 		for (auto it : devices_) {
 			it->unsubscribe(observer);
 		}
 	}
 
-	bool AccessDeviceEngine::has_observer( IAccessDeviceObserver* observer
+	bool AccessDeviceEngine::has_observer(IDeviceObserver<ICommandResultPtr>* observer
 		                                   , const DeviceId& device   )
 	{
 		if (device.is_empty())

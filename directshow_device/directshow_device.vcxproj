@@ -76,6 +76,7 @@
     <Import Project="directshow_device_x32.props" />
     <Import Project="opencv_x32.props" />
     <Import Project="..\properties\release\utils_x32.props" />
+    <Import Project="..\properties\release\tbb_x32.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />

@@ -1,9 +1,8 @@
 #ifndef OpenDoorRequestHandler_Included
 #define OpenDoorRequestHandler_Included
 
-
 #include <helpers/request_handler.hpp>
-#include <contracts/iservice_context.hpp>
+#include <iservice_context.hpp>
 #include <services/unit_service.grpc.pb.h>
 
 namespace grpc_services
@@ -15,19 +14,8 @@ namespace grpc_services
 		{
 		public:
 			OpenDoorRequestHandler(Services::UnitService::AsyncService* service
-	      , grpc::ServerCompletionQueue* completion_queue
-			  , contracts::IServiceContext* context )
-	      : RequestHandler<Services::UnitService::AsyncService>(service, completion_queue )
-		    ,	responder_(&server_context_)
-			  , context_(context)
-		{
-			if (context_ == nullptr)
-				throw std::exception("Context can't be null");
-			if (context_->track_locations() == nullptr)
-				throw std::exception("Track locations can't be null");
-
-			proceed();
-		}
+				, grpc::ServerCompletionQueue* completion_queue
+				, contracts::IServiceContext* context);
 
 		void create_request_handler() override
 		{
@@ -51,6 +39,11 @@ namespace grpc_services
 			}
 
 		private:
+			void complete(bool result);
+			bool try_resolve_dependencies();
+
+			bool initialized_;
+
 			DataTypes::Location  request_;
 			grpc::ServerAsyncResponseWriter<google::protobuf::Empty> responder_;
 			contracts::IServiceContext* context_;

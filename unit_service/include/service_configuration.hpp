@@ -3,16 +3,16 @@
 
 #include <string>
 #include <map>
-#include <contracts/iservice_configuration.hpp>
 #include <logging/logger.hpp>
 #include <common/ifile_io.hpp>
+#include <iservice_configuration.hpp>
 
 enum ServiceParametrs
 {
 	  UnspecifiedParametr
 	, FacialServiceAddress
 	, CoordinatorServiceAddress
-	, UnitServicePort
+	, UnitServiceAddress
 	, ServiceId
 	, DatabaseServiceAddress //TODO remove
 };
@@ -26,15 +26,15 @@ public:
 		: facial_service_address_     ("")
 		, coordinator_service_address_("")
 		, database_service_address_   ("")
-		, unit_service_port_ (0) 
-		, service_uuid_      ("")
+		, unit_service_address_       ("") 
+		, service_uuid_               ("")
 	{}
 
 	ServiceConfiguration(const ServiceConfiguration &obj)
 		: facial_service_address_     (obj.facial_service_address_)
 		, coordinator_service_address_(obj.coordinator_service_address_)
 		, database_service_address_   (obj.database_service_address_)
-		, unit_service_port_          (obj.unit_service_port_)
+		, unit_service_address_       (obj.unit_service_address_)
 		, service_uuid_               (obj.service_uuid_)
 	{
 	}
@@ -51,8 +51,8 @@ public:
 		return database_service_address_;
 	}
 
-	uint16_t    unit_service_port() const override	{
-		return unit_service_port_;
+	const std::string& unit_service_address() const override	{
+		return unit_service_address_;
 	}
 
 	const std::string&  service_uuid() const override {
@@ -71,8 +71,8 @@ public:
 		database_service_address_ = value;
 	}
 
-	void    set_unit_service_port(uint16_t value)  {
-		unit_service_port_ = value;
+	void set_unit_service_address(const std::string& value)  {
+		unit_service_address_ = value;
 	}
 
 	void    set_service_uuid(const std::string& value) {
@@ -83,7 +83,7 @@ public:
 	{
 		return    facial_service_address_      == "" 
 			     && coordinator_service_address_ == ""
-			     && unit_service_port_           == 0
+			     && unit_service_address_        == ""
 			     && service_uuid_                == ""
 			     && database_service_address_    == "";
 	}
@@ -97,8 +97,8 @@ private:
 	std::string facial_service_address_     ;
 	std::string coordinator_service_address_;
 	std::string database_service_address_   ;
-	uint16_t    unit_service_port_          ;
-	std::string service_uuid_;
+	std::string unit_service_address_       ;
+	std::string service_uuid_               ;
 
 	
 	static std::map<ServiceParametrs, std::string> parametrs_;

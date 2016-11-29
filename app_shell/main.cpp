@@ -9,18 +9,6 @@ void init()
 	std::cin.get();
 }
 
-
-/*
-std::cout << fs.rdbuf() << std::endl;
-while (!fs.eof())
-{
-char i;
-fs >> i;
-buff.push_back(i);
-}
-*/
-
-
 int main()
 {
 	/*
