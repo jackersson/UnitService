@@ -178,7 +178,7 @@
     <ClCompile Include="src\unit_service\get_card_request_handler.cpp" />
     <ClCompile Include="src\unit_service\get_devices_request_handler.cpp" />
     <ClCompile Include="src\unit_service\get_device_stream_request.cpp" />
-    <ClCompile Include="src\unit_service\get_location_stream_request.cpp" />
+    <ClCompile Include="src\unit_service\get_stream_request_handler.cpp" />
     <ClCompile Include="src\unit_service\open_door_request_handler.cpp" />
     <ClCompile Include="src\unit_service\unit_service_impl.cpp" />
     <ClCompile Include="src\unit_service\update_location_request_handler.cpp" />
@@ -194,7 +194,7 @@
     <ClInclude Include="include\unit_service\get_card_request_handler.hpp" />
     <ClInclude Include="include\unit_service\get_devices_request_handler.hpp" />
     <ClInclude Include="include\unit_service\get_device_stream_request_handler.hpp" />
-    <ClInclude Include="include\unit_service\get_location_stream_request_handler.hpp" />
+    <ClInclude Include="include\unit_service\get_stream_request_handler.hpp" />
     <ClInclude Include="include\unit_service\open_door_request_handler.hpp" />
     <ClInclude Include="include\unit_service\unit_service_api.hpp" />
     <ClInclude Include="include\unit_service\unit_service_impl.hpp" />

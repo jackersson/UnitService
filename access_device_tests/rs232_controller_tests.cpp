@@ -181,7 +181,7 @@ namespace access_device_tests
 		CommandFactory factory;
 		auto command = factory.get<LightCommand>();
 		//TODO check first com port name before running test
-		TestCommandContext cm_test("COM6");
+		TestCommandContext cm_test("COM7");
 
 		std::vector<uint32_t> examples = 
 		{   
@@ -200,7 +200,7 @@ namespace access_device_tests
 		CommandFactory factory;
 		auto command = factory.get<ButtonCommand>();
 		//TODO check first com port name before running test
-		TestCommandContext cm_test("COM3");
+		TestCommandContext cm_test("COM7");
 
 		//Press Both buttons to pass the following
 		std::vector<uint32_t> examples = { Pc1Access | Pc4OpenGate };
@@ -214,7 +214,7 @@ namespace access_device_tests
 		CommandFactory factory;
 		auto command = factory.get<DallasCommand>();
 		//TODO check first com port name before running test
-		TestCommandContext cm_test("COM3");
+		TestCommandContext cm_test("COM7");
 
 		//Put dallas key to pass the following
 		auto result = cm_test.execute(command);
@@ -229,13 +229,28 @@ namespace access_device_tests
 		CommandFactory factory;
 		auto command = factory.get<DeviceInfoCommand>();
 		//TODO check first com port name before running test
-		TestCommandContext cm_test("COM6");		
+		TestCommandContext cm_test("COM7");		
 		
 		//Put device with not 0 id
 		auto result = cm_test.execute(command);
 
 		EXPECT_TRUE (result->is_valid());
 		EXPECT_TRUE (result->device_number() > 0);
+	}
+
+	TEST(AccessDeviceCommandTest, ResetCommandTest)
+	{
+		CommandFactory factory;
+		auto command = factory.get<DeviceInfoCommand>();
+		//TODO check first com port name before running test
+		TestCommandContext cm_test("COM7");
+
+		for (auto i = 0; i < 20; ++i)
+		{
+			std::this_thread::sleep_for(std::chrono::milliseconds(100));
+			auto res = factory.reset(cm_test.serial_port());
+			EXPECT_TRUE(res);
+		}
 
 	}
 

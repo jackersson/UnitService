@@ -20,7 +20,8 @@ public:
 
 	video_device::IVideoEngine*	directshow_device_engine() override;
 		
-	void enumerate(data_model::Devices& devices) const override;
+	void enumerate( data_model::Devices&
+		            , data_model::DeviceType) const override;
 
 	bool contains( const data_model::DeviceId& device_name
 		           , data_model::DeviceType dev_type        ) const override;

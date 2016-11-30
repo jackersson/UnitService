@@ -1,4 +1,4 @@
-#include "unit_service/check_device_request_handler.hpp"
+/*#include "unit_service/check_device_request_handler.hpp"
 
 #include <datatypes/devices.pb.h>
 #include <data/models/devices.hpp>
@@ -102,3 +102,4 @@ namespace grpc_services
 		}
 	}
 }
+*/

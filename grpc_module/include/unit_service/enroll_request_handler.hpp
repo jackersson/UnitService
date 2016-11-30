@@ -42,7 +42,7 @@ namespace grpc_services
 		private:
 			bool initialized_;
 
-			DataTypes::Device  request_;
+			Services::EnrollMsg  request_;
 			grpc::ServerAsyncResponseWriter<DataTypes::Faces> responder_;
 			contracts::IServiceContext* context_;
 		};

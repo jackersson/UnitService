@@ -1,4 +1,4 @@
-#include "unit_service/get_device_stream_request_handler.hpp"
+/*#include "unit_service/get_device_stream_request_handler.hpp"
 #include <data/models/devices.hpp>
 
 using namespace devices;
@@ -151,3 +151,4 @@ namespace grpc_services
 		}
 	}
 }
+*/

@@ -47,10 +47,23 @@ video_device::IVideoEngine*	DevicesContainer::directshow_device_engine()
 	return directshow_engine_.get();
 }
 
-void DevicesContainer::enumerate(data_model::Devices& devices) const 
+void DevicesContainer::enumerate( data_model::Devices& devices
+                                , data_model::DeviceType type ) const
 {
-	fill_access_devices(devices);
-	fill_video_devices(devices);
+	switch (type)
+	{
+	case data_model::None_Type: 
+		fill_access_devices(devices);
+		fill_video_devices(devices);
+		break;
+	case data_model::CardReader: 
+		fill_access_devices(devices);
+		break;
+	case data_model::Capture:
+		fill_video_devices(devices);
+		break;
+	default: break;
+	}
 }
 
 bool DevicesContainer::contains( const data_model::DeviceId& device_name

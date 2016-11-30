@@ -32,7 +32,8 @@ namespace devices
 		virtual video_device::IVideoEngine*     
 			          directshow_device_engine() = 0;
 
-		virtual void enumerate(data_model::Devices&) const = 0;
+		virtual void enumerate( data_model::Devices&
+			                    , data_model::DeviceType type) const = 0;
 	};
 
 }

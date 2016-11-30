@@ -17,10 +17,7 @@ namespace access_device
 			template <typename T>
 			core::IExecutableCommandPtr
 				get(uint16_t device_number = 0, unsigned char data = 0)
-			{				
-				//TODO should be smarter way.
-				//The problem: when data applied to one object it changes everywhere
-				//Possible solution: try to use pool of objects instead of single object
+			{						
 				auto it = container_.find(typeid(T).name());
 				core::IExecutableCommandPtr command;
 				if (it != container_.end())				
@@ -41,7 +38,9 @@ namespace access_device
 			template<typename T>
 			void register_command(core::IExecutableCommandPtr command)
 			{
-				//TODO check if exists
+				if (container_.find(typeid(T).name()) != container_.end())
+					throw std::exception("Access Device Command already registered in command factory");
+			
 				container_.insert(std::pair<std::string
 					, core::IExecutableCommandPtr>(typeid(T).name(), command));
 			}

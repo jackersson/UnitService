@@ -7,7 +7,6 @@
 
 using namespace concurrent::containers;
 using namespace access_device;
-using namespace contracts::devices::access_device;
 
 namespace unit_service_api_tests
 {

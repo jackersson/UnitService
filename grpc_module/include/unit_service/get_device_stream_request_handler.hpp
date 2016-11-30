@@ -1,4 +1,4 @@
-#ifndef GetDeviceStreamRequestHandler_Included
+/*#ifndef GetDeviceStreamRequestHandler_Included
 #define GetDeviceStreamRequestHandler_Included
 
 #include <helpers/request_handler.hpp>
@@ -80,3 +80,4 @@ namespace grpc_services
 	}
 }
 #endif
+*/

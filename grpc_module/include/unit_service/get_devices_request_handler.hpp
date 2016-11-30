@@ -6,6 +6,7 @@
 #include <iservice_context.hpp>
 #include <services/unit_service.grpc.pb.h>
 
+
 namespace grpc_services
 {
 	namespace unit_service
@@ -45,9 +46,11 @@ namespace grpc_services
 
 			bool initialized_;
 
-			google::protobuf::Empty  request_;
+			DataTypes::GetDevicesRequest  request_;
 			grpc::ServerAsyncResponseWriter<DataTypes::Devices>    responder_;
 			contracts::IServiceContext* context_;
+
+			static std::string devices_[3];
 
 		};
 		

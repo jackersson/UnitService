@@ -48,9 +48,6 @@
     <ClCompile Include="src\unit_service\get_devices_request_handler.cpp">
       <Filter>Source Files\unit_service</Filter>
     </ClCompile>
-    <ClCompile Include="src\unit_service\get_location_stream_request.cpp">
-      <Filter>Source Files\unit_service</Filter>
-    </ClCompile>
     <ClCompile Include="src\unit_service\open_door_request_handler.cpp">
       <Filter>Source Files\unit_service</Filter>
     </ClCompile>
@@ -78,6 +75,9 @@
     <ClCompile Include="src\services_coordinator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\unit_service\get_stream_request_handler.cpp">
+      <Filter>Source Files\unit_service</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\unit_service\get_devices_request_handler.hpp">
@@ -101,9 +101,6 @@
     <ClInclude Include="include\unit_service\get_device_stream_request_handler.hpp">
       <Filter>includes\unit_service</Filter>
     </ClInclude>
-    <ClInclude Include="include\unit_service\get_location_stream_request_handler.hpp">
-      <Filter>includes\unit_service</Filter>
-    </ClInclude>
     <ClInclude Include="include\unit_service\update_location_request_handler.hpp">
       <Filter>includes\unit_service</Filter>
     </ClInclude>
@@ -123,6 +120,9 @@
       <Filter>includes\coordinator_service</Filter>
     </ClInclude>
     <ClInclude Include="include\unit_service\unit_service_api.hpp">
+      <Filter>includes\unit_service</Filter>
+    </ClInclude>
+    <ClInclude Include="include\unit_service\get_stream_request_handler.hpp">
       <Filter>includes\unit_service</Filter>
     </ClInclude>
   </ItemGroup>

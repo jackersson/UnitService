@@ -1,4 +1,4 @@
-#ifndef CheckDeviceRequestHandler_Included
+/*#ifndef CheckDeviceRequestHandler_Included
 #define CheckDeviceRequestHandler_Included
 
 #include <memory>
@@ -61,3 +61,4 @@ namespace grpc_services
 	}
 }
 #endif
+*/

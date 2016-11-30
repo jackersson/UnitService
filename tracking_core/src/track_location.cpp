@@ -83,7 +83,6 @@ namespace tracking
 		auto state = data_model::AccessState::Denied;
 		if (person_exists)
 		{
-			access_allowed = false;
 			data_model::GetLocationRequest request;
 			request.set_person_id  (object.person_id());
 			request.set_location_id(location_->id());

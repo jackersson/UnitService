@@ -3,10 +3,18 @@
 #include <helpers/request_adapters.hpp>
 #include <data/models/devices.hpp>
 
+using namespace services_api::helpers;
+
 namespace grpc_services
 {
 	namespace unit_service
 	{
+		std::string GetDevicesRequestHandler::devices_[3] = {
+				"all devices"
+			, "access devices"
+			, "capture devices"
+		};
+
 		GetDevicesRequestHandler::GetDevicesRequestHandler(Services::UnitService::AsyncService* service
 			, grpc::ServerCompletionQueue*    completion_queue
 			, contracts::IServiceContext*       context)
@@ -20,21 +28,25 @@ namespace grpc_services
 		void GetDevicesRequestHandler::process_request()
 		{
 			data_model::Devices devices;
-			logger_.info("Get device request -> in");
+
+			
 
 			if  ( !try_resolve_dependencies() )
 			{
 				complete(devices);
 				return;
 			}
-	
-			context_->devices()->enumerate(devices);
+
+			auto type = to_data_device_type(request_.dev_type());			
+			logger_.info("Get {0} request -> in", devices_[type]);
+
+			context_->devices()->enumerate(devices, type);
 			complete(devices);
 		}
 
 		void GetDevicesRequestHandler::complete(const data_model::Devices& devices)
 		{
-			auto response = services_api::helpers::to_proto_devices(devices);
+			auto response = to_proto_devices(devices);
 			logger_.info("Get device request -> out {0}", devices.size());
 
 			responder_.Finish(response, grpc::Status::OK, this);
